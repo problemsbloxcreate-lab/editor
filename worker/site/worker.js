@@ -30,7 +30,9 @@ async function passeValido(req, env, url) {
 	if (!ps || !env.PORTEIRO_URL) return false;
 	try {
 		if (!chavePorteiro || Date.now() - chaveEm > 3600e3) {
-			const jwk = await (await fetch(env.PORTEIRO_URL.replace(/\/+$/, "") + "/chave-publica")).json();
+			// na mesma conta da Cloudflare do porteiro, só dá para chamá-lo pela ligação direta (binding PORTEIRO)
+			const pedido = new Request(env.PORTEIRO_URL.replace(/\/+$/, "") + "/chave-publica");
+			const jwk = await (env.PORTEIRO ? await env.PORTEIRO.fetch(pedido) : await fetch(pedido)).json();
 			chavePorteiro = await crypto.subtle.importKey("jwk", { kty: jwk.kty, crv: jwk.crv, x: jwk.x, y: jwk.y }, { name: "ECDSA", namedCurve: "P-256" }, false, ["verify"]);
 			chaveEm = Date.now();
 		}
@@ -71,6 +73,8 @@ export default {
 	async fetch(req, env) {
 		const url = new URL(req.url);
 		if (!env.SENHA_SITE) return new Response("O site está fechado: falta configurar a senha.", { status: 503, headers: { "content-type": "text/plain; charset=utf-8" } });
+		// diagnóstico do porteiro: só responde se o passe é válido (não libera nada do site)
+		if (url.pathname === "/porteiro-teste") return new Response(JSON.stringify({ passe: await passeValido(req, env, url) }), { headers: { "content-type": "application/json", "cache-control": "no-store" } });
 		if (url.pathname === "/robots.txt") return new Response("User-agent: *\nDisallow: /\n", { headers: { "content-type": "text/plain" } });
 		const certo = await ficha(env.SENHA_SITE);
 

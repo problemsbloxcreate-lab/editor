@@ -16,3 +16,8 @@ not_found_handling = "none"
 [vars]
 # porteiro do endereço único: quem chega por ele com passe assinado não precisa da senha (ver worker.js)
 PORTEIRO_URL = "https://estudio.problemsraiz.workers.dev"
+
+# ligação direta com o porteiro (mesma conta da Cloudflare "problemsraiz"): buscar a chave pública do passe
+[[services]]
+binding = "PORTEIRO"
+service = "estudio"
