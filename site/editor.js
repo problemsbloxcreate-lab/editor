@@ -1111,7 +1111,7 @@
 	function redesenharTudo() { listaMarcas(); mostrarInspetor(); ED.sujo = true; $("#vazio").hidden = P.clipes.length > 0; }
 
 	/* ---------- início ---------- */
-	$("#etapas").innerHTML = '<nav class="etapas" aria-label="Navegação"><a href="https://estudio-problems.problemsbloxcreate.workers.dev/inicio/" title="Voltar ao Estúdio Problems (Shorts)">⌂ Estúdio</a></nav>';
+	$("#etapas").innerHTML = '<nav class="etapas" aria-label="Navegação"><a href="/" title="Voltar ao menu do Estúdio Problems">⌂ Menu</a></nav>';
 	zoomTL(40);
 	(async () => {
 		try { const s = await DB.get("projeto:atual"); if (s) P = Object.assign(novoProjeto(), JSON.parse(s)); } catch (_) {}
