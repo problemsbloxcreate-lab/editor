@@ -75,11 +75,29 @@
 		let p = null;
 		const abrir = () => p || (p = new Promise((ok, no) => { const r = indexedDB.open("ep-edicao", 1); r.onupgradeneeded = () => r.result.createObjectStore("k"); r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error); }));
 		const op = async (modo, fn) => { const d = await abrir(); return new Promise((ok, no) => { const tx = d.transaction("k", modo), st = tx.objectStore("k"), r = fn(st); tx.oncomplete = () => ok(r && r.result); tx.onerror = () => no(tx.error); }); };
-		return { get: (k) => op("readonly", (s) => s.get(k)), set: (k, v) => op("readwrite", (s) => s.put(v, k)), del: (k) => op("readwrite", (s) => s.delete(k)) };
+		return { get: (k) => op("readonly", (s) => s.get(k)), set: (k, v) => op("readwrite", (s) => s.put(v, k)), del: (k) => op("readwrite", (s) => s.delete(k)), chaves: () => op("readonly", (s) => s.getAllKeys()) };
 	})();
 	let tSalvar = 0;
 	function salvarLogo() { clearTimeout(tSalvar); tSalvar = setTimeout(salvarJa, 700); }
-	async function salvarJa() { try { await DB.set("projeto:atual", JSON.stringify(P)); } catch (e) { status("Não consegui salvar neste navegador: " + e.message, "err"); } }
+	// cada projeto fica guardado em "proj:<id>" e aparece na tela inicial (lista "lista", com nome, data, duração e miniatura)
+	async function salvarJa() {
+		try { await DB.set("proj:" + P.id, JSON.stringify(P)); await DB.set("atual", P.id); await guardaNaLista(); }
+		catch (e) { status("Não consegui salvar neste navegador: " + e.message, "err"); }
+	}
+	const LISTA = { async ler() { try { return (await DB.get("lista")) || []; } catch (_) { return []; } }, gravar: (l) => DB.set("lista", l) };
+	let ultimaMini = 0;
+	function miniatura() { try { const c = document.createElement("canvas"); c.width = 320; c.height = 180; const g = c.getContext("2d"); g.drawImage($("#tela"), 0, 0, 320, 180);
+		const d = g.getImageData(0, 0, 320, 180).data; let soma = 0; for (let i = 0; i < d.length; i += 400) soma += d[i] + d[i + 1] + d[i + 2];
+		if (soma < 30) return null; // tela preta (vídeo ainda não carregou): não vira miniatura
+		return c.toDataURL("image/jpeg", 0.7); } catch (_) { return null; } }
+	async function guardaNaLista() {
+		const temAlgo = P.clipes.length || Object.keys(P.midias || {}).length; if (!temAlgo) return; // projeto vazio não entra no histórico
+		const l = await LISTA.ler(), i = l.findIndex((x) => x.id === P.id), velho = l[i] || {};
+		const m = { id: P.id, nome: P.nome || "Sem nome", mod: Date.now(), dur: total(), clipes: P.clipes.length, thumb: velho.thumb || null };
+		if (P.clipes.length && Date.now() - ultimaMini > 15000) { const t = miniatura(); if (t) { m.thumb = t; ultimaMini = Date.now(); } }
+		if (i >= 0) l[i] = m; else l.unshift(m);
+		l.sort((a, b) => b.mod - a.mod); await LISTA.gravar(l);
+	}
 
 	/* ---------- áudio (prévia) ---------- */
 	let AC = null, MASTER = null, fontes = [], a0 = 0, t0 = 0, agenda = 0;
@@ -1081,9 +1099,9 @@
 	$("#bTela").onclick = telaCheia;
 	$("#pRes").onchange = (e) => { const [w, h] = e.target.value.split("x").map(Number); P.w = w; P.h = h; ED.sujo = true; salvarLogo(); };
 	$("#pSalvar").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(P, null, 1)], { type: "application/json" })); a.download = (P.nome || "projeto").replace(/[^\w\- ]+/g, "") + ".edicao.json"; a.click(); };
-	$("#pAbrir").onclick = () => { const i = $("#fProj"); i.onchange = async () => { const f = i.files[0]; i.value = ""; if (!f) return; try { const n = JSON.parse(await f.text()); if (!n.clipes) throw new Error("não é um projeto da Edição"); pausar(); P = n; ED.desfazer = []; ED.refazer = []; ED.sel.clear(); aplicarProjeto(); await reabrir(false); salvarLogo(); } catch (e) { aviso("Projeto inválido", e.message); } }; i.click(); };
+	$("#pAbrir").onclick = () => { const i = $("#fProj"); i.onchange = async () => { const f = i.files[0]; i.value = ""; if (!f) return; try { const n = JSON.parse(await f.text()); if (!n.clipes) throw new Error("não é um projeto da Edição"); pausar(); await salvarJa(); for (const k in RT) delete RT[k]; P = Object.assign(novoProjeto(), n); if (!n.id) P.id = rid(); ED.desfazer = []; ED.refazer = []; ED.sel.clear(); aplicarProjeto(); fechaInicio(); await reabrir(false); salvarLogo(); } catch (e) { aviso("Projeto inválido", e.message); } }; i.click(); };
 	function projetoNovo() { pausar(); P = novoProjeto(); ED.desfazer = []; ED.refazer = []; ED.sel.clear(); for (const k in RT) delete RT[k]; aplicarProjeto(); salvarLogo(); }
-	$("#pNovo").onclick = () => { if (P.clipes.length && !confirm("Começar um projeto novo? O atual sai deste navegador (baixe antes se quiser guardar).")) return; projetoNovo(); };
+	$("#pNovo").onclick = async () => { await salvarJa(); projetoNovo(); fechaInicio(); }; // o atual continua na tela inicial
 	/* reabre os arquivos do projeto: pequenos vêm do banco; grandes pela alça (pode pedir permissão uma vez) */
 	async function reabrir(comGesto) {
 		let falta = 0;
@@ -1110,13 +1128,88 @@
 	};
 	function redesenharTudo() { listaMarcas(); mostrarInspetor(); ED.sujo = true; $("#vazio").hidden = P.clipes.length > 0; }
 
+	/* ---------- tela inicial: projetos recentes (como a do Animador) ---------- */
+	const dataTxt = (t) => { const d = new Date(t), h = new Date(); return d.toDateString() === h.toDateString() ? "hoje, " + d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: d.getFullYear() === h.getFullYear() ? undefined : "numeric" }); };
+	const durTxt = (s) => { s = Math.round(s || 0); const m = Math.floor(s / 60); return m >= 60 ? Math.floor(m / 60) + "h" + String(m % 60).padStart(2, "0") : m + ":" + String(s % 60).padStart(2, "0"); };
+	const escH = (t) => String(t == null ? "" : t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+	(() => { const st = document.createElement("style"); st.textContent = `
+#inicio{flex:1;overflow:auto;padding:18px 16px 60px}
+.ini{max-width:1180px;margin:0 auto}
+.ini-novo{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-bottom:26px}
+.ini-novo button{display:flex;align-items:center;gap:14px;text-align:left;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:var(--panel);cursor:pointer;color:var(--fg)}
+.ini-novo button:hover{border-color:var(--accent);background:var(--panel-2)}
+.ini-novo button.pri{background:linear-gradient(140deg,color-mix(in srgb,var(--accent) 26%,var(--panel)),var(--panel) 70%);border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}
+.ini-novo .ic{font-size:26px;line-height:1}.ini-novo b{display:block;font-size:15px}.ini-novo small{color:var(--muted);font-size:12px}
+.ini-sec{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:12.5px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600}
+.ini-sec .grow{flex:1}.ini-sec input{text-transform:none;letter-spacing:0;height:32px;width:240px;max-width:50vw;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:0 10px;outline:none}
+.ini-sec input:focus{border-color:var(--accent)}
+.ini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.ini-card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .15s,border-color .15s;text-align:left;padding:0;color:var(--fg)}
+.ini-card:hover,.ini-card:focus-visible{border-color:var(--accent);transform:translateY(-2px);outline:none}
+.ini-card .th{aspect-ratio:16/9;background:#000 center/cover no-repeat;display:grid;place-items:center;color:var(--dim);font-size:28px;border-bottom:1px solid var(--line)}
+.ini-card .in{padding:10px 12px}.ini-card b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13.5px}.ini-card small{color:var(--muted);font-size:11.5px}
+.ini-card .mn{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:7px;border:0;background:rgba(0,0,0,.55);color:#fff;cursor:pointer;opacity:0;font-size:16px;line-height:1}
+.ini-card:hover .mn,.ini-card:focus-within .mn{opacity:1}
+.ini-pop{position:absolute;top:38px;right:6px;z-index:5;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px;box-shadow:0 12px 30px rgba(0,0,0,.4);min-width:150px}
+.ini-pop button{display:block;width:100%;text-align:left;background:none;border:0;padding:7px 10px;border-radius:7px;cursor:pointer;color:var(--fg)}.ini-pop button:hover{background:var(--panel-2)}
+.ini-vazio{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+.brand{cursor:pointer}`; document.head.appendChild(st); })();
+	const INI = { q: "" };
+	const ini = document.createElement("section"); ini.id = "inicio"; ini.hidden = true; ini.setAttribute("aria-label", "Projetos"); $("#ed").before(ini);
+	async function desenhaInicio() {
+		const l = await LISTA.ler(), q = INI.q.trim().toLowerCase(), L = l.filter((x) => !q || x.nome.toLowerCase().includes(q));
+		ini.innerHTML = `<div class="ini">
+			<div class="ini-novo">
+				<button class="pri" data-a="novo"><span class="ic">🎬</span><span><b>Novo vídeo longo</b><small>começa do zero: abra ou solte o bruto</small></span></button>
+				<button data-a="arquivo"><span class="ic">📂</span><span><b>Abrir projeto</b><small>arquivo .edicao.json</small></span></button>
+			</div>
+			<div class="ini-sec">Projetos <small>${l.length || ""}</small><span class="grow"></span>${l.length ? `<input type="search" placeholder="Buscar projeto" value="${escH(INI.q)}" aria-label="Buscar projeto">` : ""}</div>
+			<div class="ini-grid">${L.map((x) => `<div class="ini-card" role="button" tabindex="0" data-id="${escH(x.id)}"><div class="th" style="${x.thumb ? `background-image:url('${x.thumb}')` : ""}">${x.thumb ? "" : "🎞️"}</div>
+				<div class="in"><b>${escH(x.nome)}</b><small>${dataTxt(x.mod)}${x.dur ? " · " + durTxt(x.dur) : ""}</small></div><button class="mn" data-m="${escH(x.id)}" title="Opções" aria-label="Opções">⋯</button></div>`).join("")
+				|| `<div class="ini-vazio" style="grid-column:1/-1">${l.length ? "Nenhum projeto com esse nome." : "Nenhum projeto ainda. Comece um vídeo longo novo aqui em cima."}</div>`}</div></div>`;
+		$("[data-a=novo]", ini).onclick = () => { projetoNovo(); fechaInicio(); };
+		$("[data-a=arquivo]", ini).onclick = () => { $("#pAbrir").click(); };
+		const qi = $("input[type=search]", ini); if (qi) qi.oninput = () => { INI.q = qi.value; const pos = qi.selectionStart; desenhaInicio().then(() => { const n = $("input[type=search]", ini); if (n) { n.focus(); n.setSelectionRange(pos, pos); } }); };
+		$$(".ini-card", ini).forEach((c) => { const abre = () => abrirProjeto(c.dataset.id); c.onclick = (e) => { if (!e.target.closest(".mn,.ini-pop")) abre(); }; c.onkeydown = (e) => { if (e.key === "Enter" && e.target === c) abre(); }; });
+		$$(".mn", ini).forEach((b) => b.onclick = (e) => { e.stopPropagation(); $$(".ini-pop", ini).forEach((x) => x.remove()); const id = b.dataset.m;
+			b.insertAdjacentHTML("afterend", `<div class="ini-pop"><button data-o="ren">✏️ Renomear</button><button data-o="dup">⧉ Duplicar</button><button data-o="del">🗑 Apagar</button></div>`);
+			const pop = b.nextElementSibling; pop.onclick = async (ev) => { ev.stopPropagation(); const o = ev.target.closest("[data-o]")?.dataset.o; if (!o) return; pop.remove(); await opcaoProjeto(id, o); }; });
+	}
+	async function opcaoProjeto(id, o) {
+		const l = await LISTA.ler(), m = l.find((x) => x.id === id); if (!m) return;
+		const s = await DB.get("proj:" + id).catch(() => null);
+		if (o === "ren") { const n = (prompt("Nome do projeto:", m.nome) || "").trim(); if (!n) return; m.nome = n; if (s) { const p = JSON.parse(s); p.nome = n; await DB.set("proj:" + id, JSON.stringify(p)); } await LISTA.gravar(l); }
+		if (o === "dup" && s) { const p = JSON.parse(s), nid = rid(); p.id = nid; p.nome = m.nome + " (cópia)"; await DB.set("proj:" + nid, JSON.stringify(p)); l.unshift({ ...m, id: nid, nome: p.nome, mod: Date.now() }); await LISTA.gravar(l); }
+		if (o === "del") { if (!confirm(`Apagar o projeto "${m.nome}" deste navegador? Os arquivos de vídeo no seu computador não são apagados.`)) return;
+			await DB.del("proj:" + id); await LISTA.gravar(l.filter((x) => x.id !== id)); limparArquivos(); }
+		desenhaInicio();
+	}
+	// tira do banco os arquivos que nenhum projeto usa mais (os grandes ficam no seu computador; aqui só a "alça" ou cópias pequenas)
+	async function limparArquivos() {
+		try { const ks = await DB.chaves(), usados = new Set();
+			for (const k of ks) if (String(k).startsWith("proj:")) { try { Object.keys(JSON.parse(await DB.get(k)).midias || {}).forEach((m) => usados.add(m)); } catch (_) {} }
+			for (const k of ks) { const m = String(k).match(/^(arq|alca):(.+)$/); if (m && !usados.has(m[2])) await DB.del(k); } } catch (_) {}
+	}
+	async function abrirProjeto(id) {
+		const s = await DB.get("proj:" + id).catch(() => null); if (!s) { aviso("Projeto não encontrado", "Ele pode ter sido apagado."); return desenhaInicio(); }
+		pausar(); for (const k in RT) delete RT[k]; P = Object.assign(novoProjeto(), JSON.parse(s)); P.id = id; ED.desfazer = []; ED.refazer = []; ED.sel.clear();
+		aplicarProjeto(); await DB.set("atual", id); fechaInicio(); await reabrir(false);
+	}
+	async function abreInicio() { pausar(); await salvarJa(); status(""); $("#ed").hidden = true; ini.hidden = false; $("#nomeProj").textContent = "Edição · seus projetos"; await desenhaInicio(); }
+	function fechaInicio() { ini.hidden = true; $("#ed").hidden = false; $("#nomeProj").textContent = "Edição · " + P.nome; ED.sujo = true; }
+	document.querySelector(".bar .brand").title = "Voltar à tela inicial (seus projetos)";
+	document.querySelector(".bar .brand").onclick = abreInicio;
+	document.addEventListener("click", (e) => { if (!e.target.closest(".ini-pop,.mn")) $$(".ini-pop", ini).forEach((x) => x.remove()); });
+
 	/* ---------- início ---------- */
 	$("#etapas").innerHTML = '<nav class="etapas" aria-label="Navegação"><a href="/" title="Voltar ao menu do Estúdio Problems">⌂ Menu</a></nav>';
 	zoomTL(40);
 	(async () => {
-		try { const s = await DB.get("projeto:atual"); if (s) P = Object.assign(novoProjeto(), JSON.parse(s)); } catch (_) {}
-		aplicarProjeto(); requestAnimationFrame(laco);
-		await reabrir(false); BIB.restaurar();
+		// o projeto que existia antes (um só, "projeto:atual") entra no histórico
+		try { const velho = await DB.get("projeto:atual"); if (velho) { const p = Object.assign(novoProjeto(), JSON.parse(velho)); P = p; await DB.set("proj:" + p.id, JSON.stringify(p)); await guardaNaLista(); await DB.del("projeto:atual"); P = novoProjeto(); } } catch (_) {}
+		aplicarProjeto(); requestAnimationFrame(laco); BIB.restaurar();
+		const pedido = new URLSearchParams(location.search).get("p"); // ?p=<id> abre direto um projeto
+		if (pedido) await abrirProjeto(pedido); else abreInicio();
 		if (typeof VideoDecoder === "undefined" || typeof AudioDecoder === "undefined") aviso("Use o Chrome ou o Edge", "Este navegador não tem as ferramentas de vídeo (WebCodecs) que o editor usa.");
 	})();
 })();
