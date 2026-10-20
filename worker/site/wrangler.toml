@@ -3,6 +3,7 @@
 name = "editor-problems"
 main = "worker.js"
 compatibility_date = "2025-06-01"
+compatibility_flags = ["global_fetch_strictly_public"]  # buscar a chave do porteiro pela internet pública
 workers_dev = true
 
 [assets]
@@ -11,3 +12,7 @@ binding = "ASSETS"
 run_worker_first = true
 html_handling = "auto-trailing-slash"
 not_found_handling = "none"
+
+[vars]
+# porteiro do endereço único: quem chega por ele com passe assinado não precisa da senha (ver worker.js)
+PORTEIRO_URL = "https://estudio.problemsraiz.workers.dev"

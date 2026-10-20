@@ -20,6 +20,26 @@ function cookieDe(req) {
 	const m = (req.headers.get("Cookie") || "").match(new RegExp("(?:^|;\\s*)" + COOKIE + "=([a-f0-9]{64})"));
 	return m ? m[1] : "";
 }
+/* Passe do porteiro (endereço único do Estúdio Problems, Worker "estudio"): quem entrou com o Google no menu chega aqui
+   pelo porteiro com um passe assinado (cabeçalho x-porteiro-passe). Conferimos a assinatura com a chave PÚBLICA do
+   porteiro (PORTEIRO_URL/chave-publica). O passe vale 2 minutos e só para este endereço. Sem passe válido, vale a senha. */
+let chavePorteiro = null, chaveEm = 0;
+const deB64u = (s) => Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((s.length + 3) % 4)), (c) => c.charCodeAt(0));
+async function passeValido(req, env, url) {
+	const ps = req.headers.get("x-porteiro-passe");
+	if (!ps || !env.PORTEIRO_URL) return false;
+	try {
+		if (!chavePorteiro || Date.now() - chaveEm > 3600e3) {
+			const jwk = await (await fetch(env.PORTEIRO_URL.replace(/\/+$/, "") + "/chave-publica")).json();
+			chavePorteiro = await crypto.subtle.importKey("jwk", { kty: jwk.kty, crv: jwk.crv, x: jwk.x, y: jwk.y }, { name: "ECDSA", namedCurve: "P-256" }, false, ["verify"]);
+			chaveEm = Date.now();
+		}
+		const [dados, ass] = ps.split(".");
+		if (!(await crypto.subtle.verify({ name: "ECDSA", hash: "SHA-256" }, chavePorteiro, deB64u(ass), new TextEncoder().encode(dados)))) return false;
+		const p = JSON.parse(new TextDecoder().decode(deB64u(dados)));
+		return !!p.e && p.h === url.host && p.x > Date.now() / 1000;
+	} catch { return false; }
+}
 const voltarPara = (u) => { const v = u.searchParams.get("v") || "/"; return v.startsWith("/") && !v.startsWith("//") ? v : "/"; };
 
 function telaSenha(erro, volta) {
@@ -61,7 +81,8 @@ export default {
 		}
 		if (url.pathname === "/sair") return new Response(null, { status: 303, headers: { Location: "/", "Set-Cookie": `${COOKIE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax` } });
 
-		if (!igual(cookieDe(req), certo)) {
+		const porPorteiro = await passeValido(req, env, url);
+		if (!porPorteiro && !igual(cookieDe(req), certo)) {
 			const pagina = req.method === "GET" && (req.headers.get("Accept") || "").includes("text/html");
 			if (pagina) return telaSenha(false, url.pathname + url.search);
 			return new Response("precisa da senha do estúdio", { status: 401, headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" } });
