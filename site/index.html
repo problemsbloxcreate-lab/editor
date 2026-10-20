@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Edição · Estúdio Problems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Rubik:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="comum/estilo.css">
+<script src="comum/tema.js"></script>
+<style>
+body{overflow:hidden}
+.ed{flex:1;min-height:0;display:grid;grid-template-columns:minmax(230px,280px) minmax(0,1fr) minmax(240px,300px);grid-template-rows:minmax(0,1fr) var(--tl-h,38vh);gap:8px;padding:8px 12px 12px}
+.ed>.pane{min-height:0}
+#tlPane{grid-column:1/-1}
+.abas{display:flex;gap:2px}
+.aba{border:0;background:none;color:var(--muted);font-weight:700;font-size:12.5px;padding:9px 10px;cursor:pointer;border-bottom:2px solid transparent}
+.aba[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+.lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.lista li{display:flex;align-items:center;gap:8px;background:var(--panel-2);border:1px solid transparent;border-radius:7px;padding:5px 8px;cursor:grab;font-size:12.5px;user-select:none}
+.lista li:hover{border-color:var(--line)}
+.lista li .ic{width:22px;text-align:center;flex:none}
+.lista li .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lista li small{color:var(--muted);font-family:var(--f-mono);font-size:10.5px;flex:none}
+.lista li.carregando{opacity:.6}
+.grade{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.grade .btn{justify-content:flex-start}
+.prev{flex:1;min-height:0;display:grid;place-items:center;background:#000;position:relative;overflow:hidden}
+#tela{max-width:100%;max-height:100%;aspect-ratio:16/9;background:#000;display:block}
+.prev.alvo #tela{cursor:crosshair}
+.transporte{display:flex;align-items:center;gap:6px;padding:6px 10px;border-top:1px solid var(--line);background:var(--panel-2);flex:none}
+.tc{font:700 13px var(--f-mono);min-width:150px}
+.tc small{color:var(--muted);font-weight:500}
+.campo{display:flex;flex-direction:column;gap:3px}
+.campo>span{font-size:11px;color:var(--muted)}
+.linha{display:flex;gap:6px;align-items:center}
+.linha>*{flex:1;min-width:0}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=number]{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 6px;font-size:12.5px;width:100%}
+input[type=color]{width:100%;height:30px;border:1px solid var(--line);border-radius:6px;background:var(--bg);padding:2px}
+.tl-bar{display:flex;align-items:center;gap:6px;padding:5px 8px;border-bottom:1px solid var(--line);background:var(--panel-2);flex:none;flex-wrap:wrap}
+.tl-bar .sep{width:1px;height:20px;background:var(--line)}
+.tl{flex:1;min-height:0;display:grid;grid-template-columns:118px minmax(0,1fr);overflow:hidden}
+.tl-heads{display:flex;flex-direction:column;border-right:1px solid var(--line);background:var(--panel-2);overflow:hidden}
+.tl-heads .rg{height:24px;flex:none;border-bottom:1px solid var(--line)}
+.tl-heads .trava{background:none;border:0;padding:0 2px;cursor:pointer;font-size:11px;opacity:.25}.tl-heads .trava[aria-pressed=true]{opacity:1}.tl-heads>div:hover .trava{opacity:.7}
+.th{display:flex;align-items:center;gap:4px;padding:0 6px;border-bottom:1px solid var(--line);font-size:11.5px;font-weight:600;flex:none}
+.th span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.th button{border:0;background:none;cursor:pointer;color:var(--muted);font-size:12px;padding:2px;border-radius:4px;line-height:1}
+.th button[aria-pressed="true"]{color:var(--warn)}
+.tl-area{position:relative;overflow:hidden}
+#tlCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.status-ed{font-size:12px;color:var(--muted);margin-left:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:42vw}
+.progresso{height:6px;background:var(--panel-3);border-radius:4px;overflow:hidden}
+.progresso i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.vazio{display:grid;place-items:center;text-align:center;gap:8px;color:var(--muted);font-size:12.5px;padding:20px}
+.solta{outline:2px dashed var(--accent);outline-offset:-6px}
+.marca{display:flex;align-items:center;gap:6px;font-size:12px}
+.marca button{margin-left:auto}
+.kbd{font:600 10.5px var(--f-mono);background:var(--panel-3);border-radius:4px;padding:1px 5px;color:var(--muted)}
+.redim{position:absolute;left:0;right:0;top:-6px;height:8px;cursor:ns-resize;z-index:2}
+#tlPane{position:relative}
+.det{font-size:12px}
+.det summary{cursor:pointer;color:var(--muted);font-weight:600}
+dialog{background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:12px;max-width:560px;padding:16px 18px}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="brand"><span class="logo" aria-hidden="true"></span><div><h1>Estúdio Problems</h1><p class="crumb" id="nomeProj">Edição · vídeos longos</p></div></div>
+  <div class="grow"></div>
+  <span class="status-ed" id="status" role="status"></span>
+  <div id="etapas"></div>
+  <span data-tema-aqui></span>
+</header>
+
+<main class="ed" id="ed">
+  <!-- esquerda: mídia, efeitos e automático -->
+  <section class="pane" aria-label="Mídia e ferramentas">
+    <div class="pane-h" role="tablist"><div class="abas">
+      <button class="aba" role="tab" aria-selected="true" data-aba="midia">Mídia</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="efeitos">Efeitos</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="auto">Automático</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="proj">Projeto</button>
+    </div></div>
+    <div class="pane-b" data-painel="midia">
+      <div class="linha"><button class="btn primary" type="button" id="abrirBruto">📂 Abrir bruto</button><button class="btn" type="button" id="addArq" title="Vídeos, áudios e imagens">＋ Arquivos</button></div>
+      <button class="btn" type="button" id="addVoz" title="Áudio de um personagem gravado à parte (um arquivo por pessoa)">🎙 ＋ Voz de personagem</button>
+      <ul class="lista" id="midias"></ul>
+      <details class="det" id="bibDet"><summary>Biblioteca de SFX e músicas</summary>
+        <div class="campo" style="margin-top:8px"><div class="linha"><button class="btn small" type="button" id="pastaSfx">📁 Pasta de SFX</button><button class="btn small" type="button" id="pastaMus">📁 Pasta de músicas</button></div>
+        <input type="search" id="bibBusca" placeholder="Buscar som ou música"></div>
+        <ul class="lista" id="bib" style="margin-top:6px"></ul>
+      </details>
+    </div>
+    <div class="pane-b" data-painel="efeitos" hidden>
+      <p class="sub-h">Zoom</p>
+      <div class="grade">
+        <button class="btn small" type="button" data-fx="zoomSeco">🔍 Zoom seco</button>
+        <button class="btn small" type="button" data-fx="zoomAnim">🔎 Zoom animado</button>
+        <button class="btn small" type="button" data-fx="zoomFala">🗣 Na cara (250%)</button>
+        <button class="btn small" type="button" data-fx="esticar">↔ Esticar (deboche)</button>
+      </div>
+      <p class="sub-h">Efeitos</p>
+      <div class="grade">
+        <button class="btn small" type="button" data-fx="flash">⚪ Flash branco</button>
+        <button class="btn small" type="button" data-fx="flashV">🔴 Flash vermelho</button>
+        <button class="btn small" type="button" data-fx="shake">〰 Tremor</button>
+        <button class="btn small" type="button" data-fx="vhs">📼 VHS</button>
+        <button class="btn small" type="button" data-fx="flashback">🎞 Flashback</button>
+        <button class="btn small" type="button" data-fx="tilt">🫠 Murchar</button>
+        <button class="btn small" type="button" data-fx="brilho">✨ Revelação</button>
+        <button class="btn small" type="button" data-fx="pb">◐ Preto e branco</button>
+        <button class="btn small" type="button" data-fx="vinheta">◉ Vinheta</button>
+        <button class="btn small" type="button" data-fx="preto">⬛ Passagem preto</button>
+        <button class="btn small" type="button" data-fx="texto">🅣 Texto</button>
+        <button class="btn small" type="button" data-fx="congelar">❄ Congelar quadro</button>
+        <button class="btn small" type="button" data-fx="cor">🎨 Cor</button>
+        <button class="btn small" type="button" data-fx="dissolver">◩ Dissolver no corte</button>
+      </div>
+    </div>
+    <div class="pane-b" data-painel="auto" hidden>
+      <div class="card"><p class="sub-h">1 · Ritmo</p><p class="hint">Tira as pausas de todas as vozes: troca de personagem colada, mesma pessoa com uma respiração curta.</p>
+        <button class="btn primary" type="button" id="autoCortes">✂ Cortar silêncios</button></div>
+      <div class="card"><p class="sub-h">2 · Transcrever</p><p class="hint">Ouve cada personagem na sua faixa, no próprio navegador.</p>
+        <div class="linha"><button class="btn" type="button" id="autoTranscrever">📝 Transcrever</button><button class="btn" type="button" id="autoLegendas" title="Legendas na parte de baixo, com a cor de cada personagem">💬 Legendas</button></div><div class="progresso" hidden id="trProg"><i></i></div></div>
+      <div class="card"><p class="sub-h">3 · Edição completa</p><p class="hint">O Claude monta zooms, efeitos, SFX, música por clima e cortes de repetição com o preset do editor.</p>
+        <button class="btn primary" type="button" id="autoClaude">🤖 Editar com o Claude</button><p class="status" id="autoMsg"></p></div>
+    </div>
+    <div class="pane-b" data-painel="proj" hidden>
+      <div class="campo"><span>Nome do projeto</span><input type="text" id="pNome"></div>
+      <div class="linha"><div class="campo"><span>Quadros por segundo</span><select id="pFps"><option value="30">30</option><option value="60">60</option></select></div>
+        <div class="campo"><span>Resolução</span><select id="pRes"><option value="1920x1080">1920×1080</option><option value="2560x1440">2560×1440</option><option value="1280x720">1280×720</option></select></div></div>
+      <div class="campo"><span>Qualidade da exportação</span><select id="pQual"><option value="1">Normal</option><option value="1.6">Alta</option><option value="2.5">Máxima (arquivo grande)</option></select></div>
+      <div class="linha"><button class="btn" type="button" id="pSalvar">💾 Baixar projeto</button><button class="btn" type="button" id="pAbrir">📂 Abrir projeto</button></div>
+      <button class="btn" type="button" id="pNovo">🗋 Novo projeto</button>
+      <button class="btn" type="button" id="pReabrir" hidden>🔓 Reabrir os arquivos deste projeto</button>
+      <p class="sub-h">Marcadores</p><div id="marcas" class="lista"></div>
+      <details class="det"><summary>Atalhos</summary><p class="hint" style="margin-top:6px;line-height:1.9">
+        <span class="kbd">Espaço</span> tocar · <span class="kbd">S</span> dividir · <span class="kbd">Del</span> apagar · <span class="kbd">Shift+Del</span> apagar e puxar ·
+        <span class="kbd">Ctrl+Z</span>/<span class="kbd">Ctrl+Y</span> desfazer/refazer · <span class="kbd">←</span><span class="kbd">→</span> 1 quadro ·
+        <span class="kbd">M</span> marcador · <span class="kbd">F</span> tela cheia · <span class="kbd">Del</span> no buraco do bruto fecha o buraco · <span class="kbd">+</span>/<span class="kbd">−</span> zoom da linha · <span class="kbd">↑</span><span class="kbd">↓</span> corte anterior/próximo · <span class="kbd">J</span><span class="kbd">K</span><span class="kbd">L</span> voltar/pausar/tocar · <span class="kbd">I</span>/<span class="kbd">O</span> trecho para exportar (<span class="kbd">X</span> limpa) · <span class="kbd">Alt</span> arrastar sem o áudio ligado · <span class="kbd">Ctrl+C</span>/<span class="kbd">Ctrl+V</span></p></details>
+    </div>
+  </section>
+
+  <!-- centro: prévia -->
+  <section class="pane" aria-label="Prévia">
+    <div class="prev" id="prev"><canvas id="tela" width="1920" height="1080"></canvas>
+      <div class="vazio" id="vazio" style="position:absolute;inset:0"><div><p class="sub-h">Solte o bruto aqui</p><p>ou clique em 📂 Abrir bruto (MP4 com as faixas de voz, call e jogo)</p></div></div></div>
+    <div class="transporte">
+      <button class="btn small" type="button" id="bInicio" title="Início">⏮</button>
+      <button class="btn small" type="button" id="bVolta" title="1 quadro para trás">◀</button>
+      <button class="btn primary small" type="button" id="bPlay" title="Tocar (Espaço)" style="min-width:44px">▶</button>
+      <button class="btn small" type="button" id="bFrente" title="1 quadro para frente">▶︎|</button>
+      <span class="tc" id="tc">00:00:00 <small>/ 00:00:00</small></span><canvas id="medidor" width="90" height="8" style="border-radius:3px"></canvas>
+      <span class="grow"></span>
+      <button class="btn small" type="button" id="bTela" title="Tela cheia (F)">⛶</button><button class="btn primary small" type="button" id="bExportar">⬇ Exportar MP4</button>
+    </div>
+    <div class="progresso" hidden id="expProg"><i></i></div>
+  </section>
+
+  <!-- direita: propriedades -->
+  <section class="pane" aria-label="Propriedades">
+    <div class="pane-h"><span class="ttl" id="insTtl">Propriedades</span></div>
+    <div class="pane-b" id="ins"><p class="hint">Selecione um clipe na linha do tempo.</p></div>
+  </section>
+
+  <!-- linha do tempo -->
+  <section class="pane" id="tlPane" aria-label="Linha do tempo">
+    <div class="redim" id="redim" title="Arraste para mudar a altura"></div>
+    <div class="tl-bar">
+      <button class="btn small" type="button" id="tDividir" title="Dividir no cursor (S)">✂ Dividir</button>
+      <button class="btn small" type="button" id="tApagar" title="Apagar (Del)">🗑 Apagar</button>
+      <button class="btn small" type="button" id="tPuxar" title="Apagar e puxar (Shift+Del)">⇤ Apagar e puxar</button>
+      <span class="sep"></span>
+      <button class="btn small" type="button" id="tDesfazer" title="Ctrl+Z">↶</button>
+      <button class="btn small" type="button" id="tRefazer" title="Ctrl+Y">↷</button>
+      <span class="sep"></span>
+      <button class="btn small" type="button" id="tIma" aria-pressed="true" title="Grudar nas bordas">🧲 Ímã</button>
+      <button class="btn small" type="button" id="tMarca" title="Marcador (M)">🔖</button>
+      <span class="grow"></span>
+      <span class="hint">Zoom</span><input type="range" id="tZoom" min="0" max="100" value="40" style="width:140px">
+      <button class="btn small" type="button" id="tCaber" title="Ver tudo">⤢</button>
+    </div>
+    <div class="tl">
+      <div class="tl-heads" id="heads"><div class="rg"></div></div>
+      <div class="tl-area" id="tlArea"><canvas id="tlCanvas"></canvas></div>
+    </div>
+  </section>
+</main>
+
+<dialog id="dlgQ"><p class="sub-h" id="dlgQT"></p><p id="dlgQP" class="hint" style="margin:8px 0 12px"></p><div class="linha" id="dlgQB" style="justify-content:flex-end;flex-wrap:wrap"></div></dialog>
+<dialog id="dlg"><p class="sub-h" id="dlgT"></p><p id="dlgP" class="hint" style="margin:8px 0 12px;white-space:pre-wrap"></p><div class="linha" style="justify-content:flex-end"><button class="btn primary" type="button" id="dlgOk" style="flex:none">Ok</button></div></dialog>
+<input type="file" id="fBruto" accept="video/mp4,video/quicktime,.mp4,.mov,.m4v" hidden>
+<input type="file" id="fArq" accept="video/*,audio/*,image/*" multiple hidden>
+<input type="file" id="fVoz" accept="audio/*" multiple hidden>
+<input type="file" id="fProj" accept=".json,application/json" hidden>
+
+<script src="comum/roteiros.js"></script>
+<script src="vendor/mp4-muxer.min.js"></script>
+<script src="mp4.js"></script>
+<script src="editor.js"></script>
+<script src="exportar.js"></script>
+<script src="auto.js"></script>
+<script src="separar.js"></script>
+<script src="sincronizar.js"></script>
+</body>
+</html>

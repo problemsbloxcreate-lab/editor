@@ -1,0 +1,1565 @@
+{
+ "gerado": "2026-10-16",
+ "roteiros": [
+  {
+   "id": "doc-01-rapido-demais-hack-ou-genio",
+   "numero": 1,
+   "titulo": "Rápido Demais: Hack ou Gênio? 🧊🔥",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "animado",
+   "tema": "Duelo de gênios",
+   "potencial": "Mesmo motor do Trapaceiro Vs Admin (5,8 mi) e do Gênio X Trapaceiro (7,6 mi): uma acusação na 1ª fala e cada defesa com um número real do jogo. Objeto novo: o barco no gelo azul, que quase nenhum menino sabe que passa de 70 blocos por segundo.",
+   "legenda": "300 BLOCOS EM 5 SEGUNDOS?",
+   "edicao": "Números do Kadu em vermelho e números do Problems em ciano, grandes na tela, como no Trapaceiro Vs Admin. Mesma trilha de suspense dos duelos.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Kadu",
+     "text": "Para aí, Problems. Você saiu da base e chegou na vila em 5 segundos. A vila fica a 300 blocos daqui. Isso é hack.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): duelo de gênios, igual Trapaceiro Vs Admin. O Kadu é o admin e acusa o Problems de hack de velocidade. Cada um responde com um número real do Minecraft, e o Problems sempre tem a última resposta. Regras reais: correndo, o jogador faz uns 5,6 blocos por segundo; cada pérola do ender tira 2 corações e meio; barco na água faz uns 8 blocos por segundo; barco no gelo azul passa de 70 blocos por segundo. CENISTA: a base do Problems, uma vila a 300 blocos e, entre as duas, uma estrada reta de gelo azul (só aparece no final). Um iceberg ao fundo no começo do vídeo, que some no final."
+    },
+    {
+     "who": "Problems",
+     "text": "Ou eu só sou rápido, Kadu.",
+     "tela": "foco problems, calmo"
+    },
+    {
+     "who": "Kadu",
+     "text": "Rápido? Correndo, um jogador faz uns 5,6 blocos por segundo. Pra andar 300 blocos você ia levar quase 1 minuto, não 5 segundos.",
+     "tela": "kadu fazendo a conta, números em vermelho na tela: 300 ÷ 5,6 = 54 SEGUNDOS"
+    },
+    {
+     "who": "Problems",
+     "text": "Então eu joguei pérola do ender.",
+     "tela": "problems mostrando uma pérola na mão"
+    },
+    {
+     "who": "Kadu",
+     "text": "Mentira. Cada pérola tira dois corações e meio. Com as pérolas que você ia precisar, você chegava lá quase morto. E olha a sua vida: cheia.",
+     "tela": "zoom na HUD do problems: vida cheia. Número 2,5 ❤ em vermelho"
+    },
+    {
+     "who": "Problems",
+     "text": "É aí que você se engana. Eu não vim correndo, nem de pérola. Eu vim de barco.",
+     "tela": "problems puxando um barco do inventário"
+    },
+    {
+     "who": "Kadu",
+     "text": "De barco? Na água o barco faz uns 8 blocos por segundo. Ia levar mais de meio minuto. Culpado.",
+     "tela": "foco kadukos apontando. Número 8 em vermelho"
+    },
+    {
+     "who": "Problems",
+     "text": "Na água, sim. Mas eu não vim pela água. Eu vim por uma estrada de gelo azul. No gelo azul, o barco passa de 70 blocos por segundo. São 300 blocos em menos de 5 segundos.",
+     "tela": "CENA: o barco do problems voando na estrada de gelo azul, câmera acompanhando. Número 72 em ciano e uma linha azul com 300 BLOCOS"
+    },
+    {
+     "who": "Kadu",
+     "text": "Isso não faz sentido. Não tem gelo azul nesse mundo. Eu sou o admin, eu teria visto.",
+     "tela": "kadu desconfiado, de braços cruzados"
+    },
+    {
+     "who": "Problems",
+     "text": "Tinha, Kadu. Lembra daquele iceberg? Eu minerei ele todinho pra fazer a estrada.",
+     "tela": "cena de cima: no lugar do iceberg do começo do vídeo agora só tem água. Corta pra estrada azul indo até a vila"
+    },
+    {
+     "who": "Kadu",
+     "text": "...Droga.",
+     "tela": "CORTE SECO na cara do kadu. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": true
+  },
+  {
+   "id": "doc-02-nao-abra-esse-bau",
+   "numero": 2,
+   "titulo": "NÃO ABRA ESSE BAÚ ☠️💣",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Duelo de gênios",
+   "potencial": "Duelo de armadilha em cima de armadilha, como Mentalistas no Minecraft (5,6 mi), com um objeto que o menino conhece: o baú. Regra real: o baú armadilha manda sinal de redstone quando alguém abre. O final traz o Brucutu, que ninguém espera.",
+   "legenda": "NÃO ABRA ESSE BAÚ",
+   "edicao": "Trilha de suspense dos duelos. Close no fecho vermelho do baú armadilha sempre que ele for citado.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Problems",
+     "text": "Kadu, se você abrir esse baú, você morre.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): duelo de gênios com armadilha em cima de armadilha. Regra real: o baú armadilha (fecho vermelho) manda sinal de redstone quando alguém abre, e isso pode ligar TNT. No final, quem cai é o Brucutu, que não sabe de nada. CENISTA: uma sala com dois baús armadilha lado a lado, um do Kadu e um do Problems, TNT escondida embaixo e um fio de redstone ligando os dois (só aparece no meio do vídeo)."
+    },
+    {
+     "who": "Kadu",
+     "text": "Por quê? É só um baú com os meus diamantes.",
+     "tela": "foco kadukos com a mão no baú"
+    },
+    {
+     "who": "Problems",
+     "text": "Olha o fecho dele. Tá vermelho. Isso é um baú armadilha. Quando alguém abre, ele manda um sinal de redstone. E embaixo dele tem 10 TNTs.",
+     "tela": "close no fecho vermelho. Corte pra TNT embaixo do chão (visão de raio-x)"
+    },
+    {
+     "who": "Kadu",
+     "text": "Eu sei, Problems. Fui eu que coloquei. Mas ontem à noite eu troquei os baús de lugar. Agora a TNT tá embaixo do seu, não do meu.",
+     "tela": "flashback de noite: kadu trocando os baús de lugar, todo sorrateiro"
+    },
+    {
+     "who": "Problems",
+     "text": "Eu vi você trocando. Por isso, hoje de manhã, eu liguei os dois baús no mesmo fio de redstone. Se qualquer um abrir, os dois explodem.",
+     "tela": "cena do fio de redstone ligando os dois baús, brilhando"
+    },
+    {
+     "who": "Kadu",
+     "text": "Então ninguém abre e ninguém ganha. Empate.",
+     "tela": "kadu de braços cruzados"
+    },
+    {
+     "who": "Problems",
+     "text": "Empate não. Eu tirei os meus diamantes antes de ligar o fio. O seu baú ainda tá cheio.",
+     "tela": "problems abrindo o inventário: cheio de diamantes"
+    },
+    {
+     "who": "Kadu",
+     "text": "...Droga.",
+     "tela": "CORTE SECO na cara do kadu"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Opa, baú! Tem comida aí?",
+     "tela": "brucutu entrando correndo na sala, indo direto pro baú"
+    },
+    {
+     "who": "Todos",
+     "text": "NÃO!",
+     "tela": "problems e kadu gritando juntos, câmera lenta. Brucutu abre o baú: BOOM gigante. Mensagem de morte: “Brucutu achou que tinha comida”"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Não tinha comida.",
+     "tela": "brucutu renascendo todo preto de fuligem. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-03-ninguem-sobrevive-a-essa-queda",
+   "numero": 3,
+   "titulo": "Ninguém Sobrevive a Essa Queda ☠️⬇️",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Duelo de gênios",
+   "potencial": "Acusação + números reais, como Gênio vs Super Gênio (4,7 mi), que também falava de queda. Cada resposta derruba a anterior: feno, água, slime. E o final pune o Kadu com a regra que ele não ouviu inteira.",
+   "legenda": "100 BLOCOS SEM ARMADURA",
+   "edicao": "Números do Kadu em vermelho e do Problems em ciano. Linha vertical com 100 BLOCOS ao lado da torre.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Kadu",
+     "text": "Problems, você pulou do topo dessa torre. São 100 blocos. Sem armadura, sem poção. E tá vivo. Explica isso.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): duelo de gênios sobre queda. Regras reais: sem armadura, uns 23 blocos de queda já matam; o fardo de feno tira 80% do dano, e caindo 100 blocos nele sobra só meio coração; o bloco de slime cancela todo o dano da queda, MENOS se você cair agachado. CENISTA: uma torre de 100 blocos; embaixo, um fardo de feno bem visível e, do lado, um bloco de slime no meio da grama (verde no verde, quase camuflado)."
+    },
+    {
+     "who": "Problems",
+     "text": "Sorte?",
+     "tela": "foco problems dando de ombros, vida cheia na HUD"
+    },
+    {
+     "who": "Kadu",
+     "text": "Sorte não existe. Sem armadura, uns 23 blocos de queda já matam. Você caiu 100.",
+     "tela": "número 23 em vermelho e linha de 100 BLOCOS"
+    },
+    {
+     "who": "Problems",
+     "text": "Então eu caí na água.",
+     "tela": "problems apontando pra baixo"
+    },
+    {
+     "who": "Kadu",
+     "text": "Eu olhei. Não tem água lá embaixo. Só tem aquele fardo de feno.",
+     "tela": "cena de cima: o fardo de feno sozinho no chão"
+    },
+    {
+     "who": "Problems",
+     "text": "Exatamente. O fardo de feno tira 80% do dano da queda.",
+     "tela": "número 80% em ciano"
+    },
+    {
+     "who": "Kadu",
+     "text": "80% não é 100%. Caindo 100 blocos no feno, ia sobrar meio coração. E você tá com a vida cheia. Culpado.",
+     "tela": "zoom na HUD do problems: 10 corações cheios. Kadu batendo o pé"
+    },
+    {
+     "who": "Problems",
+     "text": "É aí que você se engana. Eu nunca disse que caí no feno. O feno tava ali pra você olhar pra ele. Eu caí naquele bloco verde do lado.",
+     "tela": "câmera vai do feno pro bloco de slime camuflado na grama"
+    },
+    {
+     "who": "Kadu",
+     "text": "Aquilo é slime?",
+     "tela": "kadu se abaixando pra olhar"
+    },
+    {
+     "who": "Problems",
+     "text": "Bloco de slime cancela todo o dano da queda. Eu caí, quiquei, e pousei de leve. Por isso a vida cheia.",
+     "tela": "replay do problems caindo e quicando no slime, câmera lenta"
+    },
+    {
+     "who": "Kadu",
+     "text": "Então é só cair no slime? Fácil.",
+     "tela": "kadu já subindo a torre correndo"
+    },
+    {
+     "who": "Problems",
+     "text": "Kadu, espera! Só não pode cair agachado, senão...",
+     "tela": "kadu pula agachado lá de cima. Cai no slime, não quica: SPLAT. Mensagem de morte: “Kadu caiu agachado”"
+    },
+    {
+     "who": "Kadu",
+     "text": "Por que você não falou antes?",
+     "tela": "kadu renascendo, bravo"
+    },
+    {
+     "who": "Problems",
+     "text": "Eu falei. Você que já tava caindo.",
+     "tela": "problems de boa. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-04-teste-do-amor-3-problems-e-vampira",
+   "numero": 4,
+   "titulo": "Teste do Amor 3: Problems e Vampira 💘",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Romance da turma",
+   "potencial": "Teste do Amor (3,0 mi) e Teste do Amor 2 (3,73 mi), mais a Vampira apaixonada pelo Problems (Vampira Rankeando, 4,28 mi). A máquina mostra um número na tela, e a virada é o Problems com ciúme do Kadu.",
+   "legenda": "TESTE DO AMOR 3",
+   "edicao": "A máquina do amor é a mesma dos outros Testes do Amor. Número em rosa subindo e corações na tela.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Problems",
+     "text": "Hoje a máquina do amor vai provar de uma vez que eu e a Vampira não temos nada a ver.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): continuação do Teste do Amor. O Problems quer provar que não gosta da Vampira e a máquina só dá 100%. Virada: dá 100% com o Kadu também e o Problems fica com ciúme, até a máquina entregar isso. CENISTA: a máquina do amor dos outros vídeos, com uma tela grande pra mostrar a porcentagem e um texto embaixo."
+    },
+    {
+     "who": "Vampira",
+     "text": "Pode ligar, problemszinho. A máquina sabe a verdade.",
+     "tela": "vampira toda feliz, piscando"
+    },
+    {
+     "who": "Problems",
+     "text": "Sabe sim. Vai dar zero. Liga, Kadu.",
+     "tela": "problems entrando na máquina, confiante"
+    },
+    {
+     "who": "Problems",
+     "text": "Cem por cento?! Essa máquina tá quebrada!",
+     "tela": "a porcentagem sobe até 100%, chuva de corações. Problems chuta a máquina"
+    },
+    {
+     "who": "Vampira",
+     "text": "Viu? Ela até explicou, amorzinho. Noventa e nove por cento do amor é meu. Mas aquele um por cento é todo seu.",
+     "tela": "a tela da máquina pisca e mostra “99% VAMPIRA / 1% PROBLEMS”"
+    },
+    {
+     "who": "Kadu",
+     "text": "Deixa eu testar então. Eu e a Vampira. Só pra ver se ela tá funcionando.",
+     "tela": "kadu entrando na máquina com a vampira"
+    },
+    {
+     "who": "Vampira",
+     "text": "Ué... cem por cento? Bom, você até que tem um chapéu bonito, Kadu.",
+     "tela": "100% de novo. Vampira olhando o kadu de cima a baixo"
+    },
+    {
+     "who": "Problems",
+     "text": "Peraí, como assim? Dá zero comigo de novo, máquina!",
+     "tela": "problems empurrando o kadu pra fora e entrando de volta"
+    },
+    {
+     "who": "Kadu",
+     "text": "Problems... você tá com ciúme?",
+     "tela": "foco kadukos segurando a risada"
+    },
+    {
+     "who": "Problems",
+     "text": "Eu?! Claro que não. Só achei estranho a máquina dar cem por cento pra todo mundo.",
+     "tela": "a tela da máquina muda sozinha pra “100% PROBLEMS COM CIÚME”. Todo mundo olha pra tela. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-05-quando-a-mentira-da-certo-2",
+   "numero": 5,
+   "titulo": "Quando a Mentira Dá Certo 2 😈🔪",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Mentira no Murder Mystery",
+   "potencial": "Continuação direta de Quando a Mentira Dá Certo (6,45 mi). O menino sabe quem é o assassino e o xerife não sabe. Desta vez o xerife é o Brucutu, que acredita em qualquer coisa.",
+   "legenda": "O XERIFE É O BRUCUTU",
+   "edicao": "Quando o Stick fala sozinho (pensando), usar voz de pensamento com eco. Mesma trilha do primeiro.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Stick",
+     "text": "Eu sou o assassino de novo. E dessa vez ninguém viu. Só falta descobrir quem é o xerife.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): continuação do Quando a Mentira Dá Certo, no Murder Mystery. O Stick é o assassino, o menino sabe e o xerife não. O xerife é o Brucutu, que acredita em qualquer coisa. O Problems sabe a verdade e tenta convencer o Brucutu. CENISTA: mapa do Murder Mystery, o Stick com a faca escondida nas costas e o Brucutu com o arco de xerife."
+    },
+    {
+     "who": "Brucutu",
+     "text": "Ô, Stick! Chega aqui. Eu sou o xerife! Olha meu arco!",
+     "tela": "brucutu mostrando o arco pra todo mundo, todo orgulhoso"
+    },
+    {
+     "who": "Stick",
+     "text": "O xerife é o Brucutu. Isso é perfeito. Brucutu, o assassino é o Problems. Eu vi ele com a faca.",
+     "tela": "stick pensando (voz de eco) e depois falando pro brucutu, cara de santo"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Sério? Então vou atirar nele!",
+     "tela": "brucutu mirando no problems"
+    },
+    {
+     "who": "Problems",
+     "text": "Brucutu, para! O assassino é o Stick. Olha a mão dele, tem uma faca saindo das costas.",
+     "tela": "problems chegando correndo. Close na faca aparecendo atrás do stick"
+    },
+    {
+     "who": "Stick",
+     "text": "Isso não é faca, Brucutu. É uma cenoura.",
+     "tela": "stick escondendo a faca mais pra trás"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Faz sentido. O Stick adora cenoura.",
+     "tela": "brucutu concordando com a cabeça"
+    },
+    {
+     "who": "Problems",
+     "text": "Brucutu, pensa comigo. Se o Stick viu eu com a faca, cadê a prova? E por que ele tá com a mão nas costas o tempo todo?",
+     "tela": "foco problems, sério"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Hmm... isso é verdade. Então eu vou atirar no mentiroso.",
+     "tela": "brucutu mirando no problems, depois no stick, depois no problems"
+    },
+    {
+     "who": "Stick",
+     "text": "Brucutu, quem é o seu melhor amigo?",
+     "tela": "stick sorrindo"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Você, ué.",
+     "tela": "brucutu atira no problems. Problems cai"
+    },
+    {
+     "who": "Stick",
+     "text": "Valeu, melhor amigo.",
+     "tela": "stick tira a faca das costas e acerta o brucutu"
+    },
+    {
+     "who": "Brucutu",
+     "text": "...Agora eu entendi.",
+     "tela": "brucutu caindo devagar. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-06-ajudando-o-noob-no-minecraft",
+   "numero": 6,
+   "titulo": "Ajudando o Noob no Minecraft 🥺⛏️",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Noob x pro",
+   "potencial": "Mesma história de AJUDANDO NOOB no Blox Fruits (5,49 mi), agora no Minecraft: a gentileza que volta. A picareta de ferro é o fio que liga o começo ao fim.",
+   "legenda": "AJUDANDO O NOOB",
+   "edicao": "Música calma no começo, música épica quando o noob volta. A picareta de ferro do noob precisa aparecer no cinto dele no final.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Problems",
+     "text": "Mais um diamante. Eu já tenho tanto que nem sei mais o que fazer com eles.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): versão Minecraft do Ajudando Noob no Blox Fruits. O Problems ajuda um noob dando a picareta de ferro dele. Um ano depois, o noob virou pro e volta pra salvar o Problems do Kadu. A picareta de ferro é o fio da história. CENISTA: uma caverna com diamantes e lava; um noob com skin simples (tipo Steve) e picareta de madeira; no final, o mesmo noob de netherite com a picareta de ferro velha pendurada."
+    },
+    {
+     "who": "Noob",
+     "text": "Ei... você pode me ensinar a achar diamante? Eu comecei a jogar hoje e só tenho essa picareta de madeira.",
+     "tela": "noob aparecendo tímido, segurando a picareta de madeira"
+    },
+    {
+     "who": "Problems",
+     "text": "Picareta de madeira não quebra diamante. Toma, fica com a minha de ferro. E presta atenção: diamante fica lá embaixo, perto da lava.",
+     "tela": "problems dando a picareta de ferro na mão do noob"
+    },
+    {
+     "who": "Noob",
+     "text": "Eu achei! Meu primeiro diamante! Valeu, de verdade. Eu nunca vou esquecer isso.",
+     "tela": "montagem rápida dos dois minerando juntos e o noob achando o primeiro diamante"
+    },
+    {
+     "who": "Kadu",
+     "text": "Passa os diamantes, Problems. Eu tô de netherite e você tá com uma espada de pedra.",
+     "tela": "LEGENDA NA TELA: “1 ANO DEPOIS”. Kadu de netherite encurralando o problems"
+    },
+    {
+     "who": "Problems",
+     "text": "Kadu, isso não é justo.",
+     "tela": "problems encostado na parede"
+    },
+    {
+     "who": "Kadu",
+     "text": "No Minecraft não existe justo. Existe quem tem netherite.",
+     "tela": "kadu levantando a espada"
+    },
+    {
+     "who": "Noob",
+     "text": "Ei. Ele é meu amigo. Deixa ele.",
+     "tela": "alguém de netherite aparece atrás do kadu, de costas pra câmera. Música épica começa"
+    },
+    {
+     "who": "Kadu",
+     "text": "E você vai fazer o quê?",
+     "tela": "kadu virando"
+    },
+    {
+     "who": "Problems",
+     "text": "Quem é você?",
+     "tela": "um golpe e o kadu voa pra longe. Problems olhando o desconhecido"
+    },
+    {
+     "who": "Noob",
+     "text": "Você não lembra? Eu ainda tenho a sua picareta de ferro. Nunca tive coragem de jogar ela fora.",
+     "tela": "close na picareta de ferro velha pendurada no cinto do noob. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-07-quem-comeu-o-bolo",
+   "numero": 7,
+   "titulo": "Quem Comeu o Bolo? 🍰🔍",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Duelo de gênios (detetive)",
+   "potencial": "Investigação com regra real do jogo, que é o motor dos duelos (até 7,6 mi), mas com a turma toda e briga entre eles. Regras reais: o bolo tem 7 fatias, cada fatia enche 1 coxinha e ninguém come bolo com a barra de fome cheia.",
+   "legenda": "QUEM COMEU O BOLO?",
+   "edicao": "HUD de fome grande na tela sempre que o Problems olhar a barra de alguém. Trilha de detetive.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Mel",
+     "text": "Gente! Alguém comeu o bolo da festa! Sobrou só uma fatia!",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): o Problems de detetive descobre quem comeu o bolo pela barra de fome. Regras reais: o bolo do Minecraft tem 7 fatias, cada fatia enche 1 coxinha, e ninguém consegue comer bolo com a barra de fome cheia. O culpado é o Kadu, que acusou primeiro. CENISTA: uma festa com uma mesa e um bolo com só 1 fatia sobrando. Cobertura branca do bolo no chapéu do Kadu (só aparece no final)."
+    },
+    {
+     "who": "Problems",
+     "text": "Calma. Bolo do Minecraft tem 7 fatias. Sobrou 1, então alguém comeu 6. E cada fatia enche uma coxinha da barra de fome.",
+     "tela": "close no bolo com 1 fatia. Número 6 em ciano"
+    },
+    {
+     "who": "Kadu",
+     "text": "Então foi o Brucutu! Olha a barra dele: cheinha.",
+     "tela": "kadu apontando. HUD do brucutu: 10 coxinhas cheias"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Mas eu comi 30 pães de manhã! Tô cheio desde cedo!",
+     "tela": "brucutu desesperado"
+    },
+    {
+     "who": "Problems",
+     "text": "E é por isso que não foi ele. No Minecraft, quem tá com a fome cheia não consegue comer bolo. O Brucutu tava cheio a manhã inteira. Ele nem conseguiria dar uma mordida.",
+     "tela": "flashback: brucutu tentando morder o bolo e nada acontece"
+    },
+    {
+     "who": "Stick",
+     "text": "Então foi o Mel. Ele sempre tá com fome.",
+     "tela": "stick cruzando os braços"
+    },
+    {
+     "who": "Mel",
+     "text": "Eu?! Olha a minha barra: três coxinhas. Se eu tivesse comido 6 fatias, eu tava cheio.",
+     "tela": "HUD do mel: 3 coxinhas"
+    },
+    {
+     "who": "Problems",
+     "text": "Exatamente. Quem comeu tava com fome quando chegou na festa, e agora tá de barriga cheia. Quem aqui chegou reclamando de fome?",
+     "tela": "foco problems olhando um por um"
+    },
+    {
+     "who": "Kadu",
+     "text": "Eu tô cheio porque... eu comi... um outro bolo... de outra festa.",
+     "tela": "todos viram pro kadu. HUD do kadu cheia. Flashback rápido do kadu chegando: “tô morrendo de fome”"
+    },
+    {
+     "who": "Problems",
+     "text": "Kadu, tem cobertura de bolo no seu chapéu.",
+     "tela": "close no chapéu preto do kadu com cobertura branca"
+    },
+    {
+     "who": "Kadu",
+     "text": "...Droga.",
+     "tela": "CORTE SECO"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Então posso comer a última fatia?",
+     "tela": "brucutu já indo pro bolo"
+    },
+    {
+     "who": "Problems",
+     "text": "Pode, Brucutu. Ah... não pode. Você tá cheio.",
+     "tela": "brucutu tenta morder, nada acontece. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-08-julgando-meus-amigos-no-minecraft",
+   "numero": 8,
+   "titulo": "Julgando Meus Amigos no Minecraft ⚖️",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Comédia da turma",
+   "potencial": "Julgando meus amigos no ROBLOX fez 3,75 mi e Julgando MAIS Amigos fez 1,98 mi. Agora no Minecraft, cada 'crime' usa uma regra real que o menino reconhece. O último caso é um mini duelo de gênios.",
+   "legenda": "TRIBUNAL DO MINECRAFT",
+   "edicao": "Som de martelo a cada 'Culpado'. Flashback rápido de cada crime.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Problems",
+     "text": "Silêncio no tribunal! Hoje eu vou julgar os crimes da turma no Minecraft. Primeiro réu: Stick.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): versão Minecraft do Julgando Meus Amigos no Roblox. O Problems é o juiz, cada um da turma é acusado de um crime que é um erro clássico do Minecraft, e no fim viram o jogo contra o juiz. Regras reais: cama no Nether explode; picareta de ouro é a mais rápida, mas quebra com uns 32 blocos e não minera minério de ouro. CENISTA: um tribunal de blocos, o Problems de juiz com martelo e um banco dos réus."
+    },
+    {
+     "who": "Problems",
+     "text": "Stick, você é acusado de colocar uma cama no Nether pra dormir rapidinho.",
+     "tela": "close no stick no banco dos réus"
+    },
+    {
+     "who": "Stick",
+     "text": "Eu só queria pular a noite!",
+     "tela": "stick se defendendo"
+    },
+    {
+     "who": "Problems",
+     "text": "No Nether não tem noite, Stick. E cama no Nether explode. Você explodiu a base inteira.",
+     "tela": "flashback: stick deita na cama no nether e BOOM"
+    },
+    {
+     "who": "Stick",
+     "text": "Mas ela era bem bonita antes.",
+     "tela": "foco stick triste"
+    },
+    {
+     "who": "Problems",
+     "text": "Culpado. Próximo: Brucutu. Você é acusado de tentar minerar ouro com picareta de ouro.",
+     "tela": "som de martelo. Brucutu sentando"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Mas ela é a mais rápida!",
+     "tela": "brucutu orgulhoso"
+    },
+    {
+     "who": "Problems",
+     "text": "Ela é rápida, mas quebra com uns 32 blocos, e não minera minério de ouro. Você gastou 9 barras de ouro em 3 picaretas e saiu com zero ouro.",
+     "tela": "flashback: brucutu batendo no minério de ouro e nada caindo, picareta quebrando. Números 32 e 9 em ciano"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Mas eram picaretas bonitas.",
+     "tela": "foco brucutu"
+    },
+    {
+     "who": "Problems",
+     "text": "Culpado. Próximo: Kadu. Você é acusado de mexer no meu baú.",
+     "tela": "som de martelo"
+    },
+    {
+     "who": "Kadu",
+     "text": "Isso é mentira! Eu nem sabia que você guardava 5 diamantes lá.",
+     "tela": "kadu indignado"
+    },
+    {
+     "who": "Problems",
+     "text": "Eu nunca disse que eram 5.",
+     "tela": "silêncio. Zoom lento no kadu"
+    },
+    {
+     "who": "Kadu",
+     "text": "...Droga.",
+     "tela": "CORTE SECO. Som de martelo: “Culpado”"
+    },
+    {
+     "who": "Mel",
+     "text": "E você, Problems? Quem julga o juiz?",
+     "tela": "mel levantando a mão no fundo. Todos olham pro problems"
+    },
+    {
+     "who": "Problems",
+     "text": "Sessão encerrada!",
+     "tela": "problems bate o martelo e sai correndo do tribunal. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-09-o-verity-revelou-quem-a-vampira-ama",
+   "numero": 9,
+   "titulo": "O Verity Revelou Quem a Vampira Ama 🟡💘",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Romance da turma + Verity",
+   "potencial": "Junta os dois temas fortes do período: Verity (Verity X Falsity, 3,43 mi) e o romance da turma (Namoradas da Turma, 7,2 mi). As dicas são perguntas abertas uma em cima da outra, e o menino sabe a resposta antes do Problems admitir.",
+   "legenda": "QUEM A VAMPIRA AMA?",
+   "edicao": "Voz do Verity com efeito de assistente. Cada dica aparece escrita na tela, uma por vez.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Kadu",
+     "text": "Verity, você sabe de tudo, né? Então responde: quem a Vampira ama de verdade?",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): o Verity (a bolinha amarela que sabe tudo) vai revelar quem a Vampira ama. A Vampira ameaça, o Kadu pede dicas, e cada dica deixa o Problems mais nervoso. No fim o Problems desliga o Verity bem na hora errada. CENISTA: a turma em volta do Verity, um botão de liga e desliga nas costas dele e a Vampira do lado."
+    },
+    {
+     "who": "Verity",
+     "text": "Olá! Eu sou o Verity, seu assistente pessoal. Eu sei, sim. Quer que eu fale?",
+     "tela": "verity girando feliz"
+    },
+    {
+     "who": "Vampira",
+     "text": "Não! Verity, se você abrir a boca, eu te jogo na lava.",
+     "tela": "vampira segurando o verity"
+    },
+    {
+     "who": "Kadu",
+     "text": "Então só uma dica, Verity.",
+     "tela": "kadu chegando perto"
+    },
+    {
+     "who": "Verity",
+     "text": "Dica um: a cor dele começa com a letra C.",
+     "tela": "LEGENDA NA TELA: “DICA 1: COR COM C”"
+    },
+    {
+     "who": "Kadu",
+     "text": "Ciano?! Isso é o Problems!",
+     "tela": "todos olham pro problems"
+    },
+    {
+     "who": "Problems",
+     "text": "Ou cinza. Tem um monte de gente cinza por aí.",
+     "tela": "problems nervoso, suando"
+    },
+    {
+     "who": "Verity",
+     "text": "Dica dois: ele é o dono do canal.",
+     "tela": "LEGENDA NA TELA: “DICA 2: DONO DO CANAL”"
+    },
+    {
+     "who": "Problems",
+     "text": "...Tem muito canal no YouTube.",
+     "tela": "foco problems disfarçando"
+    },
+    {
+     "who": "Verity",
+     "text": "Dica três: ele tá agora tentando me desligar.",
+     "tela": "close na mão do problems no botão de desligar do verity. Todos olham"
+    },
+    {
+     "who": "Problems",
+     "text": "Eu só ia... limpar ele.",
+     "tela": "problems tirando a mão devagar"
+    },
+    {
+     "who": "Verity",
+     "text": "E quem o Problems ama de verdade é...",
+     "tela": "verity começando a falar. Problems aperta o botão"
+    },
+    {
+     "who": "Problems",
+     "text": "VERITY, DESLIGA!",
+     "tela": "tela preta"
+    },
+    {
+     "who": "Vampira",
+     "text": "Liga ele de novo!",
+     "tela": "tela ainda preta, só a voz. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-10-picaretas-do-minecraft-sao-assim",
+   "numero": 10,
+   "titulo": "Picaretas do Minecraft São Assim ⛏️",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Comparação",
+   "potencial": "Mesmo jeito de Baterias dos Celulares é ASSIM (3,79 mi): uma lista curta de coisas que todo menino conhece, uma piada por item e um final surpresa. Regras reais: a de ouro é a mais rápida, mas quebra com uns 32 blocos e não minera ouro; netherite não queima na lava.",
+   "legenda": "PICARETAS DO MINECRAFT SÃO ASSIM",
+   "edicao": "Cada picareta aparece grande no centro da tela com o nome, como as baterias no vídeo dos celulares.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Problems",
+     "text": "Essa é a picareta de madeira. Todo mundo começa com ela, e todo mundo larga ela no primeiro minuto.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): mesma estrutura do Baterias dos Celulares é ASSIM. Cada picareta é segurada por um da turma que combina com ela, e o Problems narra. Final surpresa: a picareta do Problems. Regras reais: a de ouro é a mais rápida de todas, mas quebra com uns 32 blocos e não minera minério de ouro; a de netherite não queima na lava. CENISTA: as 6 picaretas, cada uma na mão de um personagem: madeira com o Stick, pedra com o Brucutu, ferro com o Kadu, ouro com o Mel, diamante com o Zoom e netherite com o Kadu de novo."
+    },
+    {
+     "who": "Stick",
+     "text": "Ei! Eu ainda uso ela!",
+     "tela": "stick abraçado na picareta de madeira"
+    },
+    {
+     "who": "Problems",
+     "text": "Pois é, Stick. Essa é a picareta de pedra. Ela não é bonita, ela não é rápida, mas ela nunca te abandona.",
+     "tela": "brucutu segurando a de pedra, sorrindo"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Igual eu.",
+     "tela": "foco brucutu"
+    },
+    {
+     "who": "Problems",
+     "text": "A de ferro já é outra coisa. Ela minera diamante. É a primeira vez que você se sente rico no Minecraft.",
+     "tela": "kadu com a de ferro, minerando um diamante e comemorando"
+    },
+    {
+     "who": "Problems",
+     "text": "Agora, a picareta de ouro. Ela é a mais rápida do jogo. Mais rápida até que a de diamante.",
+     "tela": "mel com a de ouro minerando pedra numa velocidade absurda"
+    },
+    {
+     "who": "Mel",
+     "text": "Sou o mais rápido mesmo.",
+     "tela": "mel se achando"
+    },
+    {
+     "who": "Problems",
+     "text": "Só que ela quebra depois de uns 32 blocos. E se você tentar minerar ouro com ela, não cai nada.",
+     "tela": "a picareta do mel quebra. Ele bate num minério de ouro e não cai nada"
+    },
+    {
+     "who": "Mel",
+     "text": "...Então pra que eu sirvo?",
+     "tela": "foco mel"
+    },
+    {
+     "who": "Problems",
+     "text": "Pra ser bonito, Mel. A de diamante é a que todo mundo quer. Dura muito e minera tudo.",
+     "tela": "zoom com a de diamante, brilhando"
+    },
+    {
+     "who": "Problems",
+     "text": "E a de netherite é a de quem já zerou o jogo. Ela nem queima na lava.",
+     "tela": "kadu de netherite jogando a picareta na lava e ela boiando, intacta"
+    },
+    {
+     "who": "Problems",
+     "text": "E essa aqui é a minha.",
+     "tela": "problems mostra uma picareta de madeira toda brilhando, encantada"
+    },
+    {
+     "who": "Kadu",
+     "text": "Madeira?!",
+     "tela": "kadu chocado"
+    },
+    {
+     "who": "Problems",
+     "text": "Madeira encantada, Kadu. Não é a melhor. Mas foi a primeira, e ela nunca me deixou na mão.",
+     "tela": "problems olhando pra picareta com carinho. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-11-o-primeiro-encontro-do-brucutu",
+   "numero": 11,
+   "titulo": "O Primeiro Encontro do Brucutu 💐🎧",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Romance da turma",
+   "potencial": "Romance da turma (Namoradas da Turma, 7,2 mi) com uma piada de repetição que o menino entende sem som: o Brucutu repete tudo o que o Problems fala no fone. A virada pagou: a Jujubinha gosta justamente do Brucutu atrapalhado.",
+   "legenda": "O PRIMEIRO ENCONTRO DO BRUCUTU",
+   "edicao": "A voz do Problems no fone com efeito de rádio. Quando o Brucutu repete, legenda igual à do Problems.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Brucutu",
+     "text": "Problems, hoje é meu primeiro encontro com a Jujubinha e eu não sei o que falar.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): o Problems ajuda o Brucutu num encontro com a Jujubinha falando num fone, e o Brucutu repete TUDO, até o que não era pra repetir. A Jujubinha descobre, mas acaba gostando do Brucutu do jeito que ele é. CENISTA: um restaurante de blocos com uma mesa pra dois, flores, e o Problems escondido atrás de uma planta com um microfone."
+    },
+    {
+     "who": "Problems",
+     "text": "Relaxa. Coloca esse fone. Eu falo tudo que você tem que dizer, e você só repete.",
+     "tela": "problems colocando o fone no brucutu"
+    },
+    {
+     "who": "Problems",
+     "text": "Fala: “Oi, Jujubinha. Você tá linda hoje.”",
+     "tela": "restaurante. Problems escondido atrás de uma planta, falando no microfone"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Oi, Jujubinha. Você tá linda hoje.",
+     "tela": "brucutu sentado, duro feito pedra"
+    },
+    {
+     "who": "Jujubinha",
+     "text": "Ai, obrigada, Brucutu.",
+     "tela": "jujubinha sorrindo"
+    },
+    {
+     "who": "Problems",
+     "text": "Agora elogia o vestido. Fala que combina com os olhos dela.",
+     "tela": "problems no microfone"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Agora elogia o vestido. Fala que combina com os olhos dela.",
+     "tela": "brucutu repetindo palavra por palavra"
+    },
+    {
+     "who": "Jujubinha",
+     "text": "...Quem tá falando com você?",
+     "tela": "jujubinha desconfiada"
+    },
+    {
+     "who": "Problems",
+     "text": "Não fala que sou eu!",
+     "tela": "problems desesperado atrás da planta"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Não fala que sou eu!",
+     "tela": "brucutu repetindo, sério"
+    },
+    {
+     "who": "Jujubinha",
+     "text": "Problems?! Você tá no fone dele?",
+     "tela": "jujubinha olhando direto pra planta"
+    },
+    {
+     "who": "Problems",
+     "text": "Brucutu, inventa alguma coisa, rápido!",
+     "tela": "problems se escondendo mais"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Brucutu, inventa alguma coisa, rápido!",
+     "tela": "silêncio. Jujubinha olhando o brucutu"
+    },
+    {
+     "who": "Jujubinha",
+     "text": "Sabe que você é muito engraçado, Brucutu? Ninguém nunca me fez rir assim. Mas da próxima vez, vem sem o Problems.",
+     "tela": "jujubinha rindo e segurando a mão do brucutu"
+    },
+    {
+     "who": "Problems",
+     "text": "...Eu ia falar exatamente isso.",
+     "tela": "problems sozinho atrás da planta, tirando o fone. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-12-quando-o-noob-e-viciado-no-minecraft",
+   "numero": 12,
+   "titulo": "Quando o Noob É Viciado no Minecraft 🪓🛡️",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Noob x pro",
+   "potencial": "Mesma estrutura de Quando o NOOB é VICIADO (5,4 mi): o pro se acha e o 'noob' vence com conhecimento. Regra real: o machado desativa o escudo por 5 segundos, um detalhe de PvP que o menino adora saber.",
+   "legenda": "10 MIL HORAS DE PVP",
+   "edicao": "Ícone de escudo ficando cinza com um contador de 5 segundos na tela quando o machado acerta.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Stick",
+     "text": "Lá vem o Kadu, o cara com 10 mil horas de PvP.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): versão Minecraft do Quando o NOOB é VICIADO. O Kadu se acha imbatível com o escudo, o Stick parece noob com equipamento de madeira e vence com uma regra real: o machado desativa o escudo por 5 segundos. CENISTA: uma arena de PvP, o Kadu de netherite com escudo, o Stick com espada e machado de madeira."
+    },
+    {
+     "who": "Kadu",
+     "text": "Isso mesmo. E com esse escudo, ninguém encosta em mim. Muito menos você com essa espada de madeira.",
+     "tela": "kadu batendo no escudo, se achando"
+    },
+    {
+     "who": "Stick",
+     "text": "Escudo é coisa de quem tem medo.",
+     "tela": "stick de boa"
+    },
+    {
+     "who": "Kadu",
+     "text": "Escudo é coisa de quem ganha. Faz assim: se você me acertar um único golpe, eu te dou minha armadura de netherite.",
+     "tela": "kadu rindo, estendendo a mão pra apostar"
+    },
+    {
+     "who": "Stick",
+     "text": "Fechado.",
+     "tela": "stick aperta a mão do kadu e troca a espada por um machado de madeira"
+    },
+    {
+     "who": "Kadu",
+     "text": "Um machado de madeira? Isso é pior que a espada!",
+     "tela": "kadu gargalhando"
+    },
+    {
+     "who": "Stick",
+     "text": "Pode ser. Mas sabe o que o machado faz num escudo?",
+     "tela": "stick bate no escudo do kadu. Ícone do escudo fica cinza. LEGENDA NA TELA: “ESCUDO DESATIVADO: 5 SEGUNDOS”"
+    },
+    {
+     "who": "Kadu",
+     "text": "O quê? Meu escudo não levanta!",
+     "tela": "kadu tentando levantar o escudo, não funciona"
+    },
+    {
+     "who": "Stick",
+     "text": "Machado desliga o escudo por 5 segundos. E 5 segundos é tempo demais.",
+     "tela": "sequência rápida de golpes do stick. Contador 5... 4... 3..."
+    },
+    {
+     "who": "Kadu",
+     "text": "Como você sabia disso?",
+     "tela": "kadu caído, sem a armadura (de roupa normal)"
+    },
+    {
+     "who": "Stick",
+     "text": "10 mil horas de PvP e você nunca leu as regras. Falei que era noob.",
+     "tela": "stick vestindo a armadura de netherite do kadu. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-13-quem-falar-67-cai-na-lava-67",
+   "numero": 13,
+   "titulo": "Quem Falar 67 Cai na Lava 6️⃣7️⃣🔥",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Desafio da turma",
+   "potencial": "O meme 67 rende no canal (67 vs 42 fez 2,6 mi, com 4,8% de likes, e o Campeonato de FARMAR AURA 6️⃣7️⃣ fez 1,25 mi). As armadilhas de fala são perguntas que o menino quer responder junto. No final todo mundo perde, e faz sentido.",
+   "legenda": "QUEM FALAR 67 CAI NA LAVA",
+   "edicao": "Quando alguém fala 67, som de alarme e corte seco pra lava. A palavra 67 aparece grande na tela.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Problems",
+     "text": "Desafio: quem falar 67 primeiro cai na lava. E vale tudo pra fazer o outro falar.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): desafio do meme 67. A turma em cima de uma plataforma sobre a lava, e quem falar 67 cai. Cada um tenta fazer o outro falar com uma pegadinha. No fim o próprio Problems fala sem querer e, comemorando, todo mundo fala junto. CENISTA: uma plataforma de blocos em cima de um lago de lava, com um alçapão embaixo de cada personagem."
+    },
+    {
+     "who": "Stick",
+     "text": "Fácil. Eu nem gosto desse meme.",
+     "tela": "stick confiante"
+    },
+    {
+     "who": "Kadu",
+     "text": "Stick, quanto é sessenta mais sete?",
+     "tela": "kadu sorrindo de lado"
+    },
+    {
+     "who": "Stick",
+     "text": "Sessenta e... e... MUITOS! Sessenta e muitos!",
+     "tela": "stick suando, quase falando. Zoom no rosto dele"
+    },
+    {
+     "who": "Kadu",
+     "text": "Brucutu, quantos anos você tem?",
+     "tela": "kadu virando pro brucutu"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Eu? Sei lá. Uns seis... sete...",
+     "tela": "todos olham pro brucutu"
+    },
+    {
+     "who": "Problems",
+     "text": "Seis, sete. Conta, Brucutu.",
+     "tela": "alçapão do brucutu abre. Ele cai na lava. Som de alarme"
+    },
+    {
+     "who": "Mel",
+     "text": "Kadu, qual é o número da sua casa?",
+     "tela": "mel virando pro kadu"
+    },
+    {
+     "who": "Kadu",
+     "text": "Sessenta e... OITO! Sessenta e oito.",
+     "tela": "kadu suando, se salvando"
+    },
+    {
+     "who": "Kadu",
+     "text": "Problems, você tá muito quieto.",
+     "tela": "LEGENDA NA TELA: “1 HORA DEPOIS”. Só sobraram o problems, o kadu e o stick"
+    },
+    {
+     "who": "Problems",
+     "text": "Quem fala muito perde, Kadu. Por isso eu ganhei. O prêmio é... sessenta e sete diamantes.",
+     "tela": "problems comemorando. Silêncio de 1 segundo. Ele percebe o que falou"
+    },
+    {
+     "who": "Kadu",
+     "text": "SEIS SETE!",
+     "tela": "alçapão do problems abre. Kadu e stick comemorando, gritando juntos e fazendo o gesto do meme"
+    },
+    {
+     "who": "Stick",
+     "text": "SEIS SETE! Ih...",
+     "tela": "os alçapões do kadu e do stick abrem também. Todo mundo na lava. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-14-o-kadu-esqueceu-a-senha",
+   "numero": 14,
+   "titulo": "O Kadu Esqueceu a Senha 🔑🤣",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Comédia da turma",
+   "potencial": "TROCANDO DE SENHA no ROBLOX fez 3,72 mi. Aqui as perguntas de segurança viram uma disputa de quem conhece mais o Kadu, e o final volta pra primeira resposta (o lobo Kadu 2).",
+   "legenda": "PERGUNTAS DE SEGURANÇA",
+   "edicao": "Cada pergunta aparece na tela como um formulário de recuperação de conta, com ✅ ou ❌ e o som de cada um.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Kadu",
+     "text": "Gente, me ajuda. Eu esqueci a senha da minha conta do Minecraft e agora tem que responder as perguntas de segurança.",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): o Kadu esqueceu a senha e a turma ajuda nas perguntas de segurança. Cada pergunta revela uma coisa engraçada dele, e no final a resposta certa volta pra primeira pergunta. CENISTA: uma tela grande de recuperação de conta, com as perguntas aparecendo uma por vez, e a turma em volta."
+    },
+    {
+     "who": "Problems",
+     "text": "Primeira pergunta: qual o nome do seu primeiro pet?",
+     "tela": "LEGENDA NA TELA: “QUAL O NOME DO SEU PRIMEIRO PET?”"
+    },
+    {
+     "who": "Kadu",
+     "text": "Primeiro pet? Eu nunca tive pet.",
+     "tela": "kadu coçando a cabeça"
+    },
+    {
+     "who": "Problems",
+     "text": "Teve sim. Aquele lobo que você domou com osso e deu o nome de Kadu 2.",
+     "tela": "flashback: kadu dando osso pra um lobo, colocando uma coleira com placa “KADU 2”"
+    },
+    {
+     "who": "Kadu",
+     "text": "Ah, é! Kadu 2.",
+     "tela": "✅ verde na tela"
+    },
+    {
+     "who": "Stick",
+     "text": "Segunda: qual é o seu maior medo? Fácil. Creeper.",
+     "tela": "LEGENDA NA TELA: “QUAL É O SEU MAIOR MEDO?”"
+    },
+    {
+     "who": "Kadu",
+     "text": "Errado. Eu não tenho medo de creeper.",
+     "tela": "kadu orgulhoso"
+    },
+    {
+     "who": "Mel",
+     "text": "Então é a Vampira.",
+     "tela": "silêncio"
+    },
+    {
+     "who": "Kadu",
+     "text": "...Coloca Vampira.",
+     "tela": "✅ verde na tela. Todos olham pro kadu"
+    },
+    {
+     "who": "Problems",
+     "text": "Última: quem é o seu melhor amigo? Essa é fácil. Sou eu.",
+     "tela": "LEGENDA NA TELA: “QUEM É O SEU MELHOR AMIGO?”. Problems digitando “Problems”: ❌ vermelho"
+    },
+    {
+     "who": "Problems",
+     "text": "Errado?! Quem você colocou, Kadu?",
+     "tela": "problems ofendido"
+    },
+    {
+     "who": "Kadu",
+     "text": "Eu não lembro! Faz anos!",
+     "tela": "stick digita “Stick”: ❌. Mel digita “Mel”: ❌. LEGENDA NA TELA: “ÚLTIMA TENTATIVA”"
+    },
+    {
+     "who": "Kadu",
+     "text": "Peraí... Kadu 2.",
+     "tela": "kadu digitando devagar: ✅ verde. “CONTA RECUPERADA”"
+    },
+    {
+     "who": "Problems",
+     "text": "O seu melhor amigo é... o seu lobo?",
+     "tela": "todos olhando pro kadu"
+    },
+    {
+     "who": "Kadu",
+     "text": "Pelo menos ele nunca me pediu senha.",
+     "tela": "kadu fazendo carinho no lobo Kadu 2. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "doc-15-10-segundos-pra-esconder-o-diamante",
+   "numero": 15,
+   "titulo": "10 Segundos Pra Esconder o Diamante 💎🫣",
+   "origem": "15 roteiros (já no Doc)",
+   "status": "novos",
+   "tema": "Mentalista",
+   "potencial": "O Problems mentalista lendo a turma (Mentalistas no Minecraft, 5,6 mi), mas em formato de brincadeira com toda a turma, um esconderijo por personagem. O final é o Brucutu vencendo sem querer, com um esconderijo que faz sentido.",
+   "legenda": "10 SEGUNDOS PRA ESCONDER",
+   "edicao": "Contagem regressiva grande na tela. A cada descoberta, flashback rápido da pessoa escondendo.",
+   "ideia": "",
+   "pergunta": "",
+   "duracao": "",
+   "personagens": "",
+   "cenario": "",
+   "notas": "",
+   "falas": [
+    {
+     "who": "Problems",
+     "text": "Vocês têm 10 segundos pra esconder um diamante nessa sala. Eu vou achar todos. Valendo!",
+     "tela": "FORMATO E CENÁRIO (nota pro editor e pro cenista): o Problems mentalista acha o diamante de cada um lendo o jeito da pessoa. O Brucutu vence sem querer: ele escondeu no bolso do próprio Problems quando passou por ele. CENISTA: uma sala com tapete, vaso de flor, mesa, baú, fornalha, cama e quadro. CONTAGEM de 10 rápida com cada um correndo pra esconder."
+    },
+    {
+     "who": "Problems",
+     "text": "Stick. Embaixo do tapete. Você olhou pro tapete três vezes enquanto eu contava.",
+     "tela": "flashback: stick olhando pro tapete. Problems levanta o tapete: diamante"
+    },
+    {
+     "who": "Stick",
+     "text": "Como você...?",
+     "tela": "foco stick"
+    },
+    {
+     "who": "Problems",
+     "text": "Mel. Você é rápido, então escondeu no lugar mais perto de você: dentro do vaso de flor.",
+     "tela": "problems tirando o diamante do vaso"
+    },
+    {
+     "who": "Mel",
+     "text": "Droga.",
+     "tela": "foco mel"
+    },
+    {
+     "who": "Problems",
+     "text": "Kadu. Você pensou: “o Problems vai procurar nos lugares difíceis”. Por isso deixou o diamante em cima da mesa, na frente de todo mundo.",
+     "tela": "close na mesa: o diamante ali, à vista"
+    },
+    {
+     "who": "Kadu",
+     "text": "...Eu odeio você.",
+     "tela": "foco kadukos"
+    },
+    {
+     "who": "Problems",
+     "text": "E o Brucutu... Brucutu, onde você escondeu?",
+     "tela": "problems procurando no baú, na fornalha, embaixo da cama, atrás do quadro. Nada"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Escondi bem escondido.",
+     "tela": "brucutu sorrindo"
+    },
+    {
+     "who": "Problems",
+     "text": "Eu desisto. Onde tá, Brucutu?",
+     "tela": "problems cansado"
+    },
+    {
+     "who": "Brucutu",
+     "text": "No seu bolso. Eu tava com pressa, então coloquei no primeiro lugar que vi quando passei por você.",
+     "tela": "flashback em câmera lenta: brucutu passando e colocando o diamante no inventário do problems durante a contagem"
+    },
+    {
+     "who": "Kadu",
+     "text": "O Brucutu ganhou do mentalista.",
+     "tela": "problems abrindo o próprio inventário: o diamante lá"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Posso ficar com o diamante de prêmio?",
+     "tela": "brucutu esticando a mão"
+    },
+    {
+     "who": "Problems",
+     "text": "Ele já tá comigo, Brucutu.",
+     "tela": "problems guardando o diamante. Brucutu pensando. Se entrar o “Chegou o livro do Problems”, é depois dessa fala"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "rasc-001-100-baus",
+   "numero": 1,
+   "titulo": "100 Baús: Só 1 Tem Diamante 💎💥",
+   "origem": "Rascunho (pasta roteiros)",
+   "status": "novos",
+   "tema": "",
+   "potencial": "",
+   "legenda": "",
+   "edicao": "",
+   "ideia": "100 baús, só 1 tem diamante, 99 explodem.",
+   "pergunta": "qual é o baú certo?",
+   "duracao": "~42 s",
+   "personagens": "Problems (ciano, apresenta), Brucutu (branco), Stick (verde), Kadu (vermelho)",
+   "cenario": "campo aberto com um paredão de 99 baús. O Problems fica o vídeo todo em pé em cima de um baú, na frente do paredão. É o 100º baú, o do diamante. Ele aparece desde o primeiro frame, sem destaque nenhum.",
+   "notas": "Notas para o editor\n- O contador no canto conta a história para quem assiste sem som. A pista do #9 (\"2\", mas só 1 baú na parede) premia quem reparar.\n- O baú debaixo do Problems não pode ter destaque antes do #14: sem brilho e sem zoom. A graça é estar na cara o vídeo todo, e quem voltar pro 1º segundo vai ver.\n- Legendas nas cores da turma: ciano (Problems), branco (Brucutu), verde (Stick), vermelho (Kadu).\n- Cortes secos em cada explosão. O #8 é o único caos longo: no máximo 3 segundos.\n- O \"Chegou o livro do Problems\", se entrar, vem depois do #16.\n\nAberturas alternativas\n1. Começar na explosão: o 1º frame é o BOOM do Brucutu. O Problems, calmo: \"Faltam 99. Só um tem 64 diamantes.\" Entrega ação no 1º segundo, mas o Problems precisa aparecer em cima do baú logo em seguida.\n2. O menino joga junto: texto no #1: \"Ache o diamante antes deles 👀\". Ele procura e comenta. O risco é achar cedo e sair.\n\nMaior risco\nO #4 e o #7 são as falas mais longas. Se a retenção cair por volta de 0:09–0:20, corte a segunda frase do Stick no #4 (\"O baú que tiver quietinho...\") e deixe o #5 fazer esse trabalho.",
+   "falas": [
+    {
+     "who": "Problems",
+     "text": "Desses 100 baús, só um tem 64 diamantes. Os outros 99 têm TNT. Quem achar o certo fica com tudo.",
+     "tela": "Paredão gigante de baús. Problems em pé em cima de um baú, na frente. Texto: 100 BAÚS · 1 COM 64 💎 · 99 COM TNT · Contador no canto: 100"
+    },
+    {
+     "who": "Brucutu",
+     "text": "Eu sou o primeiro, Problems! Eu tô sentindo que é esse aqui!",
+     "tela": "Brucutu já correndo pro paredão"
+    },
+    {
+     "who": "",
+     "text": "",
+     "tela": "Abre um baú qualquer. BOOM. Brucutu voa pra fora do quadro. Contador 99 *(explosão)*"
+    },
+    {
+     "who": "Stick",
+     "text": "Vocês não pensam. A TNT faz barulho antes de explodir, então é só escutar. O baú que tiver quietinho é o do diamante.",
+     "tela": "Stick encosta a orelha nos baús, um por um, todo concentrado"
+    },
+    {
+     "who": "Stick",
+     "text": "Achei. Esse aqui tá quietinho.",
+     "tela": "Stick sorri pra um baú"
+    },
+    {
+     "who": "",
+     "text": "",
+     "tela": "Abre. BOOM. Stick sai preto de fumaça. Contador 98 *(explosão)*"
+    },
+    {
+     "who": "Kadu",
+     "text": "Stick, TNT dentro de baú não faz barulho nenhum, seu burro. Vocês tão perdendo tempo. Se eu abrir todos de uma vez, um deles vai ter que ser o diamante.",
+     "tela": "Kadu passando pelo Stick, rindo"
+    },
+    {
+     "who": "",
+     "text": "",
+     "tela": "Kadu correndo e abrindo um atrás do outro. Explosão em cadeia, câmera treme, blocos voando. Contador despencando 98… 60… 20… 2 *(explosões)*"
+    },
+    {
+     "who": "Kadu",
+     "text": "*(todo queimado, abraçando o baú)* Sobrou um. Esse é meu!",
+     "tela": "A fumaça baixa. Paredão destruído. Sobrou só 1 baú de pé. Contador: 2 *(pista: são 2, mas só 1 aparece na parede)*"
+    },
+    {
+     "who": "Problems",
+     "text": "Kadu, se eu fosse você, eu não abriria esse.",
+     "tela": "Problems tranquilo, ainda em cima do baú dele"
+    },
+    {
+     "who": "Kadu",
+     "text": "Você só tá falando isso porque quer o diamante pra você, Problems.",
+     "tela": "Kadu desconfiado"
+    },
+    {
+     "who": "",
+     "text": "",
+     "tela": "Kadu abre. BOOM, o maior do vídeo. A turma toda é jogada pra trás. Contador 1 *(explosão)*"
+    },
+    {
+     "who": "Stick",
+     "text": "Mas pera aí. Explodiram os 99. Cadê o baú do diamante?",
+     "tela": "Turma caída e chamuscada olhando o buraco"
+    },
+    {
+     "who": "Problems",
+     "text": "Tá aqui, Stick. Eu falei que um desses 100 baús tinha diamante. Eu nunca falei que ele tava na parede.",
+     "tela": "Problems desce do baú dele, abre: 💎 brilha. A turma vira pra ele"
+    },
+    {
+     "who": "Kadu",
+     "text": "Você ficou em pé em cima dele o tempo todo?! Isso é roubado, Problems!",
+     "tela": "Kadu apontando, indignado"
+    },
+    {
+     "who": "Problems",
+     "text": "Tava na frente de vocês desde o primeiro segundo. Ninguém achou, então os diamantes continuam comigo.",
+     "tela": "Problems guardando os diamantes, plim plim plim. Texto: Tava no primeiro segundo 👀"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "rasc-002-apagaram-a-comida",
+   "numero": 2,
+   "titulo": "Kadu Apagou Toda a Comida do Minecraft 🍖☠️",
+   "origem": "Rascunho (pasta roteiros)",
+   "status": "novos",
+   "tema": "",
+   "potencial": "",
+   "legenda": "",
+   "edicao": "",
+   "ideia": "Kadu apagou toda a comida do Minecraft.",
+   "pergunta": "como o Problems sobrevive sem comer?",
+   "duracao": "~48 s",
+   "personagens": "Problems (legenda ciano) e Kadu (legenda vermelha)",
+   "cenario": "servidor de sobrevivência, campo aberto. O Kadu está do lado de um bloco de comando.",
+   "notas": "Notas para o editor\n- A HUD conta a história para quem assiste sem som: barra de fome e corações sempre grandes no #4, #8 e #12.\n- Legenda colorida palavra por palavra, como nos Shorts atuais: ciano pro Problems e vermelho pro Kadu.\n- O bife é o fio do vídeo. Ele some no #1 e volta no #15, e a mordida que foi interrompida no começo acontece no #17. O animador deve repetir o mesmo enquadramento do #1 no #17.\n- O baú do #10 precisa ficar bem visível, porque a última fala depende dele.\n- Barriga roncando no #12: é o momento em que o jogo vira contra o Kadu.\n- O \"Chegou o livro do Problems\", se entrar, vem depois do #19.\n\nAberturas alternativas\n1. O Problems primeiro, como em \"Zerei Sem Fazer Nada\": \"Kadu, eu não preciso mais comer no Minecraft.\" Logo depois, o Kadu revela que apagou a comida.\n2. Só a HUD: primeiro frame é a barra de fome zerando, com o texto \"Toda a comida do Minecraft foi apagada\", e a fala do Kadu por cima.\n\nMaior risco\nA fala do #4 é a mais longa e a mais \"técnica\". A HUD mostrando os corações parando em meio coração tem que explicar junto com a fala. Se a retenção cair entre 0:08 e 0:13, corte a última frase (\"Ela não mata ninguém\").",
+   "falas": [
+    {
+     "who": "Kadu",
+     "text": "Problems, eu apaguei toda a comida do servidor. Vaca, pão, maçã, tudo. Quero ver você sobreviver agora.",
+     "tela": "Problems quase mordendo um bife. POOF: o bife some da mão dele. Atrás, vacas e galinhas somem em fumaça. Kadu rindo do lado do bloco de comando. Texto: TODA A COMIDA FOI APAGADA"
+    },
+    {
+     "who": "Problems",
+     "text": "Tranquilo, Kadu. Eu não preciso mais comer.",
+     "tela": "Problems olha pra mão vazia, calmo"
+    },
+    {
+     "who": "Kadu",
+     "text": "Como assim não precisa? Sem comida você vai morrer de fome, Problems.",
+     "tela": "Kadu para de rir"
+    },
+    {
+     "who": "Problems",
+     "text": "É aí que você se engana. No Normal, a fome vai tirando seus corações, mas ela para quando sobra meio. Ela não mata ninguém.",
+     "tela": "Close na HUD: a barra de fome do Problems zera, os corações vão descendo e param em meio coração. Texto: NO NORMAL A FOME NÃO MATA"
+    },
+    {
+     "who": "Kadu",
+     "text": "Ah, é? Então pronto. Agora o servidor tá no Difícil, e no Difícil a fome mata.",
+     "tela": "Kadu digitando. Chat na tela: /difficulty hard"
+    },
+    {
+     "who": "Problems",
+     "text": "Beleza. Então eu vou morrer.",
+     "tela": "Problems dá de ombros"
+    },
+    {
+     "who": "Kadu",
+     "text": "Quê? Você vai desistir assim?",
+     "tela": "Kadu de boca aberta"
+    },
+    {
+     "who": "Problems",
+     "text": "Não é desistir, Kadu. Quando a gente renasce, a barra de fome volta cheia. Então toda vez que ela acabar, é só morrer de novo.",
+     "tela": "Problems cai. Tela vermelha \"Você morreu!\" → Renascer → ele aparece na cama com a barra de fome cheia, brilhando"
+    },
+    {
+     "who": "Kadu",
+     "text": "Mas quem morre perde tudo que tem no inventário, Problems.",
+     "tela": "Kadu apontando pro Problems"
+    },
+    {
+     "who": "Problems",
+     "text": "Por isso eu guardei tudo nesse baú antes de morrer.",
+     "tela": "Problems abre um baú lotado: armadura, ferramentas, diamantes"
+    },
+    {
+     "who": "Kadu",
+     "text": "Tá bom, então fica aí morrendo pra sempre. Eu não tô nem aí.",
+     "tela": "Kadu de braços cruzados, rindo de novo"
+    },
+    {
+     "who": "Problems",
+     "text": "Eu fico. Mas e você, Kadu? Você também tá no Difícil. E tá com o inventário cheio de diamante.",
+     "tela": "Close na HUD do Kadu: barra de fome piscando, só 1 coxinha. Barriga roncando. Inventário dele aberto: 64 💎"
+    },
+    {
+     "who": "Kadu",
+     "text": "Não, não, não! Problems, eu apaguei o pão! Como é que eu desfaço isso?",
+     "tela": "Kadu digita /give pão → chat: \"Item não existe\""
+    },
+    {
+     "who": "Problems",
+     "text": "Só tem um jeito, Kadu. Devolve a comida pra todo mundo.",
+     "tela": "Problems calmo, apontando pro bloco de comando"
+    },
+    {
+     "who": "",
+     "text": "",
+     "tela": "Kadu digita correndo. POOF: vacas e galinhas voltam e o bife volta pra mão do Problems *(som de itens voltando)*"
+    },
+    {
+     "who": "Kadu",
+     "text": "Pronto, devolvi! Agora me dá um pedaço desse bife.",
+     "tela": "Kadu estendendo a mão"
+    },
+    {
+     "who": "Problems",
+     "text": "Não precisa, Kadu. É só morrer que a barriga volta cheia.",
+     "tela": "Problems finalmente dá a mordida no bife (a mesma do 1º segundo)"
+    },
+    {
+     "who": "Kadu",
+     "text": "Mas aí eu perco meus diamantes!",
+     "tela": "Kadu olha desesperado pros diamantes"
+    },
+    {
+     "who": "Problems",
+     "text": "Devia ter guardado no baú.",
+     "tela": "Problems mastigando, sem olhar pra ele"
+    }
+   ],
+   "cenasMinecraft": false
+  },
+  {
+   "id": "rasc-003-fisica-realista-agua",
+   "numero": 3,
+   "titulo": "ÁGUA REALISTA no Minecraft 💧☠️",
+   "origem": "Rascunho (pasta roteiros)",
+   "status": "novos",
+   "tema": "",
+   "potencial": "",
+   "legenda": "",
+   "edicao": "",
+   "ideia": "E se a água do Minecraft fosse de verdade?",
+   "pergunta": "o truque do balde vai salvar o Kadu?",
+   "duracao": "~45 s",
+   "personagens": "Kadu (vermelho, quer realismo) e Problems (ciano, mostra o desastre)",
+   "cenario": "mundo de sobrevivência. A casa do Kadu fica embaixo de uma cachoeira que sai de um bloco de água flutuando no céu. Perto, uma poça de lava. Ao fundo, uma montanha de 100 blocos.",
+   "notas": "Notas para o editor\n- O #1 e o #8 são a mesma queda. Grave uma vez e use duas: no começo congela antes do chão e no #8 vai até o fim.\n- Legenda colorida palavra por palavra: vermelho pro Kadu e ciano pro Problems.\n- A casa alagada do #3 tem que ficar marcante, porque volta no #10.\n- Cortes secos em cada desastre: a água caindo (#3), a explosão de vapor (#5) e a queda (#8).\n- No #8, meio segundo de silêncio depois do splash. É a única pausa do vídeo.\n- A última frase é a mesma do primeiro *Física Realista*, de propósito.\n- Se entrar o \"Chegou o livro do Problems\", é depois do #11.\n\nAberturas alternativas\n1. Só o texto: o mesmo frame congelado da queda, sem fala, com o texto \"ELE VAI SOBREVIVER? 💧\". A primeira fala entra no rebobinar. É mais forte pra quem assiste sem som.\n2. Começar na explosão de lava: o 1º frame é o BOOM de vapor e o Kadu preto de fuligem. O Problems diz: \"Isso é o que acontece quando a água do Minecraft vira de verdade.\" Fica mais explosivo, mas a pergunta \"ele sobrevive?\" some.\n\nMaior risco\nO rebobinar do #2 tem que ser rápido (menos de 1 segundo). Se o menino achar que o vídeo \"voltou pro começo\" e ficou lento, ele sai. A fala do Kadu no #2 já precisa entrar junto com o rebobinar.",
+   "falas": [
+    {
+     "who": "Problems",
+     "text": "Se a água do Minecraft fosse de verdade, esse truque ia matar o Kadu. E isso nem é o pior.",
+     "tela": "Já começa na queda: o Kadu despencando do topo da montanha, balde na mão, o chão chegando. Congela meio segundo antes de bater. Texto grande: ÁGUA REALISTA"
+    },
+    {
+     "who": "Kadu",
+     "text": "Que água fake, Problems. Essa cachoeira tá saindo de um bloco flutuando no céu. Bem que o Minecraft podia ter água de verdade.",
+     "tela": "Efeito de rebobinar (a queda volta pra cima). Corte: Kadu olhando pra cima, um bloco de água parado no céu soltando uma cachoeira em cima da casa dele"
+    },
+    {
+     "who": "Problems",
+     "text": "Cala a boca, Kadu. Água de verdade ia ser um desastre. Essa água não ia ficar parada lá em cima. Ia cair inteira e alagar a sua casa.",
+     "tela": "Problems de braços cruzados. CORTE SECO: o bloco do céu despenca e a água invade a casa do Kadu. Cama, baú e mesa saem boiando pela janela"
+    },
+    {
+     "who": "Kadu",
+     "text": "Isso ia fazer o jogador ser mais inteligente e parar de colocar água em cima da própria casa.",
+     "tela": "Kadu dando de ombros, vendo a casa alagada"
+    },
+    {
+     "who": "Problems",
+     "text": "E pode esquecer o portal do Nether. No Minecraft, água na lava vira obsidiana. Na vida real, água na lava explode em vapor e te queima inteiro.",
+     "tela": "Kadu jogando um balde de água numa poça de lava pra fazer obsidiana. BOOM de vapor, tela branca, e o Kadu sai preto de fuligem, soltando fumaça"
+    },
+    {
+     "who": "Kadu",
+     "text": "Isso ia fazer o jogador ser mais inteligente e ir pro Nether de outro jeito.",
+     "tela": "Kadu todo chamuscado, tossindo fumaça"
+    },
+    {
+     "who": "Problems",
+     "text": "Tá bom, então seja inteligente. Sobe naquela montanha e faz o seu truque do balde de água.",
+     "tela": "Problems aponta pro topo da montanha"
+    },
+    {
+     "who": "Kadu",
+     "text": "Fácil. Eu faço isso todo dia. É só jogar o balde no último segundo.",
+     "tela": "Kadu no topo, balde na mão, confiante. Ele pula: é a mesma queda do começo, e dessa vez não congela. No último segundo ele joga o balde: SPLASH. Meio segundo de silêncio"
+    },
+    {
+     "who": "Problems",
+     "text": "No Minecraft isso funciona, Kadu. Mas na vida real, cair de 100 blocos na água é igual cair no chão.",
+     "tela": "Problems lá embaixo, olhando a poça. Os corações do Kadu zeram. Tela vermelha: \"Kadu achou que a água ia salvar ele\""
+    },
+    {
+     "who": "Kadu",
+     "text": "Problems… a minha cama tá debaixo d'água.",
+     "tela": "Kadu renasce na cama dele, que agora está debaixo d'água, dentro da casa alagada do começo. Bolhinhas saindo"
+    },
+    {
+     "who": "Problems",
+     "text": "Eu avisei. É Minecraft realista, Kadu. Não compensa.",
+     "tela": "Problems na janela da casa alagada, de boa"
+    }
+   ],
+   "cenasMinecraft": false
+  }
+ ]
+}

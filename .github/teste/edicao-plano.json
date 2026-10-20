@@ -1,0 +1,83 @@
+{
+  "resumo": "Gancho denso (flash + zoom-out, vine boom, canudinho a 650%, obstáculo com flash vermelho, VHS no deboche), nota 'takes futuros' cortada e virada em flashback com orbs de XP, tilt na piada da barriga, revelação na bomba e decepção do 0,1% com bigorna; músicas por clima são aposta (a biblioteca não tem TROLL/MISTERIO/VLOGS).",
+  "cortes": [
+    {"a": 28.15, "b": 29.84, "motivo": "nota sussurrada para o editor ('Takes futuros, editor') não vai pro vídeo"}
+  ],
+  "zooms": [
+    {"a": 0.0, "b": 4.43, "de": 1.82, "para": 1.0, "anim": 0.9, "fx": 0.5, "fy": 0.5, "motivo": "abertura: zoom-out junto do flash branco"},
+    {"a": 8.1, "b": 9.36, "de": 1.0, "para": 6.5, "anim": 0.45, "fx": 0.72, "fy": 0.78, "motivo": "item citado: canudinho na mão (zoom no item dentro do mundo)"},
+    {"a": 13.8, "b": 16.27, "de": 1.0, "para": 2.5, "anim": 0.6, "fx": 0.62, "fy": 0.86, "motivo": "'olha a barra de sede aqui em cima': mostrar a barra do mod"},
+    {"a": 16.42, "b": 18.57, "de": 1.0, "para": 1.03, "anim": 2.0, "fx": 0.5, "fy": 0.5, "motivo": "1ª tentativa (poça): dolly mínimo de tensão na entrada da música"},
+    {"a": 23.32, "b": 25.8, "de": 2.5, "para": 2.5, "anim": 0, "fx": 0.5, "fy": 0.85, "motivo": "obstáculo 'não consigo beber': corte seco na mensagem do jogo acima da hotbar"},
+    {"a": 25.95, "b": 28.1, "de": 3.9, "para": 3.9, "paraY": 2.58, "anim": 0, "fx": 0.5, "fy": 0.5, "motivo": "pergunta debochada da call ('Não consegue beber nada?'): esticado não uniforme + VHS"},
+    {"a": 37.9, "b": 40.59, "de": 1.0, "para": 2.4, "anim": 0.8, "fx": 0.62, "fy": 0.86, "motivo": "'olha a barra subindo, mais de cem litros': zoom no contador, ease-out que fica"},
+    {"a": 47.6, "b": 49.8, "de": 1.0, "para": 1.2, "anim": 1.0, "fx": 0.5, "fy": 0.5, "motivo": "'esse é o desafio de verdade': ênfase com fala arrastada"},
+    {"a": 54.1, "b": 55.72, "de": 1.0, "para": 6.5, "anim": 0.45, "fx": 0.72, "fy": 0.78, "motivo": "item citado: bomba de sucção na mão"},
+    {"a": 60.8, "b": 62.29, "de": 1.0, "para": 1.22, "anim": 1.2, "fx": 0.5, "fy": 0.46, "motivo": "revelação 'Liga a bomba!': push-in junto do brilho"},
+    {"a": 64.41, "b": 66.89, "de": 1.0, "para": 1.3, "anim": 1.0, "fx": 0.5, "fy": 0.5, "motivo": "'olha isso, o oceano tá sumindo': personagem mostrando"},
+    {"a": 69.01, "b": 75.12, "de": 1.0, "para": 1.38, "anim": 1.2, "fx": 0.5, "fy": 0.5, "motivo": "decepção do 0,1%: fala arrastada, zoom lento que fica até o fim da frase"},
+    {"a": 75.27, "b": 78.24, "de": 1.3, "para": 1.3, "anim": 0, "fx": 0.5, "fy": 0.5, "motivo": "punchline final da call rindo: corte seco escrachado"}
+  ],
+  "efeitos": [
+    {"tipo": "flash", "a": 0.0, "dur": 0.9, "p": {"cor": "#ffffff"}, "motivo": "abertura (White Flash)"},
+    {"tipo": "flash", "a": 23.32, "dur": 0.6, "p": {"cor": "#ff2a2a"}, "motivo": "obstáculo: não consegue beber"},
+    {"tipo": "shake", "a": 23.32, "dur": 0.6, "p": {}, "motivo": "obstáculo: impacto junto do flash vermelho"},
+    {"tipo": "vhs", "a": 25.95, "dur": 2.15, "p": {}, "motivo": "deboche/falha 'Não consegue beber nada?' (a música cala aqui)"},
+    {"tipo": "flash", "a": 29.89, "dur": 0.45, "p": {"cor": "#ffffff"}, "motivo": "takes futuros: flash entrando"},
+    {"tipo": "flashback", "a": 29.89, "dur": 3.8, "p": {}, "motivo": "takes futuros: frase 'daqui a pouco eu vou secar um oceano inteiro' ilustrada com cenas do futuro"},
+    {"tipo": "tilt", "a": 40.74, "dur": 2.4, "p": {}, "motivo": "piada de barriga: 'Vocês são tão barrigudos'"},
+    {"tipo": "preto", "a": 45.65, "dur": 1.0, "p": {}, "motivo": "troca de ato: do rio para o oceano"},
+    {"tipo": "brilho", "a": 60.8, "dur": 1.8, "p": {"fx": 0.5, "fy": 0.46}, "motivo": "revelação: a bomba liga (troca de música na mesma batida)"},
+    {"tipo": "flash", "a": 71.4, "dur": 0.6, "p": {"cor": "#ff2a2a"}, "motivo": "peso do número: só 0,1%"},
+    {"tipo": "shake", "a": 71.4, "dur": 0.6, "p": {}, "motivo": "peso do número: só 0,1%"}
+  ],
+  "sfx": [
+    {"arquivo": "anime-shine-sound-2.mp3", "t": 0.0, "pre": 0, "motivo": "abertura"},
+    {"arquivo": "vine-boom.mp3", "t": 4.58, "pre": 0.06, "motivo": "tese: 'toda a água do mundo' → 'Toda a água?'"},
+    {"arquivo": "anime-wow-sound-effect.mp3", "t": 7.21, "pre": 0.06, "motivo": "item citado: canudinho"},
+    {"arquivo": "bamboo-hit-anime-bonk-sound.mp3", "t": 18.72, "pre": 0.06, "motivo": "virada de clima: 'Uma poça? Isso é nada.'"},
+    {"arquivo": "perfect-fart-sound-effect-hd_128k.mp3", "t": 23.32, "pre": 0.06, "motivo": "obstáculo cômico: 'eu não consigo beber'"},
+    {"arquivo": "spongebob-fail.mp3", "t": 25.95, "pre": 0.06, "motivo": "fail/punchline: 'Não consegue beber nada?'"},
+    {"arquivo": "mc-xp-orb-p0.mp3", "t": 29.89, "pre": 0.04, "motivo": "takes futuros: corte 1"},
+    {"arquivo": "mc-xp-orb-p1.mp3", "t": 30.65, "pre": 0.04, "motivo": "takes futuros: corte 2"},
+    {"arquivo": "mc-xp-orb-p2.mp3", "t": 31.41, "pre": 0.04, "motivo": "takes futuros: corte 3"},
+    {"arquivo": "mc-xp-orb-p3.mp3", "t": 32.17, "pre": 0.04, "motivo": "takes futuros: corte 4"},
+    {"arquivo": "mc-xp-orb-p4.mp3", "t": 32.93, "pre": 0.04, "motivo": "takes futuros: corte 5"},
+    {"arquivo": "mc-random-drink.mp3", "t": 36.79, "pre": 0.06, "motivo": "1 gole só: 'Bebi, bebi'"},
+    {"arquivo": "cartoon-boing.mp3", "t": 40.74, "pre": 0.06, "motivo": "piada de barriga (junto do tilt)"},
+    {"arquivo": "mc-random-burp.mp3", "t": 43.37, "pre": 0.06, "motivo": "barriga cheia: 'Eu tô cheio'"},
+    {"arquivo": "anime-wow-sound-effect (1).mp3", "t": 52.58, "pre": 0.06, "motivo": "item citado: bomba de sucção"},
+    {"arquivo": "anime-shine-sound-effect_QP4mAaX (1).mp3", "t": 60.8, "pre": 0.06, "motivo": "revelação: liga a bomba"},
+    {"arquivo": "record-scratch-2.mp3", "t": 69.01, "pre": 0.06, "motivo": "virada de clima: do épico para a decepção (a música cala)"},
+    {"arquivo": "mc-random-anvil_land.mp3", "t": 71.4, "pre": 0.03, "motivo": "peso do número: zero vírgula um por cento"},
+    {"arquivo": "wrong_5.mp3", "t": 71.4, "pre": 0.03, "motivo": "peso do número: zero vírgula um por cento"},
+    {"arquivo": "spongebob-fail.mp3", "t": 75.27, "pre": 0.06, "motivo": "punchline final: 'Zero vírgula um? Hahaha'"}
+  ],
+  "musicas": [
+    {"arquivo": "2K25/ES_Brighter than the Sky - Akibakid.mp3", "pasta": "2K25", "clima": "intro enérgica", "a": 0.0, "b": 16.42, "de": 0, "ganho": -25},
+    {"arquivo": "2K25/ES_The Detective - Flickering.mp3", "pasta": "2K25", "clima": "1ª tentativa: intriga/tensão", "a": 16.42, "b": 25.95, "de": 0, "ganho": -26},
+    {"arquivo": "AVENTURAS/ES_The Adventure of a Lifetime - Grant Newman.mp3", "pasta": "AVENTURAS", "clima": "esperança/exploração: takes futuros e o rio", "a": 29.89, "b": 43.37, "de": 0, "ganho": -26},
+    {"arquivo": "2K25/ES_The Sleepy Sneaky Sway - Luella Gren.mp3", "pasta": "2K25", "clima": "cômico/plano sorrateiro: barriga, oceano, bomba do baú", "a": 43.37, "b": 60.8, "de": 0, "ganho": -26},
+    {"arquivo": "EPICAS/ES_Can_t Wait - Fasion.mp3", "pasta": "EPICAS", "clima": "épico: a bomba seca o oceano", "a": 60.8, "b": 69.01, "de": 0, "ganho": -25},
+    {"arquivo": "2K25/ES_Farmer_s Chores - Flickering.mp3", "pasta": "2K25", "clima": "decepção cômica: só 0,1%", "a": 71.4, "b": 78.24, "de": 0, "ganho": -26}
+  ],
+  "mutes": [
+    {"faixa": "A2", "a": 23.32, "b": 25.8, "motivo": "call não pode rir antes da hora em cima do 'não consigo beber'"},
+    {"faixa": "A3", "a": 40.74, "b": 43.22, "motivo": "som do jogo (bebendo) suja o gag da barriga/tilt"},
+    {"faixa": "A2", "a": 69.01, "b": 75.12, "motivo": "call não pode atropelar a punchline do 0,1%"}
+  ],
+  "textos": [
+    {"a": 39.4, "dur": 1.4, "texto": "100 LITROS", "cor": "#19f0f0"},
+    {"a": 71.4, "dur": 1.8, "texto": "0,1%", "cor": "#19f0f0"}
+  ],
+  "marcadores": [
+    {"t": 0.0, "txt": "aposta: biblioteca sem TROLL/MISTERIO/VLOGS/MUY ANIMADAS; músicas escolhidas pelo nome dentro de 2K25/AVENTURAS/EPICAS sem ouvir. Conferir clima e seção ('de') de cada faixa"},
+    {"t": 7.21, "txt": "conferir fx/fy do zoom 650%: assumi o canudinho na mão (0,72/0,78)"},
+    {"t": 13.8, "txt": "conferir onde está a barra de sede do mod ('aqui em cima'); assumi acima da hotbar à direita (0,62/0,86). Mesmo foco no contador em 37,9"},
+    {"t": 23.32, "txt": "conferir se a mensagem do jogo aparece acima da hotbar no 'não consigo beber' (zoom 250%)"},
+    {"t": 28.15, "txt": "TAKES FUTUROS: pôr 5 takes de ~0,76 s em V2 (vídeo só) no trecho do flashback, impacto crescente: barra subindo no rio (~37), oceano (~46,5), bomba ligando (~61), nível baixando (~62,5), oceano sumindo (~64,5). Orbs já nos cortes"},
+    {"t": 54.1, "txt": "conferir fx/fy do zoom na bomba de sucção (assumi na mão)"},
+    {"t": 69.01, "txt": "música cala no record scratch e a decepção entra junto da bigorna em 71,4; conferir se 'zero vírgula um' cai mesmo ~71,4"},
+    {"t": 75.27, "txt": "conferir se o final precisa de mais respiro/fim de cena depois da risada"}
+  ]
+}

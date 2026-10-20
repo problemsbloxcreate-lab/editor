@@ -1,0 +1,82 @@
+name: Publicar o editor com senha (Cloudflare)
+
+# Publica a pasta site/ no Worker "editor-problems" (worker/site), que pede a senha do estúdio antes de mostrar qualquer página.
+# Precisa dos segredos do repositório CLOUDFLARE_API_TOKEN (o mesmo dos sons) e SENHA_SITE (a senha do site).
+# Sem a SENHA_SITE, nada é publicado (o site nunca vai ao ar aberto).
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", "worker/site/**", ".github/workflows/site-senha.yml"]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publicar-editor
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      SENHA_SITE: ${{ secrets.SENHA_SITE }}
+      WR: npx --yes wrangler@4.20.0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Conferir o editor
+        run: |
+          for f in site/*.js site/comum/*.js; do node --check "$f"; done
+          node -e "import('./worker/site/worker.js').then(()=>console.log('portão ok'))"
+      - name: Conferir a configuração do portão (sem publicar)
+        working-directory: worker/site
+        shell: bash
+        run: |
+          set -uo pipefail
+          R=0; $WR deploy -c wrangler.toml --dry-run --outdir ../../dist-portao > ../../dry.log 2>&1 || R=$?
+          cat ../../dry.log
+          if [ $R -ne 0 ]; then
+            sed 's/\x1b\[[0-9;]*m//g' ../../dry.log | grep -v '^\s*$' | tail -n 15 | while IFS= read -r L; do L="${L//%/%25}"; L="${L//::/: :}"; echo "::warning::$L"; done
+            echo "::error::dry-run do wrangler falhou (código $R)"; exit 1; fi
+          if grep -qiE "unexpected fields|unknown field|run_worker_first.*(not|unsupported)" ../../dry.log; then
+            echo "::error::O wrangler não reconheceu a configuração do portão (run_worker_first). Publicar assim deixaria o site aberto."; exit 1; fi
+      - name: Conferir os segredos
+        id: seg
+        shell: bash
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$SENHA_SITE" ]; then
+            echo "::warning::Falta o segredo SENHA_SITE (ou CLOUDFLARE_API_TOKEN) em Settings → Secrets and variables → Actions. Nada foi publicado."
+            echo "ok=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=1" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Publicar
+        if: steps.seg.outputs.ok == '1'
+        working-directory: worker/site
+        shell: bash
+        run: |
+          set -uo pipefail
+          erro() { sed 's/\x1b\[[0-9;]*m//g' "$2" | grep -v '^\s*$' | tail -n 15 | while IFS= read -r L; do L="${L//%/%25}"; L="${L//::/: :}"; echo "::warning::$L"; done; echo "::error::$1"; exit 1; }
+          $WR deploy -c wrangler.toml > ../../deploy.log 2>&1 || { cat ../../deploy.log; erro "deploy do site falhou" ../../deploy.log; }
+          cat ../../deploy.log
+          printf "%s" "$SENHA_SITE" | $WR secret put SENHA_SITE -c wrangler.toml > ../../segredo.log 2>&1 || { cat ../../segredo.log; erro "não consegui pôr a senha no Worker" ../../segredo.log; }
+      - name: Conferir que o site está FECHADO para quem não tem a senha
+        if: steps.seg.outputs.ok == '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="$(grep -oE 'https://editor-problems\.[a-z0-9-]+\.workers\.dev' deploy.log | head -1)"
+          [ -n "$URL" ] || { echo "::error::Não achei o endereço workers.dev no resultado."; exit 1; }
+          echo "Endereço do editor: $URL"
+          sleep 8
+          COD="$(curl -s -o /dev/null -w '%{http_code}' "$URL/roteiros/roteiros.json")"
+          echo "roteiros.json sem senha: $COD"
+          [ "$COD" = "401" ] || { echo "::error::O site respondeu $COD sem senha (esperado 401). Confira o portão!"; exit 1; }
+          curl -s -H 'Accept: text/html' "$URL/" | grep -q 'action="/entrar' || { echo "::error::A página não mostrou a tela de senha."; exit 1; }
+          echo "### 🔒 Editor com senha no ar: $URL" >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,5 @@
+Partes do visual "MakeUp" do Estúdio Problems foram PORTADAS do shader MakeUp Ultra Fast,
+de Javier Garduño, licenciado sob a GNU Lesser General Public License v3.0 ou posterior.
+Código original: https://github.com/javiergcim/MakeUpUltraFast
+Texto da licença: MakeUpUltraFast-LGPL-3.0.txt (nesta pasta).
+O que foi portado e o que foi modificado está descrito no comentário "MAKEUP_PORTE" em site/index.html.
