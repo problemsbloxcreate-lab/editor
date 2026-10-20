@@ -1,4 +1,4 @@
-# Editor Problems (vídeo longo) com senha: o Worker serve a pasta site/ e pede a senha antes (segredo SENHA_SITE).
+# Editor Problems (vídeo longo): o Worker serve a pasta site/ só para quem entrou pelo menu (passe do porteiro).
 # Publicado pela Action "Publicar o editor com senha (Cloudflare)".
 name = "editor-problems"
 main = "worker.js"
@@ -14,8 +14,9 @@ html_handling = "auto-trailing-slash"
 not_found_handling = "none"
 
 [vars]
-# porteiro do endereço único: quem chega por ele com passe assinado não precisa da senha (ver worker.js)
+# porteiro do endereço único: só quem chega por ele com passe assinado entra (ver worker.js)
 PORTEIRO_URL = "https://estudio.problemsraiz.workers.dev"
+PORTEIRO_CAMINHO = "/editor/"   # onde o editor fica no endereço único
 
 # ligação direta com o porteiro (mesma conta da Cloudflare "problemsraiz"): buscar a chave pública do passe
 [[services]]

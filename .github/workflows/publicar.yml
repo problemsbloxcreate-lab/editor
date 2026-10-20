@@ -1,8 +1,8 @@
-name: Publicar o editor com senha (Cloudflare)
+name: Publicar o editor (Cloudflare)
 
-# Publica a pasta site/ no Worker "editor-problems" (worker/site), que pede a senha do estúdio antes de mostrar qualquer página.
-# Precisa dos segredos do repositório CLOUDFLARE_API_TOKEN (o mesmo dos sons) e SENHA_SITE (a senha do site).
-# Sem a SENHA_SITE, nada é publicado (o site nunca vai ao ar aberto).
+# Publica a pasta site/ no Worker "editor-problems" (worker/site). Ele só abre para quem entrou com o Google pelo menu
+# do Estúdio Problems (passe assinado do porteiro); quem abre o endereço direto é mandado para o menu.
+# Precisa dos segredos do repositório CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID (conta "problemsraiz", a do porteiro).
 
 on:
   push:
@@ -23,7 +23,6 @@ jobs:
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      SENHA_SITE: ${{ secrets.SENHA_SITE }}
       WR: npx --yes wrangler@4.20.0
     steps:
       - uses: actions/checkout@v4
@@ -50,8 +49,8 @@ jobs:
         id: seg
         shell: bash
         run: |
-          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$SENHA_SITE" ]; then
-            echo "::warning::Falta o segredo SENHA_SITE (ou CLOUDFLARE_API_TOKEN) em Settings → Secrets and variables → Actions. Nada foi publicado."
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::warning::Falta o segredo CLOUDFLARE_API_TOKEN (e CLOUDFLARE_ACCOUNT_ID) em Settings → Secrets and variables → Actions. Nada foi publicado."
             echo "ok=0" >> "$GITHUB_OUTPUT"
           else
             echo "ok=1" >> "$GITHUB_OUTPUT"
@@ -65,8 +64,7 @@ jobs:
           erro() { sed 's/\x1b\[[0-9;]*m//g' "$2" | grep -v '^\s*$' | tail -n 15 | while IFS= read -r L; do L="${L//%/%25}"; L="${L//::/: :}"; echo "::warning::$L"; done; echo "::error::$1"; exit 1; }
           $WR deploy -c wrangler.toml > ../../deploy.log 2>&1 || { cat ../../deploy.log; erro "deploy do site falhou" ../../deploy.log; }
           cat ../../deploy.log
-          printf "%s" "$SENHA_SITE" | $WR secret put SENHA_SITE -c wrangler.toml > ../../segredo.log 2>&1 || { cat ../../segredo.log; erro "não consegui pôr a senha no Worker" ../../segredo.log; }
-      - name: Conferir que o site está FECHADO para quem não tem a senha
+      - name: Conferir que o site está FECHADO para quem não entrou pelo menu
         if: steps.seg.outputs.ok == '1'
         shell: bash
         run: |
@@ -76,7 +74,9 @@ jobs:
           echo "Endereço do editor: $URL"
           sleep 8
           COD="$(curl -s -o /dev/null -w '%{http_code}' "$URL/roteiros/roteiros.json")"
-          echo "roteiros.json sem senha: $COD"
-          [ "$COD" = "401" ] || { echo "::error::O site respondeu $COD sem senha (esperado 401). Confira o portão!"; exit 1; }
-          curl -s -H 'Accept: text/html' "$URL/" | grep -q 'action="/entrar' || { echo "::error::A página não mostrou a tela de senha."; exit 1; }
-          echo "### 🔒 Editor com senha no ar: $URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "roteiros.json sem login: $COD"
+          [ "$COD" = "401" ] || { echo "::error::O site respondeu $COD sem login (esperado 401). Confira o portão!"; exit 1; }
+          LOC="$(curl -s -o /dev/null -w '%{redirect_url}' -H 'Accept: text/html' "$URL/")"
+          echo "página sem login → $LOC"
+          echo "$LOC" | grep -q '^https://estudio\.[a-z0-9-]*\.workers\.dev/editor/' || { echo "::error::A página não mandou para o menu do Estúdio Problems (foi para '$LOC')."; exit 1; }
+          echo "### 🔒 Editor no ar (só pelo menu): $URL → abra por https://estudio.problemsraiz.workers.dev/editor/" >> "$GITHUB_STEP_SUMMARY"
