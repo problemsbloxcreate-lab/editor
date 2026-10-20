@@ -1139,32 +1139,35 @@
 .ini-novo button{display:flex;align-items:center;gap:14px;text-align:left;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:var(--panel);cursor:pointer;color:var(--fg)}
 .ini-novo button:hover{border-color:var(--accent);background:var(--panel-2)}
 .ini-novo button.pri{background:linear-gradient(140deg,color-mix(in srgb,var(--accent) 26%,var(--panel)),var(--panel) 70%);border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}
-.ini-novo .ic{font-size:26px;line-height:1}.ini-novo b{display:block;font-size:15px}.ini-novo small{color:var(--muted);font-size:12px}
+.ini-novo .ic{width:46px;height:46px;flex:none;border-radius:13px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 28%,transparent),rgba(25,211,240,.14));border:1px solid color-mix(in srgb,var(--accent) 45%,transparent)}.ini-novo .ic svg{width:24px;height:24px}.ini-novo button:hover .ic{background:linear-gradient(135deg,var(--accent),#19d3f0);border-color:transparent}.ini-novo b{display:block;font-size:15px}.ini-novo small{color:var(--muted);font-size:12px}
 .ini-sec{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:12.5px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600}
 .ini-sec .grow{flex:1}.ini-sec input{text-transform:none;letter-spacing:0;height:32px;width:240px;max-width:50vw;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:0 10px;outline:none}
 .ini-sec input:focus{border-color:var(--accent)}
 .ini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
 .ini-card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .15s,border-color .15s;text-align:left;padding:0;color:var(--fg)}
 .ini-card:hover,.ini-card:focus-visible{border-color:var(--accent);transform:translateY(-2px);outline:none}
-.ini-card .th{aspect-ratio:16/9;background:#000 center/cover no-repeat;display:grid;place-items:center;color:var(--dim);font-size:28px;border-bottom:1px solid var(--line)}
+.ini-card .th{aspect-ratio:16/9;background:#000 center/cover no-repeat;display:grid;place-items:center;color:var(--muted);border-bottom:1px solid var(--line)}
 .ini-card .in{padding:10px 12px}.ini-card b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13.5px}.ini-card small{color:var(--muted);font-size:11.5px}
 .ini-card .mn{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:7px;border:0;background:rgba(0,0,0,.55);color:#fff;cursor:pointer;opacity:0;font-size:16px;line-height:1}
 .ini-card:hover .mn,.ini-card:focus-within .mn{opacity:1}
 .ini-pop{position:absolute;top:38px;right:6px;z-index:5;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px;box-shadow:0 12px 30px rgba(0,0,0,.4);min-width:150px}
-.ini-pop button{display:block;width:100%;text-align:left;background:none;border:0;padding:7px 10px;border-radius:7px;cursor:pointer;color:var(--fg)}.ini-pop button:hover{background:var(--panel-2)}
+.ini-card .th svg{width:34px;height:34px;opacity:.6}.ini-pop button svg{width:15px;height:15px;flex:none}
+.ini-pop button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:none;border:0;padding:7px 10px;border-radius:7px;cursor:pointer;color:var(--fg)}.ini-pop button:hover{background:var(--panel-2)}
 .ini-vazio{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
 .brand{cursor:pointer}`; document.head.appendChild(st); })();
+	// ícones iguais aos do menu do Estúdio Problems (linha, sem emoji)
+	const ICO = {"editar": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2.5\" y=\"4.5\" width=\"19\" height=\"13\" rx=\"2\"/><path d=\"M2.5 8.5h19M7 4.5v4M12 4.5v4M17 4.5v4\"/><path d=\"M5 21h4M11 21h8M9 19.5v3\"/></svg>", "pasta": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/></svg>", "copiar": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"8.5\" y=\"8.5\" width=\"12\" height=\"12\" rx=\"2\"/><path d=\"M15.5 8.5V5.5a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3\"/></svg>", "lixo": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 6.5h16M9.5 6.5V4.5h5v2M6.5 6.5l1 13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5l1-13.5M10 11v6M14 11v6\"/></svg>", "lapis": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 20h4L19.5 8.5a2.1 2.1 0 0 0-4-4L4 16z\"/><path d=\"m13.5 6.5 4 4\"/></svg>"};
 	const INI = { q: "" };
 	const ini = document.createElement("section"); ini.id = "inicio"; ini.hidden = true; ini.setAttribute("aria-label", "Projetos"); $("#ed").before(ini);
 	async function desenhaInicio() {
 		const l = await LISTA.ler(), q = INI.q.trim().toLowerCase(), L = l.filter((x) => !q || x.nome.toLowerCase().includes(q));
 		ini.innerHTML = `<div class="ini">
 			<div class="ini-novo">
-				<button class="pri" data-a="novo"><span class="ic">🎬</span><span><b>Novo vídeo longo</b><small>começa do zero: abra ou solte o bruto</small></span></button>
-				<button data-a="arquivo"><span class="ic">📂</span><span><b>Abrir projeto</b><small>arquivo .edicao.json</small></span></button>
+				<button class="pri" data-a="novo"><span class="ic">${ICO.editar}</span><span><b>Novo vídeo longo</b><small>começa do zero: abra ou solte o bruto</small></span></button>
+				<button data-a="arquivo"><span class="ic">${ICO.pasta}</span><span><b>Abrir projeto</b><small>arquivo .edicao.json</small></span></button>
 			</div>
 			<div class="ini-sec">Projetos <small>${l.length || ""}</small><span class="grow"></span>${l.length ? `<input type="search" placeholder="Buscar projeto" value="${escH(INI.q)}" aria-label="Buscar projeto">` : ""}</div>
-			<div class="ini-grid">${L.map((x) => `<div class="ini-card" role="button" tabindex="0" data-id="${escH(x.id)}"><div class="th" style="${x.thumb ? `background-image:url('${x.thumb}')` : ""}">${x.thumb ? "" : "🎞️"}</div>
+			<div class="ini-grid">${L.map((x) => `<div class="ini-card" role="button" tabindex="0" data-id="${escH(x.id)}"><div class="th" style="${x.thumb ? `background-image:url('${x.thumb}')` : ""}">${x.thumb ? "" : ICO.editar}</div>
 				<div class="in"><b>${escH(x.nome)}</b><small>${dataTxt(x.mod)}${x.dur ? " · " + durTxt(x.dur) : ""}</small></div><button class="mn" data-m="${escH(x.id)}" title="Opções" aria-label="Opções">⋯</button></div>`).join("")
 				|| `<div class="ini-vazio" style="grid-column:1/-1">${l.length ? "Nenhum projeto com esse nome." : "Nenhum projeto ainda. Comece um vídeo longo novo aqui em cima."}</div>`}</div></div>`;
 		$("[data-a=novo]", ini).onclick = () => { projetoNovo(); fechaInicio(); };
@@ -1172,7 +1175,7 @@
 		const qi = $("input[type=search]", ini); if (qi) qi.oninput = () => { INI.q = qi.value; const pos = qi.selectionStart; desenhaInicio().then(() => { const n = $("input[type=search]", ini); if (n) { n.focus(); n.setSelectionRange(pos, pos); } }); };
 		$$(".ini-card", ini).forEach((c) => { const abre = () => abrirProjeto(c.dataset.id); c.onclick = (e) => { if (!e.target.closest(".mn,.ini-pop")) abre(); }; c.onkeydown = (e) => { if (e.key === "Enter" && e.target === c) abre(); }; });
 		$$(".mn", ini).forEach((b) => b.onclick = (e) => { e.stopPropagation(); $$(".ini-pop", ini).forEach((x) => x.remove()); const id = b.dataset.m;
-			b.insertAdjacentHTML("afterend", `<div class="ini-pop"><button data-o="ren">✏️ Renomear</button><button data-o="dup">⧉ Duplicar</button><button data-o="del">🗑 Apagar</button></div>`);
+			b.insertAdjacentHTML("afterend", `<div class="ini-pop"><button data-o="ren">${ICO.lapis}Renomear</button><button data-o="dup">${ICO.copiar}Duplicar</button><button data-o="del">${ICO.lixo}Apagar</button></div>`);
 			const pop = b.nextElementSibling; pop.onclick = async (ev) => { ev.stopPropagation(); const o = ev.target.closest("[data-o]")?.dataset.o; if (!o) return; pop.remove(); await opcaoProjeto(id, o); }; });
 	}
 	async function opcaoProjeto(id, o) {
