@@ -1089,10 +1089,10 @@
 	/* ---------- projeto ---------- */
 	function aplicarProjeto() {
 		montarFaixas();
-		$("#pNome").value = P.nome; $("#pFps").value = P.fps; $("#pRes").value = P.w + "x" + P.h; $("#pQual").value = String(P.qualidade || 1); $("#nomeProj").textContent = "Edição · " + P.nome;
+		$("#pNome").value = P.nome; $("#pFps").value = P.fps; $("#pRes").value = P.w + "x" + P.h; $("#pQual").value = String(P.qualidade || 1); $("#nomeProj").textContent = "Estúdio Problems · " + P.nome;
 		listaMidias(); listaMarcas(); cabecalhos(); mostrarInspetor(); $("#vazio").hidden = P.clipes.length > 0; ED.sujo = true;
 	}
-	$("#pNome").oninput = (e) => { P.nome = e.target.value || "Sem nome"; $("#nomeProj").textContent = "Edição · " + P.nome; salvarLogo(); };
+	$("#pNome").oninput = (e) => { P.nome = e.target.value || "Sem nome"; $("#nomeProj").textContent = "Estúdio Problems · " + P.nome; salvarLogo(); };
 	$("#pFps").onchange = (e) => { P.fps = +e.target.value; salvarLogo(); };
 	$("#pQual").onchange = (e) => { P.qualidade = +e.target.value; ED.sujo = true; salvarLogo(); };
 	function telaCheia() { const el = $("#tela").parentElement; if (document.fullscreenElement) document.exitFullscreen(); else if (el.requestFullscreen) el.requestFullscreen().catch(() => {}); }
@@ -1198,14 +1198,32 @@
 		pausar(); for (const k in RT) delete RT[k]; P = Object.assign(novoProjeto(), JSON.parse(s)); P.id = id; ED.desfazer = []; ED.refazer = []; ED.sel.clear();
 		aplicarProjeto(); await DB.set("atual", id); fechaInicio(); await reabrir(false);
 	}
-	async function abreInicio() { pausar(); await salvarJa(); status(""); $("#ed").hidden = true; ini.hidden = false; $("#nomeProj").textContent = "Edição · seus projetos"; await desenhaInicio(); }
-	function fechaInicio() { ini.hidden = true; $("#ed").hidden = false; $("#nomeProj").textContent = "Edição · " + P.nome; ED.sujo = true; }
+	async function abreInicio() { pausar(); await salvarJa(); status(""); $("#ed").hidden = true; ini.hidden = false; $("#nomeProj").textContent = "Estúdio Problems · seus projetos"; await desenhaInicio(); }
+	function fechaInicio() { ini.hidden = true; $("#ed").hidden = false; $("#nomeProj").textContent = "Estúdio Problems · " + P.nome; ED.sujo = true; }
 	document.querySelector(".bar .brand").title = "Voltar à tela inicial (seus projetos)";
 	document.querySelector(".bar .brand").onclick = abreInicio;
 	document.addEventListener("click", (e) => { if (!e.target.closest(".ini-pop,.mn")) $$(".ini-pop", ini).forEach((x) => x.remove()); });
 
+	/* círculo de espaço (padrão de todos os projetos): os projetos do Editor guardados neste navegador, com "Baixar .edicao.json" */
+	addEventListener("DOMContentLoaded", () => window.EstudioConta?.espaco.registrar({
+		programa: "Editor",
+		async listar() {
+			await salvarJa();
+			const l = await LISTA.ler(), out = [];
+			for (const x of l) {
+				let s = null; try { s = await DB.get("proj:" + x.id); } catch (_) {}
+				let b = (s ? s.length : 0) + (x.thumb ? x.thumb.length : 0);
+				try { for (const mid of Object.keys(JSON.parse(s || "{}").midias || {})) { const f = await DB.get("arq:" + mid).catch(() => null); if (f && f.size) b += f.size; } } catch (_) {}
+				out.push({ nome: x.nome, bytes: b, data: x.mod, thumb: x.thumb, info: x.dur ? durTxt(x.dur) : "", rotuloBaixar: "Baixar .edicao.json", confirma: false,
+					baixar: async () => { const t = await DB.get("proj:" + x.id); const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([t || "{}"], { type: "application/json" })); a.download = (x.nome || "projeto").replace(/[^\w\- ]+/g, "") + ".edicao.json"; a.click(); },
+					apagar: () => opcaoProjeto(x.id, "del") });
+			}
+			return out;
+		},
+	}));
+
 	/* ---------- início ---------- */
-	$("#etapas").innerHTML = '<nav class="etapas" aria-label="Navegação"><a href="/" title="Voltar ao menu do Estúdio Problems">⌂ Menu</a></nav>';
+	// o botão "Menu" e a conta vêm do componente padrão de todos os projetos (/estudio-conta.js), ao lado do tema
 	zoomTL(40);
 	(async () => {
 		// o projeto que existia antes (um só, "projeto:atual") entra no histórico
