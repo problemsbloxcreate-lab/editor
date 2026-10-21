@@ -1100,7 +1100,7 @@
 	function telaCheia() { const el = $("#tela").parentElement; if (document.fullscreenElement) document.exitFullscreen(); else if (el.requestFullscreen) el.requestFullscreen().catch(() => {}); }
 	$("#bTela").onclick = telaCheia;
 	$("#pRes").onchange = (e) => { const [w, h] = e.target.value.split("x").map(Number); P.w = w; P.h = h; ED.sujo = true; salvarLogo(); };
-	$("#pSalvar").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(P, null, 1)], { type: "application/json" })); a.download = (P.nome || "projeto").replace(/[^\w\- ]+/g, "") + ".edicao.json"; a.click(); };
+	$("#pSalvar").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(P, null, 1)], { type: "application/json" })); a.download = (P.nome || "projeto").replace(/[^\w\- ]+/g, "") + ".editor"; a.click(); }; // arquivo do Editor (antes .edicao.json; os dois abrem)
 	$("#pAbrir").onclick = () => { const i = $("#fProj"); i.onchange = async () => { const f = i.files[0]; i.value = ""; if (!f) return; try { const n = JSON.parse(await f.text()); if (!n.clipes) throw new Error("não é um projeto da Edição"); pausar(); await salvarJa(); for (const k in RT) delete RT[k]; P = Object.assign(novoProjeto(), n); if (!n.id) P.id = rid(); ED.desfazer = []; ED.refazer = []; ED.sel.clear(); aplicarProjeto(); fechaInicio(); await reabrir(false); salvarLogo(); } catch (e) { aviso("Projeto inválido", e.message); } }; i.click(); };
 	function projetoNovo() { pausar(); P = novoProjeto(); ED.desfazer = []; ED.refazer = []; ED.sel.clear(); for (const k in RT) delete RT[k]; aplicarProjeto(); salvarLogo(); }
 	$("#pNovo").onclick = async () => { await salvarJa(); projetoNovo(); fechaInicio(); }; // o atual continua na tela inicial
@@ -1166,7 +1166,7 @@
 		ini.innerHTML = `<div class="ini">
 			<div class="ini-novo">
 				<button class="pri" data-a="novo"><span class="ic">${ICO.editar}</span><span><b>Novo vídeo longo</b><small>começa do zero: abra ou solte o bruto</small></span></button>
-				<button data-a="arquivo"><span class="ic">${ICO.pasta}</span><span><b>Abrir projeto</b><small>arquivo .edicao.json</small></span></button>
+				<button data-a="arquivo"><span class="ic">${ICO.pasta}</span><span><b>Abrir projeto</b><small>arquivo .editor</small></span></button>
 			</div>
 			<div class="ini-sec">Projetos <small>${l.length || ""}</small><span class="grow"></span>${l.length ? `<input type="search" placeholder="Buscar projeto" value="${escH(INI.q)}" aria-label="Buscar projeto">` : ""}</div>
 			<div class="ini-grid">${L.map((x) => `<div class="ini-card" role="button" tabindex="0" data-id="${escH(x.id)}"><div class="th" style="${x.thumb ? `background-image:url('${x.thumb}')` : ""}">${x.thumb ? "" : ICO.editar}</div>
@@ -1206,7 +1206,7 @@
 	document.querySelector(".bar .brand").onclick = abreInicio;
 	document.addEventListener("click", (e) => { if (!e.target.closest(".ini-pop,.mn")) $$(".ini-pop", ini).forEach((x) => x.remove()); });
 
-	/* círculo de espaço (padrão de todos os projetos): os projetos do Editor guardados neste navegador, com "Baixar .edicao.json" */
+	/* círculo de espaço (padrão de todos os projetos): os projetos do Editor guardados neste navegador, com "Baixar .editor" */
 	addEventListener("DOMContentLoaded", () => window.EstudioConta?.espaco.registrar({
 		programa: "Editor",
 		async listar() {
@@ -1216,8 +1216,8 @@
 				let s = null; try { s = await DB.get("proj:" + x.id); } catch (_) {}
 				let b = (s ? s.length : 0) + (x.thumb ? x.thumb.length : 0);
 				try { for (const mid of Object.keys(JSON.parse(s || "{}").midias || {})) { const f = await DB.get("arq:" + mid).catch(() => null); if (f && f.size) b += f.size; } } catch (_) {}
-				out.push({ nome: x.nome, bytes: b, data: x.mod, thumb: x.thumb, info: x.dur ? durTxt(x.dur) : "", rotuloBaixar: "Baixar .edicao.json", confirma: false,
-					baixar: async () => { const t = await DB.get("proj:" + x.id); const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([t || "{}"], { type: "application/json" })); a.download = (x.nome || "projeto").replace(/[^\w\- ]+/g, "") + ".edicao.json"; a.click(); },
+				out.push({ nome: x.nome, bytes: b, data: x.mod, thumb: x.thumb, info: x.dur ? durTxt(x.dur) : "", rotuloBaixar: "Baixar .editor", confirma: false,
+					baixar: async () => { const t = await DB.get("proj:" + x.id); const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([t || "{}"], { type: "application/json" })); a.download = (x.nome || "projeto").replace(/[^\w\- ]+/g, "") + ".editor"; a.click(); },
 					apagar: () => opcaoProjeto(x.id, "del") });
 			}
 			return out;
