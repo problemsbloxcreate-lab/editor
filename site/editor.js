@@ -81,9 +81,11 @@
 	function salvarLogo() { clearTimeout(tSalvar); tSalvar = setTimeout(salvarJa, 700); }
 	// cada projeto fica guardado em "proj:<id>" e aparece na tela inicial (lista "lista", com nome, data, duração e miniatura)
 	async function salvarJa() {
-		try { await DB.set("proj:" + P.id, JSON.stringify(P)); await DB.set("atual", P.id); await guardaNaLista(); }
-		catch (e) { status("Não consegui salvar neste navegador: " + e.message, "err"); }
+		try { await DB.set("proj:" + P.id, JSON.stringify(P)); await DB.set("atual", P.id); await guardaNaLista(); return true; }
+		catch (e) { status("Não consegui salvar neste navegador: " + e.message, "err"); return false; }
 	}
+	// "Sair da conta" (botão da conta): salva o projeto aberto antes de sair
+	(window.ESTUDIO_AO_SAIR ||= []).push(async () => { if (!P || !(P.clipes?.length || Object.keys(P.midias || {}).length)) return true; clearTimeout(tSalvar); return salvarJa(); }); // projeto vazio: nada a salvar
 	const LISTA = { async ler() { try { return (await DB.get("lista")) || []; } catch (_) { return []; } }, gravar: (l) => DB.set("lista", l) };
 	let ultimaMini = 0;
 	function miniatura() { try { const c = document.createElement("canvas"); c.width = 320; c.height = 180; const g = c.getContext("2d"); g.drawImage($("#tela"), 0, 0, 320, 180);
