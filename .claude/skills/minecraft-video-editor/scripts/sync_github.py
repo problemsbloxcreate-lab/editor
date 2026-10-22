@@ -111,11 +111,15 @@ def main():
         return
     git("add", "-A", ".claude/skills/minecraft-video-editor", ".claude/skills/minecraft-cinematic")
     st = git("status", "--porcelain", ".claude/skills/minecraft-video-editor", ".claude/skills/minecraft-cinematic", capture=True)
-    if not st.strip():
+    ahead = git("rev-list", "--count", "origin/main..HEAD", capture=True).strip()
+    if not st.strip() and ahead in ("", "0"):
         print("Nada mudou: o GitHub já está igual à skill.")
         return
-    print(st.strip()[:3000])
-    git("commit", "-m", msg + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>")
+    if st.strip():
+        print(st.strip()[:3000])
+        git("commit", "-m", msg + "\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>")
+    else:
+        print("Sem mudança nova; enviando %s commit(s) que estavam pendentes." % ahead)
     if "--no-push" in a:
         print("Commit feito (sem enviar).")
         return
