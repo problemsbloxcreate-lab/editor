@@ -4,7 +4,9 @@ Uso: python clap_index.py <saida.npz> <pasta1> [pasta2 ...]      busca: python c
 """
 import os, sys, json, numpy as np, librosa, torch
 from transformers import ClapModel, ClapProcessor
-BASE = r"D:\Users\PREDATOR\Documents\Epidemic 2K23 (Pasta de músicas)"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import paths
+BASE = paths.epidemic_dir()
 out = sys.argv[1]
 m = ClapModel.from_pretrained("laion/clap-htsat-unfused").eval(); pr = ClapProcessor.from_pretrained("laion/clap-htsat-unfused")
 keys, embs = [], []

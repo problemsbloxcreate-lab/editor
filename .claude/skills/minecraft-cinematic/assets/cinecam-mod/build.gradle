@@ -4,7 +4,7 @@ version = '0.1.0'
 base { archivesName = 'cinecam-forge-1.20.1' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 // Heavy output (worlds, logs, frames) goes to D: because C: is almost full on this machine.
-def runDir = System.getenv('CINECAM_RUN') ?: 'D:/cinecam-run'
+def runDir = System.getenv('CINECAM_RUN') ?: file('../cinecam-run').absolutePath   // render.py/setup_cinecam passam CINECAM_RUN
 minecraft {
     mappings channel: 'official', version: '1.20.1'
     runs {

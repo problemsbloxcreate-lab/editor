@@ -12,9 +12,12 @@ def add(level, item, detail="", fix=""):
     res.append((level, item, detail, fix))
 
 
+sys.path.insert(0, os.path.join(SK, "scripts"))
+import paths as P
+
+
 def cfg():
-    p = os.path.join(SK, "config.json")
-    return json.load(open(p, encoding="utf8")) if os.path.exists(p) else {}
+    return P.cfg()
 
 
 def main():
@@ -26,11 +29,25 @@ def main():
     add("OK" if v >= (3, 10) else "FALTA", "Python %d.%d" % v[:2], "", "instalar Python 3.11+ (python.org) e marcar 'Add to PATH'")
     for mod, pipname, need in [("numpy", "numpy", 1), ("scipy", "scipy", 1), ("soundfile", "soundfile", 1), ("librosa", "librosa", 1),
                                ("PIL", "pillow", 1), ("cv2", "opencv-python", 0), ("requests", "requests", 1), ("dotenv", "python-dotenv", 0), ("faster_whisper", "faster-whisper", 1),
-                               ("torch", "torch", 0), ("transformers", "transformers", 0), ("yt_dlp", "yt-dlp", 0)]:
+                               ("torch", "torch", 0), ("transformers", "transformers", 0), ("yt_dlp", "yt-dlp", 0),
+                               ("cryptography", "cryptography", 1), ("matplotlib", "matplotlib", 0)]:
         try:
             m = importlib.import_module(mod); add("OK", "pacote " + pipname, getattr(m, "__version__", ""))
         except Exception as e:
             add("FALTA" if need else "AVISO", "pacote " + pipname, str(e)[:80], "pip install " + pipname + ("" if need else "   (torch/transformers = busca de música por CLAP)"))
+    # 1b. Estúdio Problems Local: config fora da skill, versão, pareamento
+    add("OK" if os.path.exists(P.USER_CFG) else "AVISO", "config do usuário", P.USER_CFG, "python scripts/paths.py --set work_dir <pasta>")
+    try:
+        sys.path.insert(0, os.path.join(SK, "app"))
+        import atualizar as _at, midia_sync as _ms
+        eq = _at.instalado_por_git()
+        add("OK", "versão da skill", ("%s (equipe, atualização automática)" % _at.versao_atual()) if eq else "fonte (PC do Matheus, sem atualizador)")
+        if eq:
+            add("OK" if _ms.token() else "AVISO", "PC pareado com o canal de mídia", "", "abrir o Editor no site do Estúdio uma vez (Automático > No meu PC)")
+        c = _ms.conta_claude()
+        add("OK" if c.get("logado") else "FALTA", "Claude Code logado", c.get("email") or "", "abrir um terminal, rodar 'claude' e entrar com a conta da equipe")
+    except Exception as e:
+        add("AVISO", "Estúdio Problems Local", str(e)[:100])
     # 2. ffmpeg
     for b in ("ffmpeg", "ffprobe"):
         p = shutil.which(b)
@@ -95,17 +112,16 @@ def main():
     mc = os.path.join(os.environ.get("APPDATA", ""), "ModrinthApp", "meta", "assets")
     add("OK" if os.path.isdir(mc) else "AVISO", "assets do Minecraft (só p/ extrair SFX novos do jogo)", mc, "opcional: os SFX de MC já vêm prontos em library/sfx")
     # 6b. CineCam (B-roll)
-    cm = os.environ.get("CINECAM_HOME") or os.path.join(C.get("work_dir", r"D:\Pobrs"), "cinecam-forge-1.20.1")
-    if not os.path.isdir(cm) and os.path.isdir(r"D:\cinecam-forge-1.20.1"): cm = r"D:\cinecam-forge-1.20.1"
+    cm = P.cinecam("home")
     add("OK" if os.path.exists(os.path.join(cm, "gradlew.bat")) else "AVISO", "mod CineCam (B-roll, regra 14)", cm,
-        "python ~/.claude/skills/minecraft-cinematic/scripts/setup_cinecam.py (1ª vez, com internet)")
+        "python %s (1ª vez, com internet)" % os.path.join(P.CINEMATIC, "scripts", "setup_cinecam.py"))
     import glob as _g
-    jdk = _g.glob(os.path.join(HOME, ".gradle", "jdks", "temurin17-download", "jdk-17*")) + _g.glob(r"C:\Program Files\Eclipse Adoptium\jdk-17*") + _g.glob(r"C:\Program Files\Java\jdk-17*")
-    add("OK" if jdk or os.environ.get("CINECAM_JAVA_HOME") else "AVISO", "JDK 17 (CineCam)", (jdk or [""])[-1], "setup_cinecam.py instala (winget Temurin 17)")
-    sk = os.path.join(HOME, ".claude", "skills", "minecraft-cinematic", "assets", "skins")
+    jdk = _g.glob(os.path.join(HOME, ".gradle", "jdks", "temurin17-download", "jdk-17*")) + _g.glob(r"C:\Program Files\Eclipse Adoptium\jdk-17*") + _g.glob(r"C:\Program Files\Java\jdk-17*") + _g.glob(r"C:\Program Files\Microsoft\jdk-17*")
+    add("OK" if jdk or P.cinecam("java_home") else "AVISO", "JDK 17 (CineCam)", (jdk or [""])[-1], "setup_cinecam.py instala (winget Temurin 17)")
+    sk = P.cinecam("skins") or os.path.join(P.CINEMATIC, "assets", "skins")
     add("OK" if os.path.isdir(sk) else "AVISO", "skins da turma (CineCam)", sk)
     # 6b2. cinemáticas automáticas (regra 20)
-    cs = os.path.join(HOME, ".claude", "skills", "minecraft-cinematic", "scripts")
+    cs = os.path.join(P.CINEMATIC, "scripts")
     try:
         sys.path.insert(0, cs)
         from cinecam.turma import skins_root as _sr
@@ -120,7 +136,7 @@ def main():
         add("OK" if _cv.ocl.haveOpenCL() else "AVISO", "GPU p/ o DoF das cinemáticas (OpenCL)", "sim" if _cv.ocl.haveOpenCL() else "não: DoF no processador (mais lento)")
     except Exception as e:
         add("FALTA", "opencv (DoF das cinemáticas)", str(e)[:80], "pip install opencv-python")
-    rn = os.environ.get("CINECAM_RUN") or (r"D:\cinecam-run" if os.path.isdir(r"D:\cinecam-run") else os.path.join(C.get("work_dir", r"D:\Pobrs"), "cinecam-run"))
+    rn = P.cinecam("run")
     add("OK" if os.path.exists(os.path.join(rn, "launch.json")) else "AVISO", "CineCam lançamento direto (sem gradle no render)",
         os.path.join(rn, "launch.json"), "criado sozinho no 1º render (via gradle)")
     # 6c. interface + FilmCraft + Claude Code (regra 19)

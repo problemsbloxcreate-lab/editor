@@ -1,5 +1,6 @@
 import json, subprocess, cv2, numpy as np, os, shutil
-OUT = r'C:\Users\mathe\Skills\_research\mc-test'
+import sys
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()   # pasta do teste (out/, work/)
 os.chdir(os.path.join(OUT, 'out'))
 plan = json.load(open('../work/plan.json', encoding='utf8'))
 rend = json.load(open('v11.json', encoding='utf8'))

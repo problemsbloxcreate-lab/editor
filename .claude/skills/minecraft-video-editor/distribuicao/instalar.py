@@ -8,7 +8,8 @@ opções: --home <pasta do usuário> (teste) · --sim (não pergunta nada) · --
 O que faz:
  1. copia a skill e as dependências para ~/.claude (skills, agents)
  2. copia as músicas Epidemic (se a pasta MUSICAS do 2º zip estiver ao lado) para --epidemic
- 3. troca os caminhos da máquina original (C:\\Users\\mathe, D:\\Pobrs, D:\\Users\\PREDATOR\\...Epidemic...) pelos daqui, em todos os textos/scripts
+ 3. grava os caminhos daqui em %APPDATA%\\EstudioProblems\\config.json (scripts/paths.py). As skills minecraft-video-editor e
+    minecraft-cinematic NÃO são reescritas (o git pull do atualizador precisa delas intactas); só agentes/_research/outras skills
  4. instala a extensão MCP Bridge do Premiere + PlayerDebugMode no registro (HKCU)
  5. memórias do Claude na pasta do projeto (~/.claude/projects/<chave da pasta Skills>/memory)
  6. pip install -r requirements.txt, baixa o modelo CLAP (1,2 GB) e o de transcrição (whisper-large-v3-turbo, 1,6 GB; local, sem chave)
@@ -114,11 +115,15 @@ else:
 # 3. caminhos
 print("[3] Ajustando caminhos da máquina original:")
 for a, b in REPL[:: max(1, len(REPL) // 6)]: print("    %s -> %s" % (a, b))
-n = sum(patch_tree(r) for r in (dst_skill, os.path.join(CLAUDE, "agents"), os.path.join(SKILLS, "_research"),
-                               *[os.path.join(CLAUDE, "skills", d) for d in os.listdir(os.path.join(HERE, "dependencias", "skills"))]))
-json.dump({"epidemic_dir": EPI, "work_dir": WORK, "skills_dir": SKILLS, "cinecam_out": CINE},
-          open(os.path.join(dst_skill, "config.json"), "w", encoding="utf8"), ensure_ascii=False, indent=1)
-print("    %d arquivos ajustados; config.json gravado" % n)
+VERSIONED = ("minecraft-video-editor", "minecraft-cinematic")
+n = sum(patch_tree(r) for r in (os.path.join(CLAUDE, "agents"), os.path.join(SKILLS, "_research"),
+                               *[os.path.join(CLAUDE, "skills", d) for d in os.listdir(os.path.join(HERE, "dependencias", "skills")) if d not in VERSIONED]))
+sys.path.insert(0, os.path.join(dst_skill, "scripts"))
+import paths as P
+for k, v in (("epidemic_dir", EPI), ("work_dir", WORK), ("skills_dir", SKILLS), ("cinecam_out", CINE),
+             ("cinecam_home", CINEMOD), ("cinecam_run", CINERUN)):
+    P.set_key(k, v)
+print("    %d arquivos ajustados; caminhos gravados em %s" % (n, P.USER_CFG))
 
 # 4. Premiere
 print("[4] Premiere: extensão MCP Bridge + presets")

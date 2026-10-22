@@ -4,7 +4,7 @@
 
 Copia só o que falta ou mudou (pode rodar de novo com uma pasta mais nova):
   skills/*          -> <skills>  (library do editor, skins do cinematic)
-  epidemic/<pasta>  -> --epidemic (padrão: Documentos\\<mesmo nome>) e grava epidemic_dir no config.json do editor
+  epidemic/<pasta>  -> --epidemic (padrão: Documentos\\<mesmo nome>) e grava epidemic_dir em %APPDATA%\\EstudioProblems\\config.json
   modelos/huggingface/hub -> %HF_HOME%\\hub ou ~/.cache/huggingface/hub  (Whisper + CLAP: nada para baixar)
   ferramentas/filmcraft-* -> %LOCALAPPDATA%\\mve-tools\\
   premiere/MCPBridgeCEP   -> %APPDATA%\\Adobe\\CEP\\extensions\\ (+ PlayerDebugMode=1 nas versões CSXS 9-14)
@@ -12,10 +12,10 @@ Copia só o que falta ou mudou (pode rodar de novo com uma pasta mais nova):
 """
 import glob, json, os, shutil, subprocess, sys
 
-HERE = os.path.dirname(os.path.abspath(__file__))
 HOME = os.path.expanduser("~")
 A = sys.argv[1:]
 opt = lambda n, d: A[A.index(n) + 1] if n in A else d
+HERE = os.path.abspath(opt("--origem", os.path.dirname(os.path.abspath(__file__))))   # pasta de mídia (MIDIA_editor ou a do canal)
 
 
 def same(a, b):
@@ -51,12 +51,12 @@ epi_src = glob.glob(os.path.join(HERE, "epidemic", "*"))
 if epi_src:
     epi = os.path.abspath(opt("--epidemic", os.path.join(HOME, "Documents", os.path.basename(epi_src[0]))))
     print("  Epidemic -> %s: %d arquivos" % (epi, put(epi_src[0], epi)))
-    cfgp = os.path.join(skills, "minecraft-video-editor", "config.json")
-    cfg = json.load(open(cfgp, encoding="utf8")) if os.path.exists(cfgp) else {}
+    ucfg = os.path.join(os.environ.get("APPDATA", os.path.join(HOME, "AppData", "Roaming")), "EstudioProblems", "config.json")
+    cfg = json.load(open(ucfg, encoding="utf8")) if os.path.exists(ucfg) else {}
     cfg["epidemic_dir"] = epi
-    if os.path.isdir(os.path.dirname(cfgp)):
-        json.dump(cfg, open(cfgp, "w", encoding="utf8"), ensure_ascii=False, indent=1)
-        print("  config.json: epidemic_dir =", epi)
+    os.makedirs(os.path.dirname(ucfg), exist_ok=True)
+    json.dump(cfg, open(ucfg, "w", encoding="utf8"), ensure_ascii=False, indent=1)
+    print("  %s: epidemic_dir = %s" % (ucfg, epi))
 
 hub = os.path.join(os.environ.get("HF_HOME", os.path.join(HOME, ".cache", "huggingface")), "hub")
 print("  modelos (Whisper + CLAP) -> %s: %d arquivos" % (hub, put(os.path.join(HERE, "modelos", "huggingface", "hub"), hub)))
@@ -83,7 +83,7 @@ if os.path.exists(prf):
         print("  presets BERSERKER: abra o Premiere uma vez e rode de novo (não há perfil ainda)")
 
 doc = os.path.join(skills, "minecraft-video-editor", "scripts", "doctor.py")
-if os.path.exists(doc):
+if os.path.exists(doc) and "--sem-checagem" not in A:
     print("\n== Checagem")
     subprocess.run([sys.executable, "-X", "utf8", doc])
 input("\nPronto. Enter para fechar.") if sys.stdin.isatty() and "--sim" not in A else None

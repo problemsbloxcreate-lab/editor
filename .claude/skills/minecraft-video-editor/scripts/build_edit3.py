@@ -55,10 +55,13 @@ def only_ok(name):
     return True
 
 
+import pr_names
+
+
 def run(jsx, name, timeout=300):
     if not only_ok(name): return ""
     path = os.path.join(os.getcwd(), name + ".jsx")
-    open(path, "w", encoding="utf8").write(jsx)
+    open(path, "w", encoding="utf8").write(pr_names.wrap(jsx))      # Premiere em qualquer idioma (nomes PT -> nomes desta máquina)
     out = subprocess.run([sys.executable, BRIDGE, path, str(timeout)], capture_output=True, text=True, encoding="utf8")
     if out.returncode != 0:
         raise SystemExit(name + " FALHOU: " + (out.stderr or out.stdout)[-800:])
@@ -209,6 +212,9 @@ for (var n = 0; n < ST.length; n++) { var mo = tr.clips[ST[n].ci].components[1];
   mo.properties[1].setTimeVarying(false); mo.properties[0].setTimeVarying(false);
   mo.properties[3].setValue(false, true); mo.properties[1].setValue(ST[n].sy, true); mo.properties[2].setValue(ST[n].sx, true); mo.properties[0].setValue([ST[n].px, ST[n].py], true); }
 return __result(r);''' % J(ST), "b3b_stretch", 120)
+    if "--no-names" not in sys.argv and only_ok("b3c_names"):      # V1 já montada: confere/descobre os nomes dos efeitos neste Premiere
+        try: pr_names.ensure(log=lambda m: print(m))
+        except Exception as e: print("aviso pr_names.ensure:", str(e)[:300])
     for name, idxs, match, prop, col, fxname in (("b3c_lens", need_lens, "PR.ADBE Lens Distortion", 0, 4, "Distorção de lente"),
                                                   ("b3d_tint", need_tint, "AE.ADBE Tint", 2, 5, "Tonalidade")):
         if not idxs: continue
@@ -315,9 +321,9 @@ r.n = n; r.v3 = vt.clips.numItems; return __result(r);''' % J(FU), "b6c_futuros"
         ci = lambda tl: next(i for i, x in enumerate(order) if abs(x["tl"] - tl) < 1e-6)
         run(pre + '''app.enableQE(); var q = qe.project.getActiveSequence(); var vt = s.videoTracks[1]; var LUM = %s; var TINT = %s; var n = 0;
 var qt = q.getVideoTrackAt(1); var kk = 0;
-for (var i = 0; i < qt.numItems; i++) { var qi = qt.getItemAt(i); if (String(qi.type) == "Empty") continue; qi.addVideoEffect(qe.project.getVideoEffectByName("Cor de Lumetri")); var L = vt.clips[kk].components[2];
+for (var i = 0; i < qt.numItems; i++) { var qi = qt.getItemAt(i); if (String(qi.type) == "Empty") continue; qi.addVideoEffect(qe.project.getVideoEffectByName("Cor de Lumetri")); var L = EP_comp(vt.clips[kk], "Cor de Lumetri");
   for (var key in LUM) { try { L.properties[parseInt(key)].setValue(LUM[key], true); n++; } catch (e) { r.err = (r.err || "") + key + ":" + e + " "; } }
-  qi.addVideoEffect(qe.project.getVideoEffectByName("Tonalidade")); var T = vt.clips[kk].components[2]; kk++;
+  qi.addVideoEffect(qe.project.getVideoEffectByName("Tonalidade")); var T = EP_comp(vt.clips[kk], "Tonalidade"); kk++;
   try { T.properties[0].setColorValue(TINT.b[0], TINT.b[1], TINT.b[2], TINT.b[3], true); T.properties[1].setColorValue(TINT.w[0], TINT.w[1], TINT.w[2], TINT.w[3], true); T.properties[2].setValue(TINT.amt, true); n++; } catch (e2) { r.err = (r.err || "") + "tint:" + e2 + " "; } }
 r.n = n; return __result(r);''' % (J(LUM), J(TINT)), "b6d_flashback", 600)
         SP = []
@@ -340,7 +346,7 @@ r.n = n; return __result(r);''' % (J(LUM), J(TINT)), "b6d_flashback", 600)
                                          "Escala de resplendor": 25, "Escala cruzada": 93, "Escala de resplendor 1": 50, "Escala de resplendor 2": 40, "Escala cruzada 1": 75, "Escala cruzada 2": 65,
                                          "Forma": 11, "Colorir": 93, "Variação de cor": 13, "Velocidade de variação": 2, "Remover saturação": 0, "Aberração Cromática": 37, "Modo de mesclagem": 1})
         run(pre + '''app.enableQE(); var q = qe.project.getActiveSequence(); var tr = s.videoTracks[0]; var RV = %s; var GLV = %s; r.fail = []; r.n = 0;
-function comp(c, nm) { for (var u = 0; u < c.components.numItems; u++) if (c.components[u].displayName == nm) return c.components[u]; return null; }
+function comp(c, nm) { return EP_comp(c, nm); }
 for (var i = 0; i < RV.length; i++) { var R = RV[i]; var c = tr.clips[R.ci]; var t0 = c.inPoint.seconds; var qi = q.getVideoTrackAt(0).getItemAt(R.ci);
   if (R.kind == "tilt") {
     var mo = c.components[1]; mo.properties[1].setTimeVarying(false); mo.properties[0].setTimeVarying(false);
@@ -348,11 +354,12 @@ for (var i = 0; i < RV.length; i++) { var R = RV[i]; var c = tr.clips[R.ci]; var
     var sc = mo.properties[1], rt = mo.properties[4];
     sc.setTimeVarying(true); sc.addKey(t0); sc.setValueAtKey(t0, 100); sc.addKey(t0 + R.dur); sc.setValueAtKey(t0 + R.dur, R.scale);
     rt.setTimeVarying(true); rt.addKey(t0); rt.setValueAtKey(t0, 0); rt.addKey(t0 + R.dur); rt.setValueAtKey(t0 + R.dur, R.rot);
-    qi.addVideoEffect(qe.project.getVideoEffectByName("Cor de Lumetri")); var L = comp(c, "Cor de Lumetri"); var sat = L.properties[16];
+    qi.addVideoEffect(qe.project.getVideoEffectByName("Cor de Lumetri")); var L = comp(c, "Cor de Lumetri"); if (!L) { r.fail.push("sem Lumetri"); continue; } var sat = L.properties[16];
     sat.setTimeVarying(true); sat.addKey(t0); sat.setValueAtKey(t0, 100); sat.addKey(t0 + R.dur * 0.87); sat.setValueAtKey(t0 + R.dur * 0.87, R.sat); r.n++;
   } else if (R.kind == "sparkle") {
     qi.addVideoEffect(qe.project.getVideoEffectByName("Brilho cintilante")); var G = comp(c, "Brilho cintilante");
-    for (var w = 0; w < G.properties.numItems; w++) { var pp = G.properties[w]; var nm = pp.displayName;
+    if (!G) { r.fail.push("sem Brilho cintilante neste Premiere"); continue; }
+    for (var w = 0; w < G.properties.numItems; w++) { var pp = G.properties[w]; var nm = EP_pt(G, w);
       try {
         if (GLV.hasOwnProperty(nm)) pp.setValue(GLV[nm], true);
         else if (nm == "Posição") pp.setValue(R.pos, true);
@@ -394,7 +401,7 @@ for (var k = 0; k < FL.length; k++) { var B = FL[k]; var vt = s.videoTracks[B.v]
   if (idx < 0) { r.fail.push("sem clip " + B.t); continue; }
   var qt = q.getVideoTrackAt(B.v); var kk = -1;
   for (var i = 0; i < qt.numItems; i++) { var qi = qt.getItemAt(i); if (String(qi.type) == "Empty") continue; kk++; if (kk == idx) { qi.addVideoEffect(qe.project.getVideoEffectByName("Tonalidade")); break; } }
-  var c = vt.clips[idx]; var T = null; for (var u = 0; u < c.components.numItems; u++) if (c.components[u].displayName == "Tonalidade") T = c.components[u];
+  var c = vt.clips[idx]; var T = EP_comp(c, "Tonalidade");
   if (!T) { r.fail.push("sem Tonalidade " + B.t); continue; }
   T.properties[0].setColorValue(255, 255, 255, 255, true); T.properties[1].setColorValue(255, 255, 255, 255, true);
   var am = T.properties[2]; var t0 = c.inPoint.seconds; am.setTimeVarying(true); am.addKey(t0); am.setValueAtKey(t0, B.flash[0]); am.addKey(t0 + B.flash[1]); am.setValueAtKey(t0 + B.flash[1], 0); r.n++; }

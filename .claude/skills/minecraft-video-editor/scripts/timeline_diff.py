@@ -35,7 +35,7 @@ def main():
     sys.stdout.reconfigure(encoding="utf8")
     a = sys.argv[1:]
     seq, planp = a[0], a[1]
-    work = a[a.index("--work") + 1] if "--work" in a else r"C:\Users\mathe\Skills\_research\mc-test\work"
+    work = a[a.index("--work") + 1] if "--work" in a else os.getcwd()
     outp = a[a.index("--out") + 1] if "--out" in a else None
     plan = json.load(open(planp, encoding="utf8"))
     tmp = os.path.join(tempfile.gettempdir(), "tl_dump.jsx")

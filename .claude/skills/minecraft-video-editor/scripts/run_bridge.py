@@ -7,6 +7,9 @@ function __result(x){return __json({success:true,data:x});}
 function __error(x){return __json({success:false,error:String(x)});}
 '''
 path=Path(sys.argv[1]); code=path.read_text(encoding='utf-8'); timeout=float(sys.argv[2]) if len(sys.argv)>2 else 30
+try:  # Premiere em qualquer idioma: nomes de efeito em PT -> nomes desta máquina (pr_names.py); idempotente
+    sys.path.insert(0,os.path.dirname(os.path.abspath(__file__))); import pr_names; code=pr_names.wrap(code)
+except Exception as _e: print('aviso pr_names:',_e,file=sys.stderr)
 folder=Path(os.environ['TEMP'])/'premiere-mcp-bridge'; folder.mkdir(exist_ok=True)
 uid=uuid.uuid4().hex; cmd=folder/f'cmd_{uid}.jsx'; response=folder/f'res_{uid}.json'
 cmd.write_text(helpers+'\n(function(){try{\n'+code+'\n}catch(e){return __error(e.toString());}})();',encoding='utf-8')

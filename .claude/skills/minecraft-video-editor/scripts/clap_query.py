@@ -13,9 +13,13 @@ for f in glob.glob(os.path.join(d, "clap_*.npz")):
     z = np.load(f, allow_pickle=True); keys += list(z["keys"]); embs += list(z["embs"])
 # 21/10: vetores de texto em cache (library/clap/text_cache.json): prompt repetido não carrega torch + modelo (~1,2 GB, 10-20 s);
 # os que faltam são calculados de uma vez com o modelo carregado 1 vez (mesmo cálculo de antes, prompt a prompt).
-CACHE = os.path.join(d, "text_cache.json")
-try: cache = json.load(open(CACHE, encoding="utf8"))
-except (OSError, ValueError): cache = {}
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import paths as _P
+CACHE = _P.writable("clap_text_cache.json")              # gravável, fora do repositório (git pull não briga)
+cache = {}
+for _c in (os.path.join(d, "text_cache.json"), CACHE):    # padrão empacotado + o desta máquina
+    try: cache.update(json.load(open(_c, encoding="utf8")))
+    except (OSError, ValueError): pass
 miss = [p for p in args if p not in cache]
 if miss:
     import torch

@@ -35,7 +35,8 @@ def main():
     maps = [{"name": b, "x0": x - 64, "z0": z - 64, "x1": x + 64, "z1": z + 64, "step": 2, "generate": True} for b, (x, z) in pts.items()]
     if "--reuse" in sys.argv:                                   # maps already scouted: only redo the choice
         import glob
-        res = {"maps": {Path(p).stem.split("_scout_")[1]: p for p in glob.glob("D:/cinecam-out/sites4242_maps/*_scout_*.json")}}
+        from cinecam.render import OUT_HOME
+        res = {"maps": {Path(p).stem.split("_scout_")[1]: p for p in glob.glob(str(OUT_HOME / "sites4242_maps" / "*_scout_*.json"))}}
     else:
       res = scout("sites4242_maps", world=World(seed=4242), anchor=(3000, 80, -350), maps=maps,
                   settings=Settings(renderDistance=4, simulationDistance=4), timeout_s=3600)

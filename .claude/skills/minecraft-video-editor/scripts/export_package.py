@@ -8,8 +8,10 @@ import json, os, shutil, sys, tempfile, zipfile
 SK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HOME = os.path.expanduser("~")
 CLAUDE = os.path.join(HOME, ".claude")
-CFG = json.load(open(os.path.join(SK, "config.json"), encoding="utf8")) if os.path.exists(os.path.join(SK, "config.json")) else {}
-EPI = CFG.get("epidemic_dir", r"D:\Users\PREDATOR\Documents\Epidemic 2K23 (Pasta de músicas)")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import paths as P
+CFG = P.cfg()
+EPI = P.epidemic_dir()
 SKILLS_DIR = CFG.get("skills_dir", os.path.join(HOME, "Skills"))
 MEM = os.path.join(CLAUDE, "projects", "C--Users-mathe-Skills", "memory")
 MEMORIAS = ["project_mc_video_editor_skill.md", "feedback_mc_video_editor_v11_rejected.md", "feedback_mc_video_editor_v2_corrected.md",

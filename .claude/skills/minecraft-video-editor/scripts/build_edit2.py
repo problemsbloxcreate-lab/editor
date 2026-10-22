@@ -42,9 +42,12 @@ var r = {};
 '''
 
 
+import pr_names
+
+
 def run(jsx, name, timeout=300):
     path = os.path.join(os.getcwd(), name + ".jsx")
-    open(path, "w", encoding="utf8").write(jsx)
+    open(path, "w", encoding="utf8").write(pr_names.wrap(jsx))      # Premiere em qualquer idioma (nomes PT -> nomes desta máquina)
     out = subprocess.run([sys.executable, BRIDGE, path, str(timeout)], capture_output=True, text=True, encoding="utf8")
     if out.returncode != 0:
         raise SystemExit(name + " FALHOU: " + (out.stderr or out.stdout)[-800:])

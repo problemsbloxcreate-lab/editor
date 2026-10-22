@@ -41,9 +41,12 @@ Esta skill também vive em github.com/problemsbloxcreate-lab/editor (`.claude/sk
 7. **Render**: `render(rig, nome, scene=..., size=(1920,1080), grade="cinematic")`. `subframes=8` (whips/shakes 12–16; teste rápido `subframes=1`, 960×540). `supersample=2` para anti-aliasing (se a janela permitir).
 8. **Verificar o MP4** (nunca entregar sem olhar): `report.json` (`ok`, `warnings`, `maxWait`), contact sheet com ffmpeg (`select` + `tile`) de ~12 quadros, conferir 3 transições/pontos de pico (blur, roll, fov). Itere 1–2 vezes e **entregue com status honesto** (o que é aposta, o que foi verificado).
 
+## Caminhos (qualquer PC)
+Pasta do mod, de execução e de saída: `python ../minecraft-video-editor/scripts/paths.py --show` (env `CINECAM_*` > config do usuário > `D:\cinecam-*` antigas > pasta de trabalho). Os `D:\cinecam-out\...` dos exemplos são do PC do Matheus — use `cinecam.render.OUT_HOME`.
+
 ## API essencial
 ```python
-import sys; sys.path.insert(0, r"C:\Users\mathe\.claude\skills\minecraft-cinematic\scripts")
+import sys; sys.path.insert(0, r"<esta skill>\scripts")   # ex.: ~/.claude/skills/minecraft-cinematic/scripts, em qualquer PC
 from cinecam import *
 rig = Rig(fps=30, subframes=8, shutter=0.5)
 rig.add(crane((60,95,-60), (18,72,-18), subject, 2.4, arc=8, ease="launch", fov=(78,66)))      # chegada

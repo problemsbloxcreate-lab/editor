@@ -23,7 +23,8 @@ HOME = os.path.expanduser("~")
 sys.path.insert(0, HERE)
 import sync_github as SG
 
-CFG = json.load(open(os.path.join(SK, "config.json"), encoding="utf8")) if os.path.exists(os.path.join(SK, "config.json")) else {}
+import paths as P
+CFG = P.cfg()
 NOT_MEDIA = ["config.json", "scripts/cinecam/acts_v1_backup.py"]                 # excluídos do GitHub mas que não são mídia
 MODELS = ["models--mobiuslabsgmbh--faster-whisper-large-v3-turbo", "models--laion--clap-htsat-unfused"]
 
@@ -73,7 +74,7 @@ class Mirror:
 
 def main():
     a = sys.argv[1:]
-    out = a[a.index("--out") + 1] if "--out" in a else os.path.join(CFG.get("work_dir", r"D:\Pobrs"), "MIDIA_editor")
+    out = a[a.index("--out") + 1] if "--out" in a else os.path.join(P.work_dir(), "MIDIA_editor")
     os.makedirs(out, exist_ok=True)
     M = Mirror(out)
     parts = {}
@@ -132,6 +133,13 @@ def main():
     print("  %d MB no total; %d arquivos copiados agora; %d removidos (saíram da skill)" % (man["total_MB"], M.copied, gone))
     for k, v in man["partes_MB"].items():
         print("  %-60s %6d MB" % (k, v))
+    if "--publicar" in a:                       # canal de mídia do Estúdio (os PCs da equipe baixam sozinhos)
+        sys.path.insert(0, os.path.join(SK, "app"))
+        import midia_sync
+        ign = [] if "--com-modelos" in a else ["modelos/"]                       # modelos: o instalador baixa da fonte oficial
+        if not (P.get("publicar_epidemic") or "--com-epidemic" in a):          # Epidemic só se a licença cobrir a equipe
+            ign.append("epidemic/")
+        midia_sync.publicar(out, ignorar=ign)
 
 
 if __name__ == "__main__":

@@ -79,7 +79,8 @@ button.sec{background:var(--pn2);color:var(--tx);border:1px solid var(--ln);font
 <script>
 const $=s=>document.querySelector(s);let sel=null,desde=0,envData=null;
 const esc=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-async function api(p,o){const r=await fetch(p,o);const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.erro||('erro '+r.status));return j}
+const EP_TOKEN='__EP_TOKEN__';
+async function api(p,o){o=o||{};o.headers=Object.assign({'x-ep-token':EP_TOKEN},o.headers||{});const r=await fetch(p,o);const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.erro||('erro '+r.status));return j}
 function chip(ok,txt,warn){return `<span class="chip"><span class="dot ${ok?'ok':(warn?'wa':'er')}"></span>${txt}</span>`}
 async function loadEnv(force){try{const e=await api('/api/env'+(force?'?force=1':''));envData=e;const p=e.premiere,f=e.filmcraft;
  $('#env').innerHTML=chip(p.instalado,'Premiere '+(p.instalado?'instalado':'não instalado'),!p.instalado)+(p.instalado?chip(p.ponte,p.ponte?'ponte MCP respondendo':(p.aberto?'ponte sem resposta':'Premiere fechado'),true):'')+
@@ -92,7 +93,7 @@ async function poll(){if(!sel)return;const r=await api(`/api/job/${sel}?desde=${
  if(atBottom)L.scrollTop=L.scrollHeight;const s=r.status||{};$('#selInfo').textContent=`${s.estado||'na fila'}${s.motivo?' — '+s.motivo:''}${s.erro?' — '+s.erro:''}`;
  $('#btnAbrir').disabled=!s.resultado;$('#btnParar').disabled=!['editando','decidindo destino','aguardando limite'].includes(s.estado);
  if(r.resumo){$('#resumo').style.display='block';$('#resumo').textContent=r.resumo}else $('#resumo').style.display='none'}
-async function upload(file){$('#bar').style.display='block';const bar=$('#bar i');return new Promise((ok,no)=>{const x=new XMLHttpRequest();x.open('POST','/api/upload?nome='+encodeURIComponent(file.name));
+async function upload(file){$('#bar').style.display='block';const bar=$('#bar i');return new Promise((ok,no)=>{const x=new XMLHttpRequest();x.open('POST','/api/upload?nome='+encodeURIComponent(file.name));x.setRequestHeader('x-ep-token',EP_TOKEN);
  x.upload.onprogress=e=>{if(e.lengthComputable)bar.style.width=(100*e.loaded/e.total).toFixed(1)+'%'};x.onload=()=>{try{const j=JSON.parse(x.responseText);x.status<300?ok(j.video):no(new Error(j.erro))}catch(e){no(e)}};x.onerror=()=>no(new Error('falha no envio'));x.send(file)})}
 const drop=$('#drop');drop.onclick=()=>$('#file').click();$('#file').onchange=e=>e.target.files[0]&&got(e.target.files[0]);
 ['dragenter','dragover'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('over')}));['dragleave','drop'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('over')}));

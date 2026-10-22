@@ -2,7 +2,7 @@
 uso: python fulldump.py <SEQ_ID> <saida.json> [--tracks V0,V1,A0..] [--lite]"""
 import json, os, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
-BR = os.path.expanduser("~/.claude/skills/minecraft-video-editor/scripts/run_bridge.py")
+BR = os.path.join(HERE, "run_bridge.py")
 
 JS = r'''var p = app.project; var WID = "%(sid)s"; var s = null;
 for (var i = 0; i < p.sequences.numSequences; i++) if (p.sequences[i].sequenceID == WID) s = p.sequences[i];

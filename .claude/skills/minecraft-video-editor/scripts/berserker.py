@@ -82,8 +82,12 @@ def spec(name, ci, clip_in, clip_len, anchor=None, t_start=0.0, tscale=1.0):
 APPLY_JS = '''function qidx(trk, ci) { var kk = -1; for (var i = 0; i < trk.numItems; i++) { if (String(trk.getItemAt(i).type) != "Empty") kk++; if (kk == ci) return i; } return ci; }
 var SP = %s;
 for (var n = 0; n < SP.length; n++) { var ci = SP[n].ci; var cl = tr.clips[ci];
-  for (var f = 0; f < SP[n].fx.length; f++) { var F = SP[n].fx[f];     q.getVideoTrackAt(typeof TRK == "undefined" ? 0 : TRK).getItemAt(qidx(q.getVideoTrackAt(typeof TRK == "undefined" ? 0 : TRK), ci)).addVideoEffect(qe.project.getVideoEffectByName(F.name));
-    var comp = cl.components[2];
+  for (var f = 0; f < SP[n].fx.length; f++) { var F = SP[n].fx[f]; var FXO = qe.project.getVideoEffectByName(F.name);
+    if (!FXO) { r.err = (r.err || "") + "sem efeito " + F.name + "; "; continue; }
+    var n0 = cl.components.numItems, B0 = []; for (var u = 0; u < n0; u++) B0.push(cl.components[u].matchName); q.getVideoTrackAt(typeof TRK == "undefined" ? 0 : TRK).getItemAt(qidx(q.getVideoTrackAt(typeof TRK == "undefined" ? 0 : TRK), ci)).addVideoEffect(FXO);
+    if (cl.components.numItems <= n0) { r.err = (r.err || "") + "não aplicou " + F.name + "; "; continue; }
+    var ix = cl.components.numItems - 1; for (var u = 0; u < n0; u++) if (cl.components[u].matchName != B0[u]) { ix = u; break; }   // onde o Premiere inseriu
+    var comp = cl.components[ix];
     for (var k = 0; k < F.params.length; k++) { var P = F.params[k]; var pr = comp.properties[P.i];
       try { if (P.keys) { pr.setTimeVarying(true); for (var j = 0; j < P.keys.length; j++) { pr.addKey(P.keys[j][0]); pr.setValueAtKey(P.keys[j][0], P.keys[j][1]); } }
         else if (P.color) pr.setColorValue(P.color[0], P.color[1], P.color[2], P.color[3], true); else pr.setValue(P.v, true); } catch (e) { r.err = (r.err || "") + F.name + "#" + P.i + ":" + e + " "; } } } }

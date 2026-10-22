@@ -3,6 +3,8 @@
 SEMPRE que a skill minecraft-video-editor ou a minecraft-cinematic mudar, rodar no fim da tarefa:
     python sync_github.py -m "o que mudou"            # copia, commita e envia (git pull --rebase antes, regra do repo)
     python sync_github.py --dry-run                   # só mostra o que mudaria
+    python sync_github.py -m "..." --liberar          # + libera esta versão para os PCs da equipe (tag local-vAAAA.MM.DD.N)
+SÓ libere quando o Matheus aprovar: a equipe recebe a versão liberada sozinha (Estúdio Problems Local / app/atualizar.py).
 O repositório é PÚBLICO e é do app "Editor Problems (vídeo longo)": vai SÓ código e documentação. Ficam de fora (EXCLUDE):
 músicas Epidemic (licenciadas), SFX (inclui sons da Mojang e memes), vídeos de promo/tela final, overlays PNG (textura de UI do
 Minecraft, WASTED do GTA), skins da turma, config.json da máquina, caches.  Nunca chaves/senhas/e-mails (o script recusa se achar).
@@ -14,7 +16,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SK = os.path.dirname(HERE)
 SKILLS = os.path.dirname(SK)
 REPO_URL = "problemsbloxcreate-lab/editor"
-CFG = json.load(open(os.path.join(SK, "config.json"), encoding="utf8")) if os.path.exists(os.path.join(SK, "config.json")) else {}
+sys.path.insert(0, HERE)
+import paths as P
+CFG = P.cfg()
 REPO = os.environ.get("EDITOR_REPO") or CFG.get("github_repo_dir") or os.path.join(os.path.expanduser("~"), "Skills", "repos", "editor")
 
 SOURCES = {
@@ -114,6 +118,8 @@ def main():
     ahead = git("rev-list", "--count", "origin/main..HEAD", capture=True).strip()
     if not st.strip() and ahead in ("", "0"):
         print("Nada mudou: o GitHub já está igual à skill.")
+        if "--liberar" in a:
+            liberar()
         return
     if st.strip():
         print(st.strip()[:3000])
@@ -130,6 +136,22 @@ def main():
     if r.returncode:
         raise SystemExit("push falhou (permissão? conta do gh?):\n" + (r.stderr or r.stdout))
     print("Enviado: https://github.com/%s/tree/main/.claude/skills" % REPO_URL)
+    if "--liberar" in a:
+        liberar()
+
+
+def liberar():
+    """marca o HEAD da main como versão LIBERADA para a equipe (o atualizador dos PCs só segue estas tags)."""
+    import datetime, re
+    git("fetch", "--tags", "--quiet", "origin", check=False)
+    hoje = datetime.date.today().strftime("%Y.%m.%d")
+    ns = [int(m.group(1)) for t in git("tag", "--list", "local-v%s.*" % hoje, capture=True).split() for m in [re.match(r"local-v[\d.]+\.(\d+)$", t)] if m]
+    tag = "local-v%s.%d" % (hoje, max(ns, default=0) + 1)
+    git("tag", "-a", tag, "-m", "Estúdio Problems Local: versão liberada para a equipe")
+    r = git("push", "origin", tag, check=False)
+    if r.returncode:
+        raise SystemExit("push da tag falhou:\n" + (r.stderr or r.stdout))
+    print("Liberada para a equipe:", tag, "(os PCs atualizam sozinhos em até 2 h, sem edição rodando)")
 
 
 if __name__ == "__main__":

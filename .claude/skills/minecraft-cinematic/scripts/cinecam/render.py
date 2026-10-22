@@ -26,9 +26,22 @@ from . import post as _post
 from . import dof as _dof
 from . import actors as _actors
 
-MOD_HOME = Path(os.environ.get("CINECAM_HOME", "D:/cinecam-forge-1.20.1"))
-RUN_HOME = Path(os.environ.get("CINECAM_RUN", "D:/cinecam-run"))
-OUT_HOME = Path(os.environ.get("CINECAM_OUT", "D:/cinecam-out"))
+def _cine_path(which: str, legacy: str) -> str:
+    """env CINECAM_* > config do usuário (minecraft-video-editor/scripts/paths.py) > pasta antiga."""
+    import sys
+    ed = Path(__file__).resolve().parents[3] / "minecraft-video-editor" / "scripts"
+    if ed.is_dir() and str(ed) not in sys.path:
+        sys.path.append(str(ed))
+    try:
+        import paths as _paths
+        return _paths.cinecam(which) or legacy
+    except ImportError:
+        return os.environ.get("CINECAM_" + which.upper()) or legacy
+
+
+MOD_HOME = Path(_cine_path("home", "D:/cinecam-forge-1.20.1"))
+RUN_HOME = Path(_cine_path("run", "D:/cinecam-run"))
+OUT_HOME = Path(_cine_path("out", "D:/cinecam-out"))
 
 
 @dataclass
@@ -81,11 +94,13 @@ def free_gb(path: str) -> float:
 
 
 def _java_home() -> str:
-    env = os.environ.get("CINECAM_JAVA_HOME")
+    env = _cine_path("java_home", "")
     if env:
         return env
     c = sorted(glob.glob(str(Path.home() / ".gradle/jdks/temurin17-download/jdk-17*")))
-    c += sorted(glob.glob(r"C:\Program Files\Eclipse Adoptium\jdk-17*")) + sorted(glob.glob(r"C:\Program Files\Java\jdk-17*"))
+    for pf in (r"C:\Program Files\Eclipse Adoptium", r"C:\Program Files\Java", r"C:\Program Files\Microsoft",
+               r"C:\Program Files\Zulu", r"C:\Program Files\Amazon Corretto"):
+        c += sorted(glob.glob(pf + r"\jdk-17*")) + sorted(glob.glob(pf + r"\zulu-17*"))
     if c:
         return c[-1]
     raise RuntimeError("JDK 17 not found; set CINECAM_JAVA_HOME")
@@ -176,7 +191,7 @@ def run_game(job_json: Path, mode: str = "film", xmx: str = "4G", timeout_s: int
     lock.write_text(str(os.getpid()))
     try:
         t_start = time.time()
-        env = dict(os.environ, JAVA_HOME=_java_home())
+        env = dict(os.environ, JAVA_HOME=_java_home(), CINECAM_RUN=str(RUN_HOME))
         logf = open(log or (job_json.parent / "game.log"), "w", encoding="utf-8", errors="replace")
         jarg = str(job_json).replace(chr(92), '/')
         cmd = None
@@ -231,7 +246,7 @@ def render(rig: Rig, name: str, scene: Optional[Scene] = None, world: Optional[W
            size: Tuple[int, int] = (1920, 1080), grade: str = "cinematic", letterbox: Optional[float] = None, supersample: int = 1,
            xmx: str = "4G", audio: Optional[str] = None, crf: int = 14, timeout_s: int = 3600, dry_run: bool = False,
            dof: Optional[bool] = None, anim=None) -> Dict:
-    """Render a rig to D:/cinecam-out/<name>/<name>.mp4.  Returns a dict with paths and the mod's report."""
+    """Render a rig to <CINECAM_OUT>/<name>/<name>.mp4.  Returns a dict with paths and the mod's report."""
     scene, world, settings = scene or Scene(), world or World(), settings or Settings()
     out_dir = OUT_HOME / name
     job_dir = RUN_HOME / "jobs" / name

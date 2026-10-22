@@ -32,6 +32,10 @@ class Job:
         s.ev.write(json.dumps({"t": now(), "tipo": tipo, "txt": txt[:2000]}, ensure_ascii=False) + "\n"); s.ev.flush()
 
 
+MONTAR_WEB = ("MODO MONTAR (plano feito no editor web do Estúdio): o plan3.json JÁ ESTÁ na pasta do job, convertido por plano_web.py. "
+              "NÃO refaça decupagem, zooms, SFX nem música: só monte esse plan3 no DESTINO, confira (verificação objetiva da skill) e escreva "
+              "RESUMO.md. Arquivos que faltam nesta máquina estão em plan3['faltando'] e viraram marcadores; cinemáticas só se as notas pedirem.")
+
 PROMPT = """Você está rodando SEM ninguém olhando (job da interface "Editor Problems"). Não faça perguntas: decida pelo padrão da skill e registre as apostas em marcadores.
 
 Use a skill minecraft-video-editor (leia SKILL.md e as referências que ela manda ler) e edite o bruto abaixo de ponta a ponta, com a mesma qualidade de quando o Matheus pede no chat.
@@ -41,6 +45,7 @@ Use a skill minecraft-video-editor (leia SKILL.md e as referências que ela mand
 - DESTINO: {destino}  ({motivo})
 - Nome da edição: {nome}
 - Notas do Matheus: {notas}
+- Caminhos DESTA máquina (Epidemic, CineCam, mídia): rode `python "{sk}/scripts/paths.py" --show` — nunca copie caminhos fixos (D:/...) do SKILL.md/exemplos.
 
 Montagem:
 {montagem}
@@ -101,6 +106,12 @@ def main():
     fmt = dict(video=c["video"], job=job.d, destino=dest.upper(), motivo=why, nome=nome, notas=c.get("notas") or "(nenhuma)", sk=SK)
     fmt["montagem"] = (MONT_FC if dest == "filmcraft" else MONT_PR).format(**fmt)
     fmt["cine"] = CINE_ON.format(**fmt) if c.get("cinematicas", True) else "DESLIGADAS nesta edição (o Matheus desmarcou): não gere cinemáticas."
+    if c.get("modo") == "montar":                 # plano do editor web: converte e o Claude só monta/confere (sem refazer a edição)
+        r = subprocess.run([sys.executable, "-X", "utf8", os.path.join(SK, "scripts", "plano_web.py"), os.path.join(job.d, "pedido_web.json"),
+                            os.path.join(job.d, "plan3.json")], capture_output=True, text=True, encoding="utf8")
+        job.log("info", (r.stdout or r.stderr).strip()[-600:])
+        if r.returncode: job.status(estado="erro", erro="plano_web: " + (r.stderr or r.stdout)[-300:]); return
+        fmt["notas"] = (MONTAR_WEB + "\n" + fmt["notas"]).strip()
     prompt = PROMPT.format(**fmt)
     open(os.path.join(job.d, "prompt.txt"), "w", encoding="utf8").write(prompt)
     import shutil
@@ -111,11 +122,20 @@ def main():
            "--add-dir", os.path.join(os.path.dirname(SK), "minecraft-cinematic")]          # cinemáticas (regra 20): referências e exemplos
     if c.get("modelo"): cmd += ["--model", c["modelo"]]
     flags = subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0
+    import paths as P
+    run_env = dict(os.environ, **P.cinecam_env())                 # caminhos do CineCam valem na hora (sem setx)
+    pyd = os.path.dirname(sys.executable)                          # "python" nos comandos do Claude = o ambiente do serviço (pacotes certos)
+    run_env["PATH"] = pyd + os.pathsep + os.path.join(pyd, "Scripts") + os.pathsep + run_env.get("PATH", "")
+    import midia_sync
+    conta = (midia_sync.conta_claude() or {}).get("email")
+    outros = midia_sync.conta_em_uso(conta, True)                 # PCs que dividem a conta: o Estúdio avisa quem for começar outra
+    job.status(conta_claude=conta, outros_pcs=[x.get("pc") for x in outros])
+    if outros: job.log("info", "Atenção: a conta Claude %s também está editando em %s — o limite de uso é dividido." % (conta, ", ".join(x.get("pc", "?") for x in outros)))
     sess, custo, retomadas, texto = None, 0.0, 0, prompt
     while True:                                   # 21/10: limite de uso da conta -> espera o reset e retoma a MESMA sessão (--resume)
         run_cmd = cmd + (["--resume", sess] if retomadas and sess else [])
         p = subprocess.Popen(run_cmd, cwd=job.d, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, creationflags=flags,
-                             shell=exe.lower().endswith((".cmd", ".bat")))
+                             shell=exe.lower().endswith((".cmd", ".bat")), env=run_env)
         p.stdin.write(texto.encode("utf8")); p.stdin.close()
         job.status(claude_pid=p.pid)
         limite = None
@@ -155,6 +175,7 @@ def main():
             job.status(estado="editando", retoma=None)
             continue
         break
+    midia_sync.conta_em_uso(conta, False)
     if rc:
         job.log("erro", "Claude Code terminou com código %d" % rc); job.status(estado="erro", erro="claude saiu com %d" % rc); return
     res = None

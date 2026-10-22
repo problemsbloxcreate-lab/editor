@@ -1,0 +1,22 @@
+# Versões EXATAS da máquina do Matheus (Python 3.14, 22/10/2026) — o instalador do Estúdio Problems Local usa este arquivo
+# para a equipe ficar igual ao PC dele. Atualize junto quando trocar uma versão aqui (python -m pip freeze).
+numpy==2.4.4
+scipy==1.17.1
+soundfile==0.13.1
+librosa==0.11.0
+pillow==12.2.0
+opencv-python==4.13.0.92
+requests==2.33.1
+python-dotenv==1.2.2
+yt-dlp==2026.3.17
+faster-whisper==1.2.1
+ctranslate2==4.8.3
+nvidia-cublas-cu12==12.9.2.10
+nvidia-cudnn-cu12==9.27.0.42
+torch==2.12.0
+transformers==5.19.0
+huggingface-hub==2.2.0
+tokenizers==0.23.3
+onnxruntime==1.26.0
+matplotlib==3.10.9
+cryptography==47.0.0

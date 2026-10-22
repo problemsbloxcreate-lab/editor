@@ -15,3 +15,6 @@ nvidia-cudnn-cu12
 # busca de música por clima (CLAP): torch CPU basta
 torch>=2.3          # 2.12.0+cpu
 transformers>=4.44  # 5.19.0
+# Estúdio Problems Local (22/10/2026)
+cryptography>=42    # 47.0.0  confere o passe do porteiro (serviço local)
+matplotlib>=3.8     # 3.10.9  gráficos de nível/ritmo
