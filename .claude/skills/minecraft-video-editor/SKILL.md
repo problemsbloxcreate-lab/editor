@@ -99,6 +99,12 @@ Estado: **v7 (21/10/2026): CINEMÁTICAS AUTOMÁTICAS em todo vídeo (regra 20, [
 - **Exportar o pacote** (na máquina do Matheus): `python scripts/export_package.py [--out pasta] [--sem-musicas]` → `minecraft-video-editor_v6_INSTALAR.zip` + `_MUSICAS.zip`; na máquina nova: extrair os dois na mesma pasta → `INSTALAR.bat` (`distribuicao/instalar.py` troca os caminhos `C:\Users\mathe`, `D:\Pobrs` e Epidemic pelos locais e grava `config.json`). Script novo: preferir caminhos relativos à skill ou `config.json` (os absolutos da máquina original o instalador reescreve).
 - Presets de exportação do Premiere em qualquer versão: `scripts/adobe_presets.py` (os builders já usam).
 
+## GitHub (22/10/2026) — SEMPRE sincronizar
+- As duas skills (esta + `minecraft-cinematic`) vivem também em **github.com/problemsbloxcreate-lab/editor**, pasta `.claude/skills/` (repo PÚBLICO do app "Editor Problems (vídeo longo)"; não mexer em `site/`, `worker/`, nem na skill `editar-longo` dele).
+- **Toda modificação em qualquer uma das duas skills termina com** `python scripts/sync_github.py -m "o que mudou"` (copia, faz `git pull --rebase`, commita e envia; `--dry-run` mostra antes). Clone local: `config.json` → `github_repo_dir`.
+- Vai SÓ código e documentação: o script exclui músicas, SFX (sons da Mojang/memes), vídeos de promo/tela final, PNGs de overlay, skins, `config.json` e caches, e RECUSA se achar chave/token/e-mail. Mídia continua no pacote zip local (`export_package.py`).
+- Enviar exige a conta do GitHub com permissão de escrita no repo (a `problemsbloxcreate-lab`; a mths2707 só lê).
+
 ## Regras duras
 - Nada de render/mix que destrua: tudo editável e restaurável (sequência clonada; original e versões anteriores intactas).
 - Efeito sem motivo = não colocar. Gancho (primeiros ~40 s) denso; depois mais leve, mas com música/SFX por clima.

@@ -16,6 +16,9 @@ Decisões do Matheus (15/10/2026): **Minecraft real renderizado por mim**, **16:
 2. [`references/job-schema.md`](references/job-schema.md) — contrato job.json/camera.csv, fases do mod, gotchas.
 3. [`references/recipes.md`](references/recipes.md) — código pronto dos planos das refs (abertura aérea, revelação por folhagem, órbita atrás da árvore, plano-sequência de escala, whip de transição).
 
+## GitHub (22/10/2026)
+Esta skill também vive em github.com/problemsbloxcreate-lab/editor (`.claude/skills/minecraft-cinematic`, repo PÚBLICO, sem as skins). **Toda modificação termina com** `python ~/.claude/skills/minecraft-video-editor/scripts/sync_github.py -m "o que mudou"`.
+
 ## Ambiente (já montado)
 - Mod: `D:\cinecam-forge-1.20.1` (Forge 1.20.1, fonte também em `assets/cinecam-mod/`). **v0.8: o jogo é lançado DIRETO com java** (o comando do `runClient` é capturado do `gradle --info` na 1ª vez para `D:\cinecam-run\launch.json`); quando o fonte do mod muda, só roda `gradlew classes` antes. Sem a JVM do gradle viva durante o render (−1–2 GB). `CINECAM_GRADLE=1` volta ao caminho antigo.
 - **Fonte em `assets/cinecam-mod/` = cópia IDÊNTICA do mod atual (v0.8, sincronizada 21/10/2026)**; `.jar` compilado em `assets/cinecam-mod/dist/cinecam-forge-1.20.1-0.1.0.jar` (só para pôr numa instância Forge 1.20.1 comum — o render NÃO usa o .jar, compila do fonte via `runClient`). Ao mudar o mod em `D:\cinecam-forge-1.20.1`, recopiar `src/` para cá e recompilar (`gradlew build --offline`, JAVA_HOME = JDK 17 de `~/.gradle/jdks`).
