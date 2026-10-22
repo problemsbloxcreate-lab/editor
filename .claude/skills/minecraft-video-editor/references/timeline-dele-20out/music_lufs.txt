@@ -1,0 +1,74 @@
+ -22.2 dB  track   -9.8 LUFS  -> efetivo  -47.0  Lifecrash - Rascal Genius.mp3 2
+ -25.0 dB  track  -16.6 LUFS  -> efetivo  -56.6  The Sleepy Sneaky Sway - Luel 13
+ -25.0 dB  track  -12.9 LUFS  -> efetivo  -52.9  The Sleepy Sneaky Sway - Luel 22
+ -25.0 dB  track  -15.6 LUFS  -> efetivo  -55.6  The Sleepy Sneaky Sway - Luel 28
+ -25.0 dB  track  -16.1 LUFS  -> efetivo  -56.1  Festive Riot - Harper Rey (1) 32
+ -25.0 dB  track  -16.1 LUFS  -> efetivo  -56.1  Festive Riot - Harper Rey (1) 35
+ -26.0 dB  track   -8.8 LUFS  -> efetivo  -49.8  When the Cats Away - The Fly  40
+ -26.0 dB  track   -8.7 LUFS  -> efetivo  -49.7  When the Cats Away - The Fly  53
+ -27.0 dB  track  -10.6 LUFS  -> efetivo  -52.6  Mitch the Snitch - Christoffe 61
+ -26.0 dB  track  -11.4 LUFS  -> efetivo  -52.4  Happy Shortcut - Speedy The S 82
+ -26.0 dB  track  -11.5 LUFS  -> efetivo  -52.5  Happy Shortcut - Speedy The S 88
+ -26.0 dB  track  -10.9 LUFS  -> efetivo  -51.9  Happy Shortcut - Speedy The S 93
+ -25.0 dB  track  -10.6 LUFS  -> efetivo  -50.6  The Olive Branch - Moins Le Q 107
+ -25.0 dB  track   -7.4 LUFS  -> efetivo  -47.4  Your Gain - Swif7.mp3 111
+ -24.6 dB  track  -11.7 LUFS  -> efetivo  -51.3  In the Outskirts of Buenos Ai 117
+ -26.0 dB  track  -11.8 LUFS  -> efetivo  -52.8  Hot Piece for Sale - Martin L 152
+ -26.0 dB  track  -10.3 LUFS  -> efetivo  -51.3  Hot Piece for Sale - Martin L 163
+ -26.0 dB  track   -9.8 LUFS  -> efetivo  -50.8  Having Fun - The Fly Guy Five 170
+ -22.8 dB  track  -10.1 LUFS  -> efetivo  -47.9  Having Fun - The Fly Guy Five 184
+ -26.0 dB  track   -9.7 LUFS  -> efetivo  -50.7  Having Fun - The Fly Guy Five 191
+ -26.0 dB  track   -9.3 LUFS  -> efetivo  -50.3  Having Fun - The Fly Guy Five 207
+ -26.0 dB  track  -10.1 LUFS  -> efetivo  -51.1  The Blame Is on Me - Stationa 212
+ -25.0 dB  track  -18.3 LUFS  -> efetivo  -58.3  That Thing Behind Us - Arylid 234
+ -25.0 dB  track  -14.7 LUFS  -> efetivo  -54.7  That Thing Behind Us - Arylid 240
+ -26.0 dB  track  -11.1 LUFS  -> efetivo  -52.1  The Wager - White Bones.mp3 264
+ -26.0 dB  track  -13.6 LUFS  -> efetivo  -54.6  Bumblebee - Mike Franklyn.mp3 280
+ -26.0 dB  track  -12.0 LUFS  -> efetivo  -53.0  Bumblebee - Mike Franklyn.mp3 295
+ -26.0 dB  track  -11.6 LUFS  -> efetivo  -52.6  Bumblebee - Mike Franklyn.mp3 308
+ -26.0 dB  track  -11.0 LUFS  -> efetivo  -52.0  Cheat Sheet - Martin Klem.mp3 312
+ -26.0 dB  track   -9.6 LUFS  -> efetivo  -50.6  Cheat Sheet - Martin Klem.mp3 328
+ -26.0 dB  track   -8.3 LUFS  -> efetivo  -49.3  Cheat Sheet - Martin Klem.mp3 347
+ -26.0 dB  track   -7.7 LUFS  -> efetivo  -48.7  Surfer - Scoobadive.mp3 353
+ -26.0 dB  track  -10.3 LUFS  -> efetivo  -51.3  Bring In the Clowns - Speedy  396
+ -26.0 dB  track  -19.1 LUFS  -> efetivo  -60.1  Get in and Go - Dream Cave.mp 417
+ -26.0 dB  track  -20.0 LUFS  -> efetivo  -61.0  Get in and Go - Dream Cave.mp 420
+ -23.8 dB  track  -12.8 LUFS  -> efetivo  -51.6  Hide and Sneak - The Fly Guy  435
+ -27.3 dB  track   -8.0 LUFS  -> efetivo  -50.3  Heroes of Speed - Johan Gloss 462
+ -27.3 dB  track   -7.8 LUFS  -> efetivo  -50.1  Heroes of Speed - Johan Gloss 492
+ -26.0 dB  track  -10.2 LUFS  -> efetivo  -51.2  Rush Hour Shift - Speedy The  498
+ -26.0 dB  track   -9.2 LUFS  -> efetivo  -50.2  Rush Hour Shift - Speedy The  538
+ -19.0 dB  track  -10.4 LUFS  -> efetivo  -44.4  Sneaky Grandma - The Fly Guy  547
+ -20.2 dB  track  -13.0 LUFS  -> efetivo  -48.2  Make No Mistakes - Bonnie Gra 592
+ -20.2 dB  track  -12.0 LUFS  -> efetivo  -47.2  Make No Mistakes - Bonnie Gra 633
+ -18.1 dB  track  -17.7 LUFS  -> efetivo  -50.8  Sneaky Town - Playtown.mp3 647
+ -21.5 dB  track   -9.8 LUFS  -> efetivo  -46.3  Dine-o-Matic - Martin Landstr 679
+ -26.5 dB  track  -11.4 LUFS  -> efetivo  -52.9  Speed Devil - Under Earth.mp3 715
+ -18.9 dB  track   -8.5 LUFS  -> efetivo  -42.4  Speed Devil - Under Earth.mp3 734
+ -26.5 dB  track   -8.0 LUFS  -> efetivo  -49.5  Speed Devil - Under Earth.mp3 737
+ -26.0 dB  track   -9.2 LUFS  -> efetivo  -50.2  Can_t Run - Donell Mase.mp3 747
+ -26.0 dB  track   -9.0 LUFS  -> efetivo  -50.0  Can_t Run - Donell Mase.mp3 756
+ -26.0 dB  track   -8.8 LUFS  -> efetivo  -49.8  Can_t Run - Donell Mase.mp3 768
+ -16.6 dB  track  -18.4 LUFS  -> efetivo  -50.0  Expedition 13 - Edgar Hopp Áu 773
+ -16.6 dB  track  -16.0 LUFS  -> efetivo  -47.6  Expedition 13 - Edgar Hopp Áu 788
+ -15.7 dB  track  -17.3 LUFS  -> efetivo  -48.0  Weapon of Choice - Fabien Tel 802
+ -26.0 dB  track  -14.4 LUFS  -> efetivo  -55.4  Weapon of Choice - Fabien Tel 834
+ -26.0 dB  track  -12.2 LUFS  -> efetivo  -53.2  Swagger Stagger - Lucas Pittm 839
+ -27.0 dB  track  -10.3 LUFS  -> efetivo  -52.3  Detective Gang - Trailer Worx 847
+ -27.0 dB  track  -10.0 LUFS  -> efetivo  -52.0  Detective Gang - Trailer Worx 856
+ -27.0 dB  track   -8.3 LUFS  -> efetivo  -50.3  Detective Gang - Trailer Worx 859
+ -17.0 dB  track   -7.7 LUFS  -> efetivo  -39.7  Detective Gang - Trailer Worx 893
+ -26.0 dB  track  -10.6 LUFS  -> efetivo  -51.6  Human Cannon - Mary Riddle.mp 897
+ -21.5 dB  track  -12.3 LUFS  -> efetivo  -48.8  Megapixel - Lasse Lyx.mp3 915
+ -24.5 dB  track  -10.4 LUFS  -> efetivo  -49.9  Play Me Like That Video Game  930
+ -18.4 dB  track  -12.7 LUFS  -> efetivo  -46.1  Last Level Pt. 1 - Heyson.mp3 1020
+ -18.4 dB  track  -12.6 LUFS  -> efetivo  -46.0  Last Level Pt. 1 - Heyson.mp3 1030
+ -24.2 dB  track   -9.9 LUFS  -> efetivo  -49.1  Three Zillion Sharks - Phoeni 1038
+ -24.2 dB  track   -8.2 LUFS  -> efetivo  -47.4  Three Zillion Sharks - Phoeni 1063
+ -20.6 dB  track  -13.2 LUFS  -> efetivo  -48.8  That Thing Behind Us - Arylid 1086
+ -14.6 dB  track  -20.0 LUFS  -> efetivo  -49.6  That Thing Behind Us - Arylid 1099
+ -26.0 dB  track  -11.6 LUFS  -> efetivo  -52.6  GO - Ballpoint.mp3 1112
+  -9.0 dB  track  -22.8 LUFS  -> efetivo  -46.8  The Triumph - Edgar Hopp.mp3 1121
+  -9.0 dB  track  -11.1 LUFS  -> efetivo  -35.1  The Triumph - Edgar Hopp.mp3 1127
+  -9.0 dB  track   -7.7 LUFS  -> efetivo  -31.7  The Triumph - Edgar Hopp.mp3 1156
+efetivo mediana -50.6  p10 -55.4  p90 -46.3

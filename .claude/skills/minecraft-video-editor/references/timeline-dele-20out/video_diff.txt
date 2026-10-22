@@ -1,0 +1,209 @@
+SEM MAPA zooms {'t': 634.7, 's': 240, 'ramp': 0.0, 'fx': 960, 'fy': 560, 'end': None, 'why': 'carregar no colo'}
+SEM MAPA presets {'t': 208.26, 'name': 'Red Flash B', 'end': None, 'anchor': None, 'tscale': 1.0, 'why': 'copo é devagar'}
+00:00.00  1.80s | eu: Z 100, P White Flash B             | ele: kf[0.00:300 1.50:100]        pos kf rot 0 fx Tonalidade  | abertura; base
+00:04.39  2.77s | eu: Z 330 r1.0                         | ele: kf[0.00:100 0.17:182 0.33:24 pos kf rot 0 fx   | canudinho: corte p/ o item antes da frase
+00:12.50  0.72s | eu: ST 391x258, P VHS                  | ele: 391x258                      pos 0.500,0.471 rot 0 fx Distorção ondulada,Distorção ondulada,Cor de Lumetri,Ruído (  | Você é maluco? (deboche)
+00:13.21  0.75s | eu: Z 235                              | ele: 235                          pos 0.500,0.475 rot 0 fx   | Exatamente (convicção)
+00:16.13  5.47s | eu: Z 245                              | ele: 245                          pos 0.500,0.473 rot 0 fx   | call: deixa de frescura
+00:24.31  0.92s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx Tonalidade  | obstáculo: mensagem 'liberado no nível 6'
+00:26.66  3.67s | eu: P Red Flash B                      | ele: 100                          pos 0.500,0.500 rot 0 fx   | não consegue beber (falha)
+00:34.77  1.75s | eu: Z 230                              | ele: 230                          pos 0.500,0.476 rot 0 fx   | Poça d'água?!
+00:39.87  0.30s | eu: Z 238                              | ele: 238                          pos 0.500,0.474 rot 0 fx   | essa poça é minha
+00:56.51  0.77s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx   | quase 100 litros
+01:01.06  3.69s | eu: Z 122 r1.2, RV sparkle             | ele: kf[0.00:100 0.20:108 0.40:11 pos kf rot 0 fx   | revelação: push-in; você só não reparou
+01:04.75  1.69s | eu: Z 250                              | ele: 250                          pos 0.500,0.472 rot 0 fx   | olha o tamanho da pança
+01:06.43  1.97s | eu: Z 245                              | ele: 245                          pos 0.500,0.473 rot 0 fx   | pança gigante também?
+01:12.66  2.10s | eu: RV tilt                            | ele: kf[0.00:100 2.10:71]         pos 0.500,0.500 rot ('kf', [[119.6195, 0], [121.7216, -3.20000004768372]]) fx Cor de Lumetri  | vocês são tão barrigudos (murchar)
+01:22.32  3.74s | eu: Z 118 r1.6                         | ele: kf[-0.00:100 0.27:106 0.53:1 pos kf rot 0 fx   | imagina... (ênfase lenta)
+01:27.99  1.92s | eu: Z 230                              | ele: 100                          pos 0.500,0.500 rot 0 fx   | 280 litros
+01:29.91  1.53s | eu:                                    | ele: 230                          pos 0.500,1.150 rot 0 fx   | 
+01:33.78  1.60s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx   | 0,01%: decepção
+01:41.55  0.77s | eu:                                    | ele: 293                          pos 0.639,0.604 rot 0 fx   | 
+01:44.07  2.85s | eu: P Red Flash B, P Impact Shake High | ele: 601                          pos 0.695,3.000 rot 0 fx Transformar,Tonalidade  | apenas 0,1% de toda a água do mundo
+01:47.36  4.37s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | furada
+01:53.48  3.84s | eu:                                    | ele: 100                          pos 0.500,0.500 rot 0 fx   OFF | 
+01:57.32  5.07s | eu:                                    | ele: kf[0.00:100 4.82:267]        pos kf rot 0 fx   | 
+02:10.43  1.75s | eu: Z 125 r0.9                         | ele: kf[0.00:100 0.15:109 0.30:11 pos kf rot 0 fx   | 70% de água (ênfase)
+02:16.39  1.67s | eu: Z 240                              | ele: 100                          pos 0.500,0.500 rot 0 fx   | beber a água da plantação?
+02:18.05  1.00s | eu:                                    | ele: 158                          pos 0.500,0.520 rot 0 fx   | 
+02:29.23  0.73s | eu: Z 300 r1.0                         | ele: kf[0.00:100 0.11:171 0.22:22 pos 0.538,0.591 rot 0 fx   | item: teleporter
+02:32.47  0.98s | eu:                                    | ele: 100                          pos 0.500,0.500 rot 0 fx Brilho cintilante,Tonalidade  | 
+02:33.45  1.28s | eu: Z 120 r1.4, P White Flash B, RV sp | ele: kf[0.00:100 0.19:107 0.39:11 pos kf rot 0 fx   | chegou na LOJA; loja; revelação da loja
+02:43.51  2.39s | eu: Z 250                              | ele: 250                          pos 0.500,0.472 rot 0 fx   | canudo gigante
+02:47.75  2.09s | eu: ST 391x258, P VHS                  | ele: 391x258                      pos 0.500,0.471 rot 0 fx Distorção ondulada,Distorção ondulada,Cor de Lumetri,Ruído (  | buraco negro na boca?!
+02:51.15  0.88s | eu: Z 245                              | ele: 245                          pos 0.500,0.473 rot 0 fx   | vai dar ruim
+02:55.89  0.97s | eu: Z 300 r1.0                         | ele: 100                          pos 0.500,0.500 rot 0 fx   | copo d'água nível 1
+02:57.84  1.22s | eu: P Green Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | comprou o copo
+02:59.06  4.60s | eu:                                    | ele: 100                          pos 0.500,0.500 rot 0 fx Transformar,Transformar,Espelho,Espelho,Espelho,Espelho,Tran  | 
+03:03.67  7.17s | eu:                                    | ele: 100                          pos 0.500,0.500 rot 0 fx   [até dia 31.mp4] | 
+03:10.84  2.92s | eu:                                    | ele: 100                          pos 0.500,0.500 rot 0 fx Transformar,Transformar,Espelho,Espelho,Espelho,Espelho,Tran  | 
+03:13.76  1.40s | eu:                                    | ele: 230                          pos 0.500,1.150 rot 0 fx Transformar,Transformar,Espelho,Espelho,Espelho,Espelho,Tran  | 
+03:15.16  1.60s | eu: Z 230                              | ele: 224                          pos 0.500,0.500 rot 0 fx   | mar só no nível 6
+03:30.09  1.90s | eu:                                    | ele: 354x272                      pos 0.500,0.500 rot 0 fx   | 
+03:36.20  3.04s | eu: Z 118 r1.0                         | ele: kf[0.00:100 0.17:106 0.33:11 pos kf rot 0 fx   | acelerando
+03:45.12  2.95s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | virou uma bola
+03:52.82  1.43s | eu: Z 130 r1.2                         | ele: kf[0.00:100 0.60:220]        pos kf rot 0 fx   | tensão
+04:00.34  1.47s | eu:                                    | ele: 261                          pos 0.500,0.500 rot 0 fx   [Sequência aninhada 02] | 
+04:04.36  0.05s | eu: P Red Flash B                      | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | Brucutu aparece
+04:04.41  2.25s | eu: Z 245                              | ele: 245                          pos 0.500,0.473 rot 0 fx   | Brucutu
+04:08.18  1.74s | eu: ST 391x258, P VHS                  | ele: 391x258                      pos 0.500,0.471 rot 0 fx Distorção ondulada,Distorção ondulada,Cor de Lumetri,Ruído (  | Zeradinho? qual o seu problema
+04:10.50  1.84s | eu: Z 235                              | ele: 235                          pos 0.500,0.475 rot 0 fx   | Brucutu: meio ambiente
+04:20.94  1.69s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx   | Brucutu bebeu tudo: HUD
+04:22.63  1.15s | eu: P Red Flash B                      | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | voltei ao normal (perdeu tudo)
+04:36.86  1.55s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | virando bolota
+04:40.95  1.47s | eu: Z 248                              | ele: 100                          pos 0.500,0.500 rot 0 fx   | não quero ficar barrigudo
+04:42.42  1.99s | eu:                                    | ele: 248                          pos 0.500,0.473 rot 0 fx   | 
+04:50.66  2.80s | eu: Z 125 r1.1                         | ele: kf[0.00:100 0.18:109 0.37:11 pos kf rot 0 fx   | tamanho do buraco
+04:54.74  1.94s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | tô gigante
+04:56.68  0.60s | eu:                                    | ele: 267                          pos 0.874,0.569 rot 0 fx   | 
+05:06.92  0.87s | eu: Z 250                              | ele: 250                          pos 0.500,0.472 rot 0 fx   | isso aqui é músculo
+05:11.96  3.52s | eu: P White Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | itens nível 2
+05:19.47  1.23s | eu: Z 300 r1.0                         | ele: kf[0.00:100 1.00:300]        pos kf rot 0 fx   | chapéu de líquidos
+05:20.70  1.65s | eu: P Green Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | pegou a bomba
+05:26.96  1.25s | eu: Z 230                              | ele: 100                          pos 0.500,0.500 rot 0 fx   | custa 1.500
+05:32.07  2.77s | eu: ST 391x258, P VHS                  | ele: 391x258                      pos 0.500,0.471 rot 0 fx Distorção ondulada,Distorção ondulada,Cor de Lumetri,Ruído (  | que negócio feio é esse
+05:45.76  2.29s | eu: P Red Flash B                      | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | rio bloqueado
+05:53.14  1.30s | eu: Z 235                              | ele: 235                          pos 0.500,0.475 rot 0 fx   | piscina
+06:02.70  2.82s | eu: Z 280 r1.0                         | ele: kf[0.00:100 1.80:278]        pos kf rot 0 fx   | chapéu na cabeça + boia
+06:14.54  1.58s | eu:                                    | ele: 212                          pos 0.500,0.500 rot 0 fx   | 
+06:24.17  1.58s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx   | 3 mil litros
+06:36.68  1.94s | eu: Z 250                              | ele: 250                          pos 0.500,0.472 rot 0 fx   | não tô bem
+06:39.52  1.47s | eu: ST 300x210                         | ele: 300x210                      pos 0.500,0.480 rot 0 fx   | aberração (distorção)
+06:43.94  0.35s | eu: Z 120 r1.2                         | ele: kf[0.00:100 0.05:107 0.11:11 pos kf rot 0 fx   | como sai?
+06:48.02  2.44s | eu: Z 245                              | ele: 245                          pos 0.500,0.473 rot 0 fx   | não tinha pensado nisso
+07:02.61  1.07s | eu:                                    | ele: 626                          pos -0.050,1.180 rot 0 fx   | 
+07:07.36  1.60s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx   | água baixando
+07:13.15  0.30s | eu: P Green Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | comprou
+07:13.45  1.69s | eu: Z 300 r1.0                         | ele: kf[0.00:100 0.17:171 0.33:22 pos kf rot 0 fx   | mochila aspiradora
+07:15.13  4.14s | eu: P Red Flash B                      | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | Brucutu devolvendo a água
+07:22.18  0.37s | eu: Z 160 r0.8                         | ele: kf[-0.00:100 0.06:121 0.11:1 pos kf rot 0 fx   | arminha do Brucutu
+07:23.73  3.30s | eu:                                    | ele: 335                          pos 0.500,0.981 rot 0 fx   | 
+07:34.22  2.04s | eu: Z 230                              | ele: 230                          pos 0.500,0.476 rot 0 fx   | esconde!
+07:43.28  1.00s | eu: P Impact Shake Low                 | ele: 100                          pos 0.500,0.500 rot 0 fx Transformar  | nossa hora
+08:00.75  3.70s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | 10 piscinas
+08:10.07  1.40s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | não aprende mesmo
+08:39.20  1.15s | eu: Z 118 r1.0                         | ele: kf[0.00:100 0.17:106 0.33:11 pos kf rot 0 fx   | última piscina
+08:54.48  1.60s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx   | precisa de 25 mil
+08:56.09  1.60s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx   | só 23.600
+08:57.69  0.77s | eu:                                    | ele: 209                          pos 0.500,0.500 rot 0 fx   | 
+09:06.81  0.33s | eu: P Red Flash B                      | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | Brucutu volta
+09:07.15  2.42s | eu:                                    | ele: 183                          pos 0.500,0.530 rot 0 fx Transformar  | 
+09:11.17  3.49s | eu: Z 235                              | ele: 235                          pos 0.500,0.475 rot 0 fx   | tenho um plano
+09:19.79  4.47s | eu: Z 245                              | ele: 245                          pos 0.500,0.473 rot 0 fx   | mentira da dengue
+09:29.40  0.88s | eu: ST 330x230                         | ele: 330x230                      pos kf rot 0 fx   | ninguém bebe água, né? (desconfiança)
+09:41.96  1.70s | eu:                                    | ele: 270                          pos 0.500,0.500 rot 0 fx   | 
+09:50.32  1.57s | eu: Z 125 r1.0, P Pink Glow            | ele: kf[0.00:100 0.17:109 0.33:11 pos kf rot 0 fx Brilho para VR  | amorzinho
+09:51.89  5.06s | eu: Z 245                              | ele: 245                          pos 0.500,0.473 rot 0 fx Tonalidade  | xoxozinho
+10:02.22  1.23s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | balão
+10:03.45  1.80s | eu: P Pink Glow                        | ele: 100                          pos 0.500,0.500 rot 0 fx Brilho para VR  | linda
+10:07.36  6.22s | eu: Z 140 r1.0                         | ele: kf[-0.00:100 0.17:114 0.33:1 pos kf rot 0 fx   | parque aquático
+10:28.24  3.17s | eu:                                    | ele: 209                          pos 0.500,0.308 rot 0 fx   | 
+10:31.41  1.52s | eu:                                    | ele: 240                          pos 0.500,0.474 rot 0 fx   | 
+10:34.63  6.39s | eu: P Red Flash B                      | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | o parque é do Brucutu
+10:47.71  1.60s | eu:                                    | ele: 222                          pos 0.500,0.500 rot 0 fx   | 
+10:49.32  1.77s | eu:                                    | ele: 222                          pos 0.500,0.500 rot 0 fx   | 
+11:01.36  0.38s | eu: ST 391x258, P VHS                  | ele: 391x258                      pos 0.500,0.471 rot 0 fx Distorção ondulada,Distorção ondulada,Cor de Lumetri,Ruído (  | parque aquático e bebe poça?
+11:09.47  2.05s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | de fachada
+11:21.05  2.15s | eu: P Green Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | nível 3
+11:23.20  1.48s | eu: Z 300 r1.0                         | ele: kf[-0.00:100 0.78:241]       pos kf rot 0 fx   | capacete com calha
+11:33.96  1.72s | eu: Z 235                              | ele: 235                          pos 0.500,0.475 rot 0 fx   | água da fonte
+11:43.60  4.39s | eu:                                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | 
+11:48.22  3.79s | eu:                                    | ele: 233                          pos 0.538,0.551 rot 0 fx   | 
+11:54.40  0.83s | eu: P Fullscreen Shake - Low Fast      | ele: 177                          pos 0.500,0.500 rot 0 fx   | sugando
+11:58.12  2.30s | eu: Z 260 r1.0                         | ele: kf[-0.00:100 0.17:157 0.33:2 pos kf rot 0 fx   | boia
+12:18.42  1.77s | eu: P Green Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | comprou
+12:20.19  2.25s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | tamanho
+12:26.61  1.42s | eu:                                    | ele: 369                          pos 0.500,0.638 rot 0 fx Preto e branco  | 
+12:29.10  6.47s | eu: P Red Flash B, P Impact Shake High | ele: kf[0.00:109 6.61:125]        pos kf rot 0 fx Transformar,Tonalidade  | só 2,5% do mundo
+12:35.57  3.40s | eu: P Green Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | cachoeiras liberadas
+12:40.74  1.72s | eu: Z 280 r1.0                         | ele: 100                          pos 0.500,0.500 rot 0 fx   | funil gigante
+12:52.91  6.09s | eu: Z 125 r1.5, P White Flash B        | ele: kf[-0.00:100 0.25:109 0.50:1 pos kf rot 0 fx Tonalidade  | cachoeira; tamanho da cachoeira
+13:18.51  1.60s | eu: Z 230                              | ele: 100                          pos 0.500,0.500 rot 0 fx   | 115 mil litros
+13:20.12  1.52s | eu:                                    | ele: 230                          pos 0.500,1.150 rot 0 fx   | 
+13:22.22  1.72s | eu:                                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | 
+13:23.94  1.80s | eu: P Red Flash B                      | ele: 100                          pos 0.500,0.500 rot 0 fx   | mentirosos da piscina
+13:33.10  1.23s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | pistolinha
+13:39.02  1.12s | eu: Z 150 r0.6, P Impact Shake High    | ele: kf[0.00:100 0.10:118 0.20:13 pos kf rot 0 fx Transformar  | bomba d'água
+13:40.14  0.30s | eu: Z 250                              | ele: 250                          pos 0.500,0.472 rot 0 fx   | Bomba d'água?!
+13:52.98  2.25s | eu: P Red Flash B, P Impact Shake High | ele: 207                          pos 0.500,0.500 rot 0 fx Transformar,Tonalidade  | voltou a 100% de água
+13:55.23  1.67s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | voltou a ser magro
+14:06.51  8.88s | eu: Z 125 r1.4                         | ele: kf[0.00:100 0.23:109 0.47:11 pos kf rot 0 fx   | plano
+14:31.70  0.53s | eu: Z 230                              | ele: 359                          pos 0.979,0.342 rot 0 fx   | precisa de 150 mil
+14:37.63  1.20s | eu: P Impact Shake Low                 | ele: 100                          pos 0.500,0.500 rot 0 fx Transformar  | tibum
+14:49.89  2.79s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | tirando água da pedra
+14:57.50  2.70s | eu: Z 240, P Green Flash B             | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | 3 blocos de altura; comprou
+15:00.20  1.45s | eu:                                    | ele: 240                          pos 0.500,0.474 rot 0 fx   | 
+15:05.39  0.33s | eu: ST 300x220                         | ele: 300x220                      pos 0.500,0.478 rot 0 fx   | bochecha = óculos (distorção)
+15:17.05  0.42s | eu: P White Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | 3 itens novos
+15:17.47  1.38s | eu: Z 280 r1.0                         | ele: 100                          pos 0.500,0.500 rot 0 fx   | robô mergulhador
+15:25.69  3.34s | eu: Z 125 r0.8                         | ele: 100                          pos 0.500,0.500 rot 0 fx   | de verdade
+15:29.03  1.12s | eu:                                    | ele: kf[-0.00:100 0.13:109 0.27:1 pos kf rot 0 fx   | 
+15:39.81  0.35s | eu: Z 240                              | ele: 240                          pos 0.500,0.474 rot 0 fx   | não quer mergulhar
+15:47.11  1.65s | eu: Z 140 r0.8                         | ele: kf[-0.00:100 0.13:114 0.27:1 pos kf rot 0 fx   | funcionou
+16:08.23  0.70s | eu: Z 235                              | ele: 100                          pos 0.500,0.500 rot 0 fx   | beleléu
+16:08.93  1.45s | eu:                                    | ele: 235                          pos 0.500,0.475 rot 0 fx   | 
+16:27.30  0.38s | eu: Z 130 r1.3                         | ele: kf[-0.00:100 0.06:111 0.12:1 pos kf rot 0 fx   | tamanho do mundo
+16:33.11  1.55s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx   | 20% do mundo
+16:47.96  1.27s | eu: Z 238                              | ele: 238                          pos 0.500,0.474 rot 0 fx   | 4 blocos
+16:50.23  1.58s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx   | 1,5 milhão
+16:55.46  1.84s | eu: P Green Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | próximo nível
+17:05.67  1.52s | eu: P White Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | itens finais
+17:08.61  1.43s | eu:                                    | ele: 252                          pos 0.500,0.500 rot 0 fx   | 
+17:11.10  1.65s | eu: Z 300 r1.0                         | ele: kf[0.00:100 1.08:300]        pos kf rot 0 fx   | canudo gigante
+17:12.75  1.47s | eu: Z 245                              | ele: 245                          pos 0.500,0.473 rot 0 fx   | Canudão!
+17:22.56  1.15s | eu: Z 135 r1.0, P White Flash B        | ele: kf[0.00:100 0.17:112 0.33:12 pos kf rot 0 fx Tonalidade  | canudo gigante sugando; que isso!
+17:39.43  3.17s | eu: Z 280 r1.0                         | ele: kf[-0.00:100 1.70:207]       pos kf rot 0 fx   | draga sugadora
+17:54.27  1.53s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx   | 50%
+18:03.35  1.60s | eu: Z 230                              | ele: 230                          pos 0.500,1.150 rot 0 fx   | 70%
+18:06.30  0.32s | eu: P Red Flash B                      | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | Brucutu chega de novo
+18:13.03  2.02s | eu:                                    | ele: 234                          pos 0.500,0.500 rot 0 fx   | 
+18:16.56  2.24s | eu: Z 130 r2.0                         | ele: kf[0.00:100 0.33:111 0.67:11 pos kf rot 0 fx   | drama
+18:21.00  2.10s | eu: Z 238                              | ele: 238                          pos 0.500,0.474 rot 0 fx   | hidratar seu corpo
+18:24.82  2.59s | eu:                                    | ele: 321                          pos 0.749,0.677 rot 0 fx   | 
+18:30.16  0.45s | eu:                                    | ele: 246                          pos 0.500,0.500 rot 0 fx   | 
+18:31.51  0.97s | eu: P VHS                              | ele: 294                          pos 0.500,0.500 rot 0 fx Tonalidade,Distorção ondulada,Cor de Lumetri,Ruído (herdado)  | wasted
+18:35.93  0.67s | eu: Z 280 r1.0, P Green Flash B        | ele: 265                          pos 0.500,0.613 rot 0 fx   | comprou; redemoinho artificial
+18:36.60  0.80s | eu:                                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | 
+18:37.40  2.09s | eu: P Green Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | comprou
+18:41.22  0.65s | eu: P White Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | oceano
+18:45.22  1.53s | eu: Z 130 r1.2                         | ele: kf[0.00:100 0.20:111 0.40:11 pos kf rot 0 fx   | preparados?
+18:58.42  2.17s | eu: P Red Flash B                      | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | buraco negro
+19:01.57  0.22s | eu: Z 140 r1.0                         | ele: kf[0.00:100 0.03:114 0.07:12 pos kf rot 0 fx   | oceano sugado
+19:08.15  0.70s | eu: P Impact Shake High                | ele: 100                          pos 0.500,0.500 rot 0 fx Transformar  | explodindo
+19:08.85  6.91s | eu: Z 150 r1.4                         | ele: kf[0.00:100 0.23:118 0.47:13 pos kf rot 0 fx   | maior que o mundo
+19:16.54  2.52s | eu: P White Flash B                    | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade  | conseguiu
+19:21.21  2.55s | eu: Z 230                              | ele: 230                          pos 0.500,0.476 rot 0 fx   | viramos um planeta de água
+19:27.68 10.69s | eu:                                    | ele: 100                          pos 0.500,0.500 rot 0 fx   [Me Tornei o MESTRE do BALL VS BALL no Minecraft.mp4] | 
+
+== V2..V4 dele
+V2 00:45.78-00:47.48 VIDEO ORIGINAL                           in 81.05 scale 230 pos 0.500,1.150 op 100 fx Tonalidade
+V2 01:26.05-01:27.99 peixe_seco_v2_aberto.mp4                 in 0.07 scale 100 pos 0.500,0.500 op 100 fx Tonalidade
+V2 01:53.48-01:54.24 futuro_01_t1626.mp4                      in 0.98 scale kf[-0.00:100 0.76:106] pos 0.500,0.500 op 100 fx Tonalidade,Tonalidade,Cor de Lumetri
+V2 01:54.25-01:55.00 futuro_02_t1939.mp4                      in 0.98 scale kf[-0.00:100 0.76:106] pos 0.500,0.500 op 100 fx Tonalidade,Cor de Lumetri
+V2 01:55.00-01:55.76 futuro_03_t2136.mp4                      in 0.98 scale kf[-0.00:100 0.76:106] pos 0.500,0.500 op 100 fx Tonalidade,Cor de Lumetri
+V2 01:55.77-01:56.52 futuro_04_t2138.mp4                      in 0.98 scale kf[-0.00:100 0.76:106] pos 0.500,0.500 op 100 fx Tonalidade,Cor de Lumetri
+V2 01:56.52-01:57.31 futuro_05_t2142.mp4                      in 0.98 scale kf[-0.00:100 0.79:108] pos 0.500,0.500 op 100 fx Tonalidade,Tonalidade,Cor de Lumetri
+V2 12:13.98-12:17.30 timelapse1_piscina.mp4                   in 0.00 scale 100 pos 0.500,0.500 op 100 fx 
+V2 14:52.68-14:56.31 timelapse2_cachoeira.mp4                 in 0.00 scale 100 pos 0.500,0.500 op 100 fx 
+V2 14:56.31-14:56.36 timelapse2_cachoeira.mp4                 in 5.42 scale 100 pos 0.500,0.500 op 100 fx 
+V3 00:01.07-00:04.56 takes_futuros_oceano.mp4                 in 0.00 scale 100 pos 0.500,0.500 op 100 fx 
+V3 00:09.46-00:11.13 universo_canudo.mp4                      in 0.80 scale 100 pos 0.500,0.500 op 100 fx 
+V3 00:36.74-00:40.17 pa_rasante_plongee.mp4                   in 3.57 scale 151 pos 0.500,0.266 op 100 fx Tonalidade
+V3 01:06.88-01:08.50 barriga_b.mp4                            in 0.52 scale 100 pos 0.500,0.500 op 100 fx 
+V4 00:01.62-00:04.56 takes_futuros_oceano.mp4                 in 0.53 scale kf[0.00:100 0.95:462] pos 0.500,0.500 op ('kf', [[0.5339, 42.2999992370605], [0.8039, 0]]) fx 
+V4 01:04.75-01:06.33 barriga_a.mp4                            in 1.40 scale 100 pos 0.500,0.500 op 100 fx 
+
+== overlays meus
+broll 00:01.06 3.49 takes_futuros_oceano.mp4 TESE: beber toda a água do mundo (B-roll aprovado na v14)
+broll 00:09.46 1.67 universo_canudo.mp4 canudo x universo
+broll 00:36.62 3.0 pa_rasante_plongee.mp4 revelação das poças (aprovado)
+futuro 01:53.48 0.76 futuro_01_t1626.mp4 takes futuros
+futuro 01:54.24 0.76 futuro_02_t1939.mp4 takes futuros
+futuro 01:55.00 0.76 futuro_03_t2136.mp4 takes futuros
+futuro 01:55.76 0.76 futuro_04_t2138.mp4 takes futuros
+futuro 01:56.52 0.79 futuro_05_t2142.mp4 takes futuros
+Traceback (most recent call last):
+  File "C:\Users\mathe\Skills\_research\mc-agua-diff20\video_diff.py", line 82, in <module>
+    print(o["kind"], tc(old2new(o["t"])), o["dur"], os.path.basename(o["file"]), o.get("why", ""))
+                                                                     ~^^^^^^^^
+KeyError: 'file'

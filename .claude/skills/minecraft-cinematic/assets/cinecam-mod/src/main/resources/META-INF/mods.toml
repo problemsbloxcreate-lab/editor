@@ -1,0 +1,21 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+[[mods]]
+modId="cinecam"
+version="${mod_version}"
+displayName="CineCam"
+authors="Matheus / Claude"
+description='''Offline cinematic camera renderer: plays a camera path frame by frame and encodes it to video.'''
+[[dependencies.cinecam]]
+modId="forge"
+mandatory=true
+versionRange="[47.4.16,)"
+ordering="NONE"
+side="CLIENT"
+[[dependencies.cinecam]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="CLIENT"

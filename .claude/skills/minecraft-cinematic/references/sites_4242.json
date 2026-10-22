@@ -1,0 +1,144 @@
+{
+ "desert": {
+  "x": 3050,
+  "y": 63,
+  "z": -356,
+  "flat_r": 16,
+  "note": "deserto dos takes do vídeo da água (20/10)"
+ },
+ "ocean_island": {
+  "x": 810,
+  "y": 64,
+  "z": -194,
+  "flat_r": 6,
+  "note": "ilha no oceano frio (takes futuros 16/10): fill sandstone 44..64 + sand"
+ },
+ "end_void": {
+  "x": 0,
+  "y": 64,
+  "z": 700,
+  "flat_r": 0,
+  "dimension": "minecraft:the_end",
+  "note": "vazio do End = 'universo' (universo_canudo)"
+ },
+ "badlands": {
+  "x": 3174,
+  "y": 103,
+  "z": -560,
+  "flat_r": 14,
+  "spread": 2.85,
+  "biome_frac": 1.0
+ },
+ "bamboo_jungle": {
+  "x": 3354,
+  "y": 67,
+  "z": -172,
+  "flat_r": 14,
+  "spread": 6.32,
+  "biome_frac": 1.0
+ },
+ "birch_forest": {
+  "x": 4234,
+  "y": 82,
+  "z": 36,
+  "flat_r": 14,
+  "spread": 2.87,
+  "biome_frac": 1.0
+ },
+ "flower_forest": {
+  "x": 4718,
+  "y": 63,
+  "z": -520,
+  "flat_r": 14,
+  "spread": 2.89,
+  "biome_frac": 0.99
+ },
+ "forest": {
+  "x": 3582,
+  "y": 63,
+  "z": -904,
+  "flat_r": 14,
+  "spread": 2.59,
+  "biome_frac": 1.0
+ },
+ "ice_spikes": {
+  "x": 6482,
+  "y": 91,
+  "z": 52,
+  "flat_r": 14,
+  "spread": 3.86,
+  "biome_frac": 0.88
+ },
+ "jungle": {
+  "x": 2590,
+  "y": 63,
+  "z": -772,
+  "flat_r": 14,
+  "spread": 3.26,
+  "biome_frac": 1.0
+ },
+ "meadow": {
+  "x": 4394,
+  "y": 102,
+  "z": 52,
+  "flat_r": 14,
+  "spread": 1.16,
+  "biome_frac": 1.0
+ },
+ "plains": {
+  "x": 3338,
+  "y": 67,
+  "z": -544,
+  "flat_r": 14,
+  "spread": 3.25,
+  "biome_frac": 1.0
+ },
+ "savanna": {
+  "x": 3434,
+  "y": 69,
+  "z": -696,
+  "flat_r": 14,
+  "spread": 1.42,
+  "biome_frac": 0.97
+ },
+ "snowy_plains": {
+  "x": 198,
+  "y": 63,
+  "z": 116,
+  "flat_r": 14,
+  "spread": 0.83,
+  "biome_frac": 1.0
+ },
+ "snowy_taiga": {
+  "x": 274,
+  "y": 68,
+  "z": -128,
+  "flat_r": 14,
+  "spread": 2.54,
+  "biome_frac": 0.96
+ },
+ "stony_shore": {
+  "x": 2018,
+  "y": 68,
+  "z": -1632,
+  "flat_r": 14,
+  "spread": 2.41,
+  "biome_frac": 1.0
+ },
+ "sunflower_plains": {
+  "x": 4674,
+  "y": 64,
+  "z": -412,
+  "flat_r": 14,
+  "spread": 1.9,
+  "biome_frac": 0.89
+ },
+ "windswept_hills": {
+  "x": 2854,
+  "y": 99,
+  "z": 1420,
+  "flat_r": 14,
+  "spread": 7.26,
+  "biome_frac": 0.9
+ }
+}

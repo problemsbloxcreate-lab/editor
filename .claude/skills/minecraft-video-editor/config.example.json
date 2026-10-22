@@ -1,0 +1,6 @@
+{
+ "epidemic_dir": "<pasta da biblioteca Epidemic>",
+ "work_dir": "<pasta de trabalho de mídia>",
+ "skills_dir": "<pasta de trabalho do Claude>",
+ "github_repo_dir": "<clone deste repositório>"
+}

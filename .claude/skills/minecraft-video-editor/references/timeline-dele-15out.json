@@ -1,0 +1,486 @@
+{
+ "fonte": "timeline v14 editada pelo Matheus em 15/10/2026 (clone: \"(ref) v14 editada pelo Matheus 15-out\", id 41c1f242-e5bb-4d7e-89d6-2f095fabf5ca), 0-137.77 s",
+ "sfx": [
+  {
+   "track": "A3",
+   "tl": 68.08,
+   "name": "perfect-fart-sound-effect-hd",
+   "gain_db": -12.3,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.11,
+   "fala_em_volta": "de Olha água o tamanho da",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 0.0,
+   "name": "anime-shine-sound-2.mp3",
+   "gain_db": -6.9,
+   "keyframes": false,
+   "dist_ao_corte_s": 0.0,
+   "fala_em_volta": "No vídeo de hoje,",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 3.54,
+   "name": "vine-boom.mp3",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": 1.74,
+   "fala_em_volta": "vamos beber toda a água do",
+   "origem": "meu (com keyframes; ele não mexeu)"
+  },
+  {
+   "track": "A4",
+   "tl": 5.69,
+   "name": "anime-wow-sound-effect (1).m",
+   "gain_db": -10.4,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.13,
+   "fala_em_volta": "mundo usando esse canudinho.",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 11.04,
+   "name": "bamboo-hit-anime-bonk-sound.",
+   "gain_db": -10.7,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.0,
+   "fala_em_volta": "",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 19.35,
+   "name": "nintendo-switch-error.mp3",
+   "gain_db": -3.2,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.07,
+   "fala_em_volta": "Isso, bebe água,",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 25.49,
+   "name": "spongebob-fail.mp3",
+   "gain_db": -15.3,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.0,
+   "fala_em_volta": "uma poça d'água Por que a gente não consegue beber nada?",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 31.03,
+   "name": "anime-wow-sound-effect.mp3",
+   "gain_db": -68.8,
+   "keyframes": false,
+   "dist_ao_corte_s": 0.02,
+   "fala_em_volta": "Poça d'água? Caraca, é verdade,",
+   "note": "volume -68,8 dB = mudo de fato (wow em \"é verdade\")",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 36.94,
+   "name": "bamboo-hit-anime-bonk-sound.",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": -0.06,
+   "fala_em_volta": "vou beber tudo Essa poça aqui",
+   "origem": "meu (com keyframes; ele não mexeu)"
+  },
+  {
+   "track": "A4",
+   "tl": 40.54,
+   "name": "mc-random-drink.mp3",
+   "gain_db": -5.5,
+   "keyframes": false,
+   "dist_ao_corte_s": 1.47,
+   "fala_em_volta": "d'água e vai beber Olha água só, Eu galera",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 61.75,
+   "name": "anime-shine-sound-effect_QP4",
+   "gain_db": -7.3,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.26,
+   "fala_em_volta": "esvaziando a Que poça maneiro",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 71.0,
+   "name": "cartoon-boing.mp3",
+   "gain_db": -2.3,
+   "keyframes": false,
+   "dist_ao_corte_s": 0.46,
+   "fala_em_volta": "aí Por que eu tô com uma poça gigante também?",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 75.71,
+   "name": "clown-horn-short.mp3",
+   "gain_db": -19.8,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.28,
+   "fala_em_volta": "",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 85.65,
+   "name": "ceeday-huh-sound-effect.mp3",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": 0.42,
+   "fala_em_volta": "de a água gente tá desse jeito? Imagina",
+   "disabled": true,
+   "note": "ele DESABILITOU o clipe (em vez de apagar)",
+   "origem": "meu (com keyframes; ele não mexeu)"
+  },
+  {
+   "track": "A4",
+   "tl": 101.87,
+   "name": "mc-random-anvil_land.mp3",
+   "gain_db": -10.8,
+   "keyframes": false,
+   "dist_ao_corte_s": 0.0,
+   "fala_em_volta": "problema de tudo é que foi apenas 0,1%",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 117.1,
+   "name": "spongebob-fail.mp3",
+   "gain_db": -20.0,
+   "keyframes": false,
+   "dist_ao_corte_s": 1.37,
+   "fala_em_volta": "de toda a água do mundo.",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A4",
+   "tl": 126.11,
+   "name": "mc-xp-orb-p0.mp3",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": 0.08,
+   "fala_em_volta": "a gente ainda vai desbloquear",
+   "origem": "meu (com keyframes; ele não mexeu)"
+  },
+  {
+   "track": "A4",
+   "tl": 126.93,
+   "name": "mc-xp-orb-p1.mp3",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": 0.9,
+   "fala_em_volta": "gente ainda vai desbloquear muitas maneiras",
+   "origem": "meu (com keyframes; ele não mexeu)"
+  },
+  {
+   "track": "A4",
+   "tl": 127.86,
+   "name": "mc-xp-orb-p2.mp3",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": 1.83,
+   "fala_em_volta": "desbloquear muitas maneiras iradas de",
+   "origem": "meu (com keyframes; ele não mexeu)"
+  },
+  {
+   "track": "A4",
+   "tl": 128.93,
+   "name": "mc-xp-orb-p3.mp3",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": -2.22,
+   "fala_em_volta": "iradas de beber água inteira",
+   "origem": "meu (com keyframes; ele não mexeu)"
+  },
+  {
+   "track": "A4",
+   "tl": 129.66,
+   "name": "mc-xp-orb-p4.mp3",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": -1.49,
+   "fala_em_volta": "de beber água inteira do mundo",
+   "origem": "meu (com keyframes; ele não mexeu)"
+  },
+  {
+   "track": "A5",
+   "tl": 11.19,
+   "name": "record-scratch-2.mp3",
+   "gain_db": -17.0,
+   "keyframes": false,
+   "dist_ao_corte_s": 0.15,
+   "fala_em_volta": "",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A5",
+   "tl": 12.28,
+   "name": "sudden-suspense-sound-effect",
+   "gain_db": -22.3,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.3,
+   "fala_em_volta": "Exatamente,",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A5",
+   "tl": 22.07,
+   "name": "perfect-fart-sound-effect-hd",
+   "gain_db": -8.6,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.0,
+   "fala_em_volta": "bora, bora Mar",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A5",
+   "tl": 73.14,
+   "name": "mc-random-burp.mp3",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": 0.0,
+   "fala_em_volta": "Caraca, olha o tamanho da minha barriga.",
+   "origem": "meu (com keyframes; ele não mexeu)"
+  },
+  {
+   "track": "A5",
+   "tl": 102.02,
+   "name": "wrong_5.mp3",
+   "gain_db": -8.1,
+   "keyframes": false,
+   "dist_ao_corte_s": 0.15,
+   "fala_em_volta": "de tudo é que foi apenas 0,1%",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  },
+  {
+   "track": "A6",
+   "tl": 118.75,
+   "name": "bruh-sound-effect_WstdzdM.mp",
+   "gain_db": -18.0,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.1,
+   "fala_em_volta": "água do mundo.",
+   "origem": "dele (ganho fixo, sem keyframe)"
+  }
+ ],
+ "music": [
+  {
+   "track": "A3",
+   "tl": 0.0,
+   "name": "ES_Brighter than the Sky - A",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": 0.0,
+   "fala_em_volta": "No vídeo de hoje,"
+  },
+  {
+   "track": "A3",
+   "tl": 1.8,
+   "name": "ES_Lifecrash - Rascal Genius",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": -0.0,
+   "fala_em_volta": "eu, Patão e Chique,"
+  },
+  {
+   "track": "A3",
+   "tl": 12.58,
+   "name": "ES_The Sleepy Sneaky Sway -",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": 0.0,
+   "fala_em_volta": "Exatamente, Patão."
+  },
+  {
+   "track": "A3",
+   "tl": 17.87,
+   "name": "ES_The Sleepy Sneaky Sway -",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": -0.1,
+   "fala_em_volta": ""
+  },
+  {
+   "track": "A3",
+   "tl": 28.38,
+   "name": "ES_Festive Riot - Harper Rey",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": -0.15,
+   "fala_em_volta": ""
+  },
+  {
+   "track": "A3",
+   "tl": 33.28,
+   "name": "ES_Festive Riot - Harper Rey",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": -0.0,
+   "fala_em_volta": "só o tanto de poça"
+  },
+  {
+   "track": "A3",
+   "tl": 37.0,
+   "name": "ES_When the Cats Away - The",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": -0.0,
+   "fala_em_volta": "poça aqui é minha Cada"
+  },
+  {
+   "track": "A3",
+   "tl": 118.85,
+   "name": "ES_Your Gain - Swif7.mp3",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": -0.0,
+   "fala_em_volta": ""
+  },
+  {
+   "track": "A3",
+   "tl": 123.64,
+   "name": "ES_Your Gain - Swif7.mp3",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": -0.1,
+   "fala_em_volta": "Furada nada,"
+  },
+  {
+   "track": "A3",
+   "tl": 131.15,
+   "name": "ES_Your Gain - Swif7.mp3",
+   "gain_db": -0.0,
+   "keyframes": true,
+   "dist_ao_corte_s": 0.0,
+   "fala_em_volta": ""
+  },
+  {
+   "track": "A7",
+   "tl": 61.75,
+   "name": "ES_Mitch the Snitch - Christ",
+   "gain_db": -26.9,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.26,
+   "fala_em_volta": "esvaziando a Que poça maneiro"
+  },
+  {
+   "track": "A7",
+   "tl": 80.33,
+   "name": "ES_Happy Shortcut - Speedy T",
+   "gain_db": -26.5,
+   "keyframes": false,
+   "dist_ao_corte_s": -0.13,
+   "fala_em_volta": ""
+  },
+  {
+   "track": "A7",
+   "tl": 93.48,
+   "name": "ES_Happy Shortcut - Speedy T",
+   "gain_db": -26.5,
+   "keyframes": false,
+   "dist_ao_corte_s": 0.0,
+   "fala_em_volta": "E olha só o tanto de"
+  },
+  {
+   "track": "A8",
+   "tl": 107.64,
+   "name": "ES_The Olive Branch - Moins",
+   "gain_db": -24.9,
+   "keyframes": false,
+   "dist_ao_corte_s": 0.25,
+   "fala_em_volta": "Caraca, galera."
+  }
+ ],
+ "mutes": [
+  {
+   "track": 1,
+   "a": 31.01,
+   "b": 33.28,
+   "fala": ""
+  },
+  {
+   "track": 1,
+   "a": 33.42,
+   "b": 37.0,
+   "fala": "Calma aí"
+  },
+  {
+   "track": 1,
+   "a": 37.24,
+   "b": 38.39,
+   "fala": "Calma aí, não bebe ainda não"
+  },
+  {
+   "track": 1,
+   "a": 46.68,
+   "b": 48.55,
+   "fala": "Aqui também"
+  },
+  {
+   "track": 1,
+   "a": 78.34,
+   "b": 80.46,
+   "fala": "Olha vocês. olha"
+  },
+  {
+   "track": 1,
+   "a": 93.48,
+   "b": 96.5,
+   "fala": "oi"
+  },
+  {
+   "track": 1,
+   "a": 96.5,
+   "b": 98.97,
+   "fala": ""
+  },
+  {
+   "track": 1,
+   "a": 98.97,
+   "b": 100.82,
+   "fala": ""
+  },
+  {
+   "track": 2,
+   "a": 63.21,
+   "b": 68.18,
+   "fala": ""
+  },
+  {
+   "track": 2,
+   "a": 68.18,
+   "b": 68.28,
+   "fala": ""
+  },
+  {
+   "track": 2,
+   "a": 70.54,
+   "b": 72.72,
+   "fala": "aí"
+  },
+  {
+   "track": 2,
+   "a": 72.72,
+   "b": 73.14,
+   "fala": ""
+  }
+ ],
+ "legenda": {
+  "tl": "segundos na timeline dele",
+  "gain_db": "ganho do clipe no Premiere (0 = sem alteração); 0.0 com keyframes = envelope meu (ver references/feedback-timeline-dele-15out.md)",
+  "dist_ao_corte_s": "início do SFX menos o corte de vídeo mais próximo (negativo = antes do corte)",
+  "mutes.track": "índice 0-based da faixa de áudio (1=call, 2=jogo)"
+ }
+}

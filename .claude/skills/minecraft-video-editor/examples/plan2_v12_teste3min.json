@@ -1,0 +1,1476 @@
+{
+ "bruto_prefix": "2026-10-08",
+ "keeps": [
+  {
+   "src_in": 0.33366666666666667,
+   "src_out": 2.3356666666666666,
+   "tl_in": 0.0,
+   "tl_out": 2.0020000000000002
+  },
+  {
+   "src_in": 2.85285,
+   "src_out": 8.692016666666667,
+   "tl_in": 2.0020000000000002,
+   "tl_out": 7.841166666666667
+  },
+  {
+   "src_in": 9.125783333333333,
+   "src_out": 18.835483333333332,
+   "tl_in": 7.841166666666667,
+   "tl_out": 17.550866666666668
+  },
+  {
+   "src_in": 19.152466666666665,
+   "src_out": 27.577550000000002,
+   "tl_in": 17.550866666666668,
+   "tl_out": 25.97595
+  },
+  {
+   "src_in": 40.6406,
+   "src_out": 41.7417,
+   "tl_in": 25.97595,
+   "tl_out": 27.07705
+  },
+  {
+   "src_in": 41.825116666666666,
+   "src_out": 44.411033333333336,
+   "tl_in": 27.07705,
+   "tl_out": 29.662966666666666
+  },
+  {
+   "src_in": 44.77806666666667,
+   "src_out": 45.87916666666667,
+   "tl_in": 29.662966666666666,
+   "tl_out": 30.76406666666667
+  },
+  {
+   "src_in": 46.31293333333333,
+   "src_out": 47.09705,
+   "tl_in": 30.76406666666667,
+   "tl_out": 31.548183333333334
+  },
+  {
+   "src_in": 47.78106666666667,
+   "src_out": 50.43371666666667,
+   "tl_in": 31.548183333333334,
+   "tl_out": 34.200833333333335
+  },
+  {
+   "src_in": 50.467083333333335,
+   "src_out": 50.91753333333333,
+   "tl_in": 34.200833333333335,
+   "tl_out": 34.65128333333333
+  },
+  {
+   "src_in": 51.017633333333336,
+   "src_out": 56.27288333333333,
+   "tl_in": 34.65128333333333,
+   "tl_out": 39.906533333333336
+  },
+  {
+   "src_in": 56.53981666666667,
+   "src_out": 58.60855,
+   "tl_in": 39.906533333333336,
+   "tl_out": 41.97526666666667
+  },
+  {
+   "src_in": 58.925533333333334,
+   "src_out": 59.19246666666667,
+   "tl_in": 41.97526666666667,
+   "tl_out": 42.242200000000004
+  },
+  {
+   "src_in": 59.342616666666665,
+   "src_out": 61.72833333333333,
+   "tl_in": 42.242200000000004,
+   "tl_out": 44.627916666666664
+  },
+  {
+   "src_in": 61.81175,
+   "src_out": 66.7667,
+   "tl_in": 44.627916666666664,
+   "tl_out": 49.58286666666667
+  },
+  {
+   "src_in": 67.15041666666667,
+   "src_out": 71.08768333333333,
+   "tl_in": 49.58286666666667,
+   "tl_out": 53.520133333333334
+  },
+  {
+   "src_in": 71.33793333333334,
+   "src_out": 72.85611666666667,
+   "tl_in": 53.520133333333334,
+   "tl_out": 55.03831666666667
+  },
+  {
+   "src_in": 73.62355,
+   "src_out": 81.91516666666666,
+   "tl_in": 55.03831666666667,
+   "tl_out": 63.32993333333334
+  },
+  {
+   "src_in": 82.33225,
+   "src_out": 84.20078333333333,
+   "tl_in": 63.32993333333334,
+   "tl_out": 65.19846666666666
+  },
+  {
+   "src_in": 84.3843,
+   "src_out": 86.90348333333334,
+   "tl_in": 65.19846666666666,
+   "tl_out": 67.71765
+  },
+  {
+   "src_in": 87.2872,
+   "src_out": 89.55613333333334,
+   "tl_in": 67.71765,
+   "tl_out": 69.98658333333333
+  },
+  {
+   "src_in": 89.92316666666667,
+   "src_out": 94.82806666666667,
+   "tl_in": 69.98658333333333,
+   "tl_out": 74.89148333333334
+  },
+  {
+   "src_in": 94.9949,
+   "src_out": 97.3973,
+   "tl_in": 74.89148333333334,
+   "tl_out": 77.29388333333334
+  },
+  {
+   "src_in": 97.66423333333333,
+   "src_out": 99.2992,
+   "tl_in": 77.29388333333334,
+   "tl_out": 78.92885
+  },
+  {
+   "src_in": 99.58281666666667,
+   "src_out": 100.15005000000001,
+   "tl_in": 78.92885,
+   "tl_out": 79.49608333333333
+  },
+  {
+   "src_in": 100.33356666666667,
+   "src_out": 101.68491666666667,
+   "tl_in": 79.49608333333333,
+   "tl_out": 80.84743333333333
+  },
+  {
+   "src_in": 103.0029,
+   "src_out": 103.31988333333334,
+   "tl_in": 80.84743333333333,
+   "tl_out": 81.16441666666667
+  },
+  {
+   "src_in": 104.4043,
+   "src_out": 105.12168333333334,
+   "tl_in": 81.16441666666667,
+   "tl_out": 81.8818
+  },
+  {
+   "src_in": 105.32188333333333,
+   "src_out": 116.08263333333333,
+   "tl_in": 81.8818,
+   "tl_out": 92.64255
+  },
+  {
+   "src_in": 116.53308333333334,
+   "src_out": 124.35756666666667,
+   "tl_in": 92.64255,
+   "tl_out": 100.46703333333333
+  },
+  {
+   "src_in": 124.50771666666667,
+   "src_out": 130.46366666666668,
+   "tl_in": 100.46703333333333,
+   "tl_out": 106.42298333333333
+  },
+  {
+   "src_in": 130.64718333333334,
+   "src_out": 134.86806666666666,
+   "tl_in": 106.42298333333333,
+   "tl_out": 110.64386666666667
+  },
+  {
+   "src_in": 136.80333333333334,
+   "src_out": 139.87306666666666,
+   "tl_in": 110.64386666666667,
+   "tl_out": 113.7136
+  },
+  {
+   "src_in": 140.70723333333333,
+   "src_out": 140.99085,
+   "tl_in": 113.7136,
+   "tl_out": 113.99721666666667
+  },
+  {
+   "src_in": 141.2411,
+   "src_out": 144.47766666666666,
+   "tl_in": 113.99721666666667,
+   "tl_out": 117.23378333333334
+  },
+  {
+   "src_in": 144.52771666666666,
+   "src_out": 148.91543333333334,
+   "tl_in": 117.23378333333334,
+   "tl_out": 121.6215
+  },
+  {
+   "src_in": 149.11563333333334,
+   "src_out": 155.82233333333335,
+   "tl_in": 121.6215,
+   "tl_out": 128.3282
+  },
+  {
+   "src_in": 156.13931666666667,
+   "src_out": 156.84001666666666,
+   "tl_in": 128.3282,
+   "tl_out": 129.0289
+  },
+  {
+   "src_in": 157.00685000000001,
+   "src_out": 161.59476666666666,
+   "tl_in": 129.0289,
+   "tl_out": 133.61681666666667
+  },
+  {
+   "src_in": 161.8617,
+   "src_out": 168.41825,
+   "tl_in": 133.61681666666667,
+   "tl_out": 140.17336666666668
+  },
+  {
+   "src_in": 168.48498333333333,
+   "src_out": 168.80196666666666,
+   "tl_in": 140.17336666666668,
+   "tl_out": 140.49035
+  },
+  {
+   "src_in": 169.70286666666667,
+   "src_out": 178.2781,
+   "tl_in": 140.49035,
+   "tl_out": 149.06558333333334
+  },
+  {
+   "src_in": 178.71186666666668,
+   "src_out": 183.83365,
+   "tl_in": 149.06558333333334,
+   "tl_out": 154.18736666666666
+  },
+  {
+   "src_in": 184.43425,
+   "src_out": 184.66781666666668,
+   "tl_in": 154.18736666666666,
+   "tl_out": 154.42093333333332
+  },
+  {
+   "src_in": 185.33515,
+   "src_out": 193.04285000000002,
+   "tl_in": 154.42093333333332,
+   "tl_out": 162.12863333333334
+  },
+  {
+   "src_in": 193.34315,
+   "src_out": 197.66413333333333,
+   "tl_in": 162.12863333333334,
+   "tl_out": 166.44961666666666
+  },
+  {
+   "src_in": 197.88101666666668,
+   "src_out": 200.38351666666668,
+   "tl_in": 166.44961666666666,
+   "tl_out": 168.95211666666668
+  },
+  {
+   "src_in": 200.58371666666667,
+   "src_out": 204.23736666666667,
+   "tl_in": 168.95211666666668,
+   "tl_out": 172.60576666666668
+  },
+  {
+   "src_in": 205.32178333333334,
+   "src_out": 206.17263333333332,
+   "tl_in": 172.60576666666668,
+   "tl_out": 173.45661666666666
+  },
+  {
+   "src_in": 206.32278333333335,
+   "src_out": 210.57703333333333,
+   "tl_in": 173.45661666666666,
+   "tl_out": 177.71086666666667
+  },
+  {
+   "src_in": 210.92738333333332,
+   "src_out": 211.7115,
+   "tl_in": 177.71086666666667,
+   "tl_out": 178.49498333333332
+  },
+  {
+   "src_in": 212.42888333333335,
+   "src_out": 212.66245,
+   "tl_in": 178.49498333333332,
+   "tl_out": 178.72855
+  },
+  {
+   "src_in": 212.72918333333334,
+   "src_out": 212.8126,
+   "tl_in": 178.72855,
+   "tl_out": 178.81196666666668
+  }
+ ],
+ "music": [
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_Brighter than the Sky - Akibakid.mp3",
+   "tl_in": 0.0,
+   "src_in": 0,
+   "gain_db": -22.6,
+   "why": "A intro/gancho: energética e clara"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_The Sleepy Sneaky Sway - Luella Gren.mp3",
+   "tl_in": 13.835383333333333,
+   "src_in": 10,
+   "gain_db": -18.0,
+   "why": "B 15.1: troca do clima da intro -> deboche/plano suspeito (pedido do Matheus)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_That Thing Behind Us - Arylide Fields.mp3",
+   "tl_in": 25.99535,
+   "src_in": 5,
+   "gain_db": -19.1,
+   "why": "C 1ª tentativa (retake): tensão/intriga (pedido do Matheus)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_Farmer_s Chores - Flickering.mp3",
+   "tl_in": 41.96671666666667,
+   "src_in": 10,
+   "gain_db": -19.9,
+   "why": "D \"Poça d'água? é verdade\": caça às poças, competição animada"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\DUDOSAS\\ES_Uninvited Guests - Etienne Roussel.mp3",
+   "tl_in": 80.56251666666667,
+   "src_in": 0,
+   "gain_db": -19.5,
+   "why": "E \"Você tá bebendo água?\": piada da barriga, desconfiança cômica"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\AMOR\\ES_My First My Last (Tribute Version) (Instrumental Version) - Love Beans.mp3",
+   "tl_in": 121.6215,
+   "src_in": 10,
+   "gain_db": -20.1,
+   "why": "F \"apenas 0,1%\": murchou, tristeza irônica"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\AVENTURAS\\ES_The Proving Grounds - Dragon Tamer.mp3",
+   "tl_in": 140.28838333333334,
+   "src_in": 5,
+   "gain_db": -21.1,
+   "why": "G esperança: \"vamos desbloquear maneiras iradas\""
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_The Detective - Flickering.mp3",
+   "tl_in": 159.88578333333334,
+   "src_in": 5,
+   "gain_db": -20.1,
+   "why": "H vila: curiosidade/investigação, piada dos 70% de água"
+  }
+ ],
+ "sfx": [
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\anime-shine-sound-2.mp3",
+   "tl": 0.0263,
+   "rel_db": 0,
+   "why": "abertura (1ª palavra)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\vine-boom.mp3",
+   "tl": 3.8492,
+   "rel_db": 0,
+   "why": "\"toda a água do mundo\" (impacto)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\zeldaitem.mp3",
+   "tl": 5.8691,
+   "rel_db": 0,
+   "why": "\"esse canudinho\": item citado aparece (item get)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\record-scratch-2.mp3",
+   "tl": 12.7654,
+   "rel_db": 0,
+   "why": "PEDIDO: deboche do Patão em \"canudinho aqui?\" (era 14.95, tarde)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\sudden-suspense-sound-effect.mp3",
+   "tl": 14.0154,
+   "rel_db": -4,
+   "why": "\"Você é maluco?\": stinger + troca de música"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\bonk_BEtiM8g.mp3",
+   "tl": 21.1984,
+   "rel_db": -3,
+   "why": "\"Essa água do mar aqui já é minha\""
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\sudden-suspense-sound-effect.mp3",
+   "tl": 26.1353,
+   "rel_db": -2,
+   "why": "entra a música de tensão (1ª tentativa)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\huh-cat.mp3",
+   "tl": 27.5519,
+   "rel_db": -3,
+   "why": "PERGUNTA RETÓRICA \"Por que que eu tô tomando?\": meme SFX (+distorção +cacho de ?)",
+   "dur": 1.7
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\windows-xp-error-sound.mp3",
+   "tl": 29.7349,
+   "rel_db": 0,
+   "why": "\"Eu não consigo\": erro (obstáculo 1)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\erro.mp3",
+   "tl": 35.3336,
+   "rel_db": 0,
+   "why": "\"Eu não consigo beber\": erro (obstáculo 2, zoom no contador 0 L)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\whoosh-sfx.mp3",
+   "tl": 34.1171,
+   "rel_db": 0,
+   "why": "zoom na mensagem \"mar liberado nível 6\""
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\wah-wah-fail.mp3",
+   "tl": 39.4836,
+   "rel_db": 0,
+   "why": "\"Por que a gente não consegue beber nada?\" fim: fail (P&B)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\ding-sound-effect_2.mp3",
+   "tl": 42.0097,
+   "rel_db": 0,
+   "why": "\"Poça d'água? É verdade\": ideia nova",
+   "dur": 1.8
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\bonk_BEtiM8g.mp3",
+   "tl": 54.4322,
+   "rel_db": 0,
+   "why": "\"Essa poça aqui é minha\": posse cômica"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\rimshot.mp3",
+   "tl": 66.8142,
+   "rel_db": 0,
+   "why": "\"Quem esvaziar primeiro ganha\": rimshot"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\ding-sound-effect_1.mp3",
+   "tl": 61.5148,
+   "rel_db": -4,
+   "why": "contador: \"mais de 20 litros\"",
+   "dur": 1.6
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\ding-sound-effect_1.mp3",
+   "tl": 73.2634,
+   "rel_db": -4,
+   "why": "contador: \"mais de 100 litros\"",
+   "dur": 1.6
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\como-assim.mp3",
+   "tl": 81.1644,
+   "rel_db": -2,
+   "why": "PERGUNTA RETÓRICA \"Você tá bebendo água?\": meme SFX + distorção"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\record-scratch-2.mp3",
+   "tl": 89.2599,
+   "rel_db": -3,
+   "why": "\"Pera aí\" (percebe a própria barriga)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\taco-bell-bong-sfx.mp3",
+   "tl": 93.9295,
+   "rel_db": -2,
+   "why": "\"olha o tamanho da minha barriga\": bong + zoom abaulado"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\fails-ohhhh.mp3",
+   "tl": 106.1593,
+   "rel_db": -2,
+   "why": "PERGUNTA RETÓRICA \"a gente tá desse jeito?\": aww"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\rimshot.mp3",
+   "tl": 108.2758,
+   "rel_db": -3,
+   "why": "\"Imagina quando a gente beber o mar inteiro\": ironia"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\dun-dun-dun-sound-effect-brass_8nFBccR.mp3",
+   "tl": 123.4559,
+   "rel_db": -4,
+   "why": "\"apenas 0,1%\": a revelação do problema"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\sadtrombone.swf.mp3",
+   "tl": 140.1551,
+   "rel_db": 0,
+   "why": "\"0,1% de toda a água do mundo\": trombone triste",
+   "dur": 2.5
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\minecraft-levelup.mp3",
+   "tl": 149.0656,
+   "rel_db": -4,
+   "why": "\"vamos DESBLOQUEAR\": level up",
+   "dur": 2.4
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\whoosh-sfx.mp3",
+   "tl": 159.9858,
+   "rel_db": 0,
+   "why": "\"Na vila\": novo objetivo"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\hm.mp3",
+   "tl": 166.1855,
+   "rel_db": -2,
+   "why": "PERGUNTA \"Será que os villagers vão ajudar a gente?\": hmm"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\roblox-death-sound_1.mp3",
+   "tl": 168.5686,
+   "rel_db": 0,
+   "why": "\"beber os villagers também?\": oof"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\bonk_BEtiM8g.mp3",
+   "tl": 177.4338,
+   "rel_db": -2,
+   "why": "\"mais de 70%, viu, Chique?\": fecha a piada"
+  }
+ ],
+ "ducks": [
+  {
+   "tl": 12.7654,
+   "dur": 0.9,
+   "depth_db": 7.0
+  },
+  {
+   "tl": 27.5519,
+   "dur": 0.9,
+   "depth_db": 7.0
+  },
+  {
+   "tl": 54.4322,
+   "dur": 0.9,
+   "depth_db": 7.0
+  },
+  {
+   "tl": 66.8142,
+   "dur": 0.9,
+   "depth_db": 7.0
+  },
+  {
+   "tl": 81.1644,
+   "dur": 0.9,
+   "depth_db": 7.0
+  },
+  {
+   "tl": 93.9295,
+   "dur": 0.9,
+   "depth_db": 7.0
+  },
+  {
+   "tl": 106.1593,
+   "dur": 0.9,
+   "depth_db": 7.0
+  },
+  {
+   "tl": 108.2758,
+   "dur": 0.9,
+   "depth_db": 7.0
+  },
+  {
+   "tl": 123.4559,
+   "dur": 0.9,
+   "depth_db": 7.0
+  },
+  {
+   "tl": 140.1551,
+   "dur": 0.9,
+   "depth_db": 7.0
+  },
+  {
+   "tl": 168.5686,
+   "dur": 0.9,
+   "depth_db": 7.0
+  }
+ ],
+ "fx": [
+  {
+   "t": 0.02633333333333332,
+   "fx": 960,
+   "fy": 540,
+   "why": "gancho: push lento",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     3.742816666666667,
+     106,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 3.8491500000000003,
+   "fx": 960,
+   "fy": 540,
+   "why": "\"toda a água do mundo\": soco",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.12,
+     138,
+     0,
+     0,
+     0
+    ],
+    [
+     0.37,
+     138,
+     0,
+     0,
+     0
+    ],
+    [
+     0.87,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 12.765383333333336,
+   "fx": 960,
+   "fy": 540,
+   "why": "deboche \"canudinho aqui?\"",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.12,
+     112,
+     0,
+     0,
+     0
+    ],
+    [
+     0.42,
+     112,
+     0,
+     0,
+     0
+    ],
+    [
+     0.87,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 14.015383333333336,
+   "fx": 960,
+   "fy": 540,
+   "why": "PERGUNTA RETÓRICA \"Você é maluco?\": distorção",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.18,
+     128,
+     -45,
+     0,
+     0
+    ],
+    [
+     0.73,
+     128,
+     -45,
+     0,
+     0
+    ],
+    [
+     1.23,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 17.698400000000003,
+   "fx": 960,
+   "fy": 540,
+   "why": "\"Deixa de frescura, Patão!\"",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.15,
+     116,
+     0,
+     0,
+     0
+    ],
+    [
+     0.55,
+     116,
+     0,
+     0,
+     0
+    ],
+    [
+     1.0,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 19.7984,
+   "fx": 960,
+   "fy": 540,
+   "why": "primeira investida (suave)",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     5.900000000000002,
+     105,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 26.23535,
+   "fx": 960,
+   "fy": 540,
+   "why": "tensão: dolly leve 1",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     1.216583333333336,
+     104,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 27.55193333333333,
+   "fx": 960,
+   "fy": 540,
+   "why": "PERGUNTA RETÓRICA 1 \"Por que que eu tô tomando?\": distorção + cacho de ?",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.18,
+     138,
+     -45,
+     0,
+     0
+    ],
+    [
+     0.73,
+     138,
+     -45,
+     0,
+     0
+    ],
+    [
+     1.18,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 28.851933333333335,
+   "fx": 960,
+   "fy": 540,
+   "why": "tensão: dolly leve 2",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.8110333333333308,
+     105,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 29.7349,
+   "fx": 960,
+   "fy": 540,
+   "why": "obstáculo 1 \"Eu não consigo\"",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.12,
+     118,
+     0,
+     0,
+     0
+    ],
+    [
+     0.47,
+     118,
+     0,
+     0,
+     0
+    ],
+    [
+     0.87,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 30.76406666666667,
+   "fx": 960,
+   "fy": 540,
+   "why": "tensão: dolly lento 3",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     3.253049999999998,
+     108,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 34.11711666666667,
+   "fx": 962,
+   "fy": 944,
+   "why": "obstáculo 2 \"Eu não consigo beber\": zoom na mensagem do jogo (visível 50.0-52.4)",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.35,
+     250,
+     0,
+     0,
+     0
+    ],
+    [
+     1.65,
+     250,
+     0,
+     0,
+     0
+    ],
+    [
+     2.0,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 38.33365,
+   "fx": 960,
+   "fy": 540,
+   "why": "PERGUNTA RETÓRICA 2 \"Por que a gente não consegue beber nada?\": P&B + push",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.12,
+     103,
+     0,
+     100,
+     0
+    ],
+    [
+     1.55,
+     108,
+     0,
+     100,
+     0
+    ],
+    [
+     1.75,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 42.00973333333334,
+   "fx": 960,
+   "fy": 540,
+   "why": "\"Poça d'água? É verdade!\"",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.14,
+     120,
+     0,
+     0,
+     0
+    ],
+    [
+     0.54,
+     120,
+     0,
+     0,
+     0
+    ],
+    [
+     0.99,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 53.8822,
+   "fx": 960,
+   "fy": 540,
+   "why": "\"Essa poça aqui é minha\"",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.14,
+     125,
+     0,
+     0,
+     0
+    ],
+    [
+     0.54,
+     125,
+     0,
+     0,
+     0
+    ],
+    [
+     0.99,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 61.364766666666675,
+   "fx": 960,
+   "fy": 0,
+   "why": "contador: mais de 20 litros",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.35,
+     230,
+     0,
+     0,
+     0
+    ],
+    [
+     1.85,
+     230,
+     0,
+     0,
+     0
+    ],
+    [
+     2.2,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 73.16341666666665,
+   "fx": 960,
+   "fy": 0,
+   "why": "contador: mais de 100 litros",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.35,
+     230,
+     0,
+     0,
+     0
+    ],
+    [
+     1.85,
+     230,
+     0,
+     0,
+     0
+    ],
+    [
+     2.2,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 81.16441666666667,
+   "fx": 960,
+   "fy": 540,
+   "why": "PERGUNTA RETÓRICA \"Você tá bebendo água?\": distorção",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.18,
+     130,
+     -45,
+     0,
+     0
+    ],
+    [
+     0.78,
+     130,
+     -45,
+     0,
+     0
+    ],
+    [
+     1.28,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 93.92946666666666,
+   "fx": 960,
+   "fy": 600,
+   "why": "gag da barriga: zoom abaulado",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.18,
+     160,
+     -55,
+     0,
+     0
+    ],
+    [
+     1.18,
+     160,
+     -55,
+     0,
+     0
+    ],
+    [
+     1.73,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 105.80931666666666,
+   "fx": 960,
+   "fy": 540,
+   "why": "PERGUNTA RETÓRICA \"a gente tá desse jeito?\": distorção",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.18,
+     128,
+     -40,
+     0,
+     0
+    ],
+    [
+     0.73,
+     128,
+     -40,
+     0,
+     0
+    ],
+    [
+     1.23,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 123.25586666666666,
+   "fx": 960,
+   "fy": 0,
+   "why": "\"apenas 0,1%\": mostra o contador",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.35,
+     230,
+     0,
+     0,
+     0
+    ],
+    [
+     2.5500000000000003,
+     230,
+     0,
+     0,
+     0
+    ],
+    [
+     2.9000000000000004,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 147.98748333333333,
+   "fx": 960,
+   "fy": 540,
+   "why": "esperança: push lento",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     3.8662333333333265,
+     106,
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "t": 164.08548333333334,
+   "fx": 960,
+   "fy": 540,
+   "why": "PERGUNTA \"Será que os villagers vão ajudar a gente?\"",
+   "keys": [
+    [
+     0,
+     100,
+     0,
+     0,
+     0
+    ],
+    [
+     0.18,
+     125,
+     -40,
+     0,
+     0
+    ],
+    [
+     0.6799999999999999,
+     125,
+     -40,
+     0,
+     0
+    ],
+    [
+     1.18,
+     100,
+     0,
+     0,
+     0
+    ]
+   ]
+  }
+ ],
+ "stickers": [
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\png\\spot_dark.png",
+   "tl": 5.8092,
+   "dur": 1.85,
+   "pos": [
+    0.66,
+    0.5
+   ],
+   "scale": 100,
+   "rot": 0,
+   "v": 3,
+   "fade": 0.18,
+   "opacity": 100,
+   "why": "spotlight no item"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\png\\canudinho.png",
+   "tl": 5.8892,
+   "dur": 1.75,
+   "pos": [
+    0.66,
+    0.5
+   ],
+   "scale": 56,
+   "rot": -8,
+   "v": 2,
+   "why": "\"esse canudinho\": mostra o item citado"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\png\\interrogacao_cluster.png",
+   "tl": 27.5519,
+   "dur": 1.5,
+   "pos": [
+    0.5,
+    0.7
+   ],
+   "scale": 78,
+   "rot": 0,
+   "v": 2,
+   "why": "cacho de \"?\" (ref: pergunta retórica)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\png\\interrogacao_cluster.png",
+   "tl": 105.8593,
+   "dur": 1.3,
+   "pos": [
+    0.5,
+    0.28
+   ],
+   "scale": 70,
+   "rot": 3,
+   "v": 2,
+   "why": "cacho de \"?\" na pergunta retórica 3"
+  }
+ ],
+ "marks": [
+  {
+   "tl": 0.0,
+   "txt": "MÚSICA: A intro/gancho: energética e clara"
+  },
+  {
+   "tl": 13.835,
+   "txt": "MÚSICA: B 15.1: troca do clima da intro -> deboche/plano suspeito (pedido do Matheus)"
+  },
+  {
+   "tl": 25.995,
+   "txt": "MÚSICA: C 1ª tentativa (retake): tensão/intriga (pedido do Matheus)"
+  },
+  {
+   "tl": 41.967,
+   "txt": "MÚSICA: D \"Poça d'água? é verdade\": caça às poças, competição animada"
+  },
+  {
+   "tl": 80.563,
+   "txt": "MÚSICA: E \"Você tá bebendo água?\": piada da barriga, desconfiança cômica"
+  },
+  {
+   "tl": 121.621,
+   "txt": "MÚSICA: F \"apenas 0,1%\": murchou, tristeza irônica"
+  },
+  {
+   "tl": 140.288,
+   "txt": "MÚSICA: G esperança: \"vamos desbloquear maneiras iradas\""
+  },
+  {
+   "tl": 159.886,
+   "txt": "MÚSICA: H vila: curiosidade/investigação, piada dos 70% de água"
+  },
+  {
+   "tl": 0.0,
+   "txt": "v12: início sem ruído morto (era 0.0–0.52)"
+  },
+  {
+   "tl": 25.976,
+   "txt": "v12: bastidor cortado COM folga antes de \"Vai!\" (corte limpo)"
+  },
+  {
+   "tl": 27.552,
+   "txt": "v12: pergunta retórica = distorção + SFX meme + cacho de ?"
+  },
+  {
+   "tl": 38.334,
+   "txt": "v12: pergunta retórica = P&B"
+  }
+ ],
+ "boost_voice_db": 9.0,
+ "boost_music_db": 3.0,
+ "limiter": 0.92,
+ "dur_tl": 178.862
+}

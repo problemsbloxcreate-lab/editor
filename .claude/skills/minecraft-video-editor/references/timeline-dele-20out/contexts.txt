@@ -1,0 +1,384 @@
+### ZOOMS/EFEITOS NOVOS ou REMOVIDOS
+MUD   00:04.39 | eu: Z 330 r1.0 | ele: kf[0.00:100 0.17:182 0.33:24 pos kf rot 0 fx 
+      fala: a água do mundo [usando] apenas esse canudinho.
+MUD   00:26.66 | eu: P Red Flash B | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: 6? Procura uma poça d'água? Por que a gente não consegue beber nada? Ah, droga.
+MUD   01:01.06 | eu: Z 122 r1.2, RV sparkle | ele: kf[0.00:100 0.20:108 0.40:11 pos kf rot 0 fx 
+      fala: eu É, estou. patão, [eu] [acho] que você só não reparou uma coisa, né? Você tá ficando
+REM   01:27.99 | eu: Z 230 | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: toda essa poça d'água [olha] só o tanto de água que eu tô sugando Já foi mais de 280
+NOVO  01:29.91 | eu:  | ele: 230                          pos 0.500,1.150 rot 0 fx 
+      fala: tanto de água que eu tô sugando [Já] [foi] mais de 280 litros de água eu acabo
+NOVO  01:41.55 | eu:  | ele: 293                          pos 0.639,0.604 rot 0 fx 
+      fala: O Chico e o Patão também [É] também Mas não Eu sei se vocês perceberam, mas isso foi
+MUD   01:44.07 | eu: P Red Flash B, P Impact Shake  | ele: 601                          pos 0.695,3.000 rot 0 fx Transformar,Tona 
+      fala: se vocês perceberam, mas isso [foi] [apenas] 0,1% de toda a água do mundo.
+NOVO  01:53.48 | eu:  | ele: 100                          pos 0.500,0.500 rot 0 fx   OFF 
+      fala: nada, patão. Se acalma aí. vai desbloquear muitas maneiras iradas de conseguir
+NOVO  01:57.32 | eu:  | ele: kf[0.00:100 4.82:267]        pos kf rot 0 fx 
+      fala: conseguir a água do mundo? vezes, galera, a gente até achar consegue uma maneira melhor,
+MUD   02:10.43 | eu: Z 125 r0.9 | ele: kf[0.00:100 0.15:109 0.30:11 pos kf rot 0 fx 
+      fala: Afinal de contas, os villagers [são] feitos em 70% de água você É também É,
+REM   02:16.39 | eu: Z 240 | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: mais 70%, verdade viu, Chique? [E] [aí,] próprio, chega Vamos aqui, ó beber a água da plantação
+NOVO  02:18.05 | eu:  | ele: 158                          pos 0.500,0.520 rot 0 fx 
+      fala: próprio, chega Vamos aqui, ó beber a [água] [da] plantação rapaziada, É, beber água da rapaziada plantação,
+MUD   02:29.23 | eu: Z 300 r1.0 | ele: kf[0.00:100 0.11:171 0.22:22 pos 0.538,0.591 rot 0 fx 
+      fala: Vem Tem um aí, baú aqui, esse [baúzinho] [deixa] [eu] dar uma Teleporter? aí olhada Pra que que sai isso aqui?
+NOVO  02:32.47 | eu:  | ele: 100                          pos 0.500,0.500 rot 0 fx Brilho cintilant 
+      fala: que que sai isso aqui? Deixa eu usar galera, olha só onde a gente veio parar Parece que
+MUD   02:33.45 | eu: Z 120 r1.4, P White Flash B, R | ele: kf[0.00:100 0.19:107 0.39:11 pos kf rot 0 fx 
+      fala: eu usar galera, [olha] [só] onde a gente veio parar Parece que é uma loja de várias
+REM   02:55.89 | eu: Z 300 r1.0 | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: acho que o primeiro que a gente consegue desbloquear [é] [o] do nível É 1 um copo de E água eu já comprei
+NOVO  02:59.06 | eu:  | ele: 100                          pos 0.500,0.500 rot 0 fx Transformar,Tran 
+      fala: eu já comprei Agora o meu [Eu] [já] ganhei o meu aqui também, meu Brani. Vamos voltar
+NOVO  03:03.67 | eu:  | ele: 100                          pos 0.500,0.500 rot 0 fx   [até dia 31.mp 
+      fala: poder testar esse copo [Bom,]
+NOVO  03:10.84 | eu:  | ele: 100                          pos 0.500,0.500 rot 0 fx Transformar,Tran 
+      fala: [galera,] nesse momento A aqui gente ainda não consegue
+NOVO  03:13.76 | eu:  | ele: 230                          pos 0.500,1.150 rot 0 fx Transformar,Tran 
+      fala: gente ainda não consegue sugar [a] água Afinal do mar de contas é só no nível 6
+NOVO  03:30.09 | eu:  | ele: 354x272                      pos 0.500,0.500 rot 0 fx 
+      fala: demorando diferente pra assim, poder Olha beber, não, né? [hein] [é] rápido não, é devagar achando a grande
+MUD   03:36.20 | eu: Z 118 r1.0 | ele: kf[0.00:100 0.17:106 0.33:11 pos kf rot 0 fx 
+      fala: Pera aí, galera, até que tá Tá bom, [ó] É, acelerando patão, Deixa aí, eu tô vendo já Deixa eu beber junto
+MUD   03:52.82 | eu: Z 130 r1.2 | ele: kf[0.00:100 0.60:220]        pos kf rot 0 fx 
+      fala: peraí, peraí [Por] [está] [que] [que] acontecendo? a nossa água tá abaixando? O que que O vocês tão que? fazendo? Tinha É mil. o excelente,
+NOVO  04:00.34 | eu:  | ele: 261                          pos 0.500,0.500 rot 0 fx   [Sequência ani 
+      fala: para aquilo ali. ali. Não, não, peraí,
+REM   04:40.95 | eu: Z 248 | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: não quero mais beber água, [Vai,] patão, Não quero anda ficar logo, barrigudo, patão, anda não. logo Não, não, não quero ficar barrigudo,
+NOVO  04:42.42 | eu:  | ele: 248                          pos 0.500,0.473 rot 0 fx 
+      fala: patão, Não quero anda ficar logo, barrigudo, patão, anda não. logo [Não,] não, não quero ficar barrigudo, não, pô. querendo Ai, atrapalhar
+MUD   04:50.66 | eu: Z 125 r1.1 | ele: kf[0.00:100 0.18:109 0.37:11 pos kf rot 0 fx 
+      fala: Verdade. [Bebe] [Bebe] [aí,] o tamanho papai. desse aí, Mas buraco papai. tem muita água aqui, galera
+NOVO  04:56.68 | eu:  | ele: 267                          pos 0.874,0.569 rot 0 fx 
+      fala: água, eu tô gigante Imenso. É, imenso pra você, né, Olha o tamanho
+MUD   05:19.47 | eu: Z 300 r1.0 | ele: kf[0.00:100 1.00:300]        pos kf rot 0 fx 
+      fala: bomba d'água. eu Mas primeiro vou [pegar] [o] chapéu de e líquidos Gostei. agora eu vou pegar a d'água. bomba
+REM   05:26.96 | eu: Z 230 | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: ele tá verdinho porcaria Não, [tá] bugado é 1.500, não viu? ia ser fácil assim,
+MUD   06:02.70 | eu: Z 280 r1.0 | ele: kf[0.00:100 1.80:278]        pos kf rot 0 fx 
+      fala: bora bora, parceiro parceiro! se eu usar esse negócio na cabeça Junto com a minha boia com
+NOVO  06:14.54 | eu:  | ele: 212                          pos 0.500,0.500 rot 0 fx 
+      fala: andando gente sair daqui com a A boia, gente vai ficar Tá imenso. bora [A] [barriga] não para de crescer, patão. gigante meu
+MUD   06:43.94 | eu: Z 120 r1.2 | ele: kf[0.00:100 0.05:107 0.11:11 pos kf rot 0 fx 
+      fala: aqui não. tá droga horrível A gente está ficando gigante mesmo. Como é que a gente sai da piscina agora do tamanho que a gente está? Porcaria,
+NOVO  07:02.61 | eu:  | ele: 626                          pos -0.050,1.180 rot 0 fx 
+      fala: Aquele deve ser muito melhor Rapaziada do [que] [esse] peraí Procutu Vamos para lá Vai, Bora, vai, bora vai logo, Gasta bora
+MUD   07:13.45 | eu: Z 300 r1.0 | ele: kf[0.00:100 0.17:171 0.33:22 pos kf rot 0 fx 
+      fala: E a gente já conseguiu o A item novo mochila aspiradora problema é que ele já
+NOVO  07:23.73 | eu:  | ele: 335                          pos 0.500,0.981 rot 0 fx 
+      fala: com aquela arminha Droga, dele [aguento] mais encher piscina Eu vou pegar aqueles pilotras
+MUD   07:43.28 | eu: P Impact Shake Low | ele: 100                          pos 0.500,0.500 rot 0 fx Transformar 
+      fala: galera que ele vai recarregar É a [armadilha] nossa hora De equipar a mochila aspiradora
+MUD   08:39.20 | eu: Z 118 r1.0 | ele: kf[0.00:100 0.17:106 0.33:11 pos kf rot 0 fx 
+      fala: barriga Vai patão, vai patão, [isso] aqui é a última piscina Falta só mais Vai, um pouquinho vai, Agora
+NOVO  08:57.69 | eu:  | ele: 209                          pos 0.500,0.500 rot 0 fx 
+      fala: gente já tá com 23.600 Porcaria Tá quase, pô. Tá quase. Ué, mas ferrou
+NOVO  09:07.15 | eu:  | ele: 183                          pos 0.500,0.530 rot 0 fx Transformar 
+      fala: gente vá procurar algum poço [Que] [palhaçada] é essa? Cadê
+NOVO  09:41.96 | eu:  | ele: 270                          pos 0.500,0.500 rot 0 fx 
+      fala: Bora buscar uma água nova aí [pro] [Buscar] [Brucutu] água nova A nada gente vai procurar
+MUD   09:50.32 | eu: Z 125 r1.0, P Pink Glow | ele: kf[0.00:100 0.17:109 0.33:11 pos kf rot 0 fx Brilho para VR 
+      fala: d'água pela frente A gente tá ferrado Não, Meu amorzinho! Xoxozinho, eu tô aqui!
+NOVO  10:28.24 | eu:  | ele: 209                          pos 0.500,0.308 rot 0 fx 
+      fala: Você pô gente tá quer cansando que eu te [carregue] no e colo? Eu consigo Você não tá vendo não que vai eu...
+NOVO  10:31.41 | eu:  | ele: 240                          pos 0.500,0.474 rot 0 fx 
+      fala: não tá vendo não que vai eu... [vai] [me] carregar o colo vamos embora Pronto, e eu vou ficando
+NOVO  10:47.71 | eu:  | ele: 222                          pos 0.500,0.500 rot 0 fx 
+      fala: nha, bom, nha, obrigado, meu amorzinho. eu vou ficar gigante Agora, galera, a gente tem que tomar cuidado o Bruco Tuve
+NOVO  10:49.32 | eu:  | ele: 222                          pos 0.500,0.500 rot 0 fx 
+      fala: Agora, galera, a gente tem que tomar cuidado o Bruco Tuve a gente no parque dele Ele ferrou vai encher
+NOVO  11:43.60 | eu:  | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade 
+      fala: vamos voltar praquele parque. [E] [olha] só, galera. piscina dentro que eu achei do parque pra
+NOVO  11:48.22 | eu:  | ele: 233                          pos 0.538,0.551 rot 0 fx 
+      fala: itens. Primeiro de tudo, [eu] [vou] [tirar] esse chapéu de líquido. vou colocar o meu capacete
+MUD   11:54.40 | eu: P Fullscreen Shake - Low Fast | ele: 177                          pos 0.500,0.500 rot 0 fx 
+      fala: e usar o meu Que guarda-chuva isso? [isso,] galera é, parceiro? Tá É muito sugando rápido. água muito E rápido
+NOVO  12:26.61 | eu:  | ele: 369                          pos 0.500,0.638 rot 0 fx Preto e branco 
+      fala: já tá rechuchudo Tipo, [fica] [boi,] boi, E boi A gente tá uma a Só bolinha gente só mesmo
+MUD   12:29.10 | eu: P Red Flash B, P Impact Shake  | ele: kf[0.00:109 6.61:125]        pos kf rot 0 fx Transformar,Tonalidade 
+      fala: A gente tá uma a Só bolinha gente só mesmo [consumiu] 2,5% Do mundo,
+REM   12:40.74 | eu: Z 280 r1.0 | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: E com o dinheiro que a gente conseguiu Dá pra desbloquear o funil gigante Ele com
+REM   13:18.51 | eu: Z 230 | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: essa cachoeira aqui [É] [muita] coisa mesmo! Caraca, já foi 115 mil litros
+NOVO  13:20.12 | eu:  | ele: 230                          pos 0.500,1.150 rot 0 fx 
+      fala: coisa mesmo! Caraca, [já] [foi] 115 mil litros Olha só Olha o que eu
+NOVO  13:22.22 | eu:  | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade 
+      fala: mil litros Olha só [Olha] o que eu tô vendo aqui! Os mentirosos
+MUD   13:23.94 | eu: P Red Flash B | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: que eu tô vendo aqui! [Os] [mentirosos] da piscina! Agora não importa mais,
+MUD   13:39.02 | eu: Z 150 r0.6, P Impact Shake Hig | ele: kf[0.00:100 0.10:118 0.20:13 pos kf rot 0 fx Transformar 
+      fala: uma coisinha aqui, [chamada] [O] que que bomba é isso? d'água! Bomba d'água?
+MUD   13:52.98 | eu: P Red Flash B, P Impact Shake  | ele: 207                          pos 0.500,0.500 rot 0 fx Transformar,Tona 
+      fala: Ele galera encheu o mundo [inteiro] Com de novo 100% de água E eu voltei
+MUD   14:06.51 | eu: Z 125 r1.4 | ele: kf[0.00:100 0.23:109 0.47:11 pos kf rot 0 fx 
+      fala: isso se Chique a gente achar, né [Isso] de fugir era só pra poder enganar o Brukutu, entendeu? Na verdade
+MUD   14:37.63 | eu: P Impact Shake Low | ele: 100                          pos 0.500,0.500 rot 0 fx Transformar 
+      fala: vou direto lá para baixo da cachoeira. Tibum! Daí agora tudo que eu preciso fazer
+NOVO  15:00.20 | eu:  | ele: 240                          pos 0.500,0.474 rot 0 fx 
+      fala: Olha só o tamanho que a gente tá [Três] blocos de altura Ô, Polly. só vejo
+REM   15:17.47 | eu: Z 280 r1.0 | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: pelo menos agora a gente consegue comprar [três] itens novos, Fatão Robô, mergulhador
+REM   15:25.69 | eu: Z 125 r0.8 | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: esses itens A gente vai finalmente [poder] testar nos rios seja, vambora Porque galera
+NOVO  15:29.03 | eu:  | ele: kf[-0.00:100 0.13:109 0.27:1 pos kf rot 0 fx 
+      fala: vambora Porque galera agora a [gente] [vai] [beber] [água] de verdade Vamos! Bem aqui na
+REM   16:08.23 | eu: Z 235 | ele: 100                          pos 0.500,0.500 rot 0 fx 
+      fala: inteiro rapidinho, patão [Olha] [O] [isso] rio já foi pro belé, Léo gente tá na hora de
+NOVO  16:08.93 | eu:  | ele: 235                          pos 0.500,0.475 rot 0 fx 
+      fala: patão Olha O isso [rio] já foi pro belé, Léo gente tá na hora de pegar o portal Pegar
+NOVO  17:08.61 | eu:  | ele: 252                          pos 0.500,0.500 rot 0 fx 
+      fala: o buraco negro na boca. [Esse] [eu] quero ver, sugar tudo. por enquanto, Fatão, aqui ó.
+MUD   17:11.10 | eu: Z 300 r1.0 | ele: kf[0.00:100 1.08:300]        pos kf rot 0 fx 
+      fala: por enquanto, Fatão, [aqui] [ó.] [Vou] pegar o canudo gigante. E também a Canudão draga sugadora.
+MUD   17:22.56 | eu: Z 135 r1.0, P White Flash B | ele: kf[0.00:100 0.17:112 0.33:12 pos kf rot 0 fx Tonalidade 
+      fala: inteiro. É sugar o canudo [gigante.] Meu Deus, que isso? Que isso, Chique?
+NOVO  18:13.03 | eu:  | ele: 234                          pos 0.500,0.500 rot 0 fx 
+      fala: gente vai direto pro oceano Mas... [Fica] quieto, Naniaco. Às vezes a
+MUD   18:16.56 | eu: Z 130 r2.0 | ele: kf[0.00:100 0.33:111 0.67:11 pos kf rot 0 fx 
+      fala: vezes a gente tem que admitir que [existem] coisas que não podem ser salvas. Inclusive,
+NOVO  18:24.82 | eu:  | ele: 321                          pos 0.749,0.677 rot 0 fx 
+      fala: Vai hidratar seu corpo. [Isso,] Brucutu. Suga água do mundo Vai. inteiro. Boa. Caraca,
+NOVO  18:30.16 | eu:  | ele: 246                          pos 0.500,0.500 rot 0 fx 
+      fala: Deixa Galera. o Brucutu... Ele ele bebeu falou que era o tanta Alex água com que a... ele morreu. Bom, de
+NOVO  18:36.60 | eu:  | ele: 100                          pos 0.500,0.500 rot 0 fx Tonalidade 
+      fala: ó. Primeiro o eu vou comprar Redemon artificial. [Não,] tipo, falar E o buraco negro da boca.
+MUD   18:45.22 | eu: Z 130 r1.2 | ele: kf[0.00:100 0.20:111 0.40:11 pos kf rot 0 fx 
+      fala: esquema é ir pro oceano. [Senhores,] vocês estão preparados? tô na água, meu amigo
+MUD   19:01.57 | eu: Z 140 r1.0 | ele: kf[0.00:100 0.03:114 0.07:12 pos kf rot 0 fx 
+      fala: cuidado com meu O isso aí Deus do [céu] oceano Meu inteiro Ai vai ser sugado, olha isso Coloca o buraco negro
+MUD   19:08.15 | eu: P Impact Shake High | ele: 100                          pos 0.500,0.500 rot 0 fx Transformar 
+      fala: precisa fazer mais nada Meu [Deus] [do] céu, eu tô explodindo, Eu galera tô enchendo tudo Galera
+MUD   19:08.85 | eu: Z 150 r1.4 | ele: kf[0.00:100 0.23:118 0.47:13 pos kf rot 0 fx 
+      fala: nada Meu Deus do céu, eu tô explodindo, [Eu] [galera] tô enchendo tudo Galera
+NOVO  19:27.68 | eu:  | ele: 100                          pos 0.500,0.500 rot 0 fx   [Me Tornei o M 
+      fala: Então é isso Tchau
+
+### SFX NOVOS / REMOVIDOS / REGANHO
+REMOVIDO    --   taco-bell-bong-sfx.mp3                     -10.8 dB | esquece essa porcaria
+ALTERADO  00:01.47 fortnite-shield-potion-fortnite-battle-roy | dur 2.50->3.09 | poção sob o B-roll 
+      fala: de hoje, eu, [Patão] e Chique, vamos beber toda a água do mundo
+ALTERADO  00:12.46 bamboo-hit-anime-bonk-sound.mp3            | moveu -0.07s | Você é maluco? (deboche) 
+      fala: canudinho aqui? [Você] é maluco? Exatamente, Patão. Vai funcionar.
+ALTERADO  00:24.92 spongebob-fail.mp3                         | moveu -1.74s; dur 2.50->3.34 | não consegue beber (falha) 
+      fala: Espera Eu aí. não consigo Maliberado beber [no] nível 6? Procura uma poça d'água? Por que a gente não
+ALTERADO  00:35.02 vine-boom.mp3                              | DESABILITADO; ganho -6.4 -> -10.1; moveu +0.25s | Poça d'água?! 
+      fala: aqui, ó, que eu vi [Poça] d'água? Caraca, é verdade, galera. Calma aí Olha só o tanto
+ALTERADO  00:36.74 bass-impact.mp3                            | moveu +0.12s | revelação 
+      fala: Caraca, é verdade, galera. [Calma] [aí] [Olha] só o tanto de poça d'água que tem aqui na frente. Eu
+ALTERADO  00:36.74 impact_water.mp3                           | moveu +0.12s | revelação 
+      fala: Caraca, é verdade, galera. [Calma] [aí] [Olha] só o tanto de poça d'água que tem aqui na frente. Eu
+ALTERADO  00:36.74 19--Whoosh 39.wav                          | moveu +0.12s | revelação 
+      fala: Caraca, é verdade, galera. [Calma] [aí] [Olha] só o tanto de poça d'água que tem aqui na frente. Eu
+ALTERADO  00:49.15 mc-note-pling.mp3                          | moveu +0.42s | desafio 
+      fala: eu vou esvaziar também ela toda [Quem] [esvaziar] primeiro Olha ganha isso Vai, Está vai, difícil
+ALTERADO  01:00.09 anime-shine-sound-effect_QP4mAaX (1).mp3   | moveu -0.97s | revelação 
+      fala: na poça maneiro [eu] [É,] estou. patão, eu acho que você só não reparou uma coisa,
+ALTERADO  01:06.88 perfect-fart-sound-effect-hd_128k.mp3      | moveu -0.95s | piada de barriga 
+      fala: da Pera pança Ah! aí Por [que] [eu] tô com uma pança gigante também? E olha a tua aí,
+REMOVIDO  01:12.66 clown-horn-short.mp3                       -12.8 dB | gag barriga 
+      fala: Vocês são tão barrigudos.
+REMOVIDO  01:22.55 mc-random-levelup.mp3                      -17.0 dB | sai do time-lapse 
+      fala: Imagina [quando] a gente beber o mar inteiro Continua bebendo água Continua aí,
+ALTERADO  01:23.53 mc-random-burp.mp3                         | moveu -0.58s | barriga cheia 
+      fala: Imagina quando a gente beber o mar [inteiro] Continua bebendo água Continua aí, galera Até
+NOVO      01:25.70 alert-sound_wTmioMp (2).mp3                -9.3 dur 2.10 in 0.00 A6 
+      fala: bebendo água Continua aí, galera Até esvaziar toda essa poça d'água olha só
+ALTERADO  01:34.64 bruh-sound-effect-1.mp3                    | ganho -16.4 -> -10.7; moveu +0.67s | decepção 
+      fala: problema é que foi apenas 0,01% de água bebida Mas vamos continuar bebendo
+ALTERADO  01:44.12 wrong_5.mp3                                | ganho -7.8 -> -14.8; moveu -0.30s | apenas 0,1% de toda a água do mundo 
+      fala: se vocês perceberam, mas isso foi [apenas] 0,1% de toda a água do mundo.
+ALTERADO  01:46.52 bruh-sound-effect-1.mp3                    | ganho -17.7 -> -10.6; moveu -0.83s | furada 
+      fala: de toda a água do mundo. falei que esse vídeo era uma furada parceiro,
+REMOVIDO  02:11.33 mc-mob-villager-idle1.mp3                  -10.2 dB | ÚNICO villager do vídeo: fala dos villagers 
+      fala: contas, os villagers são feitos em 70% de água você É também É, quer dizer, nesse momento
+NOVO      02:21.67 taco-bell-bong-sfx.mp3                     -10.76 dur 1.80 in 0.07 A5 
+      fala: acho que faz sentido, né? [Esquece] isso pato, aí, eu tô bebendo esquece água essa porcaria aqui aí Esquece essa porcaria aí,
+REMOVIDO  02:28.46 mc-random-chestopen.mp3                     -8.7 dB | baú 
+      fala: da frente, rapaziada [Vem] [Tem] um aí, baú aqui, esse baúzinho deixa eu dar uma Teleporter? aí olhada Pra
+ALTERADO  02:32.47 anime-shine-sound-effect_QP4mAaX (1).mp3   | moveu -0.98s | chegou na LOJA 
+      fala: que que sai isso aqui? Deixa eu usar galera, olha só onde a gente veio parar Parece que
+REMOVIDO  02:43.51 anime-wow-sound-effect (1).mp3             -15.4 dB | canudo gigante 
+      fala: finais. tamanho desse um [canudo,] canudo gigante. Eu acho que nem cabe na minha boca.
+ALTERADO  02:45.63 cartoon-boing.mp3                          | ganho +0.7 -> -1.6; moveu +0.60s | gag 
+      fala: Eu acho que nem cabe na [minha] [boca.] Ô Draga sugadora, pai, vai alisar aqui, pai. Buraco negro
+ALTERADO  02:47.73 bamboo-hit-anime-bonk-sound.mp3            | moveu -0.07s | buraco negro na boca?! 
+      fala: sugadora, pai, vai alisar aqui, pai. [Buraco] negro na boca? Como assim? Eu Esse quero esse.
+ALTERADO  02:47.78 record-scratch-2.mp3                       | moveu -0.07s | buraco negro na boca?! 
+      fala: sugadora, pai, vai alisar aqui, pai. [Buraco] negro na boca? Como assim? Eu Esse quero esse.
+REMOVIDO  02:51.09 sudden-suspense-sound-effect.mp3           -20.6 dB | vai dar ruim 
+      fala: Eu Esse quero esse. aqui vai dar ruim. [Esse] vai dar ruim. É, pois é, Só patão que assim Vem
+ALTERADO  02:57.84 mc-ui-toast-challenge_complete.mp3         | ganho -6.2 -> -13.7 | comprou o copo 
+      fala: 1 um copo de E água eu já comprei Agora o meu Eu já ganhei o meu aqui também,
+NOVO      03:03.37 2 - whoosh swoosh - long.wav               -8.53 dur 3.12 in 0.00 A5 
+      fala: voltar poder testar esse copo Bom,
+NOVO      03:10.29 2 - whoosh swoosh - long.wav               -8.53 dur 3.12 in 0.00 A5 
+      fala: galera, nesse momento A aqui gente ainda
+ALTERADO  03:45.12 cartoon-boing.mp3                          | DESABILITADO | virou uma bola 
+      fala: água, bebe água Ih, [vira] [caraca,] tá todo o... mundo engordando E virou uma bola imensa Continua
+ALTERADO  03:46.59 mc-random-burp.mp3                         | DESABILITADO | barriga cheia 
+      fala: vira caraca, tá todo o... mundo engordando E [virou] [uma] [bola] imensa Continua bebendo aí, Continua O rapaziada que bebendo
+ALTERADO  03:51.50 record-scratch-2.mp3                       | moveu -0.70s | peraí... virada 
+      fala: já acabamos Mas peraí, [peraí,] peraí Por está que que acontecendo? a nossa água tá abaixando?
+ALTERADO  03:52.82 sudden-suspense-sound-effect.mp3           | ganho -21.1 -> -11.0 | suspeita 
+      fala: peraí, peraí [Por] [está] [que] [que] acontecendo? a nossa água tá abaixando? O que que O vocês tão que? fazendo? Tinha É mil. o excelente,
+NOVO      03:59.24 cinematic-boom.wav                         -5.55 dur 1.53 in 0.95 A5 
+      fala: você, patão olha [para] aquilo ali.
+NOVO      03:59.36 y2mate.com - Cartoon poke sound effect.mp3 -0.0 dur 2.05 in 0.00 A7 
+      fala: você, patão olha [para] [aquilo] ali.
+NOVO      04:00.29 deep impact.wav                            -1.59 dur 5.74 in 0.00 A9 
+      fala: para aquilo ali. ali. Não, não,
+REMOVIDO  04:04.36 dun-dun-dun-sound-effect-brass_8nFBccR.mp3 -10.2 dB | Brucutu aparece 
+      fala: peraí O que você [tá] [fazendo?] O que você tá fazendo, Brucutu?
+ALTERADO  04:13.54 metal-gear-alert-sound-effect_XKoHReZ.mp3  | ganho -10.8 -> -7.8; moveu -1.05s | ameaça 
+      fala: não quero que a água do mundo [acabe] [Então] vocês, idiotas, parem de tomar
+NOVO      04:54.34 alert-sound_wTmioMp (1).mp3                -11.91 dur 2.10 in 0.00 A5 
+      fala: galera Caraca, galera, Eu olha [isso] tô bebendo muita água, eu tô gigante Imenso.
+REMOVIDO  04:55.48 cartoon-boing.mp3                           -3.3 dB | tô gigante 
+      fala: Eu olha isso tô bebendo muita [água,] eu tô gigante Imenso. É, imenso
+NOVO      04:56.65 bamboo-hit-anime-bonk-sound.mp3            -3.23 dur 0.60 in 0.00 A5 
+      fala: água, eu tô gigante Imenso. É, imenso pra você, né, Olha o
+REMOVIDO  05:04.02 original-sheesh.mp3                        -13.7 dB | colossal 
+      fala: bochecha também [Tá] [colossal,] meu parceiro. Tá colossal.
+REMOVIDO  05:07.04 vine-boom.mp3                               -4.2 dB | músculo (punchline) 
+      fala: Tá colossal. [Isso] aqui é saber? Isso Ó aqui é Daqui músculo. a pouco o Bruco deve estar chegando
+ALTERADO  05:11.96 anime-shine-sound-effect_QP4mAaX (1).mp3   | moveu -0.05s | itens nível 2 
+      fala: novo. Vamos logo pra loja. [Bora.] [Olha] só, galera. Já dá pra desbloquear os de itens nível 2.
+ALTERADO  05:20.70 mc-ui-toast-challenge_complete.mp3         | ganho -6.3 -> -8.0 | pegou a bomba 
+      fala: vou pegar o chapéu de e líquidos Gostei. [agora] eu vou pegar a d'água. bomba oi oi oi é impressão minha
+ALTERADO  06:06.87 mc-random-splash.mp3                       | ganho -6.0 -> -11.8 | água entrando 
+      fala: d'água Tá Olha isso, que isso [Caraca,] tá entrando muita Caraca, água colocar minha boia aqui Ai também
+ALTERADO  06:32.38 mc-ui-toast-challenge_complete.mp3         | ganho -6.3 -> -11.3; moveu +0.65s | piscina completa 
+      fala: É só beber o último e [pronto.] Boa Caraca, que
+NOVO      06:39.47 bamboo-hit-anime-bonk-sound.mp3            -7.97 dur 0.60 in 0.00 A6 
+      fala: Patão, olha para mim, patão. Meu [Deus] [do] céu, mas meu que Deus, aberração que bochecha é essa? é essa? Caraca, não tem ninguém normal
+ALTERADO  06:39.52 five-nights-at-freddys-full-scream-sound_2 | ganho -24.9 -> -23.0; moveu -0.17s; dur 2.50->1.47 | aberração (susto cômico) 
+      fala: olha para mim, patão. Meu Deus [do] céu, mas meu que Deus, aberração que bochecha é essa? é essa? Caraca, não tem ninguém normal
+ALTERADO  06:48.02 bruh-sound-effect-1.mp3                    | ganho -14.3 -> -9.8 | não tinha pensado nisso 
+      fala: vamos ter que quebrar o bloco da mão calma [aí,] eu não tinha pensado nisso eu não tinha pensado nisso
+NOVO      07:02.31 suspense-1_bLEXV6f (2).mp3                 -9.83 dur 3.14 in 0.00 A8 
+      fala: Aquele deve ser muito melhor [Rapaziada] [do] que esse peraí Procutu Vamos para lá Vai, Bora, vai, bora vai
+ALTERADO  07:13.15 mc-ui-toast-challenge_complete.mp3         | ganho -6.3 -> -11.4 | comprou 
+      fala: Brucutu E a gente já conseguiu o [A] [item] [novo] mochila aspiradora problema é
+NOVO      07:14.22 among-us-role-reveal-sound.mp3             -6.76 dur 4.57 in 0.00 A9 
+      fala: o A item novo mochila aspiradora problema é que ele já tá voltando com a água
+REMOVIDO  07:15.13 dun-dun-dun-sound-effect-brass_8nFBccR.mp3 -10.5 dB | Brucutu devolvendo a água 
+      fala: mochila aspiradora [problema] é que ele já tá voltando com a água toda Que porcaria
+ALTERADO  07:34.22 why-are-you-running-sound-effect-hd_2yraBj | DESABILITADO | esconde! 
+      fala: aquela arma lá vai ter Vai, que [dar] ruim esconde, esconde, Ele esconde Pronto, tá vindo droga,
+ALTERADO  07:46.92 mc-random-splash.mp3                       | ganho -6.0 -> -12.0; moveu -2.89s | sugando 
+      fala: a E boia na piscina [Vai,] [sugar] tudo rápido, Todo rápido, rápido mundo sugando Olha água A
+REMOVIDO  07:55.17 original-sheesh.mp3                        -14.9 dB | roubado 
+      fala: o item ainda mais roubado olha isso Uou! Caraca, a espiradora Bom demais, Suga muito
+REMOVIDO  08:07.34 sm64_mario_oof.mp3                         -11.3 dB | de novo o bloco 
+      fala: Agora deixa A eu pegar gente minha [boia] [não...] [de] Quebrar volta o bloco na mão É, de novo Ué,
+REMOVIDO  08:47.44 tadaa.mp3                                  -10.7 dB | tudo vazio 
+      fala: dessa vila isso, [tá] [tudo] vazio olha galera, mesmo a gente tendo
+NOVO      09:06.05 among-us-role-reveal-sound.mp3             -0.0 dur 4.57 in 0.00 A6 
+      fala: esvaziar a gente [vá] [procurar] algum poço Que palhaçada é essa?
+REMOVIDO  09:06.81 dun-dun-dun-sound-effect-brass_8nFBccR.mp3 -12.2 dB | Brucutu volta 
+      fala: gente vá procurar algum poço Que palhaçada é essa?
+REMOVIDO  09:19.73 deg-deg-sussy.mp3                          -13.4 dB | mentira da dengue 
+      fala: gente tem a bomba de água atrás ó [a] gente está combatendo a dengue trocando água na
+ALTERADO  09:48.70 sadtrombone.swf.mp3                        | moveu -0.85s | ferrado 
+      fala: Ah, galera, eu não tô achando nenhuma [poça] d'água pela frente A gente tá ferrado Não, Meu amorzinho!
+ALTERADO  10:03.17 cartoon-boing.mp3                          | moveu -0.22s | balão 
+      fala: só tô parecendo um balão É, você fica linda de qualquer jeito, né?
+ALTERADO  10:03.24 anime-shine-sound-2.mp3                    | moveu -0.22s | linda 
+      fala: tô parecendo um balão É, você fica linda de qualquer jeito, né?
+NOVO      10:27.78 one-piece-corneta.mp3                      -3.13 dur 2.09 in 0.00 A6 
+      fala: rápido, Você pô gente [tá] [quer] [cansando] [que] eu te carregue no e colo? Eu consigo Você não tá vendo
+NOVO      10:29.86 one-piece-toing (1).mp3                    -12.13 dur 3.42 in 0.00 A5 
+      fala: no e colo? Eu consigo Você não tá vendo não que vai eu... vai me carregar o colo vamos
+REMOVIDO  10:34.63 dun-dun-dun-sound-effect-brass_8nFBccR.mp3  -7.0 dB | o parque é do Brucutu 
+      fala: e eu vou ficando Porque por aqui esse parque aquático é do Burucutu E ele
+REMOVIDO  10:45.54 clown-horn-short.mp3                       -12.8 dB | deboche nha nha 
+      fala: cumprir tudo que você queira Nha, nha, nha, bom, nha, obrigado, meu amorzinho. eu vou ficar gigante Agora,
+ALTERADO  11:01.69 bamboo-hit-anime-bonk-sound.mp3            | ganho -6.1 -> -9.5; moveu +0.33s | parque aquático e bebe poça? 
+      fala: [Que] [poça] d'água, parceiro? Tu tá num parque aquático,
+ALTERADO  11:01.74 record-scratch-2.mp3                       | ganho -14.9 -> -16.5; moveu +0.33s | parque aquático e bebe poça? 
+      fala: [Que] [poça] d'água, parceiro? Tu tá num parque aquático,
+REMOVIDO  11:40.80 original-sheesh.mp3                        -17.9 dB | esperto 
+      fala: Eu rapaziada [sou] Pronto, esperto perfeito. Agora vamos voltar praquele parque.
+NOVO      11:43.60 mc-random-levelup.mp3                      -4.95 dur 1.72 in 0.00 A5 
+      fala: vamos voltar praquele parque. [E] [olha] só, galera. piscina dentro que eu achei do parque pra
+NOVO      11:54.30 vine-boom.mp3                              -9.83 dur 1.25 in 0.00 A5 
+      fala: e usar o meu Que guarda-chuva isso? isso, galera é, parceiro? Tá É muito sugando rápido. água muito E rápido
+REMOVIDO  11:54.40 mc-random-splash.mp3                        -5.6 dB | sugando 
+      fala: e usar o meu Que guarda-chuva isso? [isso,] galera é, parceiro? Tá É muito sugando rápido. água muito E rápido
+REMOVIDO  11:58.12 anime-wow-sound-effect (1).mp3             -13.8 dB | boia 
+      fala: Caramba! [se] [eu] colocar a boia aqui ainda, Olha ó É isso muito rápido
+ALTERADO  12:10.01 tadaa.mp3                                  | DESABILITADO | dinheiro 
+      fala: a gente tá sugando toda a água da piscina Isso [aqui] [vai] dar muito dinheiro pra Então gente quer saber? Bora, galera
+NOVO      12:17.24 mc-random-levelup.mp3                      -17.0 dur 1.72 in 0.00 A5 
+      fala: [vai,] vai, Pronto, vai, vai, vai sugamos toda a Meu água da piscina
+ALTERADO  12:18.42 mc-ui-toast-challenge_complete.mp3         | ganho -7.9 -> -12.8 | comprou 
+      fala: vai, vai, Pronto, vai, vai, vai sugamos toda a Meu água da piscina Deus do céu, olha o tamanho que
+ALTERADO  12:20.89 cartoon-boing.mp3                          | moveu +0.70s | tamanho 
+      fala: piscina Deus do céu, olha o tamanho [que] a gente Bora tá, rapaziada Bora Caraca, O
+ALTERADO  12:29.10 mc-random-anvil_land.mp3                   | ganho -3.8 -> -7.0 | só 2,5% do mundo 
+      fala: A gente tá uma a Só bolinha gente só mesmo [consumiu] 2,5% Do mundo,
+ALTERADO  12:29.45 wrong_5.mp3                                | ganho -5.4 -> -7.7 | só 2,5% do mundo 
+      fala: A gente tá uma a Só bolinha gente só mesmo consumiu 2,5% Do mundo, 2,5% parceiro
+ALTERADO  12:35.57 mc-random-levelup.mp3                      | moveu -0.05s | cachoeiras liberadas 
+      fala: Porque patão é o seguinte, A ó [gente] já liberou as cachoeiras E como a gente voltar
+ALTERADO  12:52.57 19--Whoosh 39.wav                          | moveu -0.43s | cachoeira 
+      fala: Agora vamos atrás de uma cachoeira chegamos Olha galera só o tamanho
+REMOVIDO  12:58.59 mc-random-splash.mp3                        -5.2 dB | funil 
+      fala: Vamos testar logo o funil gigante olha isso então subindo várias água tá mandando tudo minha boca
+NOVO      13:21.00 among-us-role-reveal-sound.mp3             -0.0 dur 4.57 in 0.00 A7 
+      fala: Caraca, já foi 115 mil [litros] [Olha] só Olha o que eu tô vendo aqui!
+REMOVIDO  13:23.94 dun-dun-dun-sound-effect-brass_8nFBccR.mp3 -10.8 dB | mentirosos da piscina 
+      fala: que eu tô vendo aqui! [Os] [mentirosos] da piscina! Agora não importa mais,
+REMOVIDO  14:07.65 deg-deg-sussy.mp3                          -13.4 dB | esperto 
+      fala: né Isso de fugir era só pra [poder] [enganar] o Brukutu, entendeu? Na verdade a gente vai ficar campeonando Até
+NOVO      14:31.47 zoom-impacto.mp3                           -9.83 dur 1.22 in 0.00 A6 
+      fala: E para a gente desbloquear os rios, [a] [gente] [precisa] de 150 mil litros de água. Então
+NOVO      14:32.40 impacto.wav                                -0.0 dur 3.10 in 0.00 A8 
+      fala: os rios, a gente precisa de 150 [mil] litros de água. Então quer saber? Enquanto vocês
+ALTERADO  14:38.18 mc-random-splash.mp3                       | ganho -4.6 -> -6.5; moveu -0.58s | tibum 
+      fala: lá para baixo da cachoeira. Tibum! [Daí] agora tudo que eu preciso fazer é deixar o
+ALTERADO  14:56.31 mc-random-levelup.mp3                      | ganho -17.0 -> -14.5 | sai do time-lapse 
+      fala: [Caraca,] A galera gente sugou toda a cachoeira
+ALTERADO  14:57.50 mc-ui-toast-challenge_complete.mp3         | ganho -15.0 -> -13.5 | comprou 
+      fala: Caraca, A galera [gente] sugou toda a cachoeira Olha só o tamanho que a gente tá
+REMOVIDO  15:00.13 cartoon-boing.mp3                           -2.2 dB | 3 blocos de altura 
+      fala: Olha só o tamanho que a gente tá [Três] blocos de altura Ô, Polly. só vejo
+REMOVIDO  15:35.20 mc-random-splash.mp3                        -6.8 dB | robô 
+      fala: o primeiro deles [o] [robô] mergulhador Vai robô mergulha, robô
+REMOVIDO  15:47.11 tadaa.mp3                                  -12.6 dB | funcionou 
+      fala: meu tá funcionando aqui, Caraca, [tá] [tá] [aspirando] [aspirando] tá funcionando, ele tá aspirando o meu
+ALTERADO  17:01.57 mc-random-levelup.mp3                      | moveu -0.33s | nível 5 
+      fala: só, a gente já desbloqueou, [O] [galera] nível 5 Já, já, nós vamos conseguir
+REMOVIDO  17:12.68 vine-boom.mp3                               -6.1 dB | Canudão! 
+      fala: Vou pegar o canudo gigante. [E] [também] a Canudão draga sugadora. É o Canudão Canudão,
+NOVO      17:15.20 guitar-riff-meme.mp3                       -17.12 dur 3.37 in 0.00 A6 
+      fala: É o Canudão Canudão, é o canudos. o Canudão É o Agora
+REMOVIDO  17:49.27 original-sheesh.mp3                        -14.6 dB | os dois ao mesmo tempo 
+      fala: exemplo colocar bem do lado [Aí] [eu] suco os dois ao mesmo tempo, galera maneiro Esse
+NOVO      18:05.75 danger-alarm-sound-effect-meme (1).mp3     -17.57 dur 4.25 in 0.00 A8 
+      fala: 70% da Não, água não, [O] [é] [que?] [possível] O que vocês estão fazendo?
+REMOVIDO  18:06.30 dun-dun-dun-sound-effect-brass_8nFBccR.mp3 -10.4 dB | Brucutu chega de novo 
+      fala: da Não, água não, O é que? possível O que vocês estão fazendo? Sugando
+REMOVIDO  18:19.13 sadtrombone.swf.mp3                        -19.6 dB | desisto 
+      fala: ser salvas. Inclusive, [Eu] Brucutu. desisto Aqui, ó. Pega esse canudo gigante e usa lá no
+NOVO      18:29.51 y2mate.com - Cartoon poke sound effect.mp3 -4.02 dur 2.05 in 0.00 A6 
+      fala: é maneiro [Deixa] [Galera.] [o] Brucutu... Ele ele bebeu falou que era o tanta Alex água com que a... ele morreu.
+ALTERADO  18:31.31 gta-v-wasted-death-sound.mp3               | moveu -0.20s; dur 2.50->3.52 | wasted 
+      fala: Ele ele bebeu falou que era o [tanta] [Alex] [água] [com] que a... ele morreu. Bom, de qualquer forma, pra vamos voltar
+ALTERADO  18:36.53 mc-ui-toast-challenge_complete.mp3         | ganho -6.0 -> -8.9 | comprou 
+      fala: ó. Primeiro o eu vou comprar Redemon [artificial.] [Não,] tipo, falar E o buraco negro da boca.
+REMOVIDO  18:37.40 mc-ui-toast-challenge_complete.mp3          -7.0 dB | comprou 
+      fala: Redemon artificial. Não, tipo, falar [E] [o] [buraco] negro da boca. Agora, sem perder muito
+REMOVIDO  18:45.22 loud-dramatic-stinger.mp3                  -14.4 dB | preparados 
+      fala: esquema é ir pro oceano. [Senhores,] vocês estão preparados? tô na água, meu amigo
+ALTERADO  18:49.85 mc-portal-travel.mp3                       | ganho -8.2 -> -10.1; dur 2.50->3.90 | redemoinho 
+      fala: usar O aqui, ó. redemoinho artificial. Quero ver se ele é bom mesmo. Vou colocar ele bem aqui. Toma. Olha Caraca
+REMOVIDO  19:16.54 mc-ui-toast-challenge_complete.mp3          -4.5 dB | conquista 
+      fala: gente tá já não sei mais O o que [sou] [eu] [A] gente que é bebeu você toda a água do mundo Galera
+REMOVIDO  19:16.74 mc-random-levelup.mp3                       -6.7 dB | conquista 
+      fala: tá já não sei mais O o que sou eu [A] [gente] [que] é bebeu você toda a água do mundo Galera Eu

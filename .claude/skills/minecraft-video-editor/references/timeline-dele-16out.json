@@ -1,0 +1,189 @@
+{
+ "data": "16/10/2026",
+ "seq_editada": "b081148b v14 - TESTE 5min takes futuros (end 137.487)",
+ "snapshot_clone": "(ref2) v14 editada pelo Matheus 16-out id 2bea56b2-fd56-40f2-9235-7c2ea7320533",
+ "rodada_anterior_clone": "41c1f242 (ref) ... end 137.771",
+ "escopo_das_mudancas": "só 0-36 s (intro + momento da poça); 36-137 s idênticos à rodada 1",
+ "brolls_V3": [
+  {
+   "tl": [
+    1.235,
+    3.837
+   ],
+   "src": [
+    0,
+    2.6
+   ],
+   "file": "D:/cinecam-out/takes_futuros_oceano/takes_futuros_oceano.mp4",
+   "frase": "eu, Patão e Chique, vamos beber toda a água do mundo"
+  },
+  {
+   "tl": [
+    3.837,
+    5.239
+   ],
+   "src": [
+    2.6,
+    4.0
+   ],
+   "file": "takes_futuros_oceano.mp4 (parte 2)",
+   "eco_V4": {
+    "opacidade": [
+     42.3,
+     0
+    ],
+    "odur": 0.267,
+    "escala": [
+     100,
+     462
+    ],
+    "sdur": 0.951,
+    "blend": 14
+   }
+  },
+  {
+   "tl": [
+    9.409,
+    10.761
+   ],
+   "src": [
+    0.83,
+    2.19
+   ],
+   "file": "D:/cinecam-out/universo_canudo/universo_canudo.mp4",
+   "frase": "Beber toda a água do mundo com esse"
+  },
+  {
+   "tl": [
+    32.733,
+    35.719
+   ],
+   "src": [
+    3.59,
+    6.57
+   ],
+   "file": "pa_rasante_plongee.mp4 (CineCam)",
+   "pos": [
+    0.5,
+    0.266
+   ],
+   "escala": 150.8,
+   "flash_tonalidade": {
+    "preto_branco": "branco->branco",
+    "quantidade": [
+     70,
+     0
+    ],
+    "dur": 0.9
+   },
+   "frase": "só o tanto de poça d'água que tem aqui na frente"
+  }
+ ],
+ "mutes_novos": {
+  "A2": [
+   [
+    1.802,
+    5.822
+   ]
+  ],
+  "A3": [
+   [
+    0,
+    1.802
+   ],
+   [
+    1.802,
+    5.822
+   ]
+  ],
+  "obs": "jogo/call mudos sob o B-roll de abertura; A1 (voz) intacta"
+ },
+ "sfx_novos": [
+  {
+   "tl": 0.85,
+   "dur": 1.89,
+   "file": "19--Whoosh 39.wav",
+   "db": 0,
+   "trilha": "A8",
+   "nota": "0,385 s antes do B-roll (1.235)"
+  },
+  {
+   "tl": 1.42,
+   "dur": 0.83,
+   "file": "minecraft_click.mp3",
+   "db": 10,
+   "trilha": "A6"
+  },
+  {
+   "tl": 2.0,
+   "dur": 0.84,
+   "file": "minecraft_click.mp3",
+   "db": 10,
+   "trilha": "A7"
+  },
+  {
+   "tl": 1.67,
+   "dur": 3.82,
+   "file": "fortnite-shield-potion...mp3",
+   "db": -4.4,
+   "trilha": "A9"
+  },
+  {
+   "tl": 9.29,
+   "dur": 1.84,
+   "file": "minecraft-drinking-sound-effect.mp3",
+   "db": -4.6,
+   "trilha": "A8",
+   "nota": "0,12 s antes do B-roll (9.409)"
+  },
+  {
+   "tl": 9.38,
+   "dur": 0.26,
+   "file": "nintendo-switch-error.mp3",
+   "db": -3.3,
+   "trilha": "A5"
+  },
+  {
+   "tl": 32.733,
+   "dur": 3.12,
+   "file": "bass-impact.mp3",
+   "db": 0,
+   "trilha": "A7"
+  },
+  {
+   "tl": 32.733,
+   "dur": 2.34,
+   "file": "impact_water.mp3",
+   "db": -10.5,
+   "trilha": "A8"
+  },
+  {
+   "tl": 32.733,
+   "dur": 1.89,
+   "file": "19--Whoosh 39.wav",
+   "db": 0,
+   "trilha": "A9"
+  }
+ ],
+ "sfx_mexidos": [
+  {
+   "file": "anime-wow (1)",
+   "tl": 5.24,
+   "db": [
+    -10.4,
+    -17.0
+   ]
+  },
+  {
+   "file": "vine-boom",
+   "tl": 3.77,
+   "nota": "mudou de trilha A5->A6 (arrumou sobreposição)"
+  }
+ ],
+ "cortes": {
+  "net": "-0,284 s",
+  "zoom_canudinho": "início do clipe do item recuou de src 6.96 para 6.22 (0,16 s antes de 'usando' em 6.38): o corte p/ o item cai ANTES da frase que o apresenta",
+  "pausa_aparada": "src 11.68-11.96 (0,28 s) antes de 'Beber toda a água' removida"
+ },
+ "musica": "Lifecrash cortada junto com o vídeo em 9.54 (sobra de 1.22 s com fade antigo = artefato do ripple, não intenção)"
+}

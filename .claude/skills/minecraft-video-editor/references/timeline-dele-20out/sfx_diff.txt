@@ -1,0 +1,194 @@
+meus 169 | dele 157 | intactos 81 | removidos 36 | desabilitados 5 | reganho 25 | movidos 34 | novos 24
+REMOVIDO    --   taco-bell-bong-sfx.mp3                     -10.8 dB | esquece essa porcaria
+mantido   00:00.00 anime-shine-sound-2.mp3                    |  | abertura
+mantido   00:00.68 19--Whoosh 39.wav                          |  | whoosh antes do B-roll
+ALTERADO  00:01.47 fortnite-shield-potion-fortnite-battle-roy | dur 2.50->3.09 | poção sob o B-roll
+mantido   00:02.15 vine-boom.mp3                              |  | tese
+mantido   00:04.39 anime-wow-sound-effect (1).mp3             |  | canudinho: corte p/ o item antes da frase
+mantido   00:09.34 minecraft-drinking-sound-effect.mp3        |  | gole antes do B-roll do canudo
+mantido   00:11.08 nintendo-switch-error.mp3                  |  | dúvida
+ALTERADO  00:12.46 bamboo-hit-anime-bonk-sound.mp3            | moveu -0.07s | Você é maluco? (deboche)
+mantido   00:12.50 record-scratch-2.mp3                       |  | Você é maluco? (deboche)
+mantido   00:19.57 minecraft-drinking-sound-effect.mp3        |  | 1 gole
+mantido   00:24.31 nintendo-switch-error.mp3                  |  | obstáculo
+ALTERADO  00:24.92 spongebob-fail.mp3                         | moveu -1.74s; dur 2.50->3.34 | não consegue beber (falha)
+ALTERADO  00:35.02 vine-boom.mp3                              | DESABILITADO; ganho -6.4 -> -10.1; moveu +0.25s | Poça d'água?!
+ALTERADO  00:36.74 bass-impact.mp3                            | moveu +0.12s | revelação
+ALTERADO  00:36.74 impact_water.mp3                           | moveu +0.12s | revelação
+ALTERADO  00:36.74 19--Whoosh 39.wav                          | moveu +0.12s | revelação
+mantido   00:45.78 mc-random-orb.mp3                          |  | 20 litros
+ALTERADO  00:49.15 mc-note-pling.mp3                          | moveu +0.42s | desafio
+mantido   00:56.51 mc-random-orb.mp3                          |  | quase 100 litros
+ALTERADO  01:00.09 anime-shine-sound-effect_QP4mAaX (1).mp3   | moveu -0.97s | revelação
+mantido   01:04.75 cartoon-boing.mp3                          |  | olha o tamanho da pança
+ALTERADO  01:06.88 perfect-fart-sound-effect-hd_128k.mp3      | moveu -0.95s | piada de barriga
+REMOVIDO  01:12.66 clown-horn-short.mp3                       -12.8 dB | gag barriga
+REMOVIDO  01:22.55 mc-random-levelup.mp3                      -17.0 dB | sai do time-lapse
+ALTERADO  01:23.53 mc-random-burp.mp3                         | moveu -0.58s | barriga cheia
+NOVO      01:25.70 alert-sound_wTmioMp (2).mp3                -9.3 dur 2.10 in 0.00 A6 
+mantido   01:29.84 mc-random-orb.mp3                          |  | 280 litros
+ALTERADO  01:34.64 bruh-sound-effect-1.mp3                    | ganho -16.4 -> -10.7; moveu +0.67s | decepção
+mantido   01:44.07 mc-random-anvil_land.mp3                   |  | apenas 0,1% de toda a água do mundo
+ALTERADO  01:44.12 wrong_5.mp3                                | ganho -7.8 -> -14.8; moveu -0.30s | apenas 0,1% de toda a água do mundo
+ALTERADO  01:46.52 bruh-sound-effect-1.mp3                    | ganho -17.7 -> -10.6; moveu -0.83s | furada
+mantido   01:53.46 mc-xp-orb-p0.mp3                           |  | orb XP a cada corte dos takes
+mantido   01:54.21 mc-xp-orb-p1.mp3                           |  | orb XP a cada corte dos takes
+mantido   01:54.98 mc-xp-orb-p2.mp3                           |  | orb XP a cada corte dos takes
+mantido   01:55.73 mc-xp-orb-p3.mp3                           |  | orb XP a cada corte dos takes
+mantido   01:56.50 mc-xp-orb-p4.mp3                           |  | orb XP a cada corte dos takes
+REMOVIDO  02:11.33 mc-mob-villager-idle1.mp3                  -10.2 dB | ÚNICO villager do vídeo: fala dos villagers
+NOVO      02:21.67 taco-bell-bong-sfx.mp3                     -10.76 dur 1.80 in 0.07 A5 
+REMOVIDO  02:28.46 mc-random-chestopen.mp3                     -8.7 dB | baú
+mantido   02:29.23 anime-wow-sound-effect (1).mp3             |  | item: teleporter
+ALTERADO  02:32.47 anime-shine-sound-effect_QP4mAaX (1).mp3   | moveu -0.98s | chegou na LOJA
+REMOVIDO  02:43.51 anime-wow-sound-effect (1).mp3             -15.4 dB | canudo gigante
+ALTERADO  02:45.63 cartoon-boing.mp3                          | ganho +0.7 -> -1.6; moveu +0.60s | gag
+ALTERADO  02:47.73 bamboo-hit-anime-bonk-sound.mp3            | moveu -0.07s | buraco negro na boca?!
+ALTERADO  02:47.78 record-scratch-2.mp3                       | moveu -0.07s | buraco negro na boca?!
+REMOVIDO  02:51.09 sudden-suspense-sound-effect.mp3           -20.6 dB | vai dar ruim
+mantido   02:55.89 anime-wow-sound-effect (1).mp3             |  | copo d'água nível 1
+ALTERADO  02:57.84 mc-ui-toast-challenge_complete.mp3         | ganho -6.2 -> -13.7 | comprou o copo
+NOVO      03:03.37 2 - whoosh swoosh - long.wav               -8.53 dur 3.12 in 0.00 A5 
+NOVO      03:10.29 2 - whoosh swoosh - long.wav               -8.53 dur 3.12 in 0.00 A5 
+mantido   03:22.64 minecraft-drinking-sound-effect.mp3        |  | gole
+mantido   03:30.09 spongebob-fail.mp3                         |  | copo é devagar
+ALTERADO  03:45.12 cartoon-boing.mp3                          | DESABILITADO | virou uma bola
+ALTERADO  03:46.59 mc-random-burp.mp3                         | DESABILITADO | barriga cheia
+ALTERADO  03:51.50 record-scratch-2.mp3                       | moveu -0.70s | peraí... virada
+ALTERADO  03:52.82 sudden-suspense-sound-effect.mp3           | ganho -21.1 -> -11.0 | suspeita
+NOVO      03:59.24 cinematic-boom.wav                         -5.55 dur 1.53 in 0.95 A5 
+NOVO      03:59.36 y2mate.com - Cartoon poke sound effect.mp3 -0.0 dur 2.05 in 0.00 A7 
+NOVO      04:00.29 deep impact.wav                            -1.59 dur 5.74 in 0.00 A9 
+REMOVIDO  04:04.36 dun-dun-dun-sound-effect-brass_8nFBccR.mp3 -10.2 dB | Brucutu aparece
+mantido   04:08.20 bamboo-hit-anime-bonk-sound.mp3            |  | Zeradinho? qual o seu problema
+mantido   04:08.25 record-scratch-2.mp3                       |  | Zeradinho? qual o seu problema
+ALTERADO  04:13.54 metal-gear-alert-sound-effect_XKoHReZ.mp3  | ganho -10.8 -> -7.8; moveu -1.05s | ameaça
+mantido   04:22.65 spongebob-fail.mp3                         |  | voltei ao normal (perdeu tudo)
+mantido   04:36.86 perfect-fart-sound-effect-hd_128k.mp3      |  | virando bolota
+NOVO      04:54.34 alert-sound_wTmioMp (1).mp3                -11.91 dur 2.10 in 0.00 A5 
+REMOVIDO  04:55.48 cartoon-boing.mp3                           -3.3 dB | tô gigante
+NOVO      04:56.65 bamboo-hit-anime-bonk-sound.mp3            -3.23 dur 0.60 in 0.00 A5 
+REMOVIDO  05:04.02 original-sheesh.mp3                        -13.7 dB | colossal
+REMOVIDO  05:07.04 vine-boom.mp3                               -4.2 dB | músculo (punchline)
+ALTERADO  05:11.96 anime-shine-sound-effect_QP4mAaX (1).mp3   | moveu -0.05s | itens nível 2
+mantido   05:19.47 anime-wow-sound-effect (1).mp3             |  | chapéu de líquidos
+ALTERADO  05:20.70 mc-ui-toast-challenge_complete.mp3         | ganho -6.3 -> -8.0 | pegou a bomba
+mantido   05:26.38 nintendo-switch-error.mp3                  |  | bugado
+mantido   05:32.07 bamboo-hit-anime-bonk-sound.mp3            |  | que negócio feio é esse
+mantido   05:32.12 record-scratch-2.mp3                       |  | que negócio feio é esse
+mantido   05:45.76 spongebob-fail.mp3                         |  | rio bloqueado
+mantido   05:53.07 anime-wow-sound-effect (1).mp3             |  | piscina
+mantido   06:02.88 anime-wow-sound-effect (1).mp3             |  | chapéu na cabeça + boia
+ALTERADO  06:06.87 mc-random-splash.mp3                       | ganho -6.0 -> -11.8 | água entrando
+mantido   06:24.17 mc-random-orb.mp3                          |  | 3 mil litros
+ALTERADO  06:32.38 mc-ui-toast-challenge_complete.mp3         | ganho -6.3 -> -11.3; moveu +0.65s | piscina completa
+NOVO      06:39.47 bamboo-hit-anime-bonk-sound.mp3            -7.97 dur 0.60 in 0.00 A6 
+ALTERADO  06:39.52 five-nights-at-freddys-full-scream-sound_2 | ganho -24.9 -> -23.0; moveu -0.17s; dur 2.50->1.47 | aberração (susto cômico)
+ALTERADO  06:48.02 bruh-sound-effect-1.mp3                    | ganho -14.3 -> -9.8 | não tinha pensado nisso
+NOVO      07:02.31 suspense-1_bLEXV6f (2).mp3                 -9.83 dur 3.14 in 0.00 A8 
+ALTERADO  07:13.15 mc-ui-toast-challenge_complete.mp3         | ganho -6.3 -> -11.4 | comprou
+mantido   07:13.45 anime-wow-sound-effect (1).mp3             |  | mochila aspiradora
+NOVO      07:14.22 among-us-role-reveal-sound.mp3             -6.76 dur 4.57 in 0.00 A9 
+REMOVIDO  07:15.13 dun-dun-dun-sound-effect-brass_8nFBccR.mp3 -10.5 dB | Brucutu devolvendo a água
+ALTERADO  07:34.22 why-are-you-running-sound-effect-hd_2yraBj | DESABILITADO | esconde!
+mantido   07:37.22 mc-random-click.mp3                        |  | arma descarregou
+ALTERADO  07:46.92 mc-random-splash.mp3                       | ganho -6.0 -> -12.0; moveu -2.89s | sugando
+REMOVIDO  07:55.17 original-sheesh.mp3                        -14.9 dB | roubado
+REMOVIDO  08:07.34 sm64_mario_oof.mp3                         -11.3 dB | de novo o bloco
+REMOVIDO  08:47.44 tadaa.mp3                                  -10.7 dB | tudo vazio
+mantido   08:54.48 mc-random-orb.mp3                          |  | precisa de 25 mil
+mantido   08:56.80 spongebob-fail.mp3                         |  | quase
+NOVO      09:06.05 among-us-role-reveal-sound.mp3             -0.0 dur 4.57 in 0.00 A6 
+REMOVIDO  09:06.81 dun-dun-dun-sound-effect-brass_8nFBccR.mp3 -12.2 dB | Brucutu volta
+REMOVIDO  09:19.73 deg-deg-sussy.mp3                          -13.4 dB | mentira da dengue
+mantido   09:29.40 hmmmm_7rRG5zE.mp3                          |  | desconfiança
+mantido   09:32.51 taco-bell-bong-sfx.mp3                     |  | cloro
+ALTERADO  09:48.70 sadtrombone.swf.mp3                        | moveu -0.85s | ferrado
+mantido   09:51.89 anime-wow-sound-effect (1).mp3             |  | xoxozinho
+mantido   09:55.86 why-are-you-running-sound-effect-hd_2yraBj |  | se esconde
+ALTERADO  10:03.17 cartoon-boing.mp3                          | moveu -0.22s | balão
+ALTERADO  10:03.24 anime-shine-sound-2.mp3                    | moveu -0.22s | linda
+mantido   10:07.36 anime-wow-sound-effect (1).mp3             |  | parque aquático
+NOVO      10:27.78 one-piece-corneta.mp3                      -3.13 dur 2.09 in 0.00 A6 
+NOVO      10:29.86 one-piece-toing (1).mp3                    -12.13 dur 3.42 in 0.00 A5 
+REMOVIDO  10:34.63 dun-dun-dun-sound-effect-brass_8nFBccR.mp3  -7.0 dB | o parque é do Brucutu
+REMOVIDO  10:45.54 clown-horn-short.mp3                       -12.8 dB | deboche nha nha
+ALTERADO  11:01.69 bamboo-hit-anime-bonk-sound.mp3            | ganho -6.1 -> -9.5; moveu +0.33s | parque aquático e bebe poça?
+ALTERADO  11:01.74 record-scratch-2.mp3                       | ganho -14.9 -> -16.5; moveu +0.33s | parque aquático e bebe poça?
+mantido   11:09.47 bruh-sound-effect-1.mp3                    |  | de fachada
+mantido   11:21.06 mc-random-levelup.mp3                      |  | nível 3
+mantido   11:23.20 anime-wow-sound-effect (1).mp3             |  | capacete com calha
+mantido   11:24.68 mc-note-pling.mp3                          |  | itens
+REMOVIDO  11:40.80 original-sheesh.mp3                        -17.9 dB | esperto
+NOVO      11:43.60 mc-random-levelup.mp3                      -4.95 dur 1.72 in 0.00 A5 
+NOVO      11:54.30 vine-boom.mp3                              -9.83 dur 1.25 in 0.00 A5 
+REMOVIDO  11:54.40 mc-random-splash.mp3                        -5.6 dB | sugando
+REMOVIDO  11:58.12 anime-wow-sound-effect (1).mp3             -13.8 dB | boia
+ALTERADO  12:10.01 tadaa.mp3                                  | DESABILITADO | dinheiro
+mantido   12:13.68 19--Whoosh 39.wav                          |  | entra o time-lapse
+NOVO      12:17.24 mc-random-levelup.mp3                      -17.0 dur 1.72 in 0.00 A5 
+ALTERADO  12:18.42 mc-ui-toast-challenge_complete.mp3         | ganho -7.9 -> -12.8 | comprou
+ALTERADO  12:20.89 cartoon-boing.mp3                          | moveu +0.70s | tamanho
+ALTERADO  12:29.10 mc-random-anvil_land.mp3                   | ganho -3.8 -> -7.0 | só 2,5% do mundo
+ALTERADO  12:29.45 wrong_5.mp3                                | ganho -5.4 -> -7.7 | só 2,5% do mundo
+ALTERADO  12:35.57 mc-random-levelup.mp3                      | moveu -0.05s | cachoeiras liberadas
+mantido   12:40.74 anime-wow-sound-effect (1).mp3             |  | funil gigante
+ALTERADO  12:52.57 19--Whoosh 39.wav                          | moveu -0.43s | cachoeira
+REMOVIDO  12:58.59 mc-random-splash.mp3                        -5.2 dB | funil
+mantido   13:20.03 mc-random-orb.mp3                          |  | 115 mil litros
+mantido   13:20.33 original-sheesh.mp3                        |  | 115 mil
+NOVO      13:21.00 among-us-role-reveal-sound.mp3             -0.0 dur 4.57 in 0.00 A7 
+REMOVIDO  13:23.94 dun-dun-dun-sound-effect-brass_8nFBccR.mp3 -10.8 dB | mentirosos da piscina
+mantido   13:39.02 bass-impact.mp3                            |  | bomba
+mantido   13:39.02 impact_water.mp3                           |  | bomba
+mantido   13:52.98 mc-random-anvil_land.mp3                   |  | voltou a 100% de água
+mantido   13:53.33 wrong_5.mp3                                |  | voltou a 100% de água
+mantido   13:55.23 spongebob-fail.mp3                         |  | voltou a ser magro
+REMOVIDO  14:07.65 deg-deg-sussy.mp3                          -13.4 dB | esperto
+mantido   14:23.00 mc-random-door_open.mp3                    |  | foi embora
+NOVO      14:31.47 zoom-impacto.mp3                           -9.83 dur 1.22 in 0.00 A6 
+mantido   14:31.70 mc-random-orb.mp3                          |  | precisa de 150 mil
+NOVO      14:32.40 impacto.wav                                -0.0 dur 3.10 in 0.00 A8 
+ALTERADO  14:38.18 mc-random-splash.mp3                       | ganho -4.6 -> -6.5; moveu -0.58s | tibum
+mantido   14:52.37 19--Whoosh 39.wav                          |  | entra o time-lapse
+ALTERADO  14:56.31 mc-random-levelup.mp3                      | ganho -17.0 -> -14.5 | sai do time-lapse
+ALTERADO  14:57.50 mc-ui-toast-challenge_complete.mp3         | ganho -15.0 -> -13.5 | comprou
+REMOVIDO  15:00.13 cartoon-boing.mp3                           -2.2 dB | 3 blocos de altura
+mantido   15:05.39 comedy_pop_finger_in_mouth_001.mp3         |  | bochecha
+mantido   15:17.05 anime-shine-sound-effect_QP4mAaX (1).mp3   |  | 3 itens novos
+mantido   15:18.48 anime-wow-sound-effect (1).mp3             |  | robô mergulhador
+REMOVIDO  15:35.20 mc-random-splash.mp3                        -6.8 dB | robô
+mantido   15:40.09 bruh-sound-effect-1.mp3                    |  | não quer mergulhar
+REMOVIDO  15:47.11 tadaa.mp3                                  -12.6 dB | funcionou
+mantido   16:08.73 cartoon-slide.mp3                          |  | beleléu
+mantido   16:12.57 hm.mp3                                     |  | cadê o robô
+mantido   16:33.11 mc-random-orb.mp3                          |  | 20% do mundo
+mantido   16:50.23 mc-random-orb.mp3                          |  | 1,5 milhão
+mantido   16:55.51 mc-random-levelup.mp3                      |  | próximo nível
+ALTERADO  17:01.57 mc-random-levelup.mp3                      | moveu -0.33s | nível 5
+mantido   17:05.67 anime-shine-sound-effect_QP4mAaX (1).mp3   |  | itens finais
+mantido   17:11.10 anime-wow-sound-effect (1).mp3             |  | canudo gigante
+REMOVIDO  17:12.68 vine-boom.mp3                               -6.1 dB | Canudão!
+NOVO      17:15.20 guitar-riff-meme.mp3                       -17.12 dur 3.37 in 0.00 A6 
+mantido   17:22.56 bass-impact.mp3                            |  | canudo gigante
+mantido   17:39.43 anime-wow-sound-effect (1).mp3             |  | draga sugadora
+REMOVIDO  17:49.27 original-sheesh.mp3                        -14.6 dB | os dois ao mesmo tempo
+mantido   17:54.27 mc-random-orb.mp3                          |  | 50%
+mantido   18:03.35 mc-random-orb.mp3                          |  | 70%
+NOVO      18:05.75 danger-alarm-sound-effect-meme (1).mp3     -17.57 dur 4.25 in 0.00 A8 
+REMOVIDO  18:06.30 dun-dun-dun-sound-effect-brass_8nFBccR.mp3 -10.4 dB | Brucutu chega de novo
+REMOVIDO  18:19.13 sadtrombone.swf.mp3                        -19.6 dB | desisto
+mantido   18:25.39 minecraft-drinking-sound-effect.mp3        |  | Brucutu bebe
+NOVO      18:29.51 y2mate.com - Cartoon poke sound effect.mp3 -4.02 dur 2.05 in 0.00 A6 
+ALTERADO  18:31.31 gta-v-wasted-death-sound.mp3               | moveu -0.20s; dur 2.50->3.52 | wasted
+mantido   18:35.93 anime-wow-sound-effect (1).mp3             |  | redemoinho artificial
+ALTERADO  18:36.53 mc-ui-toast-challenge_complete.mp3         | ganho -6.0 -> -8.9 | comprou
+REMOVIDO  18:37.40 mc-ui-toast-challenge_complete.mp3          -7.0 dB | comprou
+REMOVIDO  18:45.22 loud-dramatic-stinger.mp3                  -14.4 dB | preparados
+ALTERADO  18:49.85 mc-portal-travel.mp3                       | ganho -8.2 -> -10.1; dur 2.50->3.90 | redemoinho
+mantido   18:58.42 mc-mob-wither-spawn.mp3                    |  | buraco negro
+mantido   19:08.15 mc-random-explode1.mp3                     |  | explodindo
+REMOVIDO  19:16.54 mc-ui-toast-challenge_complete.mp3          -4.5 dB | conquista
+REMOVIDO  19:16.74 mc-random-levelup.mp3                       -6.7 dB | conquista
+mantido   19:21.21 vine-boom.mp3                              |  | viramos um planeta de água
+mantido   19:26.82 mc-random-pop.mp3                          |  | tchau

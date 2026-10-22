@@ -1,0 +1,27 @@
+plugins { id 'java'; id 'net.minecraftforge.gradle' version '6.0.54' }
+group = 'dev.cinecam'
+version = '0.1.0'
+base { archivesName = 'cinecam-forge-1.20.1' }
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+// Heavy output (worlds, logs, frames) goes to D: because C: is almost full on this machine.
+def runDir = System.getenv('CINECAM_RUN') ?: 'D:/cinecam-run'
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    runs {
+        client {
+            workingDirectory file(runDir)
+            jvmArgs '-Xmx' + (project.findProperty('xmx') ?: '4G')
+            mods { cinecam { source sourceSets.main } }
+            if (project.hasProperty('job')) property 'cinecam.job', project.property('job')
+            if (project.hasProperty('mode')) property 'cinecam.mode', project.property('mode')
+        }
+    }
+}
+repositories { mavenCentral() }
+dependencies { minecraft 'net.minecraftforge:forge:1.20.1-47.4.16' }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.named('processResources', ProcessResources).configure {
+    inputs.property 'mod_version', version
+    filesMatching('META-INF/mods.toml') { expand mod_version: version }
+}
+tasks.named('jar', Jar).configure { finalizedBy 'reobfJar' }

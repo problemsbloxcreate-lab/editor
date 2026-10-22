@@ -1,0 +1,769 @@
+{
+ "mutes": [],
+ "keeps": [
+  {
+   "src_in": 0.0,
+   "src_out": 27.894533333333335,
+   "tl_in": 0.0,
+   "tl_out": 27.894533333333335
+  },
+  {
+   "src_in": 40.70733333333334,
+   "src_out": 56.50645000000001,
+   "tl_in": 27.894533333333335,
+   "tl_out": 43.693650000000005
+  },
+  {
+   "src_in": 57.45740000000001,
+   "src_out": 101.76833333333335,
+   "tl_in": 43.693650000000005,
+   "tl_out": 88.00458333333334
+  },
+  {
+   "src_in": 104.13736666666668,
+   "src_out": 110.32688333333334,
+   "tl_in": 88.00458333333334,
+   "tl_out": 94.1941
+  },
+  {
+   "src_in": 112.3122,
+   "src_out": 134.70123333333333,
+   "tl_in": 94.1941,
+   "tl_out": 116.58313333333334
+  },
+  {
+   "src_in": 136.70323333333334,
+   "src_out": 139.97316666666669,
+   "tl_in": 116.58313333333334,
+   "tl_out": 119.85306666666668
+  },
+  {
+   "src_in": 141.1243166666667,
+   "src_out": 168.91875000000002,
+   "tl_in": 119.85306666666668,
+   "tl_out": 147.6475
+  },
+  {
+   "src_in": 170.05321666666669,
+   "src_out": 183.90038333333334,
+   "tl_in": 147.6475,
+   "tl_out": 161.49466666666666
+  },
+  {
+   "src_in": 185.25173333333336,
+   "src_out": 204.32078333333334,
+   "tl_in": 161.49466666666666,
+   "tl_out": 180.56371666666664
+  },
+  {
+   "src_in": 205.10490000000001,
+   "src_out": 211.91170000000002,
+   "tl_in": 180.56371666666664,
+   "tl_out": 187.37051666666665
+  },
+  {
+   "src_in": 213.46325000000002,
+   "src_out": 226.54298333333335,
+   "tl_in": 187.37051666666665,
+   "tl_out": 200.45024999999998
+  },
+  {
+   "src_in": 227.39383333333336,
+   "src_out": 261.17758333333336,
+   "tl_in": 200.45024999999998,
+   "tl_out": 234.23399999999998
+  },
+  {
+   "src_in": 261.92833333333334,
+   "src_out": 310.12648333333334,
+   "tl_in": 234.23399999999998,
+   "tl_out": 282.43215
+  },
+  {
+   "src_in": 311.22758333333337,
+   "src_out": 350.19985,
+   "tl_in": 282.43215,
+   "tl_out": 321.40441666666663
+  },
+  {
+   "src_in": 352.11843333333337,
+   "src_out": 359.05870000000004,
+   "tl_in": 321.40441666666663,
+   "tl_out": 328.3446833333333
+  },
+  {
+   "src_in": 360.3933666666667,
+   "src_out": 365.61525,
+   "tl_in": 328.3446833333333,
+   "tl_out": 333.56656666666663
+  },
+  {
+   "src_in": 366.4827833333334,
+   "src_out": 366.5495166666667,
+   "tl_in": 333.56656666666663,
+   "tl_out": 333.63329999999996
+  },
+  {
+   "src_in": 372.9559166666667,
+   "src_out": 470.92045,
+   "tl_in": 333.63329999999996,
+   "tl_out": 431.59783333333326
+  },
+  {
+   "src_in": 472.1049666666667,
+   "src_out": 479.99618333333336,
+   "tl_in": 431.59783333333326,
+   "tl_out": 439.4890499999999
+  }
+ ],
+ "cuts": [
+  {
+   "a": 27.894533333333335,
+   "b": 40.70733333333334,
+   "why": "bastidor: \"corta aí / tu já tá com o canudo / reiniciou\" (retake de coordenação); a fala certa recomeça em \"Vai!\" 40.98"
+  },
+  {
+   "a": 56.50645000000001,
+   "b": 57.45740000000001,
+   "why": "falsa partida t1 \"Por que a gente não...\" + gagueira t2 \"Eu falei\" (a fala completa \"Esse canudinho aqui, pô, eu falei\" é mantida)"
+  },
+  {
+   "a": 101.76833333333335,
+   "b": 104.13736666666668,
+   "why": "pausa morta 2.9s -> 0.5s"
+  },
+  {
+   "a": 110.32688333333334,
+   "b": 112.3122,
+   "why": "falsa partida \"Olha o tamanho da pan...\" (t2 mudo); mantém \"Pera aí\""
+  },
+  {
+   "a": 134.70123333333333,
+   "b": 136.70323333333334,
+   "why": "pausa morta 2.5s -> 0.5s"
+  },
+  {
+   "a": 139.97316666666669,
+   "b": 141.1243166666667,
+   "why": "pausa morta 1.6s -> 0.5s"
+  },
+  {
+   "a": 168.91875000000002,
+   "b": 170.05321666666669,
+   "why": "pausa morta 1.6s -> 0.5s"
+  },
+  {
+   "a": 183.90038333333334,
+   "b": 185.25173333333336,
+   "why": "pausa morta 1.9s -> 0.5s"
+  },
+  {
+   "a": 204.32078333333334,
+   "b": 205.10490000000001,
+   "why": "pausa morta 1.3s -> 0.5s"
+  },
+  {
+   "a": 211.91170000000002,
+   "b": 213.46325000000002,
+   "why": "pausa morta 2.0s -> 0.5s"
+  },
+  {
+   "a": 226.54298333333335,
+   "b": 227.39383333333336,
+   "why": "pausa morta 1.3s -> 0.5s (RMS)"
+  },
+  {
+   "a": 261.17758333333336,
+   "b": 261.92833333333334,
+   "why": "pausa morta 1.2s -> 0.5s"
+  },
+  {
+   "a": 310.12648333333334,
+   "b": 311.22758333333337,
+   "why": "pausa morta 1.6s -> 0.5s"
+  },
+  {
+   "a": 350.19985,
+   "b": 352.11843333333337,
+   "why": "retake: 1º \"O que você tá fazendo? Não, não, não, Bruno Coutinho\" (mantém o 2º take limpo; t2 mudo)"
+  },
+  {
+   "a": 359.05870000000004,
+   "b": 360.3933666666667,
+   "why": "pausa morta 1.8s -> 0.5s"
+  },
+  {
+   "a": 365.61525,
+   "b": 366.4827833333334,
+   "why": "pausa morta 1.4s -> 0.5s"
+  },
+  {
+   "a": 366.5495166666667,
+   "b": 372.9559166666667,
+   "why": "fala errada do Brukutu: \"3,2,1 / sou contra / espera que vai acontecer\" -> mantém a certa \"sou a favor\""
+  },
+  {
+   "a": 470.92045,
+   "b": 472.1049666666667,
+   "why": "pausa morta 1.7s -> 0.5s"
+  }
+ ],
+ "music": [
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_Last Level Pt. 1 - Heyson.mp3",
+   "src_in": 0,
+   "src_out": 52.9,
+   "tl_in": 0.0,
+   "tl_out": 40.087199999999996,
+   "gain_db": -22.5,
+   "why": "hook: desafio engraçado, gamey"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_Brighter than the Sky - Akibakid.mp3",
+   "src_in": 52.9,
+   "src_out": 109.5,
+   "tl_in": 40.087199999999996,
+   "tl_out": 93.36721666666668,
+   "gain_db": -22.6,
+   "why": "entra em \"Procura uma poça d água\": acham as poças, competição animada"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_GO - Ballpoint.mp3",
+   "src_in": 109.5,
+   "src_out": 149.2,
+   "tl_in": 93.36721666666668,
+   "tl_out": 127.92874999999998,
+   "gain_db": -21.9,
+   "why": "gag da barriga (\"Por que eu tô com uma pança gigante\"): hype"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_The Detective - Flickering.mp3",
+   "src_in": 149.2,
+   "src_out": 191.0,
+   "tl_in": 127.92874999999998,
+   "tl_out": 167.2429333333333,
+   "gain_db": -20.1,
+   "why": "plot twist \"apenas 0,1%\" -> decepção/\"furada\", clima enxerido"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_Farmer_s Chores - Flickering.mp3",
+   "src_in": 191.0,
+   "src_out": 236.0,
+   "tl_in": 167.2429333333333,
+   "tl_out": 209.05641666666662,
+   "gain_db": -19.9,
+   "why": "decidem ir à vila (\"Vamos dar uma procurada na vila\"): vila/plantação"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\AVENTURAS\\ES_The Adventure of a Lifetime - Grant Newman.mp3",
+   "src_in": 236.0,
+   "src_out": 273.8,
+   "tl_in": 209.05641666666662,
+   "tl_out": 246.10566666666665,
+   "gain_db": -18.9,
+   "why": "descoberta da loja (\"olha só onde a gente veio parar\")"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_Cheer Up (Instrumental Version) - PW.mp3",
+   "src_in": 273.8,
+   "src_out": 334.4,
+   "tl_in": 246.10566666666665,
+   "tl_out": 305.6045666666666,
+   "gain_db": -24.0,
+   "why": "volta p/ testar o copo, bebem juntos"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_The Sleepy Sneaky Sway - Luella Gren.mp3",
+   "src_in": 334.4,
+   "src_out": 400.0,
+   "tl_in": 305.6045666666666,
+   "tl_out": 360.67738333333324,
+   "gain_db": -18.0,
+   "why": "Brucutu aparece e atrapalha: tensão cômica"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\music\\2K25\\ES_Let the Good Times Roll - Mary Riddle.mp3",
+   "src_in": 400.0,
+   "src_out": 480.0,
+   "tl_in": 360.67738333333324,
+   "tl_out": 439.4890499999999,
+   "gain_db": -19.3,
+   "why": "Brucutu some, voltam a beber, vão à loja (nível 2)"
+  }
+ ],
+ "sfx": [
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\anime-shine-sound-2.mp3",
+   "src": 0.1,
+   "tl": 0.1,
+   "why": "abertura (anime shine)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\vine-boom.mp3",
+   "src": 4.7,
+   "tl": 4.7,
+   "why": "\"toda a água do mundo\" (impacto)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\record-scratch-2.mp3",
+   "src": 14.95,
+   "tl": 14.95,
+   "why": "freada na reação do amigo (\"tá de brincadeira, né? ... Você é maluco?\", t2 11.9–15.9)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\whoosh-sfx.mp3",
+   "src": 52.9,
+   "tl": 40.087199999999996,
+   "why": "\"Procura uma poça d água\" (novo objetivo; troca de música)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\bonk_BEtiM8g.mp3",
+   "src": 72.7,
+   "tl": 58.93625,
+   "why": "depois de \"Essa poça aqui é minha.\" (posse cômica)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\rimshot.mp3",
+   "src": 86.0,
+   "tl": 72.23624999999998,
+   "why": "depois de \"Quem esvaziar primeiro ganha\" (rimshot)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\fails-ohhhh.mp3",
+   "src": 118.3,
+   "tl": 100.1819,
+   "why": "depois de \"olha o tamanho da minha barriga\" (piada da barriga)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\jixaw-metal-pipe-falling-sound.mp3",
+   "src": 153.0,
+   "tl": 131.72875,
+   "why": "depois de \"apenas 0,1% de água bebida\" (fail)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\sadtrombone.swf.mp3",
+   "src": 168.3,
+   "tl": 147.02875,
+   "why": "depois de \"isso tudo foi apenas 0,1% de toda a água do mundo\" (trombone triste, reprise da piada)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\whoosh-sfx.mp3",
+   "src": 192.3,
+   "tl": 168.5429333333333,
+   "why": "\"Vamos dar uma procurada na vila\" (novo objetivo)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\roblox-death-sound_1.mp3",
+   "src": 200.0,
+   "tl": 176.2429333333333,
+   "why": "depois de \"conseguir beber os villagers também?\" (piada)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\anime-wow-sound-effect.mp3",
+   "src": 237.88,
+   "tl": 210.93641666666662,
+   "why": "\"olha só onde a gente veio parar\" (descoberta)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\vine-boom.mp3",
+   "src": 251.7,
+   "tl": 224.7564166666666,
+   "why": "\"É um canudo gigante.\" (impacto)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\record-scratch-2.mp3",
+   "src": 272.3,
+   "tl": 244.60566666666665,
+   "why": "depois de \"É um copo de água\" (anticlímax)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\bonk_BEtiM8g.mp3",
+   "src": 309.8,
+   "tl": 282.10566666666665,
+   "why": "depois de \"Olha isso, é muito devagar\" (decepção)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\dun-dun-dun-sound-effect-brass_8nFBccR.mp3",
+   "src": 338.9,
+   "tl": 310.1045666666666,
+   "why": "\"o que vocês tão fazendo?\" Brucutu aparece (suspense)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\vine-boom.mp3",
+   "src": 373.14,
+   "tl": 333.8173833333332,
+   "why": "\"Eu, Brukutu, sou a favor do meio ambiente\""
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\taco-bell-bong-sfx.mp3",
+   "src": 386.6,
+   "tl": 347.27738333333326,
+   "why": "depois de \"ele consumiu toda a água do mundo\""
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\fails-ohhhh.mp3",
+   "src": 442.9,
+   "tl": 403.5773833333332,
+   "why": "depois de \"olha o tamanho dessa barriga\" (reprise da piada)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\sfx\\erro.mp3",
+   "src": 474.46,
+   "tl": 433.9528666666666,
+   "why": "\"é impressão minha ou bugou\" (erro)"
+  }
+ ],
+ "ducks": [
+  {
+   "tl": 14.95,
+   "dur": 1.0,
+   "depth_db": 9.0
+  },
+  {
+   "tl": 58.93625,
+   "dur": 1.0,
+   "depth_db": 9.0
+  },
+  {
+   "tl": 72.23624999999998,
+   "dur": 1.0,
+   "depth_db": 9.0
+  },
+  {
+   "tl": 100.1819,
+   "dur": 1.0,
+   "depth_db": 9.0
+  },
+  {
+   "tl": 131.72875,
+   "dur": 1.0,
+   "depth_db": 9.0
+  },
+  {
+   "tl": 147.02875,
+   "dur": 1.0,
+   "depth_db": 9.0
+  },
+  {
+   "tl": 176.2429333333333,
+   "dur": 1.0,
+   "depth_db": 9.0
+  },
+  {
+   "tl": 244.60566666666665,
+   "dur": 1.0,
+   "depth_db": 9.0
+  },
+  {
+   "tl": 282.10566666666665,
+   "dur": 1.0,
+   "depth_db": 9.0
+  },
+  {
+   "tl": 347.27738333333326,
+   "dur": 1.0,
+   "depth_db": 9.0
+  },
+  {
+   "tl": 403.5773833333332,
+   "dur": 1.0,
+   "depth_db": 9.0
+  },
+  {
+   "tl": 433.9528666666666,
+   "dur": 1.0,
+   "depth_db": 9.0
+  }
+ ],
+ "boost_voice_db": 9.0,
+ "boost_music_db": 3.0,
+ "limiter": 0.91,
+ "zooms": [
+  {
+   "src": 0.1,
+   "hold": 1.1,
+   "s": 112,
+   "kind": "push",
+   "fx": 960,
+   "fy": 540,
+   "why": "abre com shine",
+   "tl": 0.1
+  },
+  {
+   "src": 4.7,
+   "hold": 0.9,
+   "s": 140,
+   "kind": "punch",
+   "fx": 900,
+   "fy": 560,
+   "why": "\"toda a água do mundo\" (soco no impacto)",
+   "tl": 4.7
+  },
+  {
+   "src": 19.26,
+   "hold": 0.8,
+   "s": 130,
+   "kind": "punch",
+   "fx": 1180,
+   "fy": 560,
+   "why": "\"Deixa de frescura, Patão!\" (zoom no Patão)",
+   "tl": 19.26
+  },
+  {
+   "src": 48.7,
+   "hold": 0.7,
+   "s": 125,
+   "kind": "punch",
+   "fx": 960,
+   "fy": 540,
+   "why": "\"Bora, bora, bora\" (fecha o gancho)",
+   "tl": 35.88720000000001
+  },
+  {
+   "src": 52.9,
+   "hold": 0.8,
+   "s": 125,
+   "kind": "punch",
+   "fx": 960,
+   "fy": 540,
+   "why": "\"Procura uma poça d água\" (novo objetivo)",
+   "tl": 40.087199999999996
+  },
+  {
+   "src": 70.9,
+   "hold": 0.8,
+   "s": 125,
+   "kind": "punch",
+   "fx": 960,
+   "fy": 600,
+   "why": "\"Essa poça aqui é minha\" (posse)",
+   "tl": 57.136250000000004
+  },
+  {
+   "src": 84.0,
+   "hold": 0.8,
+   "s": 130,
+   "kind": "punch",
+   "fx": 960,
+   "fy": 560,
+   "why": "\"Quem esvaziar primeiro ganha\" (aposta)",
+   "tl": 70.23625
+  },
+  {
+   "src": 117.1,
+   "hold": 1.2,
+   "s": 150,
+   "kind": "punch",
+   "fx": 960,
+   "fy": 520,
+   "curv": -35,
+   "why": "gag da barriga: \"olha o tamanho da minha barriga\" (zoom distorcido)",
+   "tl": 98.98190000000001
+  },
+  {
+   "src": 150.0,
+   "hold": 2.6,
+   "s": 220,
+   "kind": "hud",
+   "fx": 960,
+   "fy": 0,
+   "why": "mostra o contador: \"apenas 0,1% de água\"",
+   "tl": 128.72875
+  },
+  {
+   "src": 192.3,
+   "hold": 0.8,
+   "s": 125,
+   "kind": "punch",
+   "fx": 960,
+   "fy": 540,
+   "why": "\"Vamos dar uma procurada na vila\" (novo objetivo)",
+   "tl": 168.5429333333333
+  },
+  {
+   "src": 237.88,
+   "hold": 1.2,
+   "s": 135,
+   "kind": "dolly",
+   "fx": 960,
+   "fy": 560,
+   "why": "loja descoberta",
+   "tl": 210.93641666666662
+  },
+  {
+   "src": 245.55,
+   "hold": 1.4,
+   "s": 130,
+   "kind": "dolly",
+   "fx": 960,
+   "fy": 640,
+   "why": "mostra os itens da loja (boia com bomba, mochila)",
+   "tl": 218.60641666666663
+  },
+  {
+   "src": 251.7,
+   "hold": 0.8,
+   "s": 130,
+   "kind": "punch",
+   "fx": 960,
+   "fy": 600,
+   "why": "\"É um canudo gigante\"",
+   "tl": 224.7564166666666
+  },
+  {
+   "src": 308.6,
+   "hold": 0.5,
+   "s": 120,
+   "kind": "punch",
+   "fx": 960,
+   "fy": 560,
+   "why": "\"é muito devagar\" (decepção)",
+   "tl": 280.9056666666667
+  },
+  {
+   "src": 328.26,
+   "hold": 0.8,
+   "s": 125,
+   "kind": "punch",
+   "fx": 960,
+   "fy": 560,
+   "curv": -25,
+   "why": "\"virando uma bola imensa\" (distorção leve)",
+   "tl": 299.4645666666666
+  },
+  {
+   "src": 338.9,
+   "hold": 1.2,
+   "s": 135,
+   "kind": "punch",
+   "fx": 900,
+   "fy": 700,
+   "why": "Brucutu aparece",
+   "tl": 310.1045666666666
+  },
+  {
+   "src": 408.14,
+   "hold": 0.8,
+   "s": 125,
+   "kind": "punch",
+   "fx": 960,
+   "fy": 560,
+   "why": "\"virando uma bolota\"",
+   "tl": 368.8173833333332
+  },
+  {
+   "src": 441.36,
+   "hold": 1.4,
+   "s": 150,
+   "kind": "punch",
+   "fx": 960,
+   "fy": 520,
+   "curv": -35,
+   "why": "reprise da barriga: \"olha o tamanho dessa barriga\" (distorcido)",
+   "tl": 402.03738333333325
+  },
+  {
+   "src": 474.46,
+   "hold": 1.8,
+   "s": 150,
+   "kind": "dolly",
+   "fx": 1400,
+   "fy": 215,
+   "why": "placa 1.500 litros: \"bugou?\"",
+   "tl": 433.9528666666666
+  }
+ ],
+ "stickers": [
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\png\\interrogacao.png",
+   "src": 42.3,
+   "tl": 29.4872,
+   "dur": 0.9,
+   "pos": [
+    0.27,
+    0.66
+   ],
+   "scale": 55,
+   "why": "t2 \"...por que eu tô tomando?\" (confusão)"
+  },
+  {
+   "file": "C:\\Users\\mathe\\.claude\\skills\\minecraft-video-editor\\library\\png\\interrogacao.png",
+   "src": 217.9,
+   "tl": 191.80726666666664,
+   "dur": 0.9,
+   "pos": [
+    0.27,
+    0.66
+   ],
+   "scale": 55,
+   "why": "\"Beber água da plantação?\" (dúvida)"
+  }
+ ],
+ "marks": [
+  {
+   "tl": 0.0,
+   "txt": "REVISAR: cliques de mouse/teclado/tosse NÃO verificados (não consigo ouvir) — passar o ouvido nas faixas A1/A2"
+  },
+  {
+   "tl": 27.894533333333335,
+   "txt": "bastidor cortado (27.9–40.7): \"corta aí / tu já tá com o canudo / reiniciou\""
+  },
+  {
+   "tl": 79.23624999999998,
+   "txt": "REVISAR: \"Já bebi mais de 100 litros\" / \"Eu já bebi quase 100 litros\" (possível take duplicado; não cortei: palavras se sobrepõem no ASR)"
+  },
+  {
+   "tl": 95.5819,
+   "txt": "REVISAR: 113.7–127 falas sobrepostas (t1 \"pança gigante / olha o tamanho da minha barriga\" + t2 \"vocês tão barrigudos... tua pança\") — ASR confuso"
+  },
+  {
+   "tl": 206.9564166666666,
+   "txt": "REVISAR: 233.9–245 ASR confuso (t2 \"Olha Pobre olha isso aqui\")"
+  },
+  {
+   "tl": 321.2045666666666,
+   "txt": "cortei o 1º take de \"O que você tá fazendo... Bruno Coutinho\" (350.2–352.1) ; \"É o C, né, Chique?\" repetido em 340.0 NÃO cortado (zoom do Brucutu em cima); conferir se ficou natural"
+  },
+  {
+   "tl": 323.28598333333326,
+   "txt": "REVISAR: Brucutu/Pobre falando em cima de t1 354–366 (\"Zeradinho... qual que o seu problema / deserto seco\")"
+  },
+  {
+   "tl": 333.56656666666663,
+   "txt": "cortei fala errada do Brukutu (\"sou contra\"); conferir se o plano de vídeo pula bem"
+  },
+  {
+   "tl": 132.42874999999998,
+   "txt": "REVISAR: \"Mas bora continuar bebendo água, galera\" / \"Bora continuar bebendo\" (possível retake de t1)"
+  },
+  {
+   "tl": 187.50726666666662,
+   "txt": "REVISAR: \"vamos beber a água da plantação\" dito por t2 e de novo por t1 (\"Beber água da plantação?\") — pode ser eco de roteiro, não cortei"
+  },
+  {
+   "tl": 287.2045666666666,
+   "txt": "REVISAR: \"vamos beber junto com o patrão do poço d água\" repetido em 316.0–320.8 (possível retake)"
+  },
+  {
+   "tl": 406.17738333333324,
+   "txt": "REVISAR: \"A bochecha dele, patão\" ×2 (445.5–447.5) e \"Isso aqui é músculo\" ×2 (t2 449.2–452) — possíveis retakes"
+  },
+  {
+   "tl": 438.49286666666654,
+   "txt": "REVISAR: final do trecho: o ASR lê \"não tá bugado nada\" várias vezes por sobreposição de t1 com t2 (\"R$ 1.500,00, Vitor\") e pode ler outra palavra; fim da janela de teste (cena continua)"
+  },
+  {
+   "tl": 32.8,
+   "txt": "REVISAR: ~2 s sem fala no ASR (pode ser ação do jogo ou fala não transcrita) — decidir ouvindo"
+  },
+  {
+   "tl": 203.8,
+   "txt": "REVISAR: ~2 s sem fala no ASR (idem)"
+  },
+  {
+   "tl": 391.5,
+   "txt": "REVISAR: ~2 s sem fala no ASR (idem)"
+  }
+ ],
+ "dur_tl": 439.4890499999999
+}

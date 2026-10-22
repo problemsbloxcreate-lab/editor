@@ -1,0 +1,1091 @@
+{
+ "vine-boom.mp3": {
+  "query": "vine boom",
+  "tag": "impacto",
+  "source": "myinstants.com/media/sounds/vine-boom.mp3",
+  "lufs": -8.9,
+  "dur": 1.25
+ },
+ "anime-shine-sound-2.mp3": {
+  "query": "anime shine",
+  "tag": "abertura",
+  "source": "myinstants.com/media/sounds/anime-shine-sound-2.mp3",
+  "lufs": -19.2,
+  "dur": 3.08
+ },
+ "among-us-role-reveal-sound.mp3": {
+  "query": "among us role reveal",
+  "tag": "revelacao",
+  "source": "myinstants.com/media/sounds/among-us-role-reveal-sound.mp3",
+  "lufs": -20.7,
+  "dur": 4.57
+ },
+ "fails-ohhhh.mp3": {
+  "query": "comic fail",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/fails-ohhhh.mp3",
+  "lufs": -13.2,
+  "dur": 2.79
+ },
+ "whoosh-sfx.mp3": {
+  "query": "whoosh",
+  "tag": "transicao",
+  "source": "myinstants.com/media/sounds/whoosh-sfx.mp3",
+  "lufs": -20.8,
+  "dur": 0.98
+ },
+ "record-scratch-2.mp3": {
+  "query": "record scratch",
+  "tag": "corte-seco",
+  "source": "myinstants.com/media/sounds/record-scratch-2.mp3",
+  "lufs": -10.5,
+  "dur": 0.78
+ },
+ "movie_1.mp3": {
+  "query": "bruh",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/movie_1.mp3",
+  "lufs": -10.7,
+  "dur": 0.82
+ },
+ "tf_nemesis.mp3": {
+  "query": "sad violin",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/tf_nemesis.mp3",
+  "lufs": -10.9,
+  "dur": 4.55
+ },
+ "dun-dun-dun-sound-effect-brass_8nFBccR.mp3": {
+  "query": "dun dun dun",
+  "tag": "suspense",
+  "source": "myinstants.com/media/sounds/dun-dun-dun-sound-effect-brass_8nFBccR.mp3",
+  "lufs": -9.0,
+  "dur": 5.12
+ },
+ "five-nights-at-freddys-full-scream-sound_2.mp3": {
+  "query": "fnaf jumpscare",
+  "tag": "susto",
+  "source": "myinstants.com/media/sounds/five-nights-at-freddys-full-scream-sound_2.mp3",
+  "lufs": -4.9,
+  "dur": 5.28
+ },
+ "roblox-death-sound_1.mp3": {
+  "query": "oof",
+  "tag": "dano",
+  "source": "myinstants.com/media/sounds/roblox-death-sound_1.mp3",
+  "lufs": -18.8,
+  "dur": 1.0
+ },
+ "erro.mp3": {
+  "query": "windows error",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/erro.mp3",
+  "lufs": -13.6,
+  "dur": 0.99
+ },
+ "jixaw-metal-pipe-falling-sound.mp3": {
+  "query": "metal pipe falling",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/jixaw-metal-pipe-falling-sound.mp3",
+  "lufs": -11.6,
+  "dur": 3.17
+ },
+ "anime-wow-sound-effect.mp3": {
+  "query": "anime wow",
+  "tag": "revelacao",
+  "source": "myinstants.com/media/sounds/anime-wow-sound-effect.mp3",
+  "lufs": -15.3,
+  "dur": 4.18
+ },
+ "taco-bell-bong-sfx.mp3": {
+  "query": "taco bell bong",
+  "tag": "impacto",
+  "source": "myinstants.com/media/sounds/taco-bell-bong-sfx.mp3",
+  "lufs": -12.3,
+  "dur": 1.91
+ },
+ "bonk_BEtiM8g.mp3": {
+  "query": "bonk",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/bonk_BEtiM8g.mp3",
+  "lufs": -17.6,
+  "dur": 2.11
+ },
+ "rimshot.mp3": {
+  "query": "ba dum tss",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/rimshot.mp3",
+  "lufs": -14.3,
+  "dur": 1.91
+ },
+ "sadtrombone.swf.mp3": {
+  "query": "sad trombone",
+  "tag": "fail",
+  "source": "myinstants.com/media/sounds/sadtrombone.swf.mp3",
+  "lufs": -13.9,
+  "dur": 3.63
+ },
+ "wilhelmscream.mp3": {
+  "query": "wilhelm scream",
+  "tag": "susto",
+  "source": "myinstants.com/media/sounds/wilhelmscream.mp3",
+  "lufs": -6.7,
+  "dur": 1.01
+ },
+ "airhorn.mp3": {
+  "query": "mlg airhorn",
+  "tag": "impacto",
+  "source": "myinstants.com/media/sounds/airhorn.mp3",
+  "lufs": -9.0,
+  "dur": 1.58
+ },
+ "zeldaitem.mp3": {
+  "query": "zeldaitem.mp3",
+  "tag": "revelar-item",
+  "source": "myinstants.com/media/sounds/zeldaitem.mp3",
+  "lufs": -19.0,
+  "dur": 2.59,
+  "peak": -8.1
+ },
+ "ding-sound-effect_2.mp3": {
+  "query": "ding-sound-effect_2.mp3",
+  "tag": "revelar-item",
+  "source": "myinstants.com/media/sounds/ding-sound-effect_2.mp3",
+  "lufs": -15.4,
+  "dur": 2.95,
+  "peak": -6.6
+ },
+ "minecraft-levelup.mp3": {
+  "query": "minecraft-levelup.mp3",
+  "tag": "revelar-item",
+  "source": "myinstants.com/media/sounds/minecraft-levelup.mp3",
+  "lufs": -14.9,
+  "dur": 3.79,
+  "peak": -0.0
+ },
+ "huh-cat.mp3": {
+  "query": "huh-cat.mp3",
+  "tag": "duvida",
+  "source": "myinstants.com/media/sounds/huh-cat.mp3",
+  "lufs": -8.5,
+  "dur": 7.29,
+  "peak": -0.4
+ },
+ "como-assim.mp3": {
+  "query": "como-assim.mp3",
+  "tag": "duvida",
+  "source": "myinstants.com/media/sounds/como-assim.mp3",
+  "lufs": -10.2,
+  "dur": 1.39,
+  "peak": -0.0
+ },
+ "hm.mp3": {
+  "query": "hm.mp3",
+  "tag": "duvida",
+  "source": "myinstants.com/media/sounds/hm.mp3",
+  "lufs": -13.6,
+  "dur": 0.76,
+  "peak": -0.8
+ },
+ "hmmmm_7rRG5zE.mp3": {
+  "query": "hmmmm_7rRG5zE.mp3",
+  "tag": "duvida",
+  "source": "myinstants.com/media/sounds/hmmmm_7rRG5zE.mp3",
+  "lufs": -18.9,
+  "dur": 15.88,
+  "peak": -8.6
+ },
+ "cinematic-suspense-riser.mp3": {
+  "query": "cinematic-suspense-riser.mp3",
+  "tag": "suspense",
+  "source": "myinstants.com/media/sounds/cinematic-suspense-riser.mp3",
+  "lufs": -13.3,
+  "dur": 10.08,
+  "peak": -0.1
+ },
+ "loud-dramatic-stinger.mp3": {
+  "query": "loud-dramatic-stinger.mp3",
+  "tag": "suspense",
+  "source": "myinstants.com/media/sounds/loud-dramatic-stinger.mp3",
+  "lufs": -11.0,
+  "dur": 8.36,
+  "peak": -0.1
+ },
+ "sudden-suspense-sound-effect.mp3": {
+  "query": "sudden-suspense-sound-effect.mp3",
+  "tag": "suspense",
+  "source": "myinstants.com/media/sounds/sudden-suspense-sound-effect.mp3",
+  "lufs": -7.8,
+  "dur": 1.37,
+  "peak": 0.9
+ },
+ "windows-xp-error-sound.mp3": {
+  "query": "windows-xp-error-sound.mp3",
+  "tag": "fail",
+  "source": "myinstants.com/media/sounds/windows-xp-error-sound.mp3",
+  "lufs": -15.4,
+  "dur": 1.25,
+  "peak": -4.1
+ },
+ "fail-wah-wah-wah-trombone.mp3": {
+  "query": "fail-wah-wah-wah-trombone.mp3",
+  "tag": "fail",
+  "source": "myinstants.com/media/sounds/fail-wah-wah-wah-trombone.mp3",
+  "lufs": -12.6,
+  "dur": 4.62,
+  "peak": -0.9
+ },
+ "wah-wah-fail.mp3": {
+  "query": "wah-wah-fail.mp3",
+  "tag": "fail",
+  "source": "myinstants.com/media/sounds/wah-wah-fail.mp3",
+  "lufs": -12.8,
+  "dur": 2.4,
+  "peak": -1.4
+ },
+ "mc-hurt.mp3": {
+  "query": "mc-hurt.mp3",
+  "tag": "dano",
+  "source": "myinstants.com/media/sounds/mc-hurt.mp3",
+  "lufs": -70.0,
+  "dur": 0.22,
+  "peak": -5.8
+ },
+ "cartoon-slide.mp3": {
+  "query": "cartoon-slide.mp3",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/cartoon-slide.mp3",
+  "lufs": -8.0,
+  "dur": 2.01,
+  "peak": -0.9
+ },
+ "slide-whistle.mp3": {
+  "query": "slide-whistle.mp3",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/slide-whistle.mp3",
+  "lufs": -20.2,
+  "dur": 1.57,
+  "peak": -13.6
+ },
+ "cartoonslip.mp3": {
+  "query": "cartoonslip.mp3",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/cartoonslip.mp3",
+  "lufs": -70.0,
+  "dur": 0.2,
+  "peak": -2.8
+ },
+ "bruh-sound-effect-1.mp3": {
+  "query": "bruh-sound-effect-1.mp3",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/bruh-sound-effect-1.mp3",
+  "lufs": -17.3,
+  "dur": 1.62,
+  "peak": -6.0
+ },
+ "pop_7e9Is8L.mp3": {
+  "query": "pop_7e9Is8L.mp3",
+  "tag": "impacto",
+  "source": "myinstants.com/media/sounds/pop_7e9Is8L.mp3",
+  "lufs": -70.0,
+  "dur": 0.29,
+  "peak": -5.0
+ },
+ "comedy_pop_finger_in_mouth_001.mp3": {
+  "query": "comedy_pop_finger_in_mouth_001.mp3",
+  "tag": "piada",
+  "source": "myinstants.com/media/sounds/comedy_pop_finger_in_mouth_001.mp3",
+  "lufs": -70.0,
+  "dur": 0.4,
+  "peak": -1.0
+ },
+ "ding-sound-effect_1.mp3": {
+  "query": "ding-sound-effect_1.mp3",
+  "tag": "contador",
+  "source": "myinstants.com/media/sounds/ding-sound-effect_1.mp3",
+  "lufs": -15.4,
+  "dur": 2.95,
+  "peak": -6.6
+ },
+ "bamboo-hit-anime-bonk-sound.mp3": {
+  "query": "bamboo hit anime bonk",
+  "tag": "impacto",
+  "source": "Downloads do Matheus (usado na seq \"teste corrigido\")",
+  "note": "bonk de bambu: entrada da distorção VHS (teste corrigido 11.04)",
+  "lufs": -16.1,
+  "dur": 0.6
+ },
+ "nintendo-switch-error.mp3": {
+  "query": "nintendo switch error",
+  "tag": "erro",
+  "source": "Downloads do Matheus (usado na seq \"teste corrigido\")",
+  "note": "erro curto; usado junto de windows-xp-error + wrong_5 no obstáculo",
+  "lufs": -70.0,
+  "dur": 0.29
+ },
+ "spongebob-fail.mp3": {
+  "query": "spongebob fail",
+  "tag": "fail",
+  "source": "Downloads do Matheus (usado na seq \"teste corrigido\")",
+  "note": "fail longo (2.8 s) após pergunta retórica/frustração",
+  "lufs": -12.1,
+  "dur": 3.38
+ },
+ "anime-wow-sound-effect (1).mp3": {
+  "query": "anime wow",
+  "tag": "revelacao",
+  "source": "Downloads do Matheus (usado na seq \"teste corrigido\")",
+  "note": "wow ascendente sobre o zoom no item citado",
+  "lufs": -15.3,
+  "dur": 4.18
+ },
+ "wrong_5.mp3": {
+  "query": "wrong buzzer",
+  "tag": "erro",
+  "source": "Downloads do Matheus (usado na seq \"teste corrigido\")",
+  "note": "buzzer de errado no obstáculo",
+  "lufs": -11.4,
+  "dur": 1.78
+ },
+ "faaah.mp3": {
+  "query": "faaah.mp3",
+  "tag": "meme",
+  "source": "myinstants.com/media/sounds/faaah.mp3",
+  "lufs": -11.8,
+  "dur": 1.93,
+  "peak": -0.6
+ },
+ "emotional-damage-meme.mp3": {
+  "query": "emotional-damage-meme.mp3",
+  "tag": "meme",
+  "source": "myinstants.com/media/sounds/emotional-damage-meme.mp3",
+  "lufs": -8.8,
+  "dur": 3.32,
+  "peak": -0.7
+ },
+ "original-sheesh.mp3": {
+  "query": "original-sheesh.mp3",
+  "tag": "meme",
+  "source": "myinstants.com/media/sounds/original-sheesh.mp3",
+  "lufs": -10.2,
+  "dur": 11.89,
+  "peak": -1.6
+ },
+ "metal-gear-alert-sound-effect_XKoHReZ.mp3": {
+  "query": "metal-gear-alert-sound-effect_XKoHReZ.mp3",
+  "tag": "alerta",
+  "source": "myinstants.com/media/sounds/metal-gear-alert-sound-effect_XKoHReZ.mp3",
+  "lufs": -17.0,
+  "dur": 1.93,
+  "peak": -4.9
+ },
+ "tuco-get-out.mp3": {
+  "query": "tuco-get-out.mp3",
+  "tag": "meme",
+  "source": "myinstants.com/media/sounds/tuco-get-out.mp3",
+  "lufs": -12.9,
+  "dur": 1.03,
+  "peak": -5.0
+ },
+ "hitmarker.mp3": {
+  "query": "hitmarker.mp3",
+  "tag": "impacto",
+  "source": "myinstants.com/media/sounds/hitmarker.mp3",
+  "lufs": -8.1,
+  "dur": 18.83,
+  "peak": 4.1
+ },
+ "clown-horn-short.mp3": {
+  "query": "clown-horn-short.mp3",
+  "tag": "meme",
+  "source": "myinstants.com/media/sounds/clown-horn-short.mp3",
+  "lufs": -11.6,
+  "dur": 0.6,
+  "peak": -2.0
+ },
+ "why-are-you-running-sound-effect-hd_2yraBjq.mp3": {
+  "query": "why-are-you-running-sound-effect-hd_2yraBjq.mp3",
+  "tag": "meme",
+  "source": "myinstants.com/media/sounds/why-are-you-running-sound-effect-hd_2yraBjq.mp3",
+  "lufs": -14.1,
+  "dur": 3.07,
+  "peak": -2.3
+ },
+ "cartoon-boing.mp3": {
+  "query": "cartoon-boing.mp3",
+  "tag": "meme",
+  "source": "myinstants.com/media/sounds/cartoon-boing.mp3",
+  "lufs": -17.4,
+  "dur": 0.78,
+  "peak": -3.8
+ },
+ "gta-v-wasted-death-sound.mp3": {
+  "query": "gta-v-wasted-death-sound.mp3",
+  "tag": "fail",
+  "source": "myinstants.com/media/sounds/gta-v-wasted-death-sound.mp3",
+  "lufs": -17.2,
+  "dur": 7.76,
+  "peak": -0.5
+ },
+ "sm64_mario_oof.mp3": {
+  "query": "sm64_mario_oof.mp3",
+  "tag": "dano",
+  "source": "myinstants.com/media/sounds/sm64_mario_oof.mp3",
+  "lufs": -12.5,
+  "dur": 0.76,
+  "peak": -0.3
+ },
+ "deg-deg-sussy.mp3": {
+  "query": "deg-deg-sussy.mp3",
+  "tag": "meme",
+  "source": "myinstants.com/media/sounds/deg-deg-sussy.mp3",
+  "lufs": -7.1,
+  "dur": 17.54,
+  "peak": 1.5
+ },
+ "tadaa.mp3": {
+  "query": "tadaa.mp3",
+  "tag": "revelacao",
+  "source": "myinstants.com/media/sounds/tadaa.mp3",
+  "lufs": -15.0,
+  "dur": 2.09,
+  "peak": -6.5
+ },
+ "bruh-sound-effect_WstdzdM.mp3": {
+  "query": "bruh-sound-effect_WstdzdM.mp3",
+  "tag": "meme",
+  "source": "myinstants.com/media/sounds/bruh-sound-effect_WstdzdM.mp3",
+  "lufs": -10.7,
+  "dur": 0.82,
+  "peak": -2.7
+ },
+ "steve-old-hurt-sound_XKZxUk4.mp3": {
+  "query": "steve-old-hurt-sound_XKZxUk4.mp3",
+  "tag": "dano",
+  "source": "myinstants.com/media/sounds/steve-old-hurt-sound_XKZxUk4.mp3",
+  "lufs": -17.0,
+  "dur": 1.07,
+  "peak": -3.1
+ },
+ "ceeday-huh-sound-effect.mp3": {
+  "query": "ceeday-huh-sound-effect.mp3",
+  "tag": "meme",
+  "source": "myinstants.com/media/sounds/ceeday-huh-sound-effect.mp3",
+  "lufs": -19.8,
+  "dur": 1.16,
+  "peak": -12.1
+ },
+ "what-the-dog-doing-vine.mp3": {
+  "query": "what-the-dog-doing-vine.mp3",
+  "tag": "meme",
+  "source": "myinstants.com/media/sounds/what-the-dog-doing-vine.mp3",
+  "lufs": -15.3,
+  "dur": 6.08,
+  "peak": -1.2
+ },
+ "heavy-sniper-shot.mp3": {
+  "query": "heavy-sniper-shot.mp3",
+  "tag": "impacto",
+  "source": "myinstants.com/media/sounds/heavy-sniper-shot.mp3",
+  "lufs": -14.7,
+  "dur": 2.62,
+  "peak": 3.6
+ },
+ "mc-random-orb.mp3": {
+  "query": "minecraft random/orb",
+  "tag": "xp",
+  "source": "Minecraft assets (local) minecraft/sounds/random/orb.ogg",
+  "use": "XP do Minecraft: cada corte de 'takes futuros' / item coletado / achado",
+  "lufs": -20.7,
+  "dur": 0.77
+ },
+ "mc-random-levelup.mp3": {
+  "query": "minecraft random/levelup",
+  "tag": "xp",
+  "source": "Minecraft assets (local) minecraft/sounds/random/levelup.ogg",
+  "use": "level up: conquista, upgrade comprado, ideia nova",
+  "lufs": -17.6,
+  "dur": 1.75
+ },
+ "mc-ui-toast-challenge_complete.mp3": {
+  "query": "minecraft ui/toast/challenge_complete",
+  "tag": "xp",
+  "source": "Minecraft assets (local) minecraft/sounds/ui/toast/challenge_complete.ogg",
+  "use": "conquista desbloqueada (toast de advancement)",
+  "lufs": -17.1,
+  "dur": 6.79
+ },
+ "mc-random-burp.mp3": {
+  "query": "minecraft random/burp",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/random/burp.ogg",
+  "use": "arroto: depois de beber muita água",
+  "lufs": -70.0,
+  "dur": 0.32
+ },
+ "mc-random-drink.mp3": {
+  "query": "minecraft random/drink",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/random/drink.ogg",
+  "use": "gole: beber água",
+  "lufs": -15.7,
+  "dur": 0.49
+ },
+ "mc-random-splash.mp3": {
+  "query": "minecraft random/splash",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/random/splash.ogg",
+  "use": "splash na água",
+  "lufs": -13.6,
+  "dur": 2.16
+ },
+ "mc-random-eat1.mp3": {
+  "query": "minecraft random/eat1",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/random/eat1.ogg",
+  "use": "comer/mastigar",
+  "lufs": -70.0,
+  "dur": 0.3
+ },
+ "mc-random-pop.mp3": {
+  "query": "minecraft random/pop",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/random/pop.ogg",
+  "use": "pop de item",
+  "lufs": -70.0,
+  "dur": 0.17
+ },
+ "mc-random-explode1.mp3": {
+  "query": "minecraft random/explode1",
+  "tag": "impacto",
+  "source": "Minecraft assets (local) minecraft/sounds/random/explode1.ogg",
+  "use": "explosão curta (TNT/creeper)",
+  "lufs": -12.9,
+  "dur": 2.5
+ },
+ "mc-random-fuse.mp3": {
+  "query": "minecraft random/fuse",
+  "tag": "suspense",
+  "source": "Minecraft assets (local) minecraft/sounds/random/fuse.ogg",
+  "use": "pavio do TNT/creeper: vai dar ruim",
+  "lufs": -27.6,
+  "dur": 2.83
+ },
+ "mc-random-anvil_land.mp3": {
+  "query": "minecraft random/anvil_land",
+  "tag": "impacto",
+  "source": "Minecraft assets (local) minecraft/sounds/random/anvil_land.ogg",
+  "use": "bigorna caindo: peso/derrota",
+  "lufs": -12.4,
+  "dur": 0.77
+ },
+ "mc-random-anvil_use.mp3": {
+  "query": "minecraft random/anvil_use",
+  "tag": "impacto",
+  "source": "Minecraft assets (local) minecraft/sounds/random/anvil_use.ogg",
+  "use": "bigorna usando",
+  "lufs": -11.5,
+  "dur": 1.25
+ },
+ "mc-random-anvil_break.mp3": {
+  "query": "minecraft random/anvil_break",
+  "tag": "impacto",
+  "source": "Minecraft assets (local) minecraft/sounds/random/anvil_break.ogg",
+  "use": "bigorna quebra",
+  "lufs": -12.3,
+  "dur": 1.31
+ },
+ "mc-random-break.mp3": {
+  "query": "minecraft random/break",
+  "tag": "dano",
+  "source": "Minecraft assets (local) minecraft/sounds/random/break.ogg",
+  "use": "ferramenta quebrando",
+  "lufs": -70.0,
+  "dur": 0.38
+ },
+ "mc-random-glass1.mp3": {
+  "query": "minecraft random/glass1",
+  "tag": "dano",
+  "source": "Minecraft assets (local) minecraft/sounds/random/glass1.ogg",
+  "use": "vidro quebrando",
+  "lufs": -18.3,
+  "dur": 0.69
+ },
+ "mc-random-chestopen.mp3": {
+  "query": "minecraft random/chestopen",
+  "tag": "revelacao",
+  "source": "Minecraft assets (local) minecraft/sounds/random/chestopen.ogg",
+  "use": "baú abrindo: revelação de item",
+  "lufs": -14.2,
+  "dur": 0.5
+ },
+ "mc-random-door_open.mp3": {
+  "query": "minecraft random/door_open",
+  "tag": "transicao",
+  "source": "Minecraft assets (local) minecraft/sounds/random/door_open.ogg",
+  "use": "porta abrindo",
+  "lufs": -21.4,
+  "dur": 0.5
+ },
+ "mc-random-click.mp3": {
+  "query": "minecraft random/click",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/random/click.ogg",
+  "use": "clique de UI",
+  "lufs": -70.0,
+  "dur": 0.28
+ },
+ "mc-mob-villager-no1.mp3": {
+  "query": "minecraft mob/villager/no1",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/villager/no1.ogg",
+  "use": "Villager 'hmm' negativo: pergunta/dúvida/recusa",
+  "lufs": -24.0,
+  "dur": 0.48
+ },
+ "mc-mob-villager-no2.mp3": {
+  "query": "minecraft mob/villager/no2",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/villager/no2.ogg",
+  "use": "Villager 'hmm' 2",
+  "lufs": -18.5,
+  "dur": 0.47
+ },
+ "mc-mob-villager-yes1.mp3": {
+  "query": "minecraft mob/villager/yes1",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/villager/yes1.ogg",
+  "use": "Villager 'hurr' positivo",
+  "lufs": -18.0,
+  "dur": 0.75
+ },
+ "mc-mob-villager-haggle1.mp3": {
+  "query": "minecraft mob/villager/haggle1",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/villager/haggle1.ogg",
+  "use": "Villager negociando",
+  "lufs": -21.9,
+  "dur": 0.42
+ },
+ "mc-mob-villager-idle1.mp3": {
+  "query": "minecraft mob/villager/idle1",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/villager/idle1.ogg",
+  "use": "Villager idle: 'e aí?'",
+  "lufs": -24.9,
+  "dur": 0.67
+ },
+ "mc-mob-villager-death.mp3": {
+  "query": "minecraft mob/villager/death",
+  "tag": "dano",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/villager/death.ogg",
+  "use": "Villager morrendo",
+  "lufs": -20.5,
+  "dur": 0.64
+ },
+ "mc-mob-villager-hit1.mp3": {
+  "query": "minecraft mob/villager/hit1",
+  "tag": "dano",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/villager/hit1.ogg",
+  "use": "Villager apanhando",
+  "lufs": -70.0,
+  "dur": 0.3
+ },
+ "mc-mob-creeper-say1.mp3": {
+  "query": "minecraft mob/creeper/say1",
+  "tag": "suspense",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/creeper/say1.ogg",
+  "use": "creeper hiss: sssss",
+  "lufs": -18.4,
+  "dur": 0.46
+ },
+ "mc-mob-creeper-death.mp3": {
+  "query": "minecraft mob/creeper/death",
+  "tag": "dano",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/creeper/death.ogg",
+  "use": "creeper morrendo",
+  "lufs": -32.2,
+  "dur": 1.22
+ },
+ "mc-mob-zombie-say1.mp3": {
+  "query": "minecraft mob/zombie/say1",
+  "tag": "susto",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/zombie/say1.ogg",
+  "use": "zumbi grunhindo",
+  "lufs": -22.3,
+  "dur": 1.5
+ },
+ "mc-mob-pig-say1.mp3": {
+  "query": "minecraft mob/pig/say1",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/pig/say1.ogg",
+  "use": "porquinho",
+  "lufs": -70.0,
+  "dur": 0.36
+ },
+ "mc-mob-cow-say1.mp3": {
+  "query": "minecraft mob/cow/say1",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/cow/say1.ogg",
+  "use": "vaca",
+  "lufs": -13.2,
+  "dur": 0.88
+ },
+ "mc-mob-sheep-say1.mp3": {
+  "query": "minecraft mob/sheep/say1",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/sheep/say1.ogg",
+  "use": "ovelha",
+  "lufs": -31.2,
+  "dur": 1.0
+ },
+ "mc-mob-chicken-say1.mp3": {
+  "query": "minecraft mob/chicken/say1",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/chicken/say1.ogg",
+  "use": "galinha",
+  "lufs": -30.7,
+  "dur": 0.56
+ },
+ "mc-mob-cat-meow1.mp3": {
+  "query": "minecraft mob/cat/meow1",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/cat/meow1.ogg",
+  "use": "gato miando",
+  "lufs": -23.0,
+  "dur": 0.75
+ },
+ "mc-mob-ghast-scream1.mp3": {
+  "query": "minecraft mob/ghast/scream1",
+  "tag": "susto",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/ghast/scream1.ogg",
+  "use": "ghast gritando",
+  "lufs": -11.0,
+  "dur": 1.0
+ },
+ "mc-mob-ghast-moan1.mp3": {
+  "query": "minecraft mob/ghast/moan1",
+  "tag": "suspense",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/ghast/moan1.ogg",
+  "use": "ghast gemendo",
+  "lufs": -20.6,
+  "dur": 0.71
+ },
+ "mc-mob-enderdragon-growl1.mp3": {
+  "query": "minecraft mob/enderdragon/growl1",
+  "tag": "susto",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/enderdragon/growl1.ogg",
+  "use": "dragão rugindo",
+  "lufs": -12.7,
+  "dur": 3.0
+ },
+ "mc-mob-wither-spawn.mp3": {
+  "query": "minecraft mob/wither/spawn",
+  "tag": "susto",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/wither/spawn.ogg",
+  "use": "wither spawn: chefão/problema gigante",
+  "lufs": -10.6,
+  "dur": 12.0
+ },
+ "mc-mob-endermen-portal.mp3": {
+  "query": "minecraft mob/endermen/portal",
+  "tag": "transicao",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/endermen/portal.ogg",
+  "use": "enderman teleporte",
+  "lufs": -22.0,
+  "dur": 0.91
+ },
+ "mc-mob-bat-idle1.mp3": {
+  "query": "minecraft mob/bat/idle1",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/mob/bat/idle1.ogg",
+  "use": "morcego",
+  "lufs": -70.0,
+  "dur": 0.31
+ },
+ "mc-damage-hit1.mp3": {
+  "query": "minecraft damage/hit1",
+  "tag": "dano",
+  "source": "Minecraft assets (local) minecraft/sounds/damage/hit1.ogg",
+  "use": "'oof' clássico do Minecraft",
+  "lufs": -20.8,
+  "dur": 0.49
+ },
+ "mc-damage-hit2.mp3": {
+  "query": "minecraft damage/hit2",
+  "tag": "dano",
+  "source": "Minecraft assets (local) minecraft/sounds/damage/hit2.ogg",
+  "use": "'oof' 2",
+  "lufs": -20.3,
+  "dur": 0.43
+ },
+ "mc-damage-fallbig.mp3": {
+  "query": "minecraft damage/fallbig",
+  "tag": "dano",
+  "source": "Minecraft assets (local) minecraft/sounds/damage/fallbig.ogg",
+  "use": "queda grande",
+  "lufs": -70.0,
+  "dur": 0.24
+ },
+ "mc-entity-player-hurt-drown1.mp3": {
+  "query": "minecraft entity/player/hurt/drown1",
+  "tag": "dano",
+  "source": "Minecraft assets (local) minecraft/sounds/entity/player/hurt/drown1.ogg",
+  "use": "afogando (engasgo): beber água demais",
+  "lufs": -22.4,
+  "dur": 0.99
+ },
+ "mc-entity-player-hurt-fire_hurt1.mp3": {
+  "query": "minecraft entity/player/hurt/fire_hurt1",
+  "tag": "dano",
+  "source": "Minecraft assets (local) minecraft/sounds/entity/player/hurt/fire_hurt1.ogg",
+  "use": "pegando fogo",
+  "lufs": -21.1,
+  "dur": 1.52
+ },
+ "mc-item-totem-use_totem.mp3": {
+  "query": "minecraft item/totem/use_totem",
+  "tag": "revelacao",
+  "source": "Minecraft assets (local) minecraft/sounds/item/totem/use_totem.ogg",
+  "use": "totem da imortalidade: salvo / virada",
+  "lufs": -11.0,
+  "dur": 3.42
+ },
+ "mc-item-trident-thunder1.mp3": {
+  "query": "minecraft item/trident/thunder1",
+  "tag": "impacto",
+  "source": "Minecraft assets (local) minecraft/sounds/item/trident/thunder1.ogg",
+  "use": "trovão do tridente",
+  "lufs": -17.3,
+  "dur": 7.66
+ },
+ "mc-note-bass.mp3": {
+  "query": "minecraft note/bass",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/note/bass.ogg",
+  "use": "note block grave",
+  "lufs": -17.0,
+  "dur": 0.5
+ },
+ "mc-note-bell.mp3": {
+  "query": "minecraft note/bell",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/note/bell.ogg",
+  "use": "note block sino",
+  "lufs": -25.0,
+  "dur": 0.43
+ },
+ "mc-note-pling.mp3": {
+  "query": "minecraft note/pling",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/note/pling.ogg",
+  "use": "note block pling",
+  "lufs": -20.8,
+  "dur": 0.64
+ },
+ "mc-note-harp.mp3": {
+  "query": "minecraft note/harp",
+  "tag": "piada",
+  "source": "Minecraft assets (local) minecraft/sounds/note/harp.ogg",
+  "use": "note block harpa",
+  "lufs": -28.6,
+  "dur": 0.56
+ },
+ "mc-portal-travel.mp3": {
+  "query": "minecraft portal/travel",
+  "tag": "transicao",
+  "source": "Minecraft assets (local) minecraft/sounds/portal/travel.ogg",
+  "use": "portal do Nether",
+  "lufs": -13.4,
+  "dur": 9.5
+ },
+ "mc-xp-orb-p0.mp3": {
+  "query": "minecraft xp orb +0 semitons",
+  "tag": "xp",
+  "source": "derivado de random/orb",
+  "use": "XP a cada corte dos takes futuros (degrau 1 de 5)",
+  "lufs": -20.0,
+  "dur": 0.77
+ },
+ "mc-xp-orb-p1.mp3": {
+  "query": "minecraft xp orb +2 semitons",
+  "tag": "xp",
+  "source": "derivado de random/orb",
+  "use": "XP a cada corte dos takes futuros (degrau 2 de 5)",
+  "lufs": -20.0,
+  "dur": 0.68
+ },
+ "mc-xp-orb-p2.mp3": {
+  "query": "minecraft xp orb +4 semitons",
+  "tag": "xp",
+  "source": "derivado de random/orb",
+  "use": "XP a cada corte dos takes futuros (degrau 3 de 5)",
+  "lufs": -20.0,
+  "dur": 0.61
+ },
+ "mc-xp-orb-p3.mp3": {
+  "query": "minecraft xp orb +5 semitons",
+  "tag": "xp",
+  "source": "derivado de random/orb",
+  "use": "XP a cada corte dos takes futuros (degrau 4 de 5)",
+  "lufs": -20.0,
+  "dur": 0.58
+ },
+ "mc-xp-orb-p4.mp3": {
+  "query": "minecraft xp orb +7 semitons",
+  "tag": "xp",
+  "source": "derivado de random/orb",
+  "use": "XP a cada corte dos takes futuros (degrau 5 de 5)",
+  "lufs": -20.0,
+  "dur": 0.51
+ },
+ "perfect-fart-sound-effect-hd_128k.mp3": {
+  "query": "fart",
+  "tag": "piada",
+  "source": "Downloads do Matheus (myinstants)",
+  "use": "gag de barriga/incapacidade (\"não consigo beber\", \"tá ficando grávido\") — escolhido pelo Matheus 15/10",
+  "lufs": -12.0,
+  "dur": 0.44
+ },
+ "anime-shine-sound-effect_QP4mAaX (1).mp3": {
+  "query": "anime shine (2)",
+  "tag": "revelacao",
+  "source": "Downloads do Matheus (myinstants)",
+  "use": "brilho de revelação junto de push-in+Brilho cintilante e troca de música — escolhido pelo Matheus 15/10",
+  "lufs": -19.2,
+  "dur": 3.08
+ },
+ "19--Whoosh 39.wav": {
+  "query": "19--Whoosh 39.wav",
+  "tag": "transicao",
+  "source": "trazido pelo Matheus (16/10/2026): whoosh no INÍCIO de um B-roll cinemático (pré-roll ~0,4 s); ganho 0 dB",
+  "lufs": -26.6,
+  "dur": 1.89
+ },
+ "minecraft_click.mp3": {
+  "query": "minecraft_click.mp3",
+  "tag": "ui",
+  "source": "trazido pelo Matheus (16/10/2026): clique de UI do Minecraft (2 seguidos na abertura); ganho +10 dB",
+  "lufs": -35.3,
+  "dur": 0.84
+ },
+ "bass-impact.mp3": {
+  "query": "bass-impact.mp3",
+  "tag": "impacto",
+  "source": "trazido pelo Matheus (16/10/2026): impacto grave na revelação do B-roll (plongée das poças); 0 dB",
+  "lufs": -16.6,
+  "dur": 3.13
+ },
+ "minecraft-drinking-sound-effect.mp3": {
+  "query": "minecraft-drinking-sound-effect.mp3",
+  "tag": "piada",
+  "source": "trazido pelo Matheus (16/10/2026): gole longo sobre o B-roll do canudo; -4,6 dB",
+  "lufs": -25.5,
+  "dur": 1.85
+ },
+ "fortnite-shield-potion-fortnite-battle-royale-gaming-sound-effect-hd-sound-effect_rnYyvja.mp3": {
+  "query": "fortnite-shield-potion-fortnite-battle-royale-gaming-sound-effect-hd-sound-effect_rnYyvja.mp3",
+  "tag": "ambiente",
+  "source": "trazido pelo Matheus (16/10/2026): poção/beber sustentado (3,8 s) sob o B-roll de abertura; -4,4 dB",
+  "lufs": -20.5,
+  "dur": 9.45
+ },
+ "impact_water.mp3": {
+  "query": "impact_water.mp3",
+  "tag": "impacto",
+  "source": "trazido pelo Matheus (16/10/2026): splash de água (som do Roblox) junto do bass-impact; -10,5 dB",
+  "lufs": -18.0,
+  "dur": 2.39
+ },
+ "2 - whoosh swoosh - long.wav": {
+  "query": "",
+  "tag": "whoosh longo (transição p/ inserção/promo)",
+  "source": "trazido pelo Matheus (20/10) de D:\\Users\\PREDATOR\\Videos\\Arquivos Projeto pack 4-20260320T152822Z-3-001\\Arquivos Projeto pack 4",
+  "lufs": -19.0,
+  "dur": 3.14
+ },
+ "cinematic-boom.wav": {
+  "query": "",
+  "tag": "boom cinematográfico (revelação do vilão)",
+  "source": "trazido pelo Matheus (20/10) de D:\\Gravacoes Minecraft\\Editing\\Estudio Claude\\biblioteca\\sfx\\pixabay\\pronto",
+  "lufs": -14.1,
+  "dur": 2.5
+ },
+ "alert-sound_wTmioMp (1).mp3": {
+  "query": "",
+  "tag": "alerta (Brucutu/ameaça chegando)",
+  "source": "trazido pelo Matheus (20/10) de C:\\Users\\mathe\\Downloads",
+  "lufs": -7.3,
+  "dur": 2.11
+ },
+ "one-piece-toing (1).mp3": {
+  "query": "",
+  "tag": "toing One Piece (gag)",
+  "source": "trazido pelo Matheus (20/10) de C:\\Users\\mathe\\Downloads",
+  "lufs": -15.7,
+  "dur": 3.43
+ },
+ "alert-sound_wTmioMp (2).mp3": {
+  "query": "",
+  "tag": "alerta (Brucutu/ameaça chegando)",
+  "source": "trazido pelo Matheus (20/10) de C:\\Users\\mathe\\Downloads",
+  "lufs": -7.3,
+  "dur": 2.11
+ },
+ "one-piece-corneta.mp3": {
+  "query": "",
+  "tag": "corneta One Piece (deboche romântico)",
+  "source": "trazido pelo Matheus (20/10) de C:\\Users\\mathe\\Downloads",
+  "lufs": -19.1,
+  "dur": 2.09
+ },
+ "zoom-impacto.mp3": {
+  "query": "",
+  "tag": "whoosh+impacto de zoom (número)",
+  "source": "trazido pelo Matheus (20/10) de D:\\Gravacoes Minecraft\\Editing\\Estudio Claude\\biblioteca\\sfx\\mixkit",
+  "lufs": -11.6,
+  "dur": 1.22
+ },
+ "guitar-riff-meme.mp3": {
+  "query": "",
+  "tag": "riff de guitarra meme (item épico/Canudão)",
+  "source": "trazido pelo Matheus (20/10) de C:\\Users\\mathe\\Downloads",
+  "lufs": -15.1,
+  "dur": 5.93
+ },
+ "y2mate.com - Cartoon poke sound effect.mp3": {
+  "query": "",
+  "tag": "cutucão cartoon (revelação cômica/vilão)",
+  "source": "trazido pelo Matheus (20/10) de D:\\Users\\PREDATOR\\MozzoMedia Dropbox\\Mauricio Mozo\\VIDEO EDITING\\SOP FILES FOLDER\\SOP JEREMY\\ASSETS\\sfx\\SFX\\SFX\\Malice SFX\\Funny Sound Effects",
+  "lufs": -23.5,
+  "dur": 2.07
+ },
+ "suspense-1_bLEXV6f (2).mp3": {
+  "query": "",
+  "tag": "suspense curto (vilão à vista)",
+  "source": "trazido pelo Matheus (20/10) de C:\\Users\\mathe\\Downloads",
+  "lufs": -19.6,
+  "dur": 3.14
+ },
+ "impacto.wav": {
+  "query": "",
+  "tag": "impacto grave (número que pesa)",
+  "source": "trazido pelo Matheus (20/10) de C:\\Users\\mathe\\Skills\\diandra-ads-kit\\sfx",
+  "lufs": -12.7,
+  "dur": 3.12
+ },
+ "danger-alarm-sound-effect-meme (1).mp3": {
+  "query": "",
+  "tag": "alarme (vilão chegando, longo)",
+  "source": "trazido pelo Matheus (20/10) de C:\\Users\\mathe\\Downloads",
+  "lufs": -1.9,
+  "dur": 15.19
+ },
+ "deep impact.wav": {
+  "query": "",
+  "tag": "impacto grave longo (revelação do vilão)",
+  "source": "trazido pelo Matheus (20/10) de D:\\Users\\PREDATOR\\MozzoMedia Dropbox\\Mauricio Mozo\\VIDEO EDITING\\EDITORS\\BENJAMIN\\REHAN VSL\\FILES RAFAEL\\SFX",
+  "lufs": -13.1,
+  "dur": 5.74
+ }
+}

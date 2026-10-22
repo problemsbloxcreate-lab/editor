@@ -1,0 +1,17 @@
+# skill minecraft-video-editor (v6) — versões testadas na máquina original (Python 3.14, 20/10/2026)
+numpy>=2.0          # 2.4.4
+scipy>=1.13         # 1.17.1
+soundfile>=0.12     # 0.13.1
+librosa>=0.10       # 0.11.0
+pillow>=10          # 12.2.0
+opencv-python>=4.9  # 4.13
+requests>=2.31      # 2.33.1
+python-dotenv>=1.0  # 1.2.2  (skill watch)
+yt-dlp              # skill watch
+# transcrição (mesmo motor do Estúdio Problems: whisper-large-v3-turbo), local, sem chave
+faster-whisper>=1.1   # 1.2.1
+nvidia-cublas-cu12    # placa NVIDIA (cuBLAS p/ o faster-whisper); sem NVIDIA vai pelo processador
+nvidia-cudnn-cu12
+# busca de música por clima (CLAP): torch CPU basta
+torch>=2.3          # 2.12.0+cpu
+transformers>=4.44  # 5.19.0

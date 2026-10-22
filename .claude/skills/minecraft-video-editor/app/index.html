@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editor Problems</title>
+<style>
+:root{--bg:#0e1013;--pn:#16191e;--pn2:#1d2128;--ln:#2a2f38;--tx:#e8eaed;--tx2:#9aa3ad;--ac:#3dd6c4;--ac2:#2bb3a3;--ok:#4ade80;--wa:#fbbf24;--er:#f87171;--pr:#9b87f5;--fc:#f59e0b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,Segoe UI,Roboto,sans-serif}
+header{display:flex;align-items:center;gap:14px;padding:16px 24px;border-bottom:1px solid var(--ln)}
+header h1{font-size:18px;margin:0;letter-spacing:.2px}header .sub{color:var(--tx2);font-size:13px}
+.logo{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--ac),#1e8f83);display:grid;place-items:center;font-weight:800;color:#06201d}
+main{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;padding:18px 24px;max-width:1400px;margin:0 auto}
+@media (max-width:900px){main{grid-template-columns:1fr;padding:14px 16px}}
+.card{background:var(--pn);border:1px solid var(--ln);border-radius:12px;padding:16px}
+.card h2{font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--tx2);margin:0 0 12px}
+.env{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--pn2);border:1px solid var(--ln);border-radius:999px;padding:5px 11px;font-size:12.5px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--tx2)}.dot.ok{background:var(--ok)}.dot.wa{background:var(--wa)}.dot.er{background:var(--er)}
+#drop{border:2px dashed var(--ln);border-radius:12px;padding:30px 16px;text-align:center;transition:.15s;cursor:pointer;background:var(--pn2)}
+#drop.over{border-color:var(--ac);background:#132a28}#drop b{display:block;font-size:16px;margin-bottom:4px}#drop small{color:var(--tx2)}
+.bar{height:6px;background:var(--ln);border-radius:4px;overflow:hidden;margin-top:10px;display:none}.bar i{display:block;height:100%;width:0;background:var(--ac)}
+label{display:block;font-size:12.5px;color:var(--tx2);margin:12px 0 5px}
+input[type=text],textarea{width:100%;background:var(--pn2);border:1px solid var(--ln);border-radius:8px;color:var(--tx);padding:9px 10px;font:inherit}
+textarea{min-height:78px;resize:vertical}input:focus,textarea:focus{outline:1px solid var(--ac);border-color:var(--ac)}
+.dest{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dest label{margin:0;display:block;border:1px solid var(--ln);border-radius:10px;padding:10px;background:var(--pn2);cursor:pointer;color:var(--tx)}
+.dest label{position:relative}.dest input{position:absolute;opacity:0;width:1px;height:1px}.dest label:has(input:checked){border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}.dest label:has(input:focus-visible){outline:2px solid var(--ac)}
+.dest small{display:block;color:var(--tx2);font-size:11.5px;margin-top:3px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button{background:var(--ac);color:#05201d;border:0;border-radius:9px;padding:11px 18px;font-weight:700;font:inherit;font-weight:700;cursor:pointer}
+button:hover{background:var(--ac2)}button:disabled{opacity:.45;cursor:not-allowed}
+button.sec{background:var(--pn2);color:var(--tx);border:1px solid var(--ln);font-weight:600;padding:7px 12px}button.sec:hover{border-color:var(--tx2)}
+.err{color:var(--er);font-size:13px;margin-top:8px;min-height:18px}
+.job{border:1px solid var(--ln);border-radius:10px;padding:10px 12px;margin-bottom:8px;background:var(--pn2);cursor:pointer}
+.job.sel{border-color:var(--ac)}.job .t{display:flex;justify-content:space-between;gap:8px}.job .v{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag{font-size:11px;border-radius:999px;padding:2px 8px;border:1px solid var(--ln);white-space:nowrap}.tag.premiere{color:var(--pr);border-color:#4b3f8a}.tag.filmcraft{color:var(--fc);border-color:#6b4a10}
+.st{font-size:12px;color:var(--tx2)}
+#log{background:#0a0c0f;border:1px solid var(--ln);border-radius:10px;padding:10px;height:340px;overflow:auto;font:12.5px/1.5 ui-monospace,Consolas,monospace}
+#log div{white-space:pre-wrap;word-break:break-word;margin-bottom:3px}#log .claude{color:var(--tx)}#log .ferramenta{color:var(--tx2)}#log .info{color:var(--ac)}#log .erro{color:var(--er)}#log .fim{color:var(--ok)}
+#resumo{white-space:pre-wrap;background:var(--pn2);border:1px solid var(--ln);border-radius:10px;padding:10px;margin-top:10px;display:none;max-height:260px;overflow:auto}
+.muted{color:var(--tx2);font-size:12.5px}
+</style>
+</head>
+<body>
+<header><div class="logo">P</div><div><h1>Editor Problems</h1><div class="sub">Solte o bruto: a skill edita e entrega no Premiere (ponte MCP) ou no FilmCraft.</div></div></header>
+<main>
+<section class="card">
+  <h2>Ambiente</h2>
+  <div class="env" id="env"><span class="chip"><span class="dot"></span>verificando…</span></div>
+  <h2>Novo vídeo</h2>
+  <div id="drop"><b>Arraste o bruto aqui</b><small>ou clique para escolher · .mp4 .mov .mkv (o arquivo é copiado para a pasta de jobs)</small><input id="file" type="file" accept="video/*" hidden></div>
+  <div class="bar" id="bar"><i></i></div>
+  <label for="video">Ou cole o caminho do arquivo (mais rápido: não copia)</label>
+  <input type="text" id="video" placeholder="C:\Users\...\Downloads\2026-10-20 bruto.mp4">
+  <label>Onde montar</label>
+  <div class="dest">
+    <label><input type="radio" name="dest" value="auto" checked><b>Automático</b><small id="autoTxt">Premiere se a ponte responder; senão FilmCraft</small></label>
+    <label><input type="radio" name="dest" value="premiere"><b>Premiere</b><small>via MCP Bridge (projeto novo)</small></label>
+    <label><input type="radio" name="dest" value="filmcraft"><b>FilmCraft</b><small>abre sozinho no fim</small></label>
+  </div>
+  <label for="nome">Nome da edição (opcional)</label>
+  <input type="text" id="nome" placeholder="ex.: Bebi toda a agua do mundo">
+  <label for="notas">Notas para o editor (opcional)</label>
+  <textarea id="notas" placeholder="ex.: takes futuros em 00;02;23;14 · time lapse no trecho da piscina · música mais tensa quando o vilão aparece"></textarea>
+  <div class="row" style="margin-top:14px"><button id="go">Editar</button><label style="margin:0;display:flex;gap:6px;align-items:center"><input type="checkbox" id="abrir" checked> abrir quando terminar</label><label style="margin:0;display:flex;gap:6px;align-items:center" title="Animações do CineCam recriando o lugar da cena: mais no 1º minuto, depois 1 a cada 1–2 min. Abre o Minecraft sozinho para renderizar (~1 min por cinemática)."><input type="checkbox" id="cine" checked> cinemáticas</label></div>
+  <div class="err" id="err"></div>
+  <p class="muted">A edição é feita pelo Claude Code em segundo plano com a skill <b>minecraft-video-editor</b> (a mesma do chat). Um bruto de 20 min leva tempo: pode fechar esta aba, o job continua.</p>
+</section>
+<section class="card">
+  <h2>Jobs</h2>
+  <div id="jobs"><p class="muted">Nenhum job ainda.</p></div>
+  <h2 style="margin-top:16px">Andamento</h2>
+  <div class="row" style="margin-bottom:8px"><span class="st" id="selInfo">Selecione um job.</span><span style="flex:1"></span><button class="sec" id="btnAbrir" disabled>Abrir resultado</button><button class="sec" id="btnParar" disabled>Parar</button></div>
+  <div id="log"></div>
+  <div id="resumo"></div>
+</section>
+</main>
+<script>
+const $=s=>document.querySelector(s);let sel=null,desde=0,envData=null;
+const esc=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+async function api(p,o){const r=await fetch(p,o);const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.erro||('erro '+r.status));return j}
+function chip(ok,txt,warn){return `<span class="chip"><span class="dot ${ok?'ok':(warn?'wa':'er')}"></span>${txt}</span>`}
+async function loadEnv(force){try{const e=await api('/api/env'+(force?'?force=1':''));envData=e;const p=e.premiere,f=e.filmcraft;
+ $('#env').innerHTML=chip(p.instalado,'Premiere '+(p.instalado?'instalado':'não instalado'),!p.instalado)+(p.instalado?chip(p.ponte,p.ponte?'ponte MCP respondendo':(p.aberto?'ponte sem resposta':'Premiere fechado'),true):'')+
+ chip(f.instalado,f.instalado?'FilmCraft pronto':'FilmCraft será baixado (70 MB)',true)+chip(e.claude,e.claude?'Claude Code ok':'Claude Code não encontrado')+`<button class="sec" onclick="loadEnv(1)">atualizar</button>`;
+ const [d,why]=e.auto;$('#autoTxt').textContent='→ '+(d==='premiere'?'Premiere':'FilmCraft')+': '+why;}catch(x){$('#env').innerHTML=chip(false,'erro: '+esc(x.message))}}
+async function loadJobs(){const js=await api('/api/jobs');if(!js.length)return;$('#jobs').innerHTML=js.map(j=>`<div class="job ${j.id===sel?'sel':''}" data-id="${j.id}"><div class="t"><span class="v">${esc(j.video)}</span>${j.destino?`<span class="tag ${j.destino}">${j.destino==='premiere'?'Premiere':'FilmCraft'}</span>`:''}</div><div class="st">${esc(j.estado||'na fila')} · ${esc(j.atualizado||'')}${j.custo_usd?` · US$ ${(+j.custo_usd).toFixed(2)}`:''}</div></div>`).join('');
+ document.querySelectorAll('.job').forEach(el=>el.onclick=()=>{sel=el.dataset.id;desde=0;$('#log').innerHTML='';loadJobs();poll()})}
+async function poll(){if(!sel)return;const r=await api(`/api/job/${sel}?desde=${desde}`);const L=$('#log');const atBottom=L.scrollTop+L.clientHeight>=L.scrollHeight-30;
+ for(const e of r.eventos){const d=document.createElement('div');d.className=e.tipo;d.textContent=`${e.t}  ${e.tipo==='ferramenta'?'› ':''}${e.txt}`;L.appendChild(d);desde++}
+ if(atBottom)L.scrollTop=L.scrollHeight;const s=r.status||{};$('#selInfo').textContent=`${s.estado||'na fila'}${s.motivo?' — '+s.motivo:''}${s.erro?' — '+s.erro:''}`;
+ $('#btnAbrir').disabled=!s.resultado;$('#btnParar').disabled=!['editando','decidindo destino','aguardando limite'].includes(s.estado);
+ if(r.resumo){$('#resumo').style.display='block';$('#resumo').textContent=r.resumo}else $('#resumo').style.display='none'}
+async function upload(file){$('#bar').style.display='block';const bar=$('#bar i');return new Promise((ok,no)=>{const x=new XMLHttpRequest();x.open('POST','/api/upload?nome='+encodeURIComponent(file.name));
+ x.upload.onprogress=e=>{if(e.lengthComputable)bar.style.width=(100*e.loaded/e.total).toFixed(1)+'%'};x.onload=()=>{try{const j=JSON.parse(x.responseText);x.status<300?ok(j.video):no(new Error(j.erro))}catch(e){no(e)}};x.onerror=()=>no(new Error('falha no envio'));x.send(file)})}
+const drop=$('#drop');drop.onclick=()=>$('#file').click();$('#file').onchange=e=>e.target.files[0]&&got(e.target.files[0]);
+['dragenter','dragover'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('over')}));['dragleave','drop'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('over')}));
+drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)got(f)});
+async function got(f){$('#err').textContent='';drop.querySelector('b').textContent='Copiando '+f.name+'…';try{const p=await upload(f);$('#video').value=p;drop.querySelector('b').textContent='Pronto: '+f.name}catch(x){$('#err').textContent=x.message;drop.querySelector('b').textContent='Arraste o bruto aqui'}}
+$('#go').onclick=async()=>{$('#err').textContent='';const video=$('#video').value.trim();if(!video){$('#err').textContent='Escolha o vídeo (arraste ou cole o caminho).';return}
+ const dest=document.querySelector('input[name=dest]:checked').value;if(dest==='premiere'&&envData&&!envData.premiere.ponte){$('#err').textContent='O Premiere não está respondendo pela ponte: abra o Premiere e o painel Janela › Extensões › MCP Bridge, ou use Automático/FilmCraft.';return}
+ $('#go').disabled=true;try{const r=await api('/api/job',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({video,destino:dest,nome:$('#nome').value,notas:$('#notas').value,abrir:$('#abrir').checked,cinematicas:$('#cine').checked})});sel=r.id;desde=0;$('#log').innerHTML='';await loadJobs();poll()}catch(x){$('#err').textContent=x.message}finally{$('#go').disabled=false}};
+$('#btnAbrir').onclick=async()=>{try{await api(`/api/job/${sel}/abrir`,{method:'POST'})}catch(x){alert(x.message)}};
+$('#btnParar').onclick=async()=>{if(confirm('Parar este job?')){await api(`/api/job/${sel}/parar`,{method:'POST'});poll();loadJobs()}};
+loadEnv();loadJobs();setInterval(()=>{poll().catch(()=>{});loadJobs().catch(()=>{})},2500);
+</script>
+</body>
+</html>
