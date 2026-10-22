@@ -301,6 +301,9 @@
 	/* aplica o plano: tudo é adicionado primeiro e os cortes de conteúdo entram por último (puxando o resto) */
 	async function aplicarPlano(pl) {
 		const P = ED.P, BIB = ED.BIB, faltas = [];
+		// guarda o plano cru + a V1 de antes dele: a ponte local (ponte-local.js) monta o mesmo plano no Premiere/FilmCraft do PC
+		P.ultimoPlano = { plano: JSON.parse(JSON.stringify(pl)), vozes: P.vozes.map((v) => ({ faixa: v.id })),
+			clipes: P.clipes.filter((c) => c.faixa === "V1" && !c.off).map((c) => ({ tl_in: +c.ini.toFixed(4), tl_out: +(c.ini + c.dur).toFixed(4), src_in: +(c.fonte || 0).toFixed(4) })) };
 		const achar = (papel, nome, pasta) => {
 			const l = BIB.itens.filter((x) => x.papel === papel), n = String(nome || "").toLowerCase();
 			return l.find((x) => (x.pasta + x.nome).toLowerCase() === n) || l.find((x) => x.nome.toLowerCase() === n) || l.find((x) => n && x.nome.toLowerCase().includes(n)) || (pasta ? l.find((x) => x.pasta.toLowerCase().includes(String(pasta).toLowerCase())) : null);
