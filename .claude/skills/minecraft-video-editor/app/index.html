@@ -104,7 +104,8 @@ $('#go').onclick=async()=>{$('#err').textContent='';const video=$('#video').valu
  $('#go').disabled=true;try{const r=await api('/api/job',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({video,destino:dest,nome:$('#nome').value,notas:$('#notas').value,abrir:$('#abrir').checked,cinematicas:$('#cine').checked})});sel=r.id;desde=0;$('#log').innerHTML='';await loadJobs();poll()}catch(x){$('#err').textContent=x.message}finally{$('#go').disabled=false}};
 $('#btnAbrir').onclick=async()=>{try{await api(`/api/job/${sel}/abrir`,{method:'POST'})}catch(x){alert(x.message)}};
 $('#btnParar').onclick=async()=>{if(confirm('Parar este job?')){await api(`/api/job/${sel}/parar`,{method:'POST'});poll();loadJobs()}};
-loadEnv();loadJobs();setInterval(()=>{poll().catch(()=>{});loadJobs().catch(()=>{})},2500);
+{const j=new URLSearchParams(location.search).get('job');if(j){sel=j;desde=0;history.replaceState(null,'','/');}}
+loadEnv();loadJobs();poll().catch(()=>{});setInterval(()=>{poll().catch(()=>{});loadJobs().catch(()=>{})},2500);
 </script>
 </body>
 </html>

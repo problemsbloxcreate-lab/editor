@@ -16,6 +16,7 @@ ENTRADA = os.path.join(WORK, "entrada")
 VID_EXT = (".mp4", ".mov", ".mkv", ".avi", ".m4v", ".webm")
 import seguranca as SEG
 PORTA = 4790
+PASSES_USADOS = set()
 JID = re.compile(r"^[A-Za-z0-9_\-]{1,120}$")
 
 
@@ -157,6 +158,9 @@ class H(BaseHTTPRequestHandler):
             if not self.guard(need_auth=False): return
             html = open(os.path.join(APP, "index.html"), encoding="utf8").read().replace("__EP_TOKEN__", SEG.token_local())
             return self.send(200, html.encode("utf8"), "text/html; charset=utf-8")
+        if u.path == "/ponte":                       # aberta pelo site numa aba (sem fetch do site -> sem permissão de "rede local")
+            if not self.guard(need_auth=False): return
+            return self.send(200, open(os.path.join(APP, "ponte.html"), "rb").read(), "text/html; charset=utf-8")
         if u.path == "/api/ping":                    # o site do Estúdio detecta o serviço (não revela nada)
             if not self.guard(need_auth=False): return
             return self.send(200, {"servico": "estudio-problems-local", "versao": versao()})
@@ -178,6 +182,28 @@ class H(BaseHTTPRequestHandler):
 
     def do_POST(self):
         u = urllib.parse.urlparse(self.path); q = urllib.parse.parse_qs(u.query)
+        if u.path == "/api/ponte":                   # pedido do site via aba: passe do porteiro (uso único) + pedido
+            if not self.guard(need_auth=False): return
+            try:
+                b = self.body(); ps = b.get("passe") or ""; ped = b.get("pedido") or {}
+                if ps in PASSES_USADOS: return self.send(409, {"erro": "este pedido já foi usado; volte ao site e clique de novo"})
+                email = SEG.conferir_passe(ps, "127.0.0.1:%d" % PORTA)
+                if not email: return self.send(401, {"erro": "pedido vencido (vale 2 min) ou não veio do Estúdio; volte ao site e clique de novo"})
+                video = ped.get("video")
+                if not video:
+                    achados = localizar(ped.get("nome"), ped.get("tamanho"))
+                    if len(achados) != 1:
+                        return self.send(200, {"escolher": achados, "nome": ped.get("nome")})
+                    video = achados[0]
+                elif video not in localizar(ped.get("nome"), ped.get("tamanho")):
+                    return self.send(400, {"erro": "arquivo fora das pastas de gravação"})
+                jid = novo_job(dict(ped, video=video, origem="estudio"), email)
+                PASSES_USADOS.add(ps)
+                import midia_sync
+                threading.Thread(target=midia_sync.parear, args=(ps,), daemon=True).start()
+                return self.send(200, {"id": jid, "video": video, "email": email})
+            except ValueError as e:
+                return self.send(400, {"erro": str(e)})
         if u.path == "/api/sessao":                  # passe do porteiro -> sessão local de 12 h
             if not self.guard(need_auth=False): return
             try: ps = self.body().get("passe") or ""
