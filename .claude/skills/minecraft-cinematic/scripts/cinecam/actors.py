@@ -13,6 +13,9 @@ Pose conventions (degrees, blocks; Minecraft yaw: 0 faces +z/south):
   bright (fullbright) | rarm_len larm_len rleg_len lleg_len (rubber limbs: y scale from shoulder/hip) | shadow_y (blob shadow on that ground y) | silhouette 0..1 (backlit: model darkens to near black).
   v0.7 voxel belly (the in-game "full of water" look): vbelly = ball radius in model px (0 off) | vbelly_y centre px below the neck (7)
   | vbelly_out px it bulges past the torso front (3) | vbelly_wave slosh ripple amplitude px | vbelly_jig squash/stretch (+ taller) | vbelly_vox cube size px (1) | vbelly_shine 0..1 moving water glints.
+  v1.0 body (one bending mesh per limb, like Mine-imator): rarm_bend larm_bend (elbow, deg, NEGATIVE = forearm forward) |
+  rleg_bend lleg_bend (knee, deg, POSITIVE = shin backward) | torso_x (lean forward +) torso_y (twist) torso_z (side) about the hip |
+  mouth 0..1 (open) | blink 0..1 — face rects come from Actor(face="auto") = cinecam.face.detect(skin).
 Model is 2.0 blocks tall (no vanilla 0.9375 scale).  item = registry id or "model:cinecam:item/elastic_glove" (models in the
 mod's assets); the `item` channel is the held item's SCALE (0 hidden, 1 normal; animate it for a pull-out "pop").  Actor(hat=True) adds a 3D crown+brim textured from the skin's head top.
 
@@ -33,13 +36,14 @@ import numpy as np
 
 from .camlib import ease_fn
 
-PN, BN, PRN = 43, 16, 9
+PN, BN, PRN = 52, 16, 9
 POSE = dict(x=0, y=1, z=2, yaw=3, sx=4, sy=5, sz=6, head_x=7, head_y=8, head_z=9,
             rarm_x=10, rarm_y=11, rarm_z=12, larm_x=13, larm_y=14, larm_z=15,
             rleg_x=16, rleg_y=17, rleg_z=18, lleg_x=19, lleg_y=20, lleg_z=21,
             belly=22, belly_y=23, head=24, lean=25, item=26, hop=27, roll=28, bright=29,
             rarm_len=30, larm_len=31, rleg_len=32, lleg_len=33, shadow_y=34, silhouette=35,
-            vbelly=36, vbelly_y=37, vbelly_out=38, vbelly_wave=39, vbelly_jig=40, vbelly_vox=41, vbelly_shine=42)
+            vbelly=36, vbelly_y=37, vbelly_out=38, vbelly_wave=39, vbelly_jig=40, vbelly_vox=41, vbelly_shine=42,
+            rarm_bend=43, larm_bend=44, rleg_bend=45, lleg_bend=46, torso_x=47, torso_y=48, torso_z=49, mouth=50, blink=51)
 _DEFAULTS = {"sx": 1, "sy": 1, "sz": 1, "belly": 1, "belly_y": 1, "head": 1,
              "rarm_len": 1, "larm_len": 1, "rleg_len": 1, "lleg_len": 1,
              "vbelly_y": 7, "vbelly_out": 3, "vbelly_vox": 1}
@@ -106,8 +110,12 @@ class Actor(_Keyed):
     FIELDS, WIDTH = POSE, PN
 
     def __init__(self, name: str, skin: str, pos: Sequence[float], yaw: float = 0.0, slim: bool = False, item: Optional[str] = None,
-                 hat: bool = False):
+                 hat: bool = False, face="auto"):
         self.name, self.skin, self.slim, self.item, self.hat = name, skin, slim, item, hat
+        if face == "auto":
+            from .face import detect
+            face = detect(skin)
+        self.face = face
         self._init_keys()
         self.key(0.0, x=pos[0], y=pos[1], z=pos[2], yaw=yaw)
 
@@ -216,7 +224,8 @@ class Anim:
             if bl:
                 r["b"] = bl
             rows.append(r)
-        doc = {"actors": [{"name": a.name, "skin": a.skin.replace("\\", "/"), "slim": a.slim, "item": a.item, "hat": a.hat} for a in self.actors],
+        doc = {"actors": [{"name": a.name, "skin": a.skin.replace("\\", "/"), "slim": a.slim, "item": a.item, "hat": a.hat,
+                           **({"face": a.face} if getattr(a, "face", None) else {})} for a in self.actors],
                "props": [{"name": p.name, "block": p.block} for p in self.props],
                "mobs": [{"name": m.name, "type": m.type} for m in self.mobs], "rows": rows}
         if self.water is not None:

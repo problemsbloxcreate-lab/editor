@@ -73,3 +73,22 @@ Grade `toon` (post.py) = saturada, sem névoa; `punchy` lava céu/areia por caus
 - Mob canal `age` (v0.7, índice 11): tickCount do mob → anima rabo/barbatana/asa que leem ageInTicks (o mob não tica). Peixe desesperado: `age = 1 + 70·t` (~3,5× o vanilla). Exemplo `D:/cinecam-run/barriga_agua/peixe.py` (bacalhau se debatendo na poça seca, `D:/cinecam-out/peixe_seco/`).
 - Bacalhau fora d'água: o renderer vanilla já deita de lado → `roll=0` = de lado, `roll=90` = EM PÉ (errado), flips de ±180 trocam de lado. Conferido em still de calibração.
 - **GOTCHA água fantasma:** `setblock ... dead_*_coral` (planta/leque) nasce `waterlogged=true` = FONTE de água; na fase de settle ela inunda o buraco. Use `[waterlogged=false]`. Diagnóstico: `execute if block X Y Z minecraft:water run say ...` nos commands e ler game.log. Lembrete: `fill` > 32768 blocos falha calado ("-> 0") — divida.
+
+## v1.0 (25/10/2026) — corpo que dobra + `Ator` (atuação por molas)
+Canais novos do `Actor` (PN 52): `rarm_bend larm_bend` (cotovelo, graus, NEGATIVO = antebraço para a frente), `rleg_bend lleg_bend`
+(joelho, POSITIVO = canela para trás), `torso_x torso_y torso_z` (tronco em volta do quadril; x + = inclina para a frente), `mouth`
+(0/1 boca aberta), `blink` (0..1). `Actor(face="auto")` usa `cinecam.face.detect(skin)`; passe `face={...}` (retângulos em pixels
+da cara 8×8: `mouth [x0,y0,x1,y1]`, `eyes [[...],[...]]`, `lid [r,g,b]`, `mouthColor`, `z`) para skins diferentes, `face=None` desliga.
+
+Prefira `cinecam.atua.Ator` a chaves à mão:
+```python
+from cinecam.atua import Ator
+k = Ator("kadu", skin("kadu"), (x, y, z), yaw=0)
+k.talk(0.15, 2.2, text="Você sabia que o Minecraft tem um SEGREDO?")   # ou wav=r"...\fala.wav", wav_offset=0.0
+k.point_at(0.9, (x - 3, y + 1.9, z + 1.2))      # plano frontal: aponte para o lado (lê na tela), não para a lente
+k.pose(2.2, "ombros"); k.jump(3.0, h=0.8); k.pose(3.05, "comemora"); k.pose(4.5, "idle")
+k.walk(4.6, 6.0, to=(x, z + 2.4)); k.pose(6.2, "joinha"); k.talk(6.25, 7.2, text="Bora descobrir!")
+actor = k.build(7.6)        # Actor assado a 120 Hz → Anim([actor]); actor.at(t) dá a posição para a câmera seguir
+```
+Molas (`atua.SPRING`, f Hz / ζ / r): cabeça 3,2/0,6/+0,25, braço 2,7/0,5/−0,45 (antecipa e passa), antebraço 2,1/0,42/0 (chega por
+último), tronco 2,3/0,75, pernas 3,6/0,8. `pose(..., snap=3)` = troca rápida (susto, golpe). Ciclos (`OSC`) não passam pela mola.

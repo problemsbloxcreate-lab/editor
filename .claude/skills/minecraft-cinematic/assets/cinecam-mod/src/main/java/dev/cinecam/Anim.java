@@ -24,19 +24,38 @@ import java.util.List;
  *  30-33 limb length (y scale) right arm, left arm, right leg, left leg (0 = 1) | 34 blob-shadow ground y (0 = no shadow) | 35 silhouette 0..1 (backlit darkening)
  *  36 voxel belly radius (model px, 0 = off) | 37 its centre y (px below the neck) | 38 protrusion in front of the torso (px)
  *  39 slosh ripple amplitude (px) | 40 jiggle (+ = taller/narrower) | 41 voxel size (px, 0 = 1) | 42 water shimmer 0..1 on the belly
+ *  v1.0 body: 43-46 bend (deg) right arm, left arm (elbow, - = forward), right leg, left leg (knee, + = backward)
+ *  47-49 torso about the hip (deg): pitch (+ = lean forward), yaw (twist), roll (side) | 50 mouth open 0..1 | 51 blink 0..1
  * Prop vector (PRN): x,y,z of the block's BOTTOM CENTRE | sx,sy,sz | yaw,pitch,roll (deg, applied Y then X then Z about that point)
  *  sx == 0 hides the prop on that row. Props are rubbery block models drawn with the level's biome tint.
  * Beam vector (BN): x1,y1,z1, x2,y2,z2, r1, r2, alpha, lift (control point up), push_z (control point shift in z),
  *  r,g,b (0..1), style (0 water shimmer, 1 red/white straw stripes, 2 plain colour), segments (0 = auto)
  */
 public final class Anim {
-    public static final int PN = 43;
+    public static final int PN = 52;
     public static final int PRN = 9;
     public static final int BN = 16;
 
     public static final class ActorDef {
         public String name, skin, item;
         public boolean slim, hat;
+        public Face face;
+    }
+
+    /** Face rig in face pixels (the skin's 8x8 face; x right, y down): mouth rect, how many px it grows when open, eye rects, lid colour. */
+    public static final class Face {
+        public float[] mouth;            // x0,y0,x1,y1
+        public float mouthOpen = 1f;
+        public float[] mouthColor = {0.12f, 0.03f, 0.03f};
+        public float[][] eyes;           // [x0,y0,x1,y1]...
+        public float[] lid = {0.8f, 0.6f, 0.5f};
+        public float z = -0.03f;          // px in front of the face (-0.53 when the face is drawn on the hat layer)
+    }
+
+    private static float[] floats(JsonArray a) {
+        float[] f = new float[a.size()];
+        for (int i = 0; i < f.length; i++) f[i] = a.get(i).getAsFloat();
+        return f;
     }
 
     public static final class MobDef {
@@ -75,6 +94,21 @@ public final class Anim {
             d.slim = j.has("slim") && j.get("slim").getAsBoolean();
             d.item = j.has("item") && !j.get("item").isJsonNull() ? j.get("item").getAsString() : null;
             d.hat = j.has("hat") && j.get("hat").getAsBoolean();
+            if (j.has("face") && j.get("face").isJsonObject()) {
+                JsonObject fj = j.getAsJsonObject("face");
+                Face f = new Face();
+                if (fj.has("mouth")) f.mouth = floats(fj.getAsJsonArray("mouth"));
+                if (fj.has("mouthOpen")) f.mouthOpen = fj.get("mouthOpen").getAsFloat();
+                if (fj.has("mouthColor")) f.mouthColor = floats(fj.getAsJsonArray("mouthColor"));
+                if (fj.has("lid")) f.lid = floats(fj.getAsJsonArray("lid"));
+                if (fj.has("z")) f.z = fj.get("z").getAsFloat();
+                if (fj.has("eyes")) {
+                    JsonArray ea = fj.getAsJsonArray("eyes");
+                    f.eyes = new float[ea.size()][];
+                    for (int i = 0; i < ea.size(); i++) f.eyes[i] = floats(ea.get(i).getAsJsonArray());
+                }
+                d.face = f;
+            }
             a.actors.add(d);
         }
         if (o.has("mobs")) for (JsonElement e : o.getAsJsonArray("mobs")) {

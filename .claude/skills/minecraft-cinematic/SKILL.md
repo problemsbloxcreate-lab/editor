@@ -7,7 +7,7 @@ description: Criar vídeos curtos de Minecraft de altíssima qualidade e muito c
 
 Eu sou o diretor de fotografia **e** o operador de render: desenho a câmera em Python (curvas, não palpite), valido numericamente e visualmente, e o mod **CineCam** renderiza frame a frame no Minecraft real (sombras/texturas vanilla, shaders opcionais), com motion blur correto, entregando MP4.
 
-Decisões do Matheus (15/10/2026): **Minecraft real renderizado por mim**, **16:9 prioritário** (vertical 9:16 sob pedido), **shaders opcionais** (nem sempre), personagens articulados e efeitos "quando necessário", **câmera é o foco**.
+Decisões do Matheus (15/10/2026): **Minecraft real renderizado por mim**, **16:9 prioritário** (vertical 9:16 sob pedido), **shaders opcionais** (nem sempre), personagens articulados e efeitos "quando necessário", **câmera é o foco**. **25/10: os SHORTS do Estúdio passam a ser gerados aqui — 9:16 e personagens fluidos e realistas são prioridade (ver v1.0).**
 
 ## Antes de tudo, ler
 0. **[`references/enquadramento.md`](references/enquadramento.md) — REGRAS DE ENQUADRAMENTO E ATUAÇÃO (21/10/2026, pesquisa de um agente sênior de layout após o feedback do Matheus: NUNCA personagem de perfil — frente ou 3/4; costas só com motivo; blocking aberto para a câmera; tamanhos de plano; posição na tela; movimentos por intenção; checklist; tabela de atuação por emoção). Vale sobre qualquer nota antiga que contradiga. LER PRIMEIRO em qualquer take com personagem.**
@@ -94,11 +94,20 @@ Pós: `grade` = `insert` (inserção em gameplay; padrão do editor) `clean punc
 - `cinecam/auto.py`: toda ficha passa por checagem de itens (recusa) e de enquadramento (tenta lado espelhado/azimutes menores; senão recusa com o motivo); no lote, ficha recusada não derruba as outras. Auditoria das 14 entregues: 7 reprovariam (4 de costas, 3 de perfil) + 5 canudos errados.
 - Calibração de sinais (still 21/10): braço direito y+ = abre para fora, y− = cruza o peito; esquerdo espelhado; head_y + = olha para a direita do personagem.
 
+**v1.0 (25/10/2026) — CORPO QUE DOBRA + ATUAÇÃO POR MOLAS (para os Shorts 9:16; refs Kadukos `5wfBf5UkQVc`, `e2x8gItVBUc`, `HjBeByz4qxw`, `nmUqJZAW0T8`):**
+- **Mod** (`Body.java`): braço e perna = UMA malha que dobra no cotovelo/joelho (arco de 4 px, como o "bend" do Mine-imator e o `dobraMesh` do Shorts web), geometria e UV lidos das peças vanilla (skin idêntica com dobra 0); tronco gira no quadril (cabeça, braços, item, chapéu e barriga vão junto); item na mão segue o antebraço; **rosto**: boca abre e pálpebra fecha (retângulos na frente da cara; na frente da camada do chapéu quando a cara está desenhada nela). Canais novos 43–51: `rarm_bend larm_bend` (cotovelo, − = frente) `rleg_bend lleg_bend` (joelho, + = trás) `torso_x` (+ = inclina para a frente) `torso_y torso_z` `mouth` `blink`. Com tudo 0 o boneco é o de antes (as cenas antigas continuam iguais).
+- **`cinecam/atua.py` `Ator`** — dirigir por intenção, sem keyframe à mão: `pose(t, nome)` (≈45 poses do Shorts web: point stop finger cross sus smug tilt hold mostra facepalm pensando abraca chora vergonha bravo ombros grita medo sad joinha apaixonado cochicha coca bocejo empurra sorrateiro comemora rindo palmas acena nervoso procura mine sit agacha shake nod…), `point_at(t, ponto)` (braço resolvido até o alvo — em plano frontal aponte PARA O LADO, nunca para a lente), `talk(t0, t1, text=|wav=)` (gesto, cabeça e boca pelo volume da voz; sem wav, envelope pelas sílabas do texto), `walk(t0, t1, to=(x,z))` (fase pela distância: o pé não escorrega; anda/corre pela velocidade), `jump(t, h)` (antecipação, corpo esticado, pernas encolhidas, amortece), `look(t, ponto)`, `turn/face_to`, `hold_item`, `key()` cru por cima. `build()` assa tudo a 120 Hz num `Actor` normal (`Anim([...])`, `render`, `stills`).
+- **Por que fica fluido:** cada parte tem uma MOLA de 2ª ordem (f, ζ, r): tronco puxa, cabeça vem logo, braço ANTECIPA (r<0) e passa do ponto, antebraço chega por último e balança (follow-through). Ciclos (fala, andar, comemorar, rir, tremer) ficam numa camada sem mola. Por cima: respiração e troca de peso parado, piscar sozinho e nas trocas de pose, pé no chão (o corpo desce quando o joelho dobra), cabeça compensa o tronco, sombra de contato.
+- **Gotcha pago:** o Shorts web usa Euler XYZ (three.js) e o Minecraft ZYX — copiar o ângulo z invertia "abrir" e "fechar" com o braço levantado (comemorar virava mãos cruzadas na cabeça). `atua.web_to_mc` converte pela matriz.
+- **Rostos da turma** em `cinecam/face.py` `FACES` (conferidos à mão: Problems pisca sem boca, Kadu boca+olhos, Mel só boca por causa dos óculos, Stick boca+olhos, Brucutu só olhos, Zoom nada por causa do capacete); outras skins: detecção automática só de olhos simétricos.
+- Teste de referência: `D:/cinecam-out/body_v10_test/body_v10_test.mp4` (1080×1920, 30 fps, 6 subframes, DoF; 7,6 s em ~1,5 min) — script `D:/Pobrs/cine_body/body_test.py`. Enquadramento vertical que funcionou: câmera a ~3 blocos, altura dos pés + 0,7 (leve contra-plongée), mira no peito, fov 58, push-in lento; personagem ~55 % da altura.
+- **Falta:** `acts.Stage`/`auto.py` (cinemáticas do vídeo longo) ainda usam os gestos v0.9 — migrar para `Ator`; `kin.py` (IK/boca para canudo) não conhece cotovelo/tronco.
+
 **Ainda NÃO existe** (não prometa; implementar sob demanda, nesta ordem de valor):
 1. ~~Atores articulados~~ → feito (v0.3); faltam cotovelos/joelhos, itens animados além do item na mão direita, mobs não-player.
 2. **Shader pack** (Complementary/Oculus) integrado ao render — hoje vanilla + pós.
 3. Overlays de pós (speed lines, flash de corte, lettering) e áudio/SFX — usar Remotion/Premiere depois.
-4. Render vertical 9:16 testado (a matemática suporta; falta validar framebuffer e fov).
+4. ~~Render vertical 9:16~~ → validado em 25/10 (1080×1920, body_v10_test).
 5. Sinal do roll e whip de transição conferidos em vídeo (ver `references/recipes.md`).
 
 Custos medidos (RTX 5070 Laptop, 15 GB RAM compartilhada): 1080p/8 subframes ≈ 20 s por 5 s de filme; 4K supersampled ≈ 2 min por 5,4 s + DoF 40 s; boot do jogo + mundo ≈ 40–60 s.

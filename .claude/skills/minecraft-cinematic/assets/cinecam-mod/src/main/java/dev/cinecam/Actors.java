@@ -86,6 +86,7 @@ public final class Actors {
 
     public static void init(Minecraft mc, Anim a) throws Exception {
         rts.clear();
+        Body.clear();
         gen++;
         int k = 0;
         for (Anim.ActorDef d : a.actors) {
@@ -198,8 +199,28 @@ public final class Actors {
         int light = p[29] > 0.5 ? 0xF000F0 : LevelRenderer.getLightColor(mc.level, bp);
         VertexConsumer vc = bs.getBuffer(RenderType.entityTranslucent(r.tex));
         float sh = p.length > 35 ? (float) (1.0 - 0.96 * Math.max(0, Math.min(1, p[35]))) : 1f;   // silhouette (backlit) darkening
-        m.renderToBuffer(ps, vc, light, OverlayTexture.NO_OVERLAY, sh, sh, sh, 1f);
+        // v1.0 body: limbs are one bending mesh each (elbow/knee), the upper body turns about the hip; all 0 = the vanilla model
+        float bRA = ch(p, 43) * D2R, bLA = ch(p, 44) * D2R, bRL = ch(p, 45) * D2R, bLL = ch(p, 46) * D2R;
+        int ov = OverlayTexture.NO_OVERLAY;
+        Body.drawBent(ps, vc, m.rightLeg, bRL, light, ov, sh, sh, sh, 1f);
+        Body.drawBent(ps, vc, m.leftLeg, bLL, light, ov, sh, sh, sh, 1f);
+        Body.drawBent(ps, vc, m.rightPants, bRL, light, ov, sh, sh, sh, 1f);
+        Body.drawBent(ps, vc, m.leftPants, bLL, light, ov, sh, sh, sh, 1f);
+        ps.pushPose();
+        Body.torso(ps, ch(p, 47), ch(p, 48), ch(p, 49));
+        m.head.render(ps, vc, light, ov, sh, sh, sh, 1f);
+        m.body.render(ps, vc, light, ov, sh, sh, sh, 1f);
+        Body.drawBent(ps, vc, m.rightArm, bRA, light, ov, sh, sh, sh, 1f);
+        Body.drawBent(ps, vc, m.leftArm, bLA, light, ov, sh, sh, sh, 1f);
+        m.hat.render(ps, vc, light, ov, sh, sh, sh, 1f);
+        m.jacket.render(ps, vc, light, ov, sh, sh, sh, 1f);
+        Body.drawBent(ps, vc, m.rightSleeve, bRA, light, ov, sh, sh, sh, 1f);
+        Body.drawBent(ps, vc, m.leftSleeve, bLA, light, ov, sh, sh, sh, 1f);
         bs.endBatch();
+        if (r.def.face != null) {
+            Body.face(ps, bs.getBuffer(RenderType.entityCutoutNoCull(WHITE)), m.head, r.def.face, ch(p, 50), ch(p, 51), light);
+            bs.endBatch();
+        }
         if (r.def.hat) {
             ps.pushPose();
             m.head.translateAndRotate(ps);
@@ -223,6 +244,7 @@ public final class Actors {
         if (isc > 0.01f && !r.stack.isEmpty()) {
             ps.pushPose();
             m.translateToHand(HumanoidArm.RIGHT, ps);
+            Body.lowerFrame(ps, m.rightArm, bRA);       // the hand rides the forearm below the elbow
             ps.mulPose(Axis.XP.rotationDegrees(-90f));
             ps.mulPose(Axis.YP.rotationDegrees(180f));
             ps.translate(1f / 16f, 0.125f, -0.625f);    // rides the end of the (possibly stretched) arm
@@ -235,7 +257,12 @@ public final class Actors {
             ps.popPose();
             bs.endBatch();
         }
+        ps.popPose();   // torso
         ps.popPose();
+    }
+
+    private static float ch(double[] p, int i) {
+        return p.length > i ? (float) p[i] : 0f;
     }
 
     /**
