@@ -84,6 +84,7 @@ function EP_afx(pt) { var n = EP_name(pt, "a"); return n ? qe.project.getAudioEf
 function EP_atr(pt) { var n = EP_name(pt, "at"); return n ? qe.project.getAudioTransitionByName(n) : null; }
 function EP_vtr(pt) { var n = EP_name(pt, "vt"); return n ? qe.project.getVideoTransitionByName(n) : null; }
 function EP_comp(c, pt) { var m = EP_MATCH[pt]; for (var u = c.components.numItems - 1; u >= 0; u--) { var x = c.components[u]; if ((m && x.matchName == m) || x.displayName == pt) return x; } return null; }
+function EP_path(p) { return String(p).split(String.fromCharCode(92)).join("/"); }   // caminho com / (sem regex de barra invertida: o escape gerando JSX pelo Python quebra)
 function EP_pt(comp, i) { var L = EP_PROPS[comp.matchName]; return (L && i < L.length) ? L[i] : comp.properties[i].displayName; }
 ''' % (json.dumps(cand, ensure_ascii=True), json.dumps(kind), json.dumps(match), json.dumps(props, ensure_ascii=True)))
 

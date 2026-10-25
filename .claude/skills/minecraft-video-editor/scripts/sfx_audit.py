@@ -11,18 +11,27 @@ import numpy as np
 
 plan = json.load(open(sys.argv[1], encoding="utf8")); render = sys.argv[2]
 sr = 44100        # 21/10: PCM float32 pelo pipe (sem WAV temporário fixo no C:, sem cópia float64 de ~600 MB)
-d = np.frombuffer(subprocess.run(["ffmpeg", "-loglevel", "error", "-i", render, "-vn", "-ac", "1", "-ar", str(sr), "-f", "f32le", "-"],
+d = np.frombuffer(subprocess.run(["ffmpeg", "-loglevel", "error", "-i", render, "-vn", "-ac", "2", "-ar", str(sr), "-f", "f32le", "-"],
                                  check=True, capture_output=True).stdout, dtype=np.float32)
+d = np.abs(d.reshape(-1, 2)).max(axis=1)      # 25/10: maior canal (o "-ac 1" do ffmpeg SOMA L+R e inventava pico acima de 0 dBFS)
 db = lambda x: 20 * np.log10(x + 1e-9)
-pk = lambda a, b: db(np.abs(d[int(max(0, a) * sr): int(max(a + 0.01, b) * sr)]).max()) if b > a else -99.0
+END = len(d) / sr
+
+
+def pk(a, b):       # pico em [a,b]; janela fora do áudio (SFX perto do fim) = -99 em vez de quebrar
+    seg = d[int(max(0, a) * sr): int(min(END, max(a + 0.01, b)) * sr)]
+    return db(np.abs(seg).max()) if b > a and len(seg) else -99.0
 def rms(a, b):      # RMS máx em janelas de 100 ms dentro de [a,b]
-    seg = d[int(max(0, a) * sr): int(max(a + 0.1, b) * sr)]; h = int(0.1 * sr)
+    seg = d[int(max(0, a) * sr): int(min(END, max(a + 0.1, b)) * sr)]; h = int(0.1 * sr)
     return max(db(np.sqrt((seg[i:i + h] ** 2).mean())) for i in range(0, max(1, len(seg) - h), h // 2)) if len(seg) >= h else -99.0
-print("pico máximo do render: %.1f dBFS" % db(np.abs(d).max()))
+# 25/10: pico do render = TRUE PEAK do ebur128 nos canais originais (o pico do mono convertido não bate com a medida do check_final)
+_eb = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", "-i", render, "-vn", "-af", "ebur128=peak=true", "-f", "null", "-"], capture_output=True, text=True, errors="replace").stderr
+_tp = [float(x.split(":")[1].split()[0]) for x in _eb.splitlines() if x.strip().startswith("Peak:")]
+print("pico máximo do render: true peak %s dBTP (alvo <= -1)" % ("%.1f" % _tp[-1] if _tp else "?"))
 rows = []
 for s in plan["sfx"]:
     a = s["tl"]; ln = min(s.get("dur", 1.0), 0.8); local = pk(a, a + ln)
-    base = [pk(t, t + 0.4) for t in np.arange(a - 3.0, a - 0.3, 0.4)] + [pk(t, t + 0.4) for t in np.arange(a + s.get("dur", 1.0) + 0.3, a + s.get("dur", 1.0) + 3.0, 0.4)]
+    base = [x for x in [pk(t, t + 0.4) for t in np.arange(a - 3.0, a - 0.3, 0.4)] + [pk(t, t + 0.4) for t in np.arange(a + s.get("dur", 1.0) + 0.3, a + s.get("dur", 1.0) + 3.0, 0.4)] if x > -98]
     b = float(np.median(base)) if base else -99.0
     rl = rms(a, a + ln); rb = float(np.median([rms(t, t + 0.4) for t in np.arange(a - 3.0, a - 0.3, 0.4)])) if a > 3.5 else -20.0
     rows.append((a, os.path.basename(s["file"])[:36], s.get("rms_db", s.get("peak_db")), local, b, local - b, rl - rb))

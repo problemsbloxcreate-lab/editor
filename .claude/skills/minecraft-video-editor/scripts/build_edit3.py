@@ -188,9 +188,11 @@ r.v1 = s.videoTracks[0].clips.numItems; r.a1 = s.audioTracks[0].clips.numItems; 
     # 2) faixas extras (V: 3 mínimas; brolls pedem V3 (+V4 se tiver 'echo'))
     NV = max([3, plan.get("vtracks", 3)] + [x.get("v", 3) + (1 if x.get("echo") else 0) for x in plan.get("brolls", [])])
     NA = 4 + plan.get("sfx_tracks", 3)
-    run(pre + '''if (s.audioTracks.numTracks < %d) { app.enableQE(); var q = qe.project.getActiveSequence(); q.addTracks(0, 0, %d - s.audioTracks.numTracks, 0, s.audioTracks.numTracks - 1, 0, 0, 0); }
+    run(pre + '''if (s.audioTracks.numTracks < %d) { app.enableQE(); var q = qe.project.getActiveSequence(); q.addTracks(0, s.videoTracks.numTracks, %d - s.audioTracks.numTracks, 1, s.audioTracks.numTracks, 0, 0, 0); }   // no FIM: A1-A3 do bruto ficam onde estão
 if (s.videoTracks.numTracks < %d) { app.enableQE(); var q2 = qe.project.getActiveSequence(); q2.addTracks(%d - s.videoTracks.numTracks, s.videoTracks.numTracks, 0, 0, 0, 0, 0, 0); }
-r.n = s.audioTracks.numTracks; r.vn = s.videoTracks.numTracks; return __result(r);''' % ((NA, NA, NV, NV)), "b2_tracks", 60)
+r.n = s.audioTracks.numTracks; r.vn = s.videoTracks.numTracks; r.a = []; for (var k = 0; k < s.audioTracks.numTracks; k++) r.a.push(s.audioTracks[k].clips.numItems);
+if (r.a[2] == 0 && r.a[1] > 0) throw new Error("faixas extras empurraram o áudio do bruto: A3 vazia " + r.a.join(","));
+return __result(r);''' % ((NA, NA, NV, NV)), "b2_tracks", 60)
     # 3) enquadramento base + zoom
     FX = fx_clips(plan)
     need_lens = sorted(i for i, rows in FX.items() if any(abs(r[4]) > 1e-6 for r in rows))
@@ -284,13 +286,15 @@ for (var q = 0; q < F.length; q++) { var it = find(F[q].name); var st = s.audioT
   if (cl) { var pr = lvl(cl); pr.setTimeVarying(false); pr.setValue(F[q].g, true); }   // ganho FIXO: nunca keyframe em SFX (pedido do Matheus 15/10)
   cnt[F[q].tr] = (cnt[F[q].tr] || 0) + 1; }
 r.cnt = cnt; return __result(r);''' % J(F), "b5_sfx", 900)
-    # 6a) limitador nas 3 faixas do bruto
+    # 6a) limitador nas 3 faixas do bruto + nível de cada voz (plan['voice_db'] = [A1, A2, A3], regra 6b; somado ao boost_voice_db)
+    vdb = list(plan.get("voice_db") or []) + [0.0] * 8
+    VG = [round(lin(boost_v + float(vdb[t])), 6) for t in range(plan.get("limiter_tracks", 3))]
     run(pre + '''app.enableQE(); var q = qe.project.getActiveSequence(); var fx = qe.project.getAudioEffectByName("Limitador pesado"); var n = 0;
 for (var t = 0; t < %d; t++) { var tr = s.audioTracks[t]; var qt = q.getAudioTrackAt(t); var map = []; for (var qi = 0; qi < qt.numItems; qi++) if (String(qt.getItemAt(qi).type) != "Empty") map.push(qi);
   for (var k = 0; k < tr.clips.numItems; k++) { qt.getItemAt(map[k]).addAudioEffect(fx);
     var c = tr.clips[k]; for (var cc = 0; cc < c.components.numItems; cc++) if (c.components[cc].matchName == "e0b23f05-f1a7-4ef7-9b50-7ec3e3002058") { c.components[cc].properties[1].setValue(%s, true); n++; }
-    c.components[0].properties[1].setValue(%s, true); } }
-r.limiters = n; return __result(r);''' % (plan.get("limiter_tracks", 3), plan.get("limiter", 0.92), lin(boost_v)), "b6a_limiter", 1800)
+    c.components[0].properties[1].setValue(VG[t], true); } }
+r.limiters = n; r.vg = VG; return __result(r);'''.replace("var n = 0;", "var n = 0; var VG = %s;" % J(VG), 1) % (plan.get("limiter_tracks", 3), plan.get("limiter", 0.92)), "b6a_limiter", 1800)
     # 6b) stickers (spotlight etc.)
     if plan.get("stickers"):
         ST = [{"name": os.path.basename(x["file"]), "t": round(x["tl"], 5), "dur": x["dur"], "pos": x["pos"], "sc": x["scale"], "rot": x.get("rot", 0), "v": x.get("v", 2) - 1, "fade": x.get("fade", 0), "op": x.get("opacity", 100)} for x in plan["stickers"]]
@@ -369,9 +373,15 @@ return __result(r);''' % (J(RV), J(GLV)), "b6f_reveals", 600)
     # 6g) mutes — padrão dele (15/10): DESABILITA o clipe inteiro (não apaga) da faixa da call (A2) ou do jogo (A3) que disputa com a piada/voz principal; A1 (voz principal) nunca.
     #     plan['mutes'] = [{track: 1|2, a, b, why}]  (índice 0-based da faixa de áudio; todo clipe que começa em [a, b) fica desabilitado)
     if plan.get("mutes"):
-        run(pre + '''var MU = %s; r.n = 0;
-for (var m = 0; m < MU.length; m++) { var tr = s.audioTracks[MU[m].track];
-  for (var c = 0; c < tr.clips.numItems; c++) { var cl = tr.clips[c]; if (cl.start.seconds >= MU[m].a - 0.02 && cl.start.seconds < MU[m].b - 0.02) { cl.disabled = true; r.n++; } } }
+        run(pre + '''app.enableQE(); var q = qe.project.getActiveSequence(); var MU = %s; r.n = 0; r.cortes = 0;
+var FPS = Math.round(254016000000 / Number(s.timebase));
+function tc(sec) { var f = Math.round(sec * FPS), h = Math.floor(f / (3600 * FPS)); f -= h * 3600 * FPS; var m = Math.floor(f / (60 * FPS)); f -= m * 60 * FPS;
+  var ss = Math.floor(f / FPS); f -= ss * FPS; function z(n) { return (n < 10 ? "0" : "") + n; } return z(h) + ":" + z(m) + ":" + z(ss) + ":" + z(f); }
+function borda(tr, t) { for (var c = 0; c < tr.clips.numItems; c++) { var cl = tr.clips[c]; if (Math.abs(cl.start.seconds - t) < 0.03 || Math.abs(cl.end.seconds - t) < 0.03) return true; } return false; }
+function dentro(tr, t) { for (var c = 0; c < tr.clips.numItems; c++) { var cl = tr.clips[c]; if (cl.start.seconds < t && cl.end.seconds > t) return true; } return false; }
+for (var m = 0; m < MU.length; m++) { var tr = s.audioTracks[MU[m].track], qt = q.getAudioTrackAt(MU[m].track);
+  var ed = [MU[m].a, MU[m].b]; for (var e = 0; e < 2; e++) if (dentro(tr, ed[e]) && !borda(tr, ed[e])) { qt.razor(tc(ed[e])); r.cortes++; }
+  for (var c = 0; c < tr.clips.numItems; c++) { var cl = tr.clips[c]; if (cl.start.seconds >= MU[m].a - 0.03 && cl.end.seconds <= MU[m].b + 0.03) { cl.disabled = true; r.n++; } } }
 return __result(r);''' % J(plan["mutes"]), "b6g_mutes", 300)
     # 6h) B-ROLL cinemático (render do CineCam, vídeo-só) em V3 por cima do jogo — padrão dele (16/10, intro do vídeo da água): o plano b-roll entra na hora da frase que ele ilustra,
     #     cobre o jogo (mute A2/A3 sob ele via plan['mutes']), abre com whoosh/impacto (SFX do plano) e pode ter 'flash' (lavagem branca que decai = Tonalidade branco->branco 70->0 em 0,9 s) e 'echo' (cópia ampliada em V4).
@@ -410,12 +420,14 @@ return __result(r);''' % J(FL), "b6i_flash", 300)
     run(pre + '''var MK = %s; for (var k = 0; k < MK.length; k++) { var mk = s.markers.createMarker(MK[k].t); mk.name = MK[k].txt; mk.comments = MK[k].txt; }
 r.n = MK.length; return __result(r);''' % J([{"t": round(m["tl"], 4), "txt": m["txt"]} for m in plan.get("marks", [])]), "b7_marks", 120)
     # 9) transições de áudio Potência constante nos cortes apertados (por último: não desloca índices QE dos passos acima)
-    XF = [i for i, k in enumerate(keeps) if k.get("xf_prev")]
+    XF = [round(k["tl_in"], 4) for k in keeps if k.get("xf_prev")]       # tempos de timeline (não índices: o b6g corta as faixas)
     fr = plan.get("xf_frames", 12)
     if XF:
         run(pre + '''app.enableQE(); var q = qe.project.getActiveSequence(); var t = qe.project.getAudioTransitionByName("Potência constante"); var XF = %s; var n = 0;
 for (var tt = 0; tt < %d; tt++) { var qt = q.getAudioTrackAt(tt); var map = []; for (var qi = 0; qi < qt.numItems; qi++) if (String(qt.getItemAt(qi).type) != "Empty") map.push(qi);   // QE conta os vãos como itens
-  for (var k = 0; k < XF.length; k++) { try { qt.getItemAt(map[XF[k]]).addTransition(t, true, "00:00:00:%02d"); n++; } catch (e) { r.err = (r.err || "") + tt + ":" + XF[k] + " " + e + "; "; } } }
+  var tr = s.audioTracks[tt]; var idx = function (t0) { for (var c = 0; c < tr.clips.numItems; c++) if (Math.abs(tr.clips[c].start.seconds - t0) < 0.02) return c; return -1; };
+  for (var k = 0; k < XF.length; k++) { var ci = idx(XF[k]); if (ci < 0) { r.err = (r.err || "") + tt + ":sem clipe em " + XF[k] + "; "; continue; }
+    try { qt.getItemAt(map[ci]).addTransition(t, true, "00:00:00:%02d"); n++; } catch (e) { r.err = (r.err || "") + tt + ":" + XF[k] + " " + e + "; "; } } }
 var cnt = []; for (var a = 0; a < 3; a++) cnt.push(s.audioTracks[a].transitions.numItems);
 r.n = n; r.cnt = cnt; return __result(r);''' % (J(XF), plan.get("limiter_tracks", 3), fr), "b9_xfade", 900)
     if "--export" in sys.argv:
