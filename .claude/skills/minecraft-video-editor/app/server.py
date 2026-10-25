@@ -197,7 +197,7 @@ class H(BaseHTTPRequestHandler):
                     video = achados[0]
                 elif video not in localizar(ped.get("nome"), ped.get("tamanho")):
                     return self.send(400, {"erro": "arquivo fora das pastas de gravação"})
-                jid = novo_job(dict(ped, video=video, origem="estudio"), email)
+                jid = novo_job(dict(ped, video=video, origem="estudio", nome=ped.get("nome_edicao")), email)   # "nome" do pedido = arquivo bruto
                 PASSES_USADOS.add(ps)
                 import midia_sync
                 threading.Thread(target=midia_sync.parear, args=(ps,), daemon=True).start()

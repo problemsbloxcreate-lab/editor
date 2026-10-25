@@ -6,6 +6,15 @@
 > zonas de ângulo, cheat de blocking, tamanhos de plano, posição na tela, movimentos, checklist, atuação por emoção).
 > Toda ficha passa por `cinematicas.py check` (valida SEM renderizar) — ficha recusada não vai para render.
 
+> **v4 (24/10/2026, feedback do Matheus no "humilhando amigo"): "boa parte é só os personagens gesticulando conversando, isso não tem graça;
+> usa quando eles forem fazer alguma AÇÃO diferente, pegar um item novo, algo assim, pra que tenha um motivo e algo pra cinemática mostrar".**
+> Slot de cinemática = momento de AÇÃO (item novo aparecendo na mão, bloco quebrando/fugindo, algo saindo da água/voando, explosão,
+> personagem encolhendo/crescendo, mobs brotando, blocos sendo colocados). Frase só de conversa/reação NÃO vira cinemática, mesmo que engraçada.
+> Cada ficha descreve a ação no `why` ("AÇÃO: …"/"ITEM NOVO: …"). Ferramentas prontas em `D:/Pobrs/trolagem/cine/builds.py`:
+> `show_item` (item novo estoura na mão), `burst` (respingo/lascas), `sparkles` (encantamento), `poof` (fumaça de spawn) + `appear` (mob brota),
+> `_runner_block` (bloco com perninhas correndo), boia/flecha como Prop. **Skin do criador = a HD** (Matteeoo: `who: "matteeoo"` → `ajudantes/matteoo HD.png`,
+> 128×128) — nunca a 64×64 do cache do jogo.
+
 **Pedido do Matheus:** em TODO vídeo editado, gerar e inserir animações do CineCam (skill `minecraft-cinematic`) **recriando o lugar onde o vídeo está** e fazendo a cutscene "como se fosse ali dentro". Continuidade e imersão são o mais importante. **Densidade:** o 1º minuto é onde mais tem (3–5); depois, uma a cada 1–2 min (média ~90 s). Skins: `ModrinthApp/profiles/Template Forge 09.26/config/bbs/assets/models/skins`, principalmente `0.Turma`.
 
 ## A referência: as cenas do "Bebi toda a água do mundo"
