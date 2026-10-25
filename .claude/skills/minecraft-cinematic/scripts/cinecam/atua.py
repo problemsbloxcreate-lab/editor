@@ -115,6 +115,7 @@ STATIC: Dict[str, Callable[[P], None]] = {
     "ombros": _s(aR=(-0.1, -0.55, -0.3), aL=(-0.1, 0.55, 0.3), jbR=-1.35, jbL=-1.35, sp=(0, 0, 0.05), h=(-0.05, 0, 0.18)),
     "grita": _s(aR=(0.25, 0, -0.45), aL=(0.25, 0, 0.45), jbR=-0.35, jbL=-0.35, sp=(0.2, 0, 0), h=(-0.42, 0, 0), crouch=0.27),
     "medo": _s(aR=(-1.15, 0.35, 0.1), aL=(-1.15, -0.35, -0.1), jbR=-1.25, jbL=-1.25, sp=(-0.32, 0, 0), h=(0.12, 0, 0), crouch=0.7),
+    "susto": _s(aR=(-2.25, 0, -0.95), aL=(-2.25, 0, 0.95), jbR=-0.85, jbL=-0.85, sp=(-0.28, 0, 0), h=(-0.22, 0, 0), crouch=0.25),
     "sad": _s(h=(0.24, 0, 0), aR=(0.04, 0, 0.04), aL=(0.04, 0, -0.04), jbR=-0.08, jbL=-0.08, sp=(0.22, 0, 0)),
     "joinha": _s(aR=(-0.9, 0.1, 0.1), jbR=-1.0, sp=(0, 0.1, 0), h=(-0.05, 0, 0.1)),
     "apaixonado": _s(aR=(-0.6, 0.8, 0.15), aL=(-0.6, -0.8, -0.15), jbR=-1.5, jbL=-1.5, h=(-0.1, 0, 0)),
@@ -150,6 +151,7 @@ OSC: Dict[str, Callable[[P, float, float], None]] = {
                                 p.aL.__setitem__(0, -0.06 * math.sin(T * 21))),
     "medo": lambda p, T, s: p.h.__setitem__(1, 0.05 * math.sin(T * 30)),
     "grita": lambda p, T, s: p.h.__setitem__(0, 0.03 * math.sin(T * 28)),
+    "susto": lambda p, T, s: (p.aR.__setitem__(2, 0.05 * math.sin(T * 26)), p.aL.__setitem__(2, -0.05 * math.sin(T * 26 + 1))),
     "bravo": lambda p, T, s: p.lR.__setitem__(0, -0.45 * abs(math.sin(T * 11))),
     "procura": lambda p, T, s: (p.h.__setitem__(1, 0.6 * math.sin(T * 1.6)), p.sp.__setitem__(1, 0.25 * math.sin(T * 1.6))),
     "sorrateiro": lambda p, T, s: p.h.__setitem__(1, 0.45 * math.sin(T * 2.2)),
@@ -160,7 +162,7 @@ OSC: Dict[str, Callable[[P, float, float], None]] = {
 }
 # poses que não ganham a "viveza" (já se mexem) nem o gesto de fala por cima
 _MOVE = {"comemora", "rindo", "palmas", "acena", "nervoso", "medo", "procura", "shake", "nod", "mine", "sit"}
-_GOLPE = {"grita", "medo"}
+_GOLPE = {"grita", "medo", "susto"}
 
 
 # --------------------------------------------------------------------------------------------------------------------------- dinâmica
@@ -611,7 +613,8 @@ class Ator:
         inc = 0.42 if g == "runFast" else 0.28 if corre else 0.06
         if not corre:
             p.lR[0] += 0.5 * s * lim; p.lL[0] -= 0.5 * s * lim
-            p.aR[0] += (-0.05 - 0.42 * s) * lim; p.aL[0] += (-0.05 + 0.42 * s) * lim
+            p.aR[0] += (-0.05 - 0.55 * s) * lim; p.aL[0] += (-0.05 + 0.55 * s) * lim
+            p.aR[2] -= 0.06 * lim; p.aL[2] += 0.06 * lim                   # braços soltos um pouco para fora
             p.jb[0] += (-0.32 - 0.2 * max(0, s)) * lim; p.jb[1] += (-0.32 - 0.2 * max(0, -s)) * lim
         else:
             p.lR[0] += (-0.28 + 0.9 * s) * lim; p.lL[0] += (-0.28 - 0.9 * s) * lim
@@ -621,9 +624,11 @@ class Ator:
             p.hop += 0.05 * abs(sn) * lim
         p.jb[2] += ((1.35 if corre else 0.55) * max(0, sn) + 0.08) * lim
         p.jb[3] += ((1.35 if corre else 0.55) * max(0, -sn) + 0.08) * lim
-        p.sp += np.array([inc, (0.16 if corre else 0.08) * s, 0]) * lim
+        # quadril/ombro: torção contra a perna que avança, balanço de lado sobre a perna de apoio, quique na passada
+        p.sp += np.array([inc, (0.16 if corre else 0.1) * s, (0.03 if corre else 0.05) * s]) * lim
         p.h[0] -= inc * 0.85 * lim
-        p.dy += -0.02 * abs(sn) * lim                                    # quique da passada
+        p.h[2] -= (0.02 if corre else 0.035) * s * lim
+        p.dy += -(0.035 if corre else 0.025) * abs(sn) * lim
 
     def _jump_layer(self, p: P, t: float):
         for (tj, h, air) in self.jumps:
