@@ -368,7 +368,7 @@ def stills(poses: Sequence[Dict[str, float]], name: str, scene: Optional[Scene] 
         p0 = poses[0]
         sc["anchor"] = [p0["x"], p0["y"], p0["z"]]
     job = {"name": name, "out": str(out_dir).replace("\\", "/"), "width": size[0], "height": size[1], "fps": 30, "subframes": 1,
-           "ffmpeg": shutil.which("ffmpeg") or "ffmpeg", "world": asdict(world), "settings": asdict(settings), "scene": sc, "camera": "camera.csv"}
+           "ffmpeg": shutil.which("ffmpeg") or "ffmpeg", "world": {k: v for k, v in asdict(world).items() if v is not None}, "settings": asdict(settings), "scene": sc, "camera": "camera.csv"}
     if anim is not None:   # each pose may carry "t": the animation time at which actors/water are evaluated
         anim.write(str(job_dir / "anim.json"), np.array([float(p.get("t", 0.0)) for p in poses]), 1)
         job["anim"] = "anim.json"
@@ -394,7 +394,7 @@ def scout(name: str, world: Optional[World] = None, anchor: Sequence[float] = (0
     out_dir.mkdir(parents=True, exist_ok=True)
     (job_dir / "camera.csv").write_text("t,x,y,z,yaw,pitch,roll,fov\n0,%s,%s,%s,0,0,0,70\n" % tuple(anchor), encoding="utf-8")
     job = {"name": name, "out": str(out_dir).replace("\\", "/"), "width": 640, "height": 360, "fps": 30, "subframes": 1,
-           "ffmpeg": shutil.which("ffmpeg") or "ffmpeg", "world": asdict(world), "settings": asdict(settings),
+           "ffmpeg": shutil.which("ffmpeg") or "ffmpeg", "world": {k: v for k, v in asdict(world).items() if v is not None}, "settings": asdict(settings),
            "scene": {"anchor": list(anchor), "commands": list(commands), "settleTicks": 40}, "camera": "camera.csv",
            "scout": {"maps": list(maps), "queries": list(queries)}}
     jp = job_dir / "job.json"
@@ -446,7 +446,7 @@ def _write_stills_job(sh: "Shot", world: World, out_dir: Path, job_dir: Path) ->
     if sc.get("anchor") is None:
         sc["anchor"] = [sh.poses[0]["x"], sh.poses[0]["y"], sh.poses[0]["z"]]
     job = {"name": sh.name, "out": str(out_dir).replace("\\", "/"), "width": sh.size[0], "height": sh.size[1], "fps": 30, "subframes": 1,
-           "ffmpeg": shutil.which("ffmpeg") or "ffmpeg", "world": asdict(world), "settings": asdict(settings), "scene": sc,
+           "ffmpeg": shutil.which("ffmpeg") or "ffmpeg", "world": {k: v for k, v in asdict(world).items() if v is not None}, "settings": asdict(settings), "scene": sc,
            "camera": "camera.csv", "mode": "stills"}
     if sh.anim is not None:
         sh.anim.write(str(job_dir / "anim.json"), np.array([float(p.get("t", 0.0)) for p in sh.poses]), 1)

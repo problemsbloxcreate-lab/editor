@@ -70,10 +70,10 @@ def montar_lugar(mapa: Dict, nome: str, palco=(-7, -6, 7, 9)) -> SetBuilder:
     sb.keep_free_rect(*palco)                          # palco + corredor da câmera (a câmera fica do lado +z)
     for b in L.get("blocos") or []:
         k = b[0]
-        if k == "box":
-            sb.box(*[int(v) for v in b[1:7]], b[7])
+        if k == "box":                                  # sets.box/block já põem "minecraft:" (aceita o id com ou sem)
+            sb.box(*[int(v) for v in b[1:7]], b[7].replace("minecraft:", ""))
         elif k == "bloco":
-            sb.block(int(b[1]), int(b[2]), int(b[3]), b[4])
+            sb.block(int(b[1]), int(b[2]), int(b[3]), b[4].replace("minecraft:", ""))
         elif k == "arvore":
             sb.tree(float(b[1]), float(b[2]), b[3] if len(b) > 3 else "oak")
         elif k == "comando":
@@ -82,6 +82,7 @@ def montar_lugar(mapa: Dict, nome: str, palco=(-7, -6, 7, 9)) -> SetBuilder:
             sb.pond(float(b[1]), float(b[2]), float(b[3]), float(b[4]), plants=b[5] if len(b) > 5 else "sugar_cane")
     if L.get("enfeite", True):
         sb.dress(bioma, density=float(L.get("densidade", 0.8)))
+    sb.raw("kill @e[type=item]")                      # tocha/planta do set anterior (mesma sessão) cai como item no chão
     return sb
 
 

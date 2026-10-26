@@ -263,18 +263,32 @@ def _sheet(mp4, out, n=6):
     return out
 
 
+def _render_curta(mapa, cards, q, prefix):
+    """26/10/2026: fichas no motor novo (cinecam.curta, formato 16:9 — Ator com molas/dobra, câmera no rosto e de frente,
+    colisão recusada, boca parada).  q = stills | draft | final."""
+    from cinecam.curta import shot_da_ficha, stills_da_ficha
+    from cinecam.render import render_batch, World
+    shots = [stills_da_ficha(mapa, c, nome=prefix + c["id"]) if q == "stills" else
+             shot_da_ficha(mapa, c, "final" if q == "final" else "rascunho", nome=prefix + c["id"])[0] for c in cards]
+    return render_batch(shots, World(seed=int(mapa.get("seed_mundo", 4242))))
+
+
 def cmd_render(a):
     cards_path, q = a[0], a[1]
-    cards = json.load(open(cards_path, encoding="utf8"))
-    cards = cards["cards"] if isinstance(cards, dict) else cards
+    raw = json.load(open(cards_path, encoding="utf8"))
+    cards = raw["cards"] if isinstance(raw, dict) else raw
+    mapa = raw.get("mapa") if isinstance(raw, dict) else None
     if "--only" in a:
         keep = set(a[a.index("--only") + 1].split(","))
         cards = [c for c in cards if c["id"] in keep]
     outdir = os.path.dirname(os.path.abspath(cards_path))
     prefix = re.sub(r"[^A-Za-z0-9]", "", os.path.basename(os.path.dirname(outdir)))[-14:] + "_"
     sys.path.insert(0, CINE)
-    from cinecam.auto import render_cards
-    infos = render_cards(cards, q, prefix=prefix)
+    if mapa:
+        infos = _render_curta(mapa, cards, q, prefix)
+    else:
+        from cinecam.auto import render_cards               # fichas antigas (acts.Stage v0.9)
+        infos = render_cards(cards, q, prefix=prefix)
     res = []
     for c, i in zip(cards, infos):
         r = {"id": c["id"], "ok": i["ok"], "error": i.get("error")}
@@ -347,10 +361,15 @@ def cmd_insert(a):
 def cmd_check(a):
     """Valida as fichas SEM renderizar (enquadramento: ninguém de perfil, rosto do sujeito <= 50°, ninguém cortado na lateral;
     itens encaixados).  Ficha recusada = refazer blocking/câmera antes de gastar render."""
-    cards = json.load(open(a[0], encoding="utf8"))
-    cards = cards["cards"] if isinstance(cards, dict) else cards
+    raw = json.load(open(a[0], encoding="utf8"))
+    cards = raw["cards"] if isinstance(raw, dict) else raw
+    mapa = raw.get("mapa") if isinstance(raw, dict) else None
     sys.path.insert(0, CINE)
-    from cinecam.auto import check_card
+    if mapa:
+        from cinecam.curta import checar_ficha
+        check_card = lambda c: checar_ficha(mapa, c)
+    else:
+        from cinecam.auto import check_card
     bad = 0
     for c in cards:
         pr = check_card(c)

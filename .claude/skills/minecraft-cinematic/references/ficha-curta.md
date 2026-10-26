@@ -80,3 +80,10 @@ render_fichas(mapa, fichas, "final" | "rascunho", ao_pronto=lambda info: ...)   
 ```
 Desempenho medido (26/10, RTX 5070 Laptop): 1ª cena ~50 s (abre o jogo), cada próxima ~14 s de jogo + ~15 s de pós em paralelo;
 5 cenas (11 s de filme) = 135 s. Rascunho (540×960, sem blur/DoF) para conferir rápido.
+
+## 16:9 — cinemáticas do vídeo longo (v1.2, 26/10/2026)
+`"formato": "16:9"` na ficha ou no mapa → 1920×1080 a 60 fps, vfov 40, mesmas regras (rosto, de frente, boca parada, nada
+atravessa). Campos extras no plano: `dist`, `lado`, `altura`, `mira`, `push` (blocos), `centro` (aberto), `sobe` (insert).
+Efeitos: `"python": "coreo.py", "coreografia": "c06"` → `def c06(c)` com `curta.Cena` (ver SKILL.md § v1.2). Para o editor, a
+ficha também leva `id`, `tl`, `dur`, `why`, `intro`, `whoosh`, `flash` (o `cinematicas.py insert` usa). Exemplo completo:
+`D:\Pobrs\trolagem\cine3\make_fichas.py`.

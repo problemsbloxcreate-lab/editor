@@ -24,7 +24,7 @@ from typing import Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
 
-from .actors import Anim, Mob, POSE, PN, MBN
+from .actors import Anim, Mob, Prop, POSE, PN, MBN, PRN
 from .atua import _Baked
 from .camlib import Move, Rig
 from .render import Scene, Settings, Shot
@@ -330,6 +330,46 @@ def _pe_no_chao(ch: np.ndarray, tg: np.ndarray, ground: float, slim: bool):
     ch[:, POSE["hop"]] += np.interp(tg, tg[idx], env)
 
 
+def _objetos(X: Dict, tq: np.ndarray) -> List[Prop]:
+    """Blocos soltos e tochas do estúdio (OBJ.bloco / OBJ.tocha) → props do CineCam (modelo do bloco, sem colisão), quadro a
+    quadro: o estúdio escala o bloco pelo CENTRO; o prop tem pivô no pé — y do pé = centro − escala/2.  Fora do quadro = escala 0."""
+    Q = X["quadros"]
+    chaves: Dict[str, str] = {}
+    for q in Q:
+        for o in q.get("obj") or []:
+            chaves.setdefault(o["k"], o["b"])
+    out = []
+    for k, b in chaves.items():
+        rows = np.zeros((len(Q), PRN))
+        last = None
+        for i, q in enumerate(Q):
+            o = next((x for x in q.get("obj") or [] if x["k"] == k), None)
+            if o is None:
+                if last is not None:
+                    rows[i] = last; rows[i, 3:6] = 0
+                continue
+            e = float(o.get("e", 1.0))
+            pe = o["c"][1] if k.startswith("tocha|") else o["c"][1] - e / 2   # tocha: a origem do estúdio já é o pé
+            rows[i, 0], rows[i, 1], rows[i, 2] = o["c"][0], pe + Y_OFF, o["c"][2]
+            rows[i, 3:6] = e
+            rows[i, 6] = float(o.get("ry", 0.0))
+            last = rows[i].copy()
+        first = next(i for i, q in enumerate(Q) if any(x["k"] == k for x in q.get("obj") or []))
+        rows[:first] = rows[first]; rows[:first, 3:6] = 0
+        rows[:, 6] = np.degrees(np.unwrap(np.radians(rows[:, 6])))
+        cc = _cortes(rows[:, :3], 1.5)
+
+        def fn(times, rows=rows, cc=cc):
+            t = np.asarray(times, float)
+            o = _por_trechos(tq, rows, t, cc, lambda a, r, bb: np.stack([np.interp(bb, a, r[:, c]) for c in range(PRN)], 1))
+            vis = np.interp(t, tq, (rows[:, 3] > 0).astype(float)) > 0.5
+            o[:, 3:6] = np.where(vis[:, None], o[:, 3:6], 0.0)
+            return o
+        nome = "obj_" + "".join(ch if ch.isalnum() else "_" for ch in k)[:40]
+        out.append(Prop(nome, "minecraft:" + str(b).replace("minecraft:", ""), tuple(rows[first, :3]), fn=fn))
+    return out
+
+
 def _barco(X: Dict, tq: np.ndarray) -> Optional[Mob]:
     """O barco do estúdio (cópia do BoatRenderer: mesma translação/escala/rotação) vira a entidade barco do jogo: posição da
     entidade, rotação total do estúdio = 180° − yaw do mob (o renderer do barco já gira 180°), escala (o barco "pula" para
@@ -601,7 +641,7 @@ def shot_da_cena(X: Dict, M: Optional[Dict], efeitos: Optional[Dict] = None, pas
     gama = X.get("gama", 1.0)                                                  # brilho do jogo escolhido no estúdio (-1 = luz total)
     sh = Shot(nome or f"est_{X.get('id', 'x')}_{int(X.get('n', 0)):02d}", rig=rig, scene=scene,
               settings=Settings(renderDistance=rd, simulationDistance=6, clouds=not alta, worldTicks=True, gamma=1.0 if gama is None or gama < 0 else float(gama)),
-              anim=Anim(atores, mobs=mobs), size=(540, 960) if rascunho else (1080, 1920), grade="clean",
+              anim=Anim(atores, mobs=mobs, props=_objetos(X, tq)), size=(540, 960) if rascunho else (1080, 1920), grade="clean",
               blur=bool(ef["blur"]) and not rascunho, dof=(ef["dof"] or X.get("visual") == "bonito") and not rascunho)
     if falta:
         return sh, falta
