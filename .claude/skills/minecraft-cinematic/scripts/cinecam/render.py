@@ -242,12 +242,37 @@ def _kill_tree(pid: int):
     subprocess.run(["taskkill", "/F", "/T", "/PID", str(pid)], capture_output=True)
 
 
+def checar_colisao(anim, rig: Rig, scene: Optional[Scene]) -> List[str]:
+    """26/10 (dono: "nunca permita"): membro/item atravessando corpo, outro personagem ou bloco da cena → lista de problemas."""
+    if anim is None or not getattr(anim, "actors", None):
+        return []
+    from .colisao import verificar, solids_from_commands
+    sc = scene or Scene()
+    anchor = sc.anchor
+    if anchor is None:
+        p = rig.sample_frames()
+        anchor = (float(p["x"][0]), float(p["y"][0]), float(p["z"][0]))
+    S = solids_from_commands(sc.commands, anchor) if sc.commands else None
+    probs = verificar(anim, rig.duration, S)
+    for a in anim.actors:
+        probs += [f"{t:.2f}s: {a.name}.{p1} atravessa o próprio {p2}" for (t, p1, p2) in getattr(a, "colisao_resto", [])][:3]
+    return probs
+
+
 def render(rig: Rig, name: str, scene: Optional[Scene] = None, world: Optional[World] = None, settings: Optional[Settings] = None,
            size: Tuple[int, int] = (1920, 1080), grade: str = "cinematic", letterbox: Optional[float] = None, supersample: int = 1,
            xmx: str = "4G", audio: Optional[str] = None, crf: int = 14, timeout_s: int = 3600, dry_run: bool = False,
-           dof: Optional[bool] = None, anim=None) -> Dict:
-    """Render a rig to <CINECAM_OUT>/<name>/<name>.mp4.  Returns a dict with paths and the mod's report."""
+           dof: Optional[bool] = None, anim=None, blur: bool = True, checar: bool = True) -> Dict:
+    """Render a rig to <CINECAM_OUT>/<name>/<name>.mp4.  Returns a dict with paths and the mod's report.
+    blur=False: sem motion blur (obturador 0; os subframes continuam só como anti-aliasing).  dof=False: sem desfoque de lente/
+    profundidade de campo mesmo se os movimentos tiverem with_dof.  checar=True: recusa se algo atravessa corpo/bloco."""
     scene, world, settings = scene or Scene(), world or World(), settings or Settings()
+    if not blur:
+        rig.shutter = 0.0
+    if checar:
+        probs = checar_colisao(anim, rig, scene)
+        if probs:
+            raise ValueError("colisão (nunca permitido): " + "; ".join(probs[:8]))
     out_dir = OUT_HOME / name
     job_dir = RUN_HOME / "jobs" / name
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -372,6 +397,7 @@ class Shot:
     dof: Optional[bool] = None
     crf: int = 14
     extra: Optional[dict] = None          # post.finish extra filter params
+    blur: bool = True                     # False = sem motion blur (obturador 0; subframes só para anti-aliasing)
 
 
 def _write_stills_job(sh: "Shot", world: World, out_dir: Path, job_dir: Path) -> Path:
@@ -424,6 +450,16 @@ def render_batch(shots: Sequence["Shot"], world: Optional[World] = None, xmx: st
     world = world or World()
     shots = list(shots)
     jobs, infos = [], []
+    bad = []
+    for sh in shots:                       # 26/10: colisão é erro de direção — recusa o lote antes de abrir o jogo
+        if sh.rig is not None:
+            if not sh.blur:
+                sh.rig.shutter = 0.0
+            pr = checar_colisao(sh.anim, sh.rig, sh.scene)
+            if pr:
+                bad.append(f"{sh.name}: " + "; ".join(pr[:5]))
+    if bad:
+        raise ValueError("colisão (nunca permitido): " + " | ".join(bad))
     for sh in shots:
         out_dir, job_dir = OUT_HOME / sh.name, RUN_HOME / "jobs" / sh.name
         out_dir.mkdir(parents=True, exist_ok=True)

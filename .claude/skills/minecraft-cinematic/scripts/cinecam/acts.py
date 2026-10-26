@@ -559,7 +559,7 @@ class Stage:
     def mob(self, mtype: str, dx: float, dz: float, fn=None, yaw: float = 0.0, dy: float = 0.0) -> Mob:
         """Animated vanilla mob (client-side, no AI).  fn(times)->(n,12) for procedural motion, else keys on the returned Mob."""
         p = self.sb.feet(dx, dz, dy)
-        m = Mob(f"mob{len(self.mobs)}", "minecraft:" + mtype.replace("minecraft:", ""), p + [0, 0.5, 0], fn=fn)
+        m = Mob.feet(f"mob{len(self.mobs)}", "minecraft:" + mtype.replace("minecraft:", ""), p, fn=fn)
         if fn is None:
             m.key(0.0, yaw=yaw)
         self.mobs.append(m)

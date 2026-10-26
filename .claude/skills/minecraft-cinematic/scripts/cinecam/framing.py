@@ -4,7 +4,7 @@ Matheus (21/10/2026): "evite ao máximo filmar os personagens de LADO — sempre
 tanto quanto de lado" + "NUNCA MAIS item que não esteja perfeitamente encaixado".
 
 Horizontal angle θ between a character's facing (body / face) and the direction character -> camera:
-    frente 0-25 | 3/4 25-50 | tolerável 50-60 | PERFIL 60-120 (forbidden) | costas-3/4 120-150 | COSTAS 150-180
+    frente 0-25 (26/10: o padrão) | 3/4 25-50 (só até ~35°) | tolerável 50-60 | PERFIL 60-120 (forbidden) | costas-3/4 120-150 | COSTAS 150-180
 Per role: SUBJECT face θ <= 50° in >= 90 % of its screen time; anyone with >= 10 % of frame height: no PROFILE > 10 % of its
 screen time; back only for characters in `allow_back` (OTS shoulder, turn-reveal, walking away).
 Also: no "slice at the frame edge" (a character is either >= 92 % inside the frame or out), subject >= 15 % of the frame height
@@ -117,6 +117,8 @@ def check_shot(rig, actors, subject: Optional[str] = None, step: int = 2) -> Dic
                      "body_deg": [round(float(body.min()), 1), round(float(np.median(body)), 1), round(float(body.max()), 1)],
                      "face_deg": [round(float(face.min()), 1), round(float(np.median(face)), 1), round(float(face.max()), 1)],
                      "face_ok50": round(float(np.mean(face <= 50)), 2),
+                     "face_ok30": round(float(np.mean(face <= 30)), 2),
+                     "side": round(float(np.mean([35 < x[1] < 150 for x in big])) if big else 0.0, 2),
                      "zones": {z: round(zs.count(z) / len(zs), 2) for z in dict.fromkeys(zs)},
                      "slice": round(float(np.mean([0.0 < x[3] < 0.92 for x in rows])), 2),
                      "head_cut": round(float(np.mean([x[5] for x in rows])), 2),
@@ -124,8 +126,10 @@ def check_shot(rig, actors, subject: Optional[str] = None, step: int = 2) -> Dic
     return out
 
 
-def verdict(rep: Dict[str, dict], max_profile: float = 0.10, max_back: float = 0.35, allow_back=(), max_slice: float = 0.15
-            ) -> Tuple[bool, List[str]]:
+def verdict(rep: Dict[str, dict], max_profile: float = 0.10, max_back: float = 0.35, allow_back=(), max_slice: float = 0.15,
+            max_side: float = 0.15) -> Tuple[bool, List[str]]:
+    """26/10 (dono): personagem "meio lateral" (45–60°) não fica bom em vídeo de Minecraft — corpo a mais de 35° da lente em
+    > max_side do tempo reprova; o sujeito precisa do rosto a ≤ 30° em 85 % do tempo (antes 50°)."""
     why = []
     for name, r in rep.items():
         if r.get("subject") and not r.get("on_screen"):
@@ -139,8 +143,10 @@ def verdict(rep: Dict[str, dict], max_profile: float = 0.10, max_back: float = 0
         back = z.get("COSTAS", 0) + z.get("costas-3/4", 0)
         if back > max_back and name not in allow_back:
             why.append(f"{name}: de COSTAS em {back:.0%} do tempo em tela")
-        if r.get("subject") and r["face_ok50"] < 0.9 and name not in allow_back:
-            why.append(f"{name} (sujeito): rosto a mais de 50° da lente em {1 - r['face_ok50']:.0%} do tempo (rosto {r['face_deg']}°)")
+        if r.get("subject") and r.get("face_ok30", r["face_ok50"]) < 0.85 and name not in allow_back:
+            why.append(f"{name} (sujeito): rosto a mais de 30° da lente em {1 - r.get('face_ok30', 0):.0%} do tempo (rosto {r['face_deg']}°)")
+        if r.get("side", 0) > max_side and name not in allow_back:
+            why.append(f"{name}: meio de lado (corpo > 35° da lente) em {r['side']:.0%} do tempo (corpo {r['body_deg']}°) — enquadre de frente")
         if r["slice"] > max_slice and name not in allow_back:
             why.append(f"{name}: cortado na borda do quadro em {r['slice']:.0%} do tempo (inteiro ou fora)")
         if r.get("subject") and r.get("head_cut", 0) > 0.10:

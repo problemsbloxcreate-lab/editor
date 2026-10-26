@@ -310,11 +310,13 @@ class Ator:
     """Um personagem dirigido por intenção (pose, fala, andar, olhar, pular) → `build()` devolve um Actor assado."""
 
     def __init__(self, name: str, skin: str, pos: Sequence[float], yaw: float = 0.0, slim: bool = False, item: Optional[str] = None,
-                 hat: bool = False, face="auto", seed: Optional[int] = None, left: bool = False, energy: float = 1.0):
+                 hat: bool = False, face="auto", seed: Optional[int] = None, left: bool = False, energy: float = 1.0,
+                 mouth: bool = False):
         self.name, self.skin, self.slim, self.item, self.hat, self.face = name, skin, slim, item, hat, face
         self.p0 = np.array(pos, float); self.yaw0 = float(yaw)
         self.seed = (zlib.crc32(name.encode()) % 997) / 997.0 * 6.28 if seed is None else seed
         self.left, self.energy = left, energy
+        self.mouth_on = mouth            # 25/10 (dono): a boca NÃO abre e fecha na fala por padrão
         self.ground_y: Optional[float] = None          # y do chão para a sombra (padrão: o y dos pés)
         self.poses: List[_Ev] = [_Ev(0.0, "idle")]
         self.talks: List[Tuple[float, float, Dict]] = []
@@ -541,6 +543,9 @@ class Ator:
         a.set_grid(tg, ch)
         for (t, vals, ease) in self.extra:
             a.key(t, ease=ease, **vals)
+        # 26/10 (dono): membro/item nunca atravessa o próprio corpo — abre o braço o mínimo, suavizado
+        from .colisao import auto_fix_self
+        a.colisao_resto = auto_fix_self(a, T)
         return a
 
     # --- camadas ---
@@ -720,7 +725,8 @@ class Ator:
         for nm in ("belly", "belly_y", "head", "rarm_len", "larm_len", "rleg_len", "lleg_len"):
             ch[:, POSE[nm]] = 1
         ch[:, POSE["vbelly_y"]], ch[:, POSE["vbelly_out"]], ch[:, POSE["vbelly_vox"]] = 7, 3, 1
-        mouth, blink = self._mouth(tg), self._blink(tg)
+        mouth = self._mouth(tg) if self.mouth_on else np.zeros(len(tg))
+        blink = self._blink(tg)
         items = np.zeros(n)
         for (a, b) in self.items:
             items = np.maximum(items, _sm((tg - a) / 0.12) * _sm((b - tg) / 0.12))
@@ -814,18 +820,30 @@ class _Baked(Actor):
         return out
 
 
-def snaps(actor: Actor, T: float, fps: int = 30, deg: float = 4.0, blocks: float = 0.03) -> List[Tuple[float, str, float]]:
-    """Trancos de 1 quadro (25/10, "rollback"): a aceleração troca de sinal em quadros seguidos (zigue-zague: vai, volta, vai)
-    com amplitude acima do limite (graus nos ângulos, blocos em x/y/z/hop).  Movimento rápido mas contínuo (corrida, aceno)
-    não conta.  Lista vazia = movimento limpo; rode antes de renderizar."""
+def snaps(actor: Actor, T: float, fps: int = 30, blocks: float = 0.03) -> List[Tuple[float, str, float]]:
+    """Trancos de 1 quadro (25/10, "rollback") medidos NO QUE APARECE: posição de mãos, cotovelos, joelhos, pés, cabeça e peito
+    (mesma cinemática do mod, cinecam.colisao).  Tranco = a aceleração troca de sinal em quadros seguidos (vai, volta, vai) com
+    volta > `blocks` (0,03 ≈ meio pixel do modelo).  Ângulo de Euler perto do gimbal não conta (não aparece na tela).
+    Lista vazia = movimento limpo; rode antes de renderizar."""
+    from .colisao import boxes
     t = np.arange(0, T, 1.0 / fps)
-    a = actor.at(t)
+    rows = actor.at(t)
+    pts = {"mãoD": ("arm_loR", (0.5, 1.0, 0.5)), "mãoE": ("arm_loL", (0.5, 1.0, 0.5)), "cotoveloD": ("arm_upR", (0.5, 1.0, 0.5)),
+           "cotoveloE": ("arm_upL", (0.5, 1.0, 0.5)), "joelhoD": ("leg_upR", (0.5, 1.0, 0.5)), "joelhoE": ("leg_upL", (0.5, 1.0, 0.5)),
+           "péD": ("leg_loR", (0.5, 1.0, 0.5)), "péE": ("leg_loL", (0.5, 1.0, 0.5)), "cabeça": ("head", (0.5, 0.0, 0.5)),
+           "peito": ("body", (0.5, 0.3, 0.5))}
+    P = {k: np.zeros((len(t), 3)) for k in pts}
+    for i, r in enumerate(rows):
+        B = boxes(r, actor.slim, False)
+        for k, (part, f) in pts.items():
+            M, lo, hi = B[part]
+            P[k][i] = (M @ np.r_[lo + (hi - lo) * np.array(f), 1.0])[:3]
     out = []
-    ang = [n for n in POSE if n.endswith(("_x", "_y", "_z", "_bend")) and n not in ("x", "y", "z")] + ["yaw"]
-    for n in ang + ["x", "y", "z", "hop"]:
-        j = np.diff(a[:, POSE[n]], 2)
-        lim = blocks if n in ("x", "y", "z", "hop") else deg
-        zz = (j[:-1] * j[1:] < 0) & (np.abs(j[:-1]) > lim) & (np.abs(j[1:]) > lim)
-        for i in np.nonzero(zz)[0]:
-            out.append((round(float(t[i + 1]), 3), n, round(float(min(abs(j[i]), abs(j[i + 1]))), 2)))
+    for k, v in P.items():
+        d = np.diff(v, axis=0)                     # deslocamento por quadro
+        for i in range(len(d) - 2):
+            a, b, c = d[i], d[i + 1], d[i + 2]
+            # vai-volta-vai: o ponto inverte o sentido duas vezes seguidas (o "rollback"); um gesto rápido não inverte
+            if np.dot(a, b) < 0 and np.dot(b, c) < 0 and np.linalg.norm(b) > blocks:
+                out.append((round(float(t[i + 2]), 3), k, round(float(np.linalg.norm(b)), 3)))
     return sorted(out)

@@ -90,10 +90,12 @@ def pop_block(st, sb, block, dx, dy, dz, t):
 def mob_walk(st, mtype, a, b, t0, t1, T, age_rate=20.0, swing=0.35, dy=0.0):
     """mob andando de a=(dx,dz) a b, já em movimento (entra andando, sai andando)."""
     m = st.mob(mtype, a[0], a[1], dy=dy)
-    pa, pb = st.sb.feet(a[0], a[1], dy) + [0, 0.5, 0], st.sb.feet(b[0], b[1], dy) + [0, 0.5, 0]
+    from cinecam.actors import Mob as _M
+    h = _M.height(mtype) / 2
+    pa, pb = st.sb.feet(a[0], a[1], dy) + [0, h, 0], st.sb.feet(b[0], b[1], dy) + [0, h, 0]
     y = yaw_to(pa, pb)
-    m.key(0.0, x=pa[0], z=pa[2], yaw=y, swing=swing, age=0).key(t0, x=pa[0], z=pa[2])
-    m.key(t1, ease="linear", x=pb[0], z=pb[2]).key(T + 0.5, ease="linear", age=age_rate * (T + 0.5))
+    m.key(0.0, x=pa[0], z=pa[2], yaw=y).key(t0, x=pa[0], z=pa[2])           # passada sai da distância (Mob.at, v1.0.2)
+    m.key(t1, ease="linear", x=pb[0], z=pb[2])
     return m
 
 

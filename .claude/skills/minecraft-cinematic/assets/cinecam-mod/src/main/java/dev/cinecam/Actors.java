@@ -261,6 +261,25 @@ public final class Actors {
         ps.popPose();
     }
 
+    private static java.lang.reflect.Field[] walkF;   // WalkAnimationState: speedOld, speed, position (declaration order)
+
+    /** limbSwing = pos and limbSwingAmount = amt exactly at this partial tick (position(partial) = position - speed*(1-partial)). */
+    private static void setWalk(LivingEntity le, float pos, float amt, float partial) {
+        try {
+            if (walkF == null) {
+                List<java.lang.reflect.Field> fl = new ArrayList<>();
+                for (java.lang.reflect.Field f : le.walkAnimation.getClass().getDeclaredFields())
+                    if (f.getType() == float.class && !java.lang.reflect.Modifier.isStatic(f.getModifiers())) { f.setAccessible(true); fl.add(f); }
+                walkF = fl.toArray(new java.lang.reflect.Field[0]);
+            }
+            walkF[0].setFloat(le.walkAnimation, amt);
+            walkF[1].setFloat(le.walkAnimation, amt);
+            walkF[2].setFloat(le.walkAnimation, pos + amt * (1f - partial));
+        } catch (Exception ex) {
+            CineCam.LOG.warn("[cinecam] walk animation: {}", ex.toString());
+        }
+    }
+
     private static float ch(double[] p, int i) {
         return p.length > i ? (float) p[i] : 0f;
     }
@@ -377,15 +396,26 @@ public final class Actors {
     }
 
     /** A vanilla mob (client-only instance, never added to the world) posed by the rig: world-axis squash about its centre,
-     *  then yaw/pitch/roll tumble; limbs swing by q[10] per pass. */
+     *  then yaw/pitch/roll tumble; limbs at walk position q[10] / amount q[12]; head q[13]/q[14]. */
     private static void drawMob(Minecraft mc, PoseStack ps, MultiBufferSource.BufferSource bs, Vec3 cam, MobRt mr, double[] q) {
         if (q[6] == 0) return;
         Entity e = mr.e;
         e.setPos(q[0], q[1] - mr.pivot, q[2]);
         e.setYRot(0f); e.yRotO = 0f; e.setXRot(0f); e.xRotO = 0f;
+        float part = 1f;
+        if (q.length > 11 && q[11] > 0) {                // age in ticks -> model anims that read tickCount (fish tail, wings...)
+            e.tickCount = (int) Math.floor(q[11]);
+            part = (float) (q[11] - Math.floor(q[11]));
+        }
         if (e instanceof LivingEntity le) {
-            le.yBodyRot = le.yBodyRotO = 0f; le.yHeadRot = le.yHeadRotO = 0f;
-            le.walkAnimation.update((float) q[10], 1f);
+            le.yBodyRot = le.yBodyRotO = 0f;
+            float hy = q.length > 13 ? (float) q[13] : 0f, hp = q.length > 14 ? (float) q[14] : 0f;
+            le.yHeadRot = le.yHeadRotO = hy;
+            e.setYRot(0f); e.yRotO = 0f; e.setXRot(hp); e.xRotO = hp;
+            // v1.0.2 (25/10): the walk cycle is a POSITION computed in Python from the distance walked (vanilla formula), set
+            // exactly for this pass.  It used to be walkAnimation.update(step) on EVERY pass — subframes and chunk-wait retries
+            // added steps, so legs ran 6-10x too fast and jittered ("mobs com membros super velozes e bugados").
+            setWalk(le, (float) q[10], q.length > 12 ? (float) q[12] : 0f, part);
         }
         if (q[9] != 0) {
             double h = q[1] - mr.pivot - q[9];
@@ -413,11 +443,6 @@ public final class Actors {
         EntityRenderDispatcher d = mc.getEntityRenderDispatcher();
         d.setRenderShadow(false);
         int light = LevelRenderer.getLightColor(mc.level, BlockPos.containing(q[0], q[1] + 0.3, q[2]));
-        float part = 1f;
-        if (q.length > 11 && q[11] > 0) {                // age in ticks -> model anims that read tickCount (fish tail, wings...)
-            e.tickCount = (int) Math.floor(q[11]);
-            part = (float) (q[11] - Math.floor(q[11]));
-        }
         d.render(e, 0.0, 0.0, 0.0, 0f, part, ps, bs, light);
         bs.endBatch();
         d.setRenderShadow(true);

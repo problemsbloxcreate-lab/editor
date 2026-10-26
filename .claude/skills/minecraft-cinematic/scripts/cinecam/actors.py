@@ -153,26 +153,70 @@ class Prop(_Keyed):
         return super().at(times)
 
 
-MOB = dict(x=0, y=1, z=2, yaw=3, pitch=4, roll=5, sx=6, sy=7, sz=8, shadow_y=9, swing=10, age=11)
-MBN = 12
+MOB = dict(x=0, y=1, z=2, yaw=3, pitch=4, roll=5, sx=6, sy=7, sz=8, shadow_y=9, walk=10, age=11, walk_amt=12, head_yaw=13, head_pitch=14)
+MBN = 15
+# altura (blocos) da caixa de cada mob vanilla: o centro fica em pés + altura/2 (antes tudo ia a +0,5 e o creeper afundava 0,35)
+MOB_H = {"creeper": 1.7, "zombie": 1.95, "husk": 1.95, "drowned": 1.95, "skeleton": 1.99, "stray": 1.99, "wither_skeleton": 2.4,
+         "pig": 0.9, "cow": 1.4, "mooshroom": 1.4, "sheep": 1.3, "chicken": 0.7, "spider": 0.9, "cave_spider": 0.5,
+         "villager": 1.95, "wandering_trader": 1.95, "witch": 1.95, "pillager": 1.95, "vindicator": 1.95, "evoker": 1.95,
+         "wolf": 0.85, "cat": 0.7, "ocelot": 0.7, "fox": 0.7, "rabbit": 0.5, "horse": 1.6, "donkey": 1.5, "llama": 1.87,
+         "enderman": 2.9, "iron_golem": 2.7, "snow_golem": 1.9, "slime": 0.52, "magma_cube": 0.52, "blaze": 1.8, "piglin": 1.95,
+         "zombified_piglin": 1.95, "hoglin": 1.4, "goat": 1.3, "frog": 0.5, "axolotl": 0.42, "turtle": 0.4, "panda": 1.25,
+         "polar_bear": 1.4, "bee": 0.6, "parrot": 0.9, "allay": 0.6, "warden": 2.9, "camel": 2.375, "sniffer": 1.75}
 
 
 class Mob(_Keyed):
-    """A vanilla mob ("minecraft:pig"...) drawn by the mod, never added to the world.  x,y,z = body CENTRE;
-    sx/sy/sz squash along WORLD axes (impacts), then yaw/pitch/roll tumble; swing = limb-swing step per row; sx=0 hides.
-    age = entity tickCount (key it linearly, e.g. 20*t; faster = frantic fish tail/wing flap; 0 = frozen).
-    fn(times)->(n,12) overrides keys (procedural flight/bounces)."""
+    """A vanilla mob ("minecraft:pig"...) drawn by the mod with ITS OWN model and animation (quadruped legs, creeper's 4 legs,
+    spider's 8, chicken wings...), never added to the world.  x,y,z = body CENTRE (use Mob.feet(...) to stand it on the ground);
+    sx/sy/sz squash along WORLD axes (impacts), then yaw/pitch/roll tumble; sx=0 hides; head_yaw/head_pitch = look (deg).
+    v1.0.2: the walk cycle comes from the DISTANCE walked, with the vanilla formula (amount = lerp(0.4) to min(4·blocks/tick, 1),
+    position += amount per tick) — never a step per render pass (that ran 6-10x too fast with subframes and jittered).
+    age = entity tickCount (20·t by default: tails/wings/idle anims at game speed).  fn(times)->(n,15|12) overrides keys."""
     FIELDS, WIDTH = MOB, MBN
 
-    def __init__(self, name: str, type: str, pos: Sequence[float], fn: Optional[Callable[[np.ndarray], np.ndarray]] = None):
+    def __init__(self, name: str, type: str, pos: Sequence[float], fn: Optional[Callable[[np.ndarray], np.ndarray]] = None,
+                 auto_walk: bool = True, age_rate: float = 20.0):
         self.name, self.type, self.fn = name, type, fn
+        self.auto_walk, self.age_rate = auto_walk, age_rate
         self._init_keys()
         self.key(0.0, x=pos[0], y=pos[1], z=pos[2], sx=1, sy=1, sz=1)
 
-    def at(self, times: np.ndarray) -> np.ndarray:
+    @staticmethod
+    def height(type: str) -> float:
+        return MOB_H.get(type.replace("minecraft:", ""), 1.0)
+
+    @classmethod
+    def feet(cls, name: str, type: str, feet: Sequence[float], **kw) -> "Mob":
+        """Mob standing with its feet at `feet` (x, ground y, z)."""
+        f = np.asarray(feet, float)
+        return cls(name, type, (f[0], f[1] + cls.height(type) / 2, f[2]), **kw)
+
+    def _raw(self, times: np.ndarray) -> np.ndarray:
         if self.fn is not None:
-            return np.asarray(self.fn(np.asarray(times, float)), float).reshape(len(times), MBN)
+            r = np.asarray(self.fn(np.asarray(times, float)), float).reshape(len(times), -1)
+            if r.shape[1] < MBN:
+                r = np.concatenate([r, np.zeros((len(times), MBN - r.shape[1]))], axis=1)
+            return r
         return super().at(times)
+
+    def at(self, times: np.ndarray) -> np.ndarray:
+        times = np.asarray(times, float)
+        out = self._raw(times)
+        if self.age_rate and not self.keys["age"] and (self.fn is None or not np.any(out[:, MOB["age"]])):
+            out[:, MOB["age"]] = self.age_rate * times
+        if self.auto_walk and not self.keys["walk"] and len(times):
+            t_end = float(times.max()) + 0.1
+            tk = np.arange(0.0, t_end + 0.05, 0.05)                 # game ticks
+            g = self._raw(tk)
+            d = np.hypot(np.diff(g[:, 0], prepend=g[0, 0]), np.diff(g[:, 2], prepend=g[0, 2]))
+            amt = np.zeros(len(tk)); pos = np.zeros(len(tk)); a = 0.0; ps = 0.0
+            for i in range(len(tk)):
+                a += (min(d[i] * 4.0, 1.0) - a) * 0.4
+                ps += a
+                amt[i], pos[i] = a, ps
+            out[:, MOB["walk"]] = np.interp(times, tk, pos)
+            out[:, MOB["walk_amt"]] = np.interp(times, tk, amt)
+        return out
 
 
 @dataclass
