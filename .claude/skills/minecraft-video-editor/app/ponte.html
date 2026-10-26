@@ -23,12 +23,28 @@ const DEST = { auto: "Automático", premiere: "Premiere", filmcraft: "FilmCraft"
 function tela() {
   if (!D || !D.passe || !D.pedido) { $("#c").innerHTML = '<p class="err">Pedido inválido. Volte ao Editor no site do Estúdio e clique em "Editar no meu PC".</p>'; return; }
   const p = D.pedido;
+  if (p.tipo === "short") {
+    $("#c").innerHTML = `<div class="l"><b>Short</b><span>${esc(p.titulo || p.id)}</span></div>
+<div class="l"><b>O que faz</b><span>gera as cenas no Minecraft deste PC (CineCam 9:16) e manda cada uma para a linha do tempo</span></div>
+<label class="f"><input type="checkbox" id="blur" ${p.blur === false ? "" : "checked"}> Motion blur (rastro do movimento)</label>
+<label class="f"><input type="checkbox" id="dof" ${p.dof === true ? "checked" : ""}> Desfoque de lente (fundo desfocado; o visual "Cinema suave" do estúdio já liga sozinho)</label>
+<button id="go">Gerar as cenas</button> <button class="sec" onclick="window.close()">Cancelar</button><p id="m"></p>`;
+    $("#go").onclick = () => enviarShort(); return;
+  }
   $("#c").innerHTML = `<div class="l"><b>Bruto</b><span>${esc(p.nome)}</span></div>
 <div class="l"><b>Modo</b><span>${p.plano_web ? "montar o plano feito no site" : "edição completa com o Claude deste PC"}</span></div>
 <div class="l"><b>Montar em</b><span>${esc(DEST[p.destino] || p.destino)}</span></div>
 <div class="l"><b>Cinemáticas</b><span>${p.cinematicas ? "sim" : "não"}</span></div>${p.notas ? `<div class="l"><b>Notas</b><span>${esc(p.notas)}</span></div>` : ""}
 <div id="esc"></div><button id="go">Começar a edição</button> <button class="sec" onclick="window.close()">Cancelar</button><p id="m"></p>`;
   $("#go").onclick = () => enviar();
+}
+async function enviarShort() {
+  $("#go").disabled = true; $("#m").className = ""; $("#m").textContent = "Ligando o Minecraft deste PC…";
+  try {
+    const r = await fetch("/api/ponte", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ passe: D.passe, pedido: Object.assign({}, D.pedido, { blur: $("#blur").checked, dof: $("#dof").checked }) }) });
+    const j = await r.json(); if (!r.ok) throw new Error(j.erro || "erro " + r.status);
+    $("#m").className = "ok"; $("#m").textContent = "Pronto: as cenas vão aparecendo na linha do tempo do Shorts. Pode fechar esta aba.";
+  } catch (e) { $("#m").className = "err"; $("#m").textContent = e.message; $("#go").disabled = false; }
 }
 async function enviar(video) {
   $("#go").disabled = true; $("#m").className = ""; $("#m").textContent = "Procurando o bruto neste PC…";

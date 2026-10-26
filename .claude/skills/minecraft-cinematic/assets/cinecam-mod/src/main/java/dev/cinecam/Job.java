@@ -55,6 +55,7 @@ public final class Job {
     public List<String> commands = new ArrayList<>();
     public int settleTicks = 100;
     public double sunScale = 1.0;
+    public double[] fog = null;                  // v1.1: [perto, longe, r, g, b] (névoa do estúdio do Shorts); null = a do jogo
     public double[] sunTint = {1.0, 0.86, 0.52};  // big-sun colour (vanilla texture path)
     public String sunTexture = null;             // optional RGBA PNG drawn with straight alpha (exact colours)                // >1 draws the vanilla sun texture bigger at the exact vanilla sun position
     public int preloadTimeoutSec = 300;
@@ -69,6 +70,8 @@ public final class Job {
     public Path animFile = null;
     // batch (v0.8): more shots rendered in this same game session, same world, one after the other
     public List<Path> next = new ArrayList<>();
+    public Path inbox = null;                    // v1.1 live session: when the queue empties, wait here for "<n>.go" files (path of the next job)
+    public int idleSec = 900;                    // ...and quit after this long with nothing to do (or when "<inbox>/stop" appears)
     public String mode = null;                   // film | stills | scout (overrides -Pmode for this shot)
 
     public static Job load(Path file) throws IOException {
@@ -117,6 +120,7 @@ public final class Job {
             j.dimension = str(sc, "dimension", j.dimension);
             j.settleTicks = i(sc, "settleTicks", j.settleTicks);
             j.sunScale = d(sc, "sunScale", j.sunScale);
+            if (sc.has("fog") && sc.get("fog").isJsonArray()) { var fa = sc.getAsJsonArray("fog"); j.fog = new double[fa.size()]; for (int i = 0; i < fa.size(); i++) j.fog[i] = fa.get(i).getAsDouble(); }
             j.sunTexture = str(sc, "sunTexture", j.sunTexture);
             JsonArray st = arr(sc, "sunTint");
             if (st != null && st.size() >= 3) j.sunTint = new double[]{st.get(0).getAsDouble(), st.get(1).getAsDouble(), st.get(2).getAsDouble()};
@@ -148,6 +152,9 @@ public final class Job {
         JsonArray nx = arr(o, "next");
         if (nx != null) for (JsonElement e : nx) j.next.add(Path.of(e.getAsString()));
         j.mode = str(o, "mode", null);
+        String ib = str(o, "inbox", null);
+        if (ib != null) j.inbox = Path.of(ib);
+        if (o.has("idleSec")) j.idleSec = o.get("idleSec").getAsInt();
         return j;
     }
 

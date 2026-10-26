@@ -189,6 +189,16 @@ class H(BaseHTTPRequestHandler):
                 if ps in PASSES_USADOS: return self.send(409, {"erro": "este pedido já foi usado; volte ao site e clique de novo"})
                 email = SEG.conferir_passe(ps, "127.0.0.1:%d" % PORTA)
                 if not email: return self.send(401, {"erro": "pedido vencido (vale 2 min) ou não veio do Estúdio; volte ao site e clique de novo"})
+                if ped.get("tipo") == "short":       # Shorts (v1.1): renderiza as cenas CineCam deste vídeo no Minecraft daqui
+                    import midia_sync, curtas
+                    PASSES_USADOS.add(ps)
+                    if not midia_sync.token() and not midia_sync.parear(ps):
+                        return self.send(502, {"erro": "não consegui ligar este PC ao Estúdio (pareamento); tente de novo"})
+                    vid = str(ped.get("id") or "")
+                    if not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,100}", vid): return self.send(400, {"erro": "id do vídeo inválido"})
+                    ef = {"blur": bool(ped.get("blur", True)), "dof": bool(ped.get("dof", True))}
+                    curtas.iniciar(vid, ef)
+                    return self.send(200, {"short": vid, "email": email})
                 video = ped.get("video")
                 if not video:
                     achados = localizar(ped.get("nome"), ped.get("tamanho"))
@@ -230,6 +240,8 @@ class H(BaseHTTPRequestHandler):
             if u.path == "/api/localizar":
                 b = self.body(); return self.send(200, {"arquivos": localizar(b.get("nome"), b.get("tamanho"))})
             if u.path.startswith("/api/job/") and u.path.endswith("/parar"): parar(_jid(u.path)); return self.send(200, {"ok": True})
+            if u.path == "/api/short/parar":
+                import curtas; curtas.parar(); return self.send(200, {"ok": True})
             if u.path.startswith("/api/job/") and u.path.endswith("/abrir"): return self.send(200, {"abriu": abrir(_jid(u.path))})
             if u.path == "/api/filmcraft/instalar":
                 import filmcraft as fc; app, cli = fc.ensure(); _env_cache["t"] = 0; return self.send(200, {"exe": app})
@@ -252,7 +264,8 @@ def estado():
     st = {}
     try: st = json.load(open(atualizar.ESTADO, encoding="utf8"))
     except (OSError, ValueError): pass
-    return {"versao": versao(), "equipe": atualizar.instalado_por_git(), "atualizacao": st, "conta": c,
+    import curtas
+    return {"versao": versao(), "equipe": atualizar.instalado_por_git(), "atualizacao": st, "conta": c, "shorts": curtas.estado(),
             "outros_pcs": midia_sync.conta_em_uso(c.get("email"), False) if c.get("email") else [],
             "pareado": bool(midia_sync.token()), "midia": mid, "editando": atualizar.edicao_rodando()}
 

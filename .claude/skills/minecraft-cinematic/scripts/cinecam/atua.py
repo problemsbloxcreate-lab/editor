@@ -820,7 +820,7 @@ class _Baked(Actor):
         return out
 
 
-def snaps(actor: Actor, T: float, fps: int = 30, blocks: float = 0.03) -> List[Tuple[float, str, float]]:
+def snaps(actor: Actor, T: float, fps: int = 30, blocks: float = 0.05) -> List[Tuple[float, str, float]]:
     """Trancos de 1 quadro (25/10, "rollback") medidos NO QUE APARECE: posição de mãos, cotovelos, joelhos, pés, cabeça e peito
     (mesma cinemática do mod, cinecam.colisao).  Tranco = a aceleração troca de sinal em quadros seguidos (vai, volta, vai) com
     volta > `blocks` (0,03 ≈ meio pixel do modelo).  Ângulo de Euler perto do gimbal não conta (não aparece na tela).

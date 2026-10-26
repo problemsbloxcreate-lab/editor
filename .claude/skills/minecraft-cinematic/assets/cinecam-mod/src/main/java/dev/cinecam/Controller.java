@@ -69,7 +69,7 @@ public final class Controller {
     private static final String JOB_PROP = System.getProperty("cinecam.job");
     private static final boolean ON = JOB_PROP != null && !JOB_PROP.isBlank();
 
-    private enum Phase { TITLE, WORLD, SETUP, PRELOAD, COMMANDS, SETTLE, FILM, FINISH, DONE }
+    private enum Phase { TITLE, WORLD, SETUP, PRELOAD, COMMANDS, SETTLE, FILM, FINISH, IDLE, DONE }
 
     private static Phase phase = Phase.TITLE;
     private static int tick;
@@ -136,7 +136,7 @@ public final class Controller {
             }
             mc.options.pauseOnLostFocus = false;
             tick++;
-            if (phase != Phase.FILM && phase != Phase.FINISH && (System.nanoTime() - phaseStartNs) / 1e9 > Math.max(job.preloadTimeoutSec, 60) + 120 && phase != Phase.TITLE) {
+            if (phase != Phase.FILM && phase != Phase.FINISH && phase != Phase.IDLE && (System.nanoTime() - phaseStartNs) / 1e9 > Math.max(job.preloadTimeoutSec, 60) + 120 && phase != Phase.TITLE) {
                 throw new IllegalStateException("timeout in phase " + phase);
             }
             runPhase(mc);
@@ -170,6 +170,21 @@ public final class Controller {
         // With a frozen world the FixedTimer yields no client ticks, so ClientTickEvent never fires again:
         // the shutdown has to be driven from the render loop.
         if (e.phase == TickEvent.Phase.END && phase == Phase.FINISH) finish(Minecraft.getInstance());
+    }
+
+    /** v1.1: névoa da cena (estúdio do Shorts: FX.nevoa / paisagem / shot.fog) — distância e cor fixas na cena. */
+    @SubscribeEvent
+    public static void fog(ViewportEvent.RenderFog e) {
+        if (!ON || job == null || job.fog == null || job.fog.length < 2 || !(phase == Phase.FILM || phase == Phase.SETTLE)) return;
+        e.setNearPlaneDistance((float) job.fog[0]);
+        e.setFarPlaneDistance((float) job.fog[1]);
+        e.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public static void fogColor(ViewportEvent.ComputeFogColor e) {
+        if (!ON || job == null || job.fog == null || job.fog.length < 5 || !(phase == Phase.FILM || phase == Phase.SETTLE)) return;
+        e.setRed((float) job.fog[2]); e.setGreen((float) job.fog[3]); e.setBlue((float) job.fog[4]);
     }
 
     @SubscribeEvent
@@ -339,8 +354,13 @@ public final class Controller {
             }
             case COMMANDS -> {
                 if (tick == 1) {
+                    // v1.1 live session: the same set as the previous shot (same command list) is already built — skip it
+                    int ch = job.commands.hashCode() * 31 + job.dimension.hashCode();
+                    boolean same = shotNo > 0 && ch == lastCmdsHash && !job.commands.isEmpty();
+                    lastCmdsHash = ch;
+                    if (same) CineCam.LOG.info("[cinecam] set unchanged: {} commands skipped", job.commands.size());
                     server(mc, p -> {
-                        for (String c : job.commands) run(p, c);
+                        if (!same) for (String c : job.commands) run(p, c);
                         try {
                             Files.createDirectories(job.outDir);
                             if (!job.queries.isEmpty()) Scout.queries(p, job.queries, job.outDir.resolve(job.name + "_queries.json"));
@@ -372,6 +392,7 @@ public final class Controller {
             }
             case FILM -> { /* driven by render events */ }
             case FINISH -> finish(mc);
+            case IDLE -> idle(mc);
             default -> { }
         }
     }
@@ -610,9 +631,49 @@ public final class Controller {
                 CineCam.LOG.error("[cinecam] could not start queued shot " + nxt, ex);
             }
         }
+        if (job != null && job.inbox != null) {    // v1.1 live session: keep the game and the world open for the next shots
+            if (vanillaTimer != null) Reflect.setTimer(mc, vanillaTimer);
+            WaterDrain.reset(mc);
+            idleSinceNs = System.nanoTime();
+            idleInbox = job.inbox; idleLimit = job.idleSec;
+            phase = Phase.IDLE;
+            CineCam.LOG.info("[cinecam] idle: waiting for jobs in {}", idleInbox);
+            return;
+        }
         phase = Phase.DONE;
         CineCam.LOG.info("[cinecam] done ({}), stopping game", fatal == null ? "ok" : fatal);
         if (!Boolean.getBoolean("cinecam.keepOpen")) mc.stop();
+    }
+
+    private static int lastCmdsHash;
+    private static long idleSinceNs;
+    private static Path idleInbox;
+    private static int idleLimit = 900;
+
+    /** v1.1 live session: every 10 ticks look for "*.go" files (each holds the path of a job.json) in the inbox; "stop" quits. */
+    private static void idle(Minecraft mc) {
+        if (tick % 10 != 0) return;
+        try {
+            if (Files.exists(idleInbox.resolve("stop")) || (System.nanoTime() - idleSinceNs) / 1e9 > idleLimit) {
+                Files.deleteIfExists(idleInbox.resolve("stop"));
+                phase = Phase.DONE;
+                CineCam.LOG.info("[cinecam] live session closed");
+                mc.stop();
+                return;
+            }
+            java.util.List<Path> go = new java.util.ArrayList<>();
+            try (var ds = Files.newDirectoryStream(idleInbox, "*.go")) { for (Path p : ds) go.add(p); }
+            if (go.isEmpty()) return;
+            go.sort(null);
+            Path f = go.get(0);
+            Path jobPath = Path.of(Files.readString(f, StandardCharsets.UTF_8).trim());
+            Files.deleteIfExists(f);
+            nextShot(mc, jobPath);
+        } catch (Throwable ex) {
+            CineCam.LOG.error("[cinecam] inbox", ex);
+            idleSinceNs = System.nanoTime();
+            phase = Phase.IDLE;
+        }
     }
 
     /** Batch: put the vanilla clock back, drop the film state of the finished shot and start the next one at SETUP (same world). */
