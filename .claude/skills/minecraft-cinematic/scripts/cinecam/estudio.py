@@ -83,6 +83,30 @@ def _pchip(t_src: np.ndarray, v: np.ndarray, t_dst: np.ndarray) -> np.ndarray:
     return (2 * f3 - 3 * f2 + 1) * y0 + (f3 - 2 * f2 + f) * m0 + (-2 * f3 + 3 * f2) * y1 + (f3 - f2) * m1
 
 
+def _cortes(P: np.ndarray, lim: float) -> List[int]:
+    """Quadros j em que a posição salta para j+1 mais que `lim` blocos (teleporte do estúdio: pérola, montagem, troca de lugar)."""
+    if len(P) < 2:
+        return []
+    d = np.linalg.norm(np.diff(np.asarray(P, float), axis=0), axis=1)
+    return [int(j) for j in np.nonzero(d > lim)[0]]
+
+
+def _por_trechos(tq: np.ndarray, rows: np.ndarray, tg: np.ndarray, cortes: Sequence[int], fn) -> np.ndarray:
+    """fn(tq, rows, tg) em cada trecho entre cortes: nada é interpolado ATRAVÉS de um teleporte (antes o personagem deslizava
+    24 blocos em 1/30 s e o motion blur mostrava o rastro).  O corte cai no meio entre os dois quadros — fora da janela do
+    obturador (±8 ms do centro), então nenhum quadro mistura os dois lugares."""
+    if not cortes:
+        return fn(tq, rows, tg)
+    out = np.zeros((len(tg), rows.shape[1]))
+    ed = [0] + [j + 1 for j in cortes] + [len(tq)]
+    tc = [-np.inf] + [(tq[j] + tq[j + 1]) / 2 for j in cortes] + [np.inf]
+    for a, b, t0, t1 in zip(ed[:-1], ed[1:], tc[:-1], tc[1:]):
+        m = (tg >= t0) & (tg < t1)
+        if m.any():
+            out[m] = fn(tq[a:b], rows[a:b], tg[m])
+    return out
+
+
 def _suaviza_degraus(rows: np.ndarray, cols: Sequence[int], sigma: float = 1.0):
     """Gaussiana curta (σ = 1 quadro ≈ 33 ms) nos ângulos do corpo: o salto de pose que o estúdio faz num único quadro vira
     uma transição de ~0,1 s; o peso da gaussiana é todo positivo, então nada passa do ponto.  Posição/altura não entram
@@ -221,8 +245,16 @@ def _atores(X: Dict, tq: np.ndarray, tg: np.ndarray, pasta_skins: str, falta: Op
         ang = [POSE[n] for n in POSE if n.endswith(("_x", "_y", "_z")) and n not in ("x", "y", "z")] + [POSE["yaw"]]
         _unwrap_cols(rows, ang)
         cru = rows.copy()
-        _suaviza_degraus(rows, ang + [POSE[n] for n in ("rarm_bend", "larm_bend", "rleg_bend", "lleg_bend", "lean", "roll")])
-        ch = _pchip(tq, rows, tg)
+        sua = ang + [POSE[n] for n in ("rarm_bend", "larm_bend", "rleg_bend", "lleg_bend", "lean", "roll")]
+        cortes = _cortes(rows[:, [POSE["x"], POSE["y"], POSE["z"]]], 1.5)
+
+        def _trecho(sg):
+            def fn(tq_s, r_s, tg_s):
+                r2 = r_s.copy()
+                _suaviza_degraus(r2, sua, sg)
+                return _pchip(tq_s, r2, tg_s)
+            return fn
+        ch = _por_trechos(tq, cru, tg, cortes, _trecho(1.0))
         # quem não está no quadro some (escala 0) — sem interpolar a entrada/saída
         v = np.interp(tg, tq, vis) > 0.5
         for c in ("sx", "sy", "sz"):
@@ -243,13 +275,14 @@ def _atores(X: Dict, tq: np.ndarray, tg: np.ndarray, pasta_skins: str, falta: Op
         from .atua import snaps
         a.colisao_resto = auto_fix_self(a, float(tg[-1]))
         # trava do "rollback" (26/10): nenhum membro pode ir-e-voltar; sobrou tranco → suaviza mais forte (σ 1,8 e 2,6 quadros)
-        a.trancos = snaps(a, float(X["dur"]))
+        tcorte = [(tq[j] + tq[j + 1]) / 2 for j in cortes]
+        _semcorte = lambda L: [x for x in L if all(abs(x[0] - tc) > 1.5 / fps for tc in tcorte)]
+        fps = int(X.get("fps", 30))
+        a.trancos = _semcorte(snaps(a, float(X["dur"])))
         for sg in (1.8, 2.6):
             if not a.trancos:
                 break
-            r2 = cru.copy()
-            _suaviza_degraus(r2, ang + [POSE[n] for n in ("rarm_bend", "larm_bend", "rleg_bend", "lleg_bend", "lean", "roll")], sg)
-            ch2 = _pchip(tq, r2, tg)
+            ch2 = _por_trechos(tq, cru, tg, cortes, _trecho(sg))
             for c in ("sx", "sy", "sz"):
                 ch2[:, POSE[c]] = ch[:, POSE[c]]
             for c in ("item", "blink", "mouth", "shadow_y"):
@@ -257,7 +290,7 @@ def _atores(X: Dict, tq: np.ndarray, tg: np.ndarray, pasta_skins: str, falta: Op
             _pe_no_chao(ch2, tg, ground, bool(sk.get("slim")))
             a.set_grid(tg, ch2)
             a.colisao_resto = auto_fix_self(a, float(tg[-1]))
-            a.trancos = snaps(a, float(X["dur"]))
+            a.trancos = _semcorte(snaps(a, float(X["dur"])))
         out.append(a)
     return out
 
@@ -428,14 +461,16 @@ def _camera(X: Dict, tq: np.ndarray, atores: Sequence[_Baked], efeitos: Dict) ->
 
     U = np.array([q["cam"]["u"] for q in Q], float) if all("u" in q["cam"] for q in Q) else None
 
+    cc = _cortes(P, 3.0)
+
     def fn(tau):
         t = np.asarray(tau, float) * T
-        p = _pchip(tq, P, t)
-        l = _pchip(tq, L, t)
+        p = _por_trechos(tq, P, t, cc, _pchip)
+        l = _por_trechos(tq, L, t, cc, _pchip)
         fr = np.stack([np.interp(t, tq, F[:, 0]), np.interp(t, tq, F[:, 1])], 1)
         d = l - p
         if U is not None:
-            yaw, pitch, roll = _orienta(d, _pchip(tq, U, t))
+            yaw, pitch, roll = _orienta(d, _por_trechos(tq, U, t, cc, _pchip))
         else:                                       # exportação antiga (sem cam.u): só serve longe da vertical
             yaw = np.degrees(np.unwrap(np.arctan2(-d[:, 0], d[:, 2])))
             pitch = -np.degrees(np.arctan2(d[:, 1], np.hypot(d[:, 0], d[:, 2])))

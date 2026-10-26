@@ -144,6 +144,9 @@ def sessao(vid, efeitos=None, qualidade="final"):
                 for n in pend:
                     if _PARAR.is_set():
                         break
+                    ix2 = _json(vid + "-cinexp") or {}            # mundo trocou no meio da leva: volta e recomeça com o novo
+                    if ix2.get("mundo") and ix2["mundo"] != mundo_h:
+                        break
                     h = ix[str(n)]
                     X = _json(vid + "-cinexp", n)
                     feitos[n] = h
