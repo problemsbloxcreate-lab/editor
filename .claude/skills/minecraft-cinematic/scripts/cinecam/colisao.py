@@ -205,8 +205,7 @@ def solids_from_commands(cmds: Sequence[str], center: Sequence[float], r: int = 
             continue
         a = [int(v) for v in m.group(2, 3, 4)]
         b = [int(v) for v in m.group(5, 6, 7)] if m.group(5) else a
-        blk = m.group(8).split("[")[0].split("{")[0].replace("minecraft:", "")
-        solid = not any(w in blk for w in NON_SOLID)
+        solid = solido(m.group(8))
         lo = [max(min(a[0], b[0]) - x0, 0), max(min(a[1], b[1]) - y0, 0), max(min(a[2], b[2]) - z0, 0)]
         hi = [min(max(a[0], b[0]) - x0, G.shape[0] - 1), min(max(a[1], b[1]) - y0, G.shape[1] - 1), min(max(a[2], b[2]) - z0, G.shape[2] - 1)]
         if any(lo[k] > hi[k] for k in range(3)):
@@ -233,8 +232,17 @@ def _in_solid(S: Optional[Dict], pts_world: np.ndarray, tol_blocks: float) -> np
     return hit
 
 
-def verificar(anim, T: float, solids: Optional[Dict] = None, fps: int = 15) -> List[str]:
-    """Problemas da cena (lista vazia = ok): personagem atravessando outro personagem; membro, corpo ou item dentro de bloco."""
+def solido(estado: str) -> bool:
+    """Bloco que barra o corpo (porta/portão/alçapão aberto deixa passar, como no jogo)."""
+    blk = estado.split("[")[0].split("{")[0].replace("minecraft:", "")
+    if any(w in blk for w in NON_SOLID):
+        return False
+    return not (("door" in blk or "fence_gate" in blk) and "open=true" in estado)
+
+
+def verificar(anim, T: float, solids: Optional[Dict] = None, fps: int = 15, eventos: Sequence = ()) -> List[str]:
+    """Problemas da cena (lista vazia = ok): personagem atravessando outro personagem; membro, corpo ou item dentro de bloco.
+    eventos = Scene.blocks [t, x, y, z, estado] (blocos que mudam no meio do plano, ex.: a porta da base abrindo)."""
     actors = list(getattr(anim, "actors", []))
     if not actors:
         return []
@@ -242,7 +250,22 @@ def verificar(anim, T: float, solids: Optional[Dict] = None, fps: int = 15) -> L
     rows = [a.at(ts) for a in actors]
     out = []
     seen = set()
+    ev = []
+    if solids is not None and eventos:
+        G, o = solids["grid"], solids["origin"]
+        for e in sorted(eventos, key=lambda e: e[0]):
+            q = np.floor(np.array(e[1:4], float)).astype(int) - o
+            if np.all((q >= 0) & (q < G.shape)):
+                ev.append((float(e[0]), tuple(q), solido(str(e[4]))))
+        orig = {c: bool(G[c]) for _, c, _ in ev}
     for i, t in enumerate(ts):
+        if ev:
+            now = dict(orig)
+            for te, c, sv in ev:
+                if te <= t + 1e-6:
+                    now[c] = sv
+            for c, sv in now.items():
+                G[c] = sv
         B = [boxes(rows[k][i], actors[k].slim, bool(actors[k].item)) for k in range(len(actors))]
         for k, bk in enumerate(B):
             for name, (M, lo, hi) in bk.items():
@@ -264,4 +287,7 @@ def verificar(anim, T: float, solids: Optional[Dict] = None, fps: int = 15) -> L
                     if key not in seen:
                         seen.add(key)
                         out.append(f"{t:.2f}s: {actors[k].name}.{name} dentro de um bloco")
+    if ev:
+        for c, sv in orig.items():
+            G[c] = sv
     return out

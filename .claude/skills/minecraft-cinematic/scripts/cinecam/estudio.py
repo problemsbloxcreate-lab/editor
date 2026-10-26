@@ -132,7 +132,7 @@ def _blink(nome: str, tg: np.ndarray) -> np.ndarray:
 
 
 # ------------------------------------------------------------------------------------------------------------ cena
-def _atores(X: Dict, tq: np.ndarray, tg: np.ndarray, pasta_skins: str) -> List[_Baked]:
+def _atores(X: Dict, tq: np.ndarray, tg: np.ndarray, pasta_skins: str, falta: Optional[List[str]] = None) -> List[_Baked]:
     Q = X["quadros"]
     nomes: List[str] = []
     for q in Q:
@@ -167,10 +167,17 @@ def _atores(X: Dict, tq: np.ndarray, tg: np.ndarray, pasta_skins: str) -> List[_
             r[POSE["torso_x"]], r[POSE["torso_y"]], r[POSE["torso_z"]] = tr[0], -tr[1], -tr[2]
             r[POSE["hop"]] = g.get("dy", 0.0)
             r[POSE["item"]] = 1.0 if g.get("mao") else 0.0
-            if g.get("mao") and not item:
-                item = "minecraft:" + g["mao"][0].replace("minecraft:", "")
-            if g.get("skin") and not skin:
-                skin = g["skin"]
+            if g.get("mao"):
+                it = "minecraft:" + g["mao"][0].replace("minecraft:", "")
+                if item and it != item and falta is not None and f"{nome} troca o item da mão" not in falta:
+                    falta.append(f"{nome} troca o item da mão")     # o ator do CineCam tem um item só por plano
+                item = item or it
+                if len(g["mao"]) > 1 and falta is not None and f"{nome} segura dois itens" not in falta:
+                    falta.append(f"{nome} segura dois itens")
+            if g.get("skin"):
+                if skin and g["skin"] != skin and falta is not None and f"{nome} troca de skin" not in falta:
+                    falta.append(f"{nome} troca de skin")
+                skin = skin or g["skin"]
         for c in ("belly", "belly_y", "head", "rarm_len", "larm_len", "rleg_len", "lleg_len"):
             rows[:, POSE[c]] = 1.0
         rows[:, POSE["vbelly_y"]], rows[:, POSE["vbelly_out"]], rows[:, POSE["vbelly_vox"]] = 7, 3, 1
@@ -303,6 +310,23 @@ def _camera(X: Dict, tq: np.ndarray, atores: Sequence[_Baked], efeitos: Dict) ->
     return Move(T, fn, "estudio")
 
 
+def _portas(X: Dict, tq: np.ndarray) -> List:
+    """Portas que abrem/fecham na cena (estúdio: a da base em "sair da base") → Scene.blocks: no instante em que a porta do estúdio
+    passa da metade, a do Minecraft abre (porta do jogo não tem meio-termo)."""
+    est: Dict[Tuple[int, int], List] = {}
+    for i, q in enumerate(X["quadros"]):
+        for x, z, a, f, h in q.get("portas") or []:
+            est.setdefault((int(x), int(z)), [f, h, np.zeros(len(tq))])[2][i] = a
+    ev = []
+    for (x, z), (f, h, a) in est.items():
+        aberta = a >= 0.5
+        for i in range(len(tq)):
+            if (i == 0 and aberta[0]) or (i > 0 and aberta[i] != aberta[i - 1]):
+                for y, half in ((1, "lower"), (2, "upper")):
+                    ev.append([float(tq[i]), x, y + Y_OFF, z, f"minecraft:oak_door[half={half},facing={f},hinge={h},open={str(bool(aberta[i])).lower()}]"])
+    return ev
+
+
 def shot_da_cena(X: Dict, M: Optional[Dict], efeitos: Optional[Dict] = None, pasta_skins: str = ".", qualidade: str = "final",
                  nome: Optional[str] = None) -> Tuple[Shot, List[str]]:
     """Cena exportada → Shot (1080×1920, 30 fps, duração exata).  Devolve (shot, falta): `falta` não vazia = a cena tem algo que
@@ -311,9 +335,11 @@ def shot_da_cena(X: Dict, M: Optional[Dict], efeitos: Optional[Dict] = None, pas
     falta = list(X.get("falta") or [])
     fps = int(X.get("fps", 30))
     T = float(X["dur"])
+    # só os quadros DENTRO da cena: o último do estúdio antigo (≤ 26/10) caía no começo da cena seguinte (outro lugar) e borrava o fim
+    X = dict(X, quadros=[q for i, q in enumerate(X["quadros"]) if i / fps <= T + 1e-6])
     tq = np.arange(len(X["quadros"])) / fps
     tg = np.arange(0, T + 0.25, 1.0 / HZ)
-    atores = _atores(X, tq, tg, pasta_skins)
+    atores = _atores(X, tq, tg, pasta_skins, falta)
     mobs = _mobs(X, tq, falta)
     rascunho = qualidade != "final"
     rig = Rig(fps=fps, subframes=1 if rascunho else 6, shutter=0.5)
@@ -325,7 +351,7 @@ def shot_da_cena(X: Dict, M: Optional[Dict], efeitos: Optional[Dict] = None, pas
     cmds = comandos_do_mundo(M) if M else []
     c = np.mean([q0["cam"]["p"]] + [g["p"] for g in q0["g"].values()], axis=0)
     scene = Scene(time=time_, weather="clear", anchor=(float(c[0]), float(c[1]) + Y_OFF + 4, float(c[2])), commands=cmds, settleTicks=40,
-                  fog=list(nev) if nev else None)
+                  fog=list(nev) if nev else None, blocks=_portas(X, tq))
     gama = X.get("gama", 1.0)                                                  # brilho do jogo escolhido no estúdio (-1 = luz total)
     sh = Shot(nome or f"est_{X.get('id', 'x')}_{int(X.get('n', 0)):02d}", rig=rig, scene=scene,
               settings=Settings(renderDistance=8, simulationDistance=6, worldTicks=True, gamma=1.0 if gama is None or gama < 0 else float(gama)),

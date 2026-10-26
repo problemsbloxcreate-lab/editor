@@ -78,6 +78,7 @@ class Scene:
     sunTexture: Optional[str] = None  # RGBA PNG for the big sun (straight alpha: exact colours, e.g. warm halo)
     preloadTimeoutSec: int = 300
     fog: Optional[Sequence[float]] = None           # v1.1: [perto, longe, r, g, b] em blocos/0..1 (névoa fixa da cena)
+    blocks: List = field(default_factory=list)       # v1.1: [t, x, y, z, "minecraft:oak_door[...,open=true]"] = blocos que mudam no plano
 
 
 def available_ram_gb() -> float:
@@ -268,7 +269,7 @@ def checar_colisao(anim, rig: Rig, scene: Optional[Scene]) -> List[str]:
         p = rig.sample_frames()
         anchor = (float(p["x"][0]), float(p["y"][0]), float(p["z"][0]))
     S = solids_from_commands(sc.commands, anchor) if sc.commands else None
-    probs = verificar(anim, rig.duration, S)
+    probs = verificar(anim, rig.duration, S, eventos=sc.blocks)
     for a in anim.actors:
         probs += [f"{t:.2f}s: {a.name}.{p1} atravessa o próprio {p2}" for (t, p1, p2) in getattr(a, "colisao_resto", [])][:3]
     return probs

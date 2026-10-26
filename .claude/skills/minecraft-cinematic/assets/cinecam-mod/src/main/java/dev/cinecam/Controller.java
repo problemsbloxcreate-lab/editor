@@ -156,6 +156,7 @@ public final class Controller {
                 if (idx < table.n) {
                     posing = true;
                     if (anim != null && idx < anim.water.length) WaterDrain.apply(Minecraft.getInstance(), anim.water[idx], anim.funnel[idx]);
+                    BlockEvents.apply(Minecraft.getInstance(), table.t[idx]);
                 }
             } else {
                 posing = false;
@@ -483,6 +484,7 @@ public final class Controller {
                 throw new IOException("anim init failed: " + ex, ex);
             }
         }
+        BlockEvents.init(mc, job.blockAt, job.blockState);
         fixed = new FixedTimer();
         if (vanillaTimer == null) vanillaTimer = Reflect.getTimer(mc);
         Reflect.setTimer(mc, fixed);
@@ -634,6 +636,7 @@ public final class Controller {
         if (job != null && job.inbox != null) {    // v1.1 live session: keep the game and the world open for the next shots
             if (vanillaTimer != null) Reflect.setTimer(mc, vanillaTimer);
             WaterDrain.reset(mc);
+            BlockEvents.reset(mc);
             idleSinceNs = System.nanoTime();
             idleInbox = job.inbox; idleLimit = job.idleSec;
             phase = Phase.IDLE;
@@ -680,6 +683,7 @@ public final class Controller {
     private static void nextShot(Minecraft mc, Path p) throws IOException {
         if (vanillaTimer != null) Reflect.setTimer(mc, vanillaTimer);
         WaterDrain.reset(mc);
+        BlockEvents.reset(mc);
         sink = null; depthSink = null; depthBuf = null; depthOut = null; anim = null; fixed = null;
         buf = null; scratch = null; out = null; acc = null;
         idx = 0; readyStreak = 0; waitPasses = 0; totalPasses = 0; totalRetries = 0; maxWait = 0;
