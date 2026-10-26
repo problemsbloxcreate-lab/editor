@@ -30,6 +30,25 @@ VFOV = 58.0
 HFOV = 2 * math.degrees(math.atan(math.tan(math.radians(VFOV / 2)) * 9 / 16))
 EYE = 1.62          # altura da câmera "no rosto" (pés + 1,62; o rosto do modelo de 2 blocos fica em 1,5–2,0)
 
+# 26/10/2026 (dono): as mesmas regras dos Shorts portadas para as cinemáticas do VÍDEO LONGO (16:9 1920×1080, 60 fps como a
+# timeline do Premiere).  A ficha (ou o mapa) diz "formato": "16:9"; sem isso continua 9:16 (Shorts).  No 16:9 a lente é mais
+# fechada (vfov 40 ≈ hfov 66) e as distâncias mudam para o personagem ficar do mesmo tamanho na tela.
+FORMATOS = {
+    "9:16": {"final": (1080, 1920), "rascunho": (540, 960), "fps": 30, "vfov": 58.0, "aspect": 9 / 16, "sub": 6, "ap": 0.3,
+             "dist": {"fala": 2.6, "medio": 2.9, "reacao": 2.0, "close": 1.75}, "aberto": 6.4, "dois_min": 3.4, "palco": (-7, -6, 7, 9)},
+    "16:9": {"final": (1920, 1080), "rascunho": (960, 540), "fps": 60, "vfov": 40.0, "aspect": 16 / 9, "sub": 4, "ap": 0.22,
+             "dist": {"fala": 2.9, "medio": 3.6, "reacao": 2.3, "close": 1.8}, "aberto": 7.5, "dois_min": 3.0, "palco": (-10, -6, 10, 11)},
+}
+
+
+def formato(mapa: Dict, ficha: Dict) -> Dict:
+    nome = ficha.get("formato") or mapa.get("formato") or "9:16"
+    if nome not in FORMATOS:
+        raise KeyError(f"formato {nome!r} (tem: {sorted(FORMATOS)})")
+    F = dict(FORMATOS[nome]); F["nome"] = nome
+    F["hfov"] = 2 * math.degrees(math.atan(math.tan(math.radians(F["vfov"] / 2)) * F["aspect"]))
+    return F
+
 
 # ------------------------------------------------------------------------------------------------------------------- lugar
 def _lugar(mapa: Dict, nome: str) -> Dict:
@@ -39,7 +58,7 @@ def _lugar(mapa: Dict, nome: str) -> Dict:
     return L
 
 
-def montar_lugar(mapa: Dict, nome: str) -> SetBuilder:
+def montar_lugar(mapa: Dict, nome: str, palco=(-7, -6, 7, 9)) -> SetBuilder:
     """Set do lugar — o MESMO para todas as cenas dele (mesmos comandos, mesma semente): continuidade entre cortes."""
     L = _lugar(mapa, nome)
     where = L.get("site") or _site(L.get("bioma", "plains"))
@@ -48,7 +67,7 @@ def montar_lugar(mapa: Dict, nome: str) -> SetBuilder:
     sb.ground(bioma)
     for nome_m, m in (L.get("marcas") or {}).items():
         sb.keep_free(float(m[0]), float(m[1]), 2.0)
-    sb.keep_free_rect(-7, -6, 7, 9)                    # palco + corredor da câmera (a câmera fica do lado +z)
+    sb.keep_free_rect(*palco)                          # palco + corredor da câmera (a câmera fica do lado +z)
     for b in L.get("blocos") or []:
         k = b[0]
         if k == "box":
@@ -59,6 +78,8 @@ def montar_lugar(mapa: Dict, nome: str) -> SetBuilder:
             sb.tree(float(b[1]), float(b[2]), b[3] if len(b) > 3 else "oak")
         elif k == "comando":
             sb.raw(b[1])
+        elif k == "lagoa":                              # ["lagoa", dx, dz, rx, rz] (água com borda orgânica, plantas)
+            sb.pond(float(b[1]), float(b[2]), float(b[3]), float(b[4]), plants=b[5] if len(b) > 5 else "sugar_cane")
     if L.get("enfeite", True):
         sb.dress(bioma, density=float(L.get("densidade", 0.8)))
     return sb
@@ -178,24 +199,32 @@ def _chest(A, t, up=1.45):
     return np.stack([p[:, 0], p[:, 1] + up + 0.6 * p[:, POSE["hop"]], p[:, 2]], axis=1)
 
 
-def _plano(rig: Rig, pl: Dict, t0: float, T: float, at: Dict, sb, first: bool, efeitos: Dict, mobs: Sequence[Mob] = ()):
-    """Um plano 9:16 de frente, na altura do rosto (regras do dono 25–26/10)."""
+def _plano(rig: Rig, pl: Dict, t0: float, T: float, at: Dict, sb, first: bool, efeitos: Dict, mobs: Sequence[Mob] = (),
+           F: Optional[Dict] = None):
+    """Um plano de frente, na altura do rosto (regras do dono 25–26/10), no formato F (9:16 ou 16:9).
+    Ajustes opcionais do plano: dist (distância), lado (graus em volta do personagem, ≤ ~20 = continua de frente),
+    altura (câmera acima dos pés; padrão EYE), mira (altura do ponto mirado), push (false ou blocos)."""
+    F = F or FORMATOS["9:16"]
     kind = pl.get("plano", "fala")
     quem = pl.get("quem")
     A = at.get(quem) if quem else None
-    push = 0.3 if pl.get("push", True) else 0.0
-    fov = float(pl.get("fov", VFOV))
-    ap = 0.3 if efeitos.get("dof", True) else 0.0
+    pv = pl.get("push", True)
+    push = (0.3 if pv is True else 0.0 if pv is False else float(pv))
+    fov = float(pl.get("fov", F["vfov"]))
+    hfov = 2 * math.degrees(math.atan(math.tan(math.radians(fov / 2)) * F["aspect"]))
+    eye = float(pl.get("altura", EYE))
+    lado = float(pl.get("lado", 0.0))
+    ap = F["ap"] if efeitos.get("dof", True) else 0.0
     tm = t0 + T / 2
     if kind in ("fala", "medio", "reacao", "close"):
         if A is None:
             raise KeyError(f"plano {kind} precisa de 'quem' do elenco")
-        yaw = float(A.at(np.array([t0]))[0, POSE["yaw"]])
-        d = {"fala": 2.6, "medio": 2.9, "reacao": 2.0, "close": 1.75}[kind]
+        yaw = float(A.at(np.array([t0]))[0, POSE["yaw"]]) + lado
+        d = float(pl.get("dist", F["dist"][kind]))
         f = A.at(np.array([t0]))[0, :3]
-        head = 1.55 if kind != "close" else 1.62
-        p0 = f + _fwd(yaw) * d + [0, EYE, 0]
-        p1 = f + _fwd(yaw) * (d - push * (0.6 if kind == "close" else 1.0)) + [0, EYE, 0]
+        head = float(pl.get("mira", 1.55 if kind != "close" else 1.62))
+        p0 = f + _fwd(yaw) * d + [0, eye, 0]
+        p1 = f + _fwd(yaw) * (d - push * (0.6 if kind == "close" else 1.0)) + [0, eye, 0]
         aim = lambda t, A=A, head=head: _chest(A, t, head)
     elif kind == "dois":
         com = at.get(pl.get("com")) if pl.get("com") else next((x for k, x in at.items() if k != quem), None)
@@ -206,27 +235,36 @@ def _plano(rig: Rig, pl: Dict, t0: float, T: float, at: Dict, sb, first: bool, e
         ya, yb = (float(x.at(np.array([t0]))[0, POSE["yaw"]]) for x in (A, com))
         dirv = _fwd(ya) + _fwd(yb)
         dirv = dirv / (np.linalg.norm(dirv) + 1e-9) if np.linalg.norm(dirv) > 0.3 else np.array([0, 0, 1.0])
+        if lado:
+            dirv = _fwd(math.degrees(math.atan2(-dirv[0], dirv[2])) + lado)
         sep = float(np.linalg.norm((a0 - b0)[[0, 2]]))
-        d = max(3.4, (sep + 1.5) / (2 * math.tan(math.radians(HFOV / 2))))
-        p0 = c + dirv * d + [0, EYE - 0.05, 0]
-        p1 = c + dirv * (d - push) + [0, EYE - 0.05, 0]
-        aim = lambda t, A=A, B=com: (_chest(A, t, 1.4) + _chest(B, t, 1.4)) / 2
+        d = float(pl.get("dist", max(F["dois_min"], (sep + 1.5) / (2 * math.tan(math.radians(hfov / 2))))))
+        p0 = c + dirv * d + [0, eye - 0.05, 0]
+        p1 = c + dirv * (d - push) + [0, eye - 0.05, 0]
+        mh = float(pl.get("mira", 1.4))
+        aim = lambda t, A=A, B=com, mh=mh: (_chest(A, t, mh) + _chest(B, t, mh)) / 2
     elif kind == "aberto":
-        c = np.mean([x.at(np.array([t0]))[0, :3] for x in at.values()], axis=0) if at else sb.feet(0, 0)
-        p0 = c + np.array([0.3, 1.85, 6.4])
-        p1 = c + np.array([0.0, 1.85, 6.4 - push * 1.5])
-        aim = lambda t, c=c: np.repeat((c + [0, 1.2, 0])[None, :], np.size(t), 0)
+        if pl.get("centro") is not None:
+            c = _pt(sb, pl["centro"])
+        else:
+            c = np.mean([x.at(np.array([t0]))[0, :3] for x in at.values()], axis=0) if at else sb.feet(0, 0)
+        d = float(pl.get("dist", F["aberto"]))
+        dv = _fwd(lado)
+        p0 = c + dv * d + np.array([0.3 * dv[2], pl.get("altura", 1.85), 0])
+        p1 = c + dv * (d - push * 1.5) + np.array([0, pl.get("altura", 1.85), 0])
+        mh = float(pl.get("mira", 1.2))
+        aim = lambda t, c=c, mh=mh: np.repeat((c + [0, mh, 0])[None, :], np.size(t), 0)
     elif kind == "segue":
         if A is None:
             raise KeyError("plano segue precisa de 'quem'")
         def pos_at(t, A=A):
             q = A.at(np.atleast_1d(np.asarray(t, float)))
             fw = np.stack([_fwd(y) for y in q[:, POSE["yaw"]]])
-            return q[:, :3] + fw * 3.0 + [0, EYE - 0.1, 0]
+            return q[:, :3] + fw * float(pl.get("dist", 3.0)) + [0, eye - 0.1, 0]
         n = 6
         pts = [tuple(pos_at(t0 + T * k / (n - 1))[0]) for k in range(n)]
         p0 = None
-        aim = lambda t, A=A: _chest(A, t, 1.4)
+        aim = lambda t, A=A, mh=float(pl.get("mira", 1.4)): _chest(A, t, mh)
         mv = track(pts, lambda tau: aim(t0 + tau * T), T, ease="linear", fov=fov)
     elif kind == "insert" and "mob" in pl:                 # insert seguindo um mob (de frente para ele, na altura da cara dele)
         M = mobs[int(pl["mob"])]
@@ -249,8 +287,9 @@ def _plano(rig: Rig, pl: Dict, t0: float, T: float, at: Dict, sb, first: bool, e
         alvo = np.asarray(pl["alvo"], float)
         tgt = _pt(sb, alvo)
         dirv = _fwd(float(pl.get("de", 0.0)))
-        p0 = tgt + dirv * float(pl.get("dist", 2.2))
-        p1 = tgt + dirv * (float(pl.get("dist", 2.2)) - push)
+        up = np.array([0, float(pl.get("sobe", 0.0)), 0])
+        p0 = tgt + dirv * float(pl.get("dist", 2.2)) + up
+        p1 = tgt + dirv * (float(pl.get("dist", 2.2)) - push) + up
         aim = lambda t, tgt=tgt: np.repeat(tgt[None, :], np.size(t), 0)
     else:
         raise KeyError(f"plano desconhecido {kind!r} (fala medio reacao close dois aberto segue insert)")
@@ -263,33 +302,116 @@ def _plano(rig: Rig, pl: Dict, t0: float, T: float, at: Dict, sb, first: bool, e
     rig.add(mv, cut=not first)
 
 
+# ------------------------------------------------------------------------------------------------------------------- coreografia
+class Cena:
+    """O que a coreografia Python de uma ficha recebe (ficha["python"] = arquivo, ficha["coreografia"] = função, padrão
+    "coreografia"): `def coreografia(c): ...` roda DEPOIS das ações da ficha e ANTES de assar os atores — dá para usar
+    c.atores[nome] (Ator: pose/key/walk/jump...) e criar efeitos (c.prop, c.mob, choreo.explosion(c, ...), choreo.pop_block(c, c.sb, ...)).
+    Depois de assar, c.built tem os Actors: funções de Prop podem chamar c.mao(nome, t) / c.cabeca(nome, t) (avaliadas na escrita)."""
+
+    def __init__(self, sb, atores: Dict[str, Ator], T: float, ficha: Dict):
+        self.sb, self.atores, self.T, self.ficha = sb, atores, T, ficha
+        self.props: List = []
+        self.mobs: List[Mob] = []
+        self.built: Dict = {}
+        self.scene_kw: Dict = {}            # ex.: {"blocks": [...]} (blocos que mudam no meio do plano)
+
+    def pt(self, p) -> np.ndarray:
+        return _pt(self.sb, p)
+
+    def ponto(self, dx: float, dy: float, dz: float) -> np.ndarray:
+        return _pt(self.sb, [dx, dy, dz])
+
+    def prop(self, block: str, p, fn=None):
+        from .actors import Prop
+        pr = Prop("p%d" % len(self.props), block if ":" in block else "minecraft:" + block, np.asarray(p, float), fn=fn)
+        self.props.append(pr)
+        return pr
+
+    def mob(self, tipo: str, dx: float, dz: float, dy: float = 0.0, vira: float = 0.0) -> Mob:
+        tipo = "minecraft:" + tipo.replace("minecraft:", "")
+        m = Mob.feet(f"mob{len(self.mobs)}c", tipo, _pt(self.sb, [dx, dy, dz]))
+        m.key(0.0, yaw=float(vira))
+        self.mobs.append(m)
+        return m
+
+    # compatível com cinecam.choreo (st.props / st.sb / st.mob / st.pos)
+    def pos(self, nome: str, t: float) -> np.ndarray:
+        if nome in self.built:
+            return self.built[nome].at(np.array([float(t)]))[0, :3]
+        return self.atores[nome].pos_at(float(t))
+
+    def _parte(self, nome: str, t: float, parte: str, local) -> np.ndarray:
+        from .colisao import boxes
+        a = self.built[nome]
+        row = a.at(np.array([float(t)]))[0]
+        M = boxes(row, getattr(a, "slim", False), True)[parte][0]
+        return (M @ np.array([*local, 1.0]))[:3]
+
+    def mao(self, nome: str, t: float, esquerda: bool = False) -> np.ndarray:
+        """Ponta da mão (mundo) no instante t — só depois de assar (dentro de fn de Prop)."""
+        return self._parte(nome, t, "arm_loL" if esquerda else "arm_loR", ((0.5 if esquerda else -1.5), 10.0, 0.0))
+
+    def cabeca(self, nome: str, t: float) -> np.ndarray:
+        return self._parte(nome, t, "head", (0.0, -4.0, 0.0))
+
+
+def _coreografia(ficha: Dict):
+    if not ficha.get("python"):
+        return None
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("coreo_%s" % abs(hash(ficha["python"])), ficha["python"])
+    mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+    return getattr(mod, ficha.get("coreografia", "coreografia"))
+
+
 # ------------------------------------------------------------------------------------------------------------------- shot
 def shot_da_ficha(mapa: Dict, ficha: Dict, qualidade: str = "final", nome: Optional[str] = None,
                   efeitos: Optional[Dict] = None) -> Tuple[Shot, Dict[str, Ator]]:
     """Ficha → Shot pronto para render/Sessao.  efeitos {"blur": bool, "dof": bool} (padrão: os da ficha, senão ligados)."""
     ef = {"blur": True, "dof": True, **(ficha.get("efeitos") or {}), **(efeitos or {})}
+    F = formato(mapa, ficha)
     T = float(ficha["dur"])
-    sb = montar_lugar(mapa, ficha["lugar"])
+    sb = montar_lugar(mapa, ficha["lugar"], F["palco"])
     elenco = _elenco(mapa, ficha, sb)
     _acoes(ficha, elenco, sb)
+    cena = Cena(sb, elenco, T, ficha)
+    fn = _coreografia(ficha)
+    if fn:
+        fn(cena)
     built = {k: v.build(T + 0.5) for k, v in elenco.items()}
-    mobs = _mobs(ficha, sb)
+    cena.built = built
+    mobs = _mobs(ficha, sb) + cena.mobs
     rascunho = qualidade != "final"
-    rig = Rig(fps=FPS, subframes=1 if rascunho else 6, shutter=0.5)
+    rig = Rig(fps=F["fps"], subframes=1 if rascunho else F["sub"], shutter=0.5)
     planos = ficha.get("camera") or [{"plano": "fala", "quem": next(iter(elenco))}]
     t = 0.0
     for i, pl in enumerate(planos):
         fim = min(T, float(pl.get("ate", T))) if i < len(planos) - 1 else T
-        _plano(rig, pl, t, fim - t, built, sb, i == 0, ef if not rascunho else {**ef, "dof": False}, mobs)
+        _plano(rig, pl, t, fim - t, built, sb, i == 0, ef if not rascunho else {**ef, "dof": False}, mobs, F)
         t = fim
     L = _lugar(mapa, ficha["lugar"])
     c = sb.feet(0, 0)
-    scene = sb.scene(time=int(L.get("hora", 4000)), weather=L.get("clima", "clear"), anchor=tuple(c + [0, 4, 2]))
+    scene = sb.scene(time=int(ficha.get("hora", L.get("hora", 4000))), weather=L.get("clima", "clear"), anchor=tuple(c + [0, 4, 2]),
+                     **cena.scene_kw)
     nm = nome or f"curta_{ficha.get('video', 'x')}_{int(ficha.get('n', 0)):02d}"
-    sh = Shot(nm, rig=rig, scene=scene, settings=Settings(renderDistance=10, simulationDistance=6, worldTicks=True),
-              anim=Anim(list(built.values()), mobs=mobs), size=SIZE["rascunho" if rascunho else "final"], grade="insert",
+    sh = Shot(nm, rig=rig, scene=scene, settings=Settings(renderDistance=int(L.get("visao", 10)), simulationDistance=6, worldTicks=True),
+              anim=Anim(list(built.values()), mobs=mobs, props=cena.props), size=F["rascunho" if rascunho else "final"], grade="insert",
               blur=bool(ef["blur"]) and not rascunho, dof=(bool(ef["dof"]) and not rascunho))
     return sh, built
+
+
+def stills_da_ficha(mapa: Dict, ficha: Dict, quando: Sequence[float] = (0.15, 0.5, 0.9), nome: Optional[str] = None) -> Shot:
+    """Shot de stills (rascunho) nos instantes `quando` (fração da duração) — conferir o enquadramento antes do filme."""
+    sh, _ = shot_da_ficha(mapa, ficha, "rascunho", nome=nome)
+    rows = sh.rig.sample_frames()
+    n = len(rows["t"])
+    poses = []
+    for u in quando:
+        i = int(min(n - 1, round(u * (n - 1))))
+        poses.append(dict(x=rows["x"][i], y=rows["y"][i], z=rows["z"][i], yaw=rows["yaw"][i], pitch=rows["pitch"][i],
+                          roll=rows["roll"][i], fov=rows["fov"][i], t=float(rows["t"][i])))
+    return Shot((nome or sh.name) + "_st", poses=poses, scene=sh.scene, settings=sh.settings, anim=sh.anim, size=sh.size)
 
 
 def checar_ficha(mapa: Dict, ficha: Dict) -> List[str]:
@@ -325,7 +447,7 @@ def checar_ficha(mapa: Dict, ficha: Dict) -> List[str]:
         q = pl.get("quem")
         if q in built and pl.get("plano") not in ("segue", "insert", "aberto"):
             tm = (t + fim) / 2
-            k = int(min(len(rows["t"]) - 1, round(tm * FPS)))
+            k = int(min(len(rows["t"]) - 1, round(tm * formato(mapa, ficha)["fps"])))
             cam = np.array([rows["x"][k], rows["y"][k], rows["z"][k]])
             a = built[q].at(np.array([tm]))[0]
             v = cam - a[:3]

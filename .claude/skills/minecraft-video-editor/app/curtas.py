@@ -85,14 +85,45 @@ def _cabe(src, dst):
     return False
 
 
+class NuvemNoLimite(RuntimeError):
+    """A conta antiga da nuvem (KV SONS) grava no máximo 1000 chaves por dia — a mesma da reserva da equipe, das cópias de
+    segurança e das imagens de revisão.  Bateu no limite: a sessão para na hora (não insiste) e só volta depois das 21h."""
+
+
+_PEND = {"mine": {}, "quando": 0.0}          # índice do vídeo esperando para subir (agrupado)
+
+
+def _put(*a, **kw):
+    try:
+        return _nuvem("PUT", *a, **kw)
+    except urllib.error.HTTPError as e:
+        corpo = e.read()[:300].decode("utf8", "replace") if e.code == 500 else ""
+        if "limit exceeded" in corpo:
+            raise NuvemNoLimite("nuvem no limite de gravações do dia (volta às 21h)") from e
+        raise
+
+
 def _enviar(vid, n, mp4):
     tmp = mp4.replace(".mp4", "_nuvem.mp4")
     if not _cabe(mp4, tmp):
         raise RuntimeError("cena grande demais para a nuvem mesmo comprimida")
-    _nuvem("PUT", vid + "-mine", n, open(tmp, "rb").read(), "video/mp4", timeout=180)
-    ix = _json(vid + "-mine") or {}
-    ix[str(n)] = int(time.time() * 1000)
-    _nuvem("PUT", vid + "-mine", None, ix)
+    _put(vid + "-mine", n, open(tmp, "rb").read(), "video/mp4", timeout=180)
+    with _LOCK:
+        _PEND["mine"][str(n)] = int(time.time() * 1000)
+
+
+def _subir_indice(vid, ja=False):
+    """Índice do vídeo (a linha do tempo troca o 3D pelo vídeo) + estado: juntos, no máximo a cada 45 s — 2 gravações por
+    leva em vez de 2 por cena."""
+    with _LOCK:
+        if not ja and time.time() - _PEND["quando"] < 45:
+            return
+        novos = dict(_PEND["mine"]); _PEND["mine"].clear(); _PEND["quando"] = time.time()
+    if novos:
+        ix = _json(vid + "-mine") or {}
+        ix.update(novos)
+        _put(vid + "-mine", None, ix)
+    _publicar_estado(vid)
 
 
 def _publicar_estado(vid):
@@ -100,7 +131,9 @@ def _publicar_estado(vid):
         st = {"pc": socket.gethostname(), "ate": int((time.time() + OCIOSO_S) * 1000), "ativo": _EST["ativo"],
               "cenas": {str(k): v for k, v in _EST["cenas"].items()}}
     try:
-        _nuvem("PUT", vid + "-cinest", None, st)
+        _put(vid + "-cinest", None, st)
+    except NuvemNoLimite:
+        raise
     except Exception as e:
         _log(f"estado não subiu: {e}")
 
@@ -155,9 +188,9 @@ def sessao(vid, efeitos=None, qualidade="final"):
                     try:
                         sh, falta = shot_da_cena(X, mundo, ef, os.path.join(pasta, "skins"), qualidade, nome=f"est_{vid}_{n:02d}")
                     except Exception as e:
-                        _marca(n, estado="erro", erro=f"conversão: {e}"[:500]); _publicar_estado(vid); continue
+                        _marca(n, estado="erro", erro=f"conversão: {e}"[:500]); continue
                     if falta:                                 # o Minecraft ainda não desenha algo desta cena: fica no 3D do estúdio
-                        _marca(n, estado="3d", falta=falta[:6]); _log(f"cena {n} fica no 3D: {falta[:3]}"); _publicar_estado(vid); continue
+                        _marca(n, estado="3d", falta=falta[:6]); _log(f"cena {n} fica no 3D: {falta[:3]}"); continue
                     _marca(n, estado="renderizando")
                     t0 = time.time()
                     try:
@@ -167,12 +200,18 @@ def sessao(vid, efeitos=None, qualidade="final"):
                     futs.append(ex.submit(_terminar, vid, n, sh, info, t0))
                 for f in futs:
                     f.result()
+            _subir_indice(vid, ja=True)
             ultimo = time.time()
+    except NuvemNoLimite as e:
+        _log(str(e))
     finally:
         s.close()
         with _LOCK:
             _EST["ativo"] = False
-        _publicar_estado(vid)
+        try:
+            _subir_indice(vid, ja=True)
+        except NuvemNoLimite:
+            pass
         _log("sessão encerrada")
 
 
@@ -184,13 +223,16 @@ def _terminar(vid, n, sh, info, t0):
             _enviar(vid, n, info["final"])
             _marca(n, estado="pronto", s=round(time.time() - t0, 1))
             _log(f"cena {n} pronta em {time.time() - t0:.0f} s")
+        except NuvemNoLimite:
+            _PARAR.set()
+            raise
         except Exception as e:
             _marca(n, estado="erro", erro=f"envio: {e}"[:500]); _log(f"cena {n}: envio falhou: {e}")
     else:
         err = str(info.get("error"))
         _marca(n, estado="3d" if err.startswith("colisão") else "erro", erro=err[:500])
         _log(f"cena {n}: {err[:200]}")
-    _publicar_estado(vid)
+    _subir_indice(vid)
 
 
 def iniciar(vid, efeitos=None):
