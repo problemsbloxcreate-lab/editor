@@ -219,10 +219,27 @@ def _capture_launch(logname: str):
         print(f"[cinecam] could not capture the direct launch command: {e}")
 
 
+def _pid_vivo(lock: Path) -> bool:
+    """Lock de um processo que morreu (serviço fechado à força) não segura mais o render."""
+    try:
+        pid = int(lock.read_text().strip())
+    except (OSError, ValueError):
+        return True
+    if pid == os.getpid():
+        return False
+    h = ctypes.windll.kernel32.OpenProcess(0x1000, False, pid)        # PROCESS_QUERY_LIMITED_INFORMATION
+    if not h:
+        return False
+    code = ctypes.c_ulong()
+    ctypes.windll.kernel32.GetExitCodeProcess(h, ctypes.byref(code))
+    ctypes.windll.kernel32.CloseHandle(h)
+    return code.value == 259                                             # STILL_ACTIVE
+
+
 def _take_lock() -> Path:
     lock = RUN_HOME / "render.lock"
     RUN_HOME.mkdir(parents=True, exist_ok=True)
-    if lock.exists() and time.time() - lock.stat().st_mtime < 3 * 3600:
+    if lock.exists() and time.time() - lock.stat().st_mtime < 3 * 3600 and _pid_vivo(lock):
         raise RuntimeError(f"another render seems to be running (lock {lock}); delete it if that is stale")
     lock.write_text(str(os.getpid()))
     return lock

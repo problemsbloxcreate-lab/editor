@@ -361,7 +361,7 @@ public final class Controller {
                     lastCmdsHash = ch;
                     if (same) CineCam.LOG.info("[cinecam] set unchanged: {} commands skipped", job.commands.size());
                     server(mc, p -> {
-                        if (!same) for (String c : job.commands) run(p, c);
+                        if (!same) { loadChunks(p, job.commands); for (String c : job.commands) run(p, c); }
                         try {
                             Files.createDirectories(job.outDir);
                             if (!job.queries.isEmpty()) Scout.queries(p, job.queries, job.outDir.resolve(job.name + "_queries.json"));
@@ -731,6 +731,27 @@ public final class Controller {
 
     private static boolean ready() {
         return pending == null || pending.isDone();
+    }
+
+    private static final java.util.regex.Pattern CMD_BOX = java.util.regex.Pattern.compile(
+            "^/?(?:fill|setblock|clone)\\s+(-?\\d+)\\s+(-?\\d+)\\s+(-?\\d+)(?:\\s+(-?\\d+)\\s+(-?\\d+)\\s+(-?\\d+))?");
+
+    /** v1.1: fill/setblock fora dos chunks carregados falha ("That position is not loaded") — o mundo de um vídeo do Shorts cobre
+     *  centenas de blocos e a sessão constrói tudo uma vez só: carrega (gera) cada chunk tocado pelos comandos antes de rodá-los. */
+    private static void loadChunks(ServerPlayer p, List<String> cmds) {
+        java.util.Set<Long> seen = new java.util.HashSet<>();
+        var lvl = p.serverLevel();
+        long t0 = System.nanoTime();
+        for (String c : cmds) {
+            var m = CMD_BOX.matcher(c.trim());
+            if (!m.find()) continue;
+            int x0 = Integer.parseInt(m.group(1)), z0 = Integer.parseInt(m.group(3));
+            int x1 = m.group(4) != null ? Integer.parseInt(m.group(4)) : x0, z1 = m.group(6) != null ? Integer.parseInt(m.group(6)) : z0;
+            for (int cx = Math.min(x0, x1) >> 4; cx <= Math.max(x0, x1) >> 4; cx++)
+                for (int cz = Math.min(z0, z1) >> 4; cz <= Math.max(z0, z1) >> 4; cz++)
+                    if (seen.add(net.minecraft.world.level.ChunkPos.asLong(cx, cz))) lvl.getChunk(cx, cz);
+        }
+        CineCam.LOG.info("[cinecam] world commands: {} chunks loaded in {} ms", seen.size(), (System.nanoTime() - t0) / 1_000_000);
     }
 
     private static void run(ServerPlayer p, String command) {
