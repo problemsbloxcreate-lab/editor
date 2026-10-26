@@ -69,8 +69,9 @@ public final class Anim {
     public final List<ActorDef> actors = new ArrayList<>();
     public final List<PropDef> propDefs = new ArrayList<>();
     public final List<MobDef> mobDefs = new ArrayList<>();
-    public static final int MBN = 15;   // mob row: centre x,y,z | yaw pitch roll | sx sy sz (world-axis squash) | shadow y | 10 walk POSITION (vanilla limbSwing, cumulative)
+    public static final int MBN = 16;   // mob row: centre x,y,z | yaw pitch roll | sx sy sz (world-axis squash) | shadow y | 10 walk POSITION (vanilla limbSwing, cumulative)
                                         // | 11 age ticks (0 = frozen; tail/fin/wing anims) | 12 walk amount 0..1 (limbSwingAmount) | 13 head yaw | 14 head pitch (deg)
+                                        // | 15 v1.1 barco: ângulo do remo (rad, 0 = parado; esquerdo = a, direito = a − π, fórmula do BoatModel)
     public int[] box = null;          // x0,z0,x1,z1 of the water region
     public int yMin = 0, yMax = 0;
     public double cx = 0, cz = 0;      // funnel centre (blocks)

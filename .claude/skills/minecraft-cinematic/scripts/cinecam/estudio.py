@@ -24,7 +24,7 @@ from typing import Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
 
-from .actors import Anim, Mob, POSE, PN
+from .actors import Anim, Mob, POSE, PN, MBN
 from .atua import _Baked
 from .camlib import Move, Rig
 from .render import Scene, Settings, Shot
@@ -88,7 +88,15 @@ def _cortes(P: np.ndarray, lim: float) -> List[int]:
     if len(P) < 2:
         return []
     d = np.linalg.norm(np.diff(np.asarray(P, float), axis=0), axis=1)
-    return [int(j) for j in np.nonzero(d > lim)[0]]
+    out = []
+    for j in range(len(d)):
+        viz = [d[k] for k in (j - 1, j + 1) if 0 <= k < len(d)]
+        ref = max(viz) if viz else 0.0
+        # teleporte = pulo ISOLADO: muito maior que o passo dos quadros vizinhos (barco a 72 blocos/s anda 2,4 por quadro
+        # todo quadro — isso é movimento, não corte)
+        if d[j] > lim and d[j] > 3.0 * ref + 0.5:
+            out.append(j)
+    return out
 
 
 def _por_trechos(tq: np.ndarray, rows: np.ndarray, tg: np.ndarray, cortes: Sequence[int], fn) -> np.ndarray:
@@ -322,6 +330,46 @@ def _pe_no_chao(ch: np.ndarray, tg: np.ndarray, ground: float, slim: bool):
     ch[:, POSE["hop"]] += np.interp(tg, tg[idx], env)
 
 
+def _barco(X: Dict, tq: np.ndarray) -> Optional[Mob]:
+    """O barco do estúdio (cópia do BoatRenderer: mesma translação/escala/rotação) vira a entidade barco do jogo: posição da
+    entidade, rotação total do estúdio = 180° − yaw do mob (o renderer do barco já gira 180°), escala (o barco "pula" para
+    aparecer) e o remo no mesmo ângulo (rowPaddles do estúdio: t·7 enquanto rema)."""
+    Q = X["quadros"]
+    if not any(q.get("barco") for q in Q):
+        return None
+    h = Mob.height("boat")
+    rows = np.zeros((len(Q), MBN))
+    last = None
+    for i, q in enumerate(Q):
+        b = q.get("barco")
+        if not b:
+            if last is not None:
+                rows[i] = last; rows[i, 6:9] = 0
+            continue
+        e = float(b.get("esc", 1.0))
+        rows[i, 0], rows[i, 1], rows[i, 2] = b["p"][0], b["p"][1] + Y_OFF + h * e / 2, b["p"][2]
+        rows[i, 3] = 180.0 - float(b["ry"])
+        rows[i, 6:9] = e
+        rows[i, 15] = float(b.get("rema", 0.0))
+        last = rows[i].copy()
+    if last is None:
+        return None
+    first = next(i for i, q in enumerate(Q) if q.get("barco"))
+    rows[:first] = rows[first]; rows[:first, 6:9] = 0
+    rows[:, 3] = np.degrees(np.unwrap(np.radians(rows[:, 3])))
+    cc = _cortes(rows[:, :3], 1.5)
+
+    def fn(times, rows=rows):
+        o = _por_trechos(tq, rows, np.asarray(times, float), cc, lambda a, r, b: np.stack([np.interp(b, a, r[:, c]) for c in range(MBN)], 1))
+        vis = np.interp(times, tq, (rows[:, 6] > 0).astype(float)) > 0.5
+        o[:, 6:9] = np.where(vis[:, None], o[:, 6:9], 0.0)
+        r = np.interp(times, tq, rows[:, 15])            # remo: contínuo enquanto rema; parado = 0 exato
+        o[:, 15] = np.where(np.interp(times, tq, (rows[:, 15] != 0).astype(float)) > 0.5, r, 0.0)
+        o[:, 11] = 0.0
+        return o
+    return Mob("barco", "minecraft:boat", tuple(rows[0, :3]), fn=fn)
+
+
 def _mobs(X: Dict, tq: np.ndarray, falta: List[str]) -> List[Mob]:
     Q = X["quadros"]
     keys: List[str] = []
@@ -337,7 +385,7 @@ def _mobs(X: Dict, tq: np.ndarray, falta: List[str]) -> List[Mob]:
             falta.append(f"mob {tipo} sem equivalente no jogo")
             continue
         h = Mob.height(mc)
-        rows = np.zeros((len(Q), 15))
+        rows = np.zeros((len(Q), MBN))
         last = None
         for i, q in enumerate(Q):
             m = next((x for x in q.get("m", []) if x["k"] == k), None)
@@ -355,7 +403,7 @@ def _mobs(X: Dict, tq: np.ndarray, falta: List[str]) -> List[Mob]:
         rows[:, 3] = np.degrees(np.unwrap(np.radians(rows[:, 3])))
 
         def fn(times, rows=rows):
-            o = np.stack([np.interp(times, tq, rows[:, c]) for c in range(15)], 1)
+            o = np.stack([np.interp(times, tq, rows[:, c]) for c in range(MBN)], 1)
             vis = np.interp(times, tq, (rows[:, 6] > 0).astype(float)) > 0.5
             o[:, 6:9] = np.where(vis[:, None], o[:, 6:9], 0.0)
             o[:, 11] = 0.0                       # idade: Mob.at põe 20·t
@@ -526,6 +574,9 @@ def shot_da_cena(X: Dict, M: Optional[Dict], efeitos: Optional[Dict] = None, pas
     tg = np.arange(0, T + 0.25, 1.0 / HZ)
     atores = _atores(X, tq, tg, pasta_skins, falta)
     mobs = _mobs(X, tq, falta)
+    bt = _barco(X, tq)
+    if bt is not None:
+        mobs.append(bt)
     rascunho = qualidade != "final"
     rig = Rig(fps=fps, subframes=1 if rascunho else 6, shutter=0.5)
     mv = _camera(X, tq, atores, {**ef, "dof": ef["dof"] and not rascunho})

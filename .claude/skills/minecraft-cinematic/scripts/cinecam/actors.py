@@ -153,10 +153,11 @@ class Prop(_Keyed):
         return super().at(times)
 
 
-MOB = dict(x=0, y=1, z=2, yaw=3, pitch=4, roll=5, sx=6, sy=7, sz=8, shadow_y=9, walk=10, age=11, walk_amt=12, head_yaw=13, head_pitch=14)
-MBN = 15
+MOB = dict(x=0, y=1, z=2, yaw=3, pitch=4, roll=5, sx=6, sy=7, sz=8, shadow_y=9, walk=10, age=11, walk_amt=12, head_yaw=13, head_pitch=14,
+           rema=15)                       # v1.1: barco — ângulo do remo (rad, 0 = parado)
+MBN = 16
 # altura (blocos) da caixa de cada mob vanilla: o centro fica em pés + altura/2 (antes tudo ia a +0,5 e o creeper afundava 0,35)
-MOB_H = {"creeper": 1.7, "zombie": 1.95, "husk": 1.95, "drowned": 1.95, "skeleton": 1.99, "stray": 1.99, "wither_skeleton": 2.4,
+MOB_H = {"boat": 0.5625, "creeper": 1.7, "zombie": 1.95, "husk": 1.95, "drowned": 1.95, "skeleton": 1.99, "stray": 1.99, "wither_skeleton": 2.4,
          "pig": 0.9, "cow": 1.4, "mooshroom": 1.4, "sheep": 1.3, "chicken": 0.7, "spider": 0.9, "cave_spider": 0.5,
          "villager": 1.95, "wandering_trader": 1.95, "witch": 1.95, "pillager": 1.95, "vindicator": 1.95, "evoker": 1.95,
          "wolf": 0.85, "cat": 0.7, "ocelot": 0.7, "fox": 0.7, "rabbit": 0.5, "horse": 1.6, "donkey": 1.5, "llama": 1.87,

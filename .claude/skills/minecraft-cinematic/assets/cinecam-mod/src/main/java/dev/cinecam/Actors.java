@@ -395,6 +395,26 @@ public final class Actors {
         v(vc, pose.pose(), pose.normal(), new double[]{x + r, y, z - r}, 1, 0, 1, 1, 1, a, 0xF000F0, 0, 1, 0);
     }
 
+    private static java.lang.reflect.Field paddleF;   // Boat.paddlePositions (o único float[] da classe)
+
+    /** v1.1: remo do barco no ângulo do estúdio — getRowingTime(lado, 1) devolve paddlePositions[lado] com o remo "ligado". */
+    private static void setPaddles(net.minecraft.world.entity.vehicle.Boat b, double a, float part) {
+        boolean on = a != 0.0;
+        b.setPaddleState(on, on);
+        try {
+            if (paddleF == null) {
+                for (java.lang.reflect.Field f : net.minecraft.world.entity.vehicle.Boat.class.getDeclaredFields())
+                    if (f.getType() == float[].class) { f.setAccessible(true); paddleF = f; break; }
+            }
+            float[] pp = (float[]) paddleF.get(b);
+            double k = (1.0 - part) * Math.PI / 8.0;     // o jogo interpola entre pos − π/8 e pos pela fração do tick
+            pp[0] = (float) (a + k);
+            pp[1] = (float) (a - Math.PI + k);
+        } catch (Exception ex) {
+            CineCam.LOG.warn("[cinecam] boat paddles: {}", ex.toString());
+        }
+    }
+
     /** A vanilla mob (client-only instance, never added to the world) posed by the rig: world-axis squash about its centre,
      *  then yaw/pitch/roll tumble; limbs at walk position q[10] / amount q[12]; head q[13]/q[14]. */
     private static void drawMob(Minecraft mc, PoseStack ps, MultiBufferSource.BufferSource bs, Vec3 cam, MobRt mr, double[] q) {
@@ -417,6 +437,7 @@ public final class Actors {
             // added steps, so legs ran 6-10x too fast and jittered ("mobs com membros super velozes e bugados").
             setWalk(le, (float) q[10], q.length > 12 ? (float) q[12] : 0f, part);
         }
+        if (e instanceof net.minecraft.world.entity.vehicle.Boat b) setPaddles(b, q.length > 15 ? q[15] : 0.0, part);
         if (q[9] != 0) {
             double h = q[1] - mr.pivot - q[9];
             double alpha = Math.max(0, Math.min(0.5, 0.5 * (1 - h / 6.0)));
