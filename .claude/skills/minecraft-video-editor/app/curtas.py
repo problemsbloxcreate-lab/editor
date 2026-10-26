@@ -123,7 +123,7 @@ def sessao(vid, efeitos=None, qualidade="final"):
     os.makedirs(pasta, exist_ok=True)
     feitos, mundo, mundo_h = {}, None, None
     ultimo = time.time()
-    s = Sessao(World(seed=4242, preset="flat"), log=_log)
+    s = Sessao(World(seed=4242, preset="flat", groundY=64), log=_log)   # chão em todo lugar, na altura do estúdio
     try:
         while not _PARAR.is_set():
             ix = _json(vid + "-cinexp") or {}
@@ -135,7 +135,7 @@ def sessao(vid, efeitos=None, qualidade="final"):
             pend = sorted(int(n) for n, h in ix.items() if n.isdigit() and feitos.get(int(n)) != h)
             if not pend:
                 if time.time() - ultimo > OCIOSO_S:
-                    _log("15 min sem cena nova: fechando")
+                    _log(f"{OCIOSO_S // 60} min sem cena nova: fechando")
                     break
                 _PARAR.wait(4)
                 continue

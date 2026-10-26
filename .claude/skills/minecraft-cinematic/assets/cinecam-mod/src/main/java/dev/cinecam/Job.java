@@ -34,6 +34,7 @@ public final class Job {
     public long seed = 20261015L;
     public String preset = "normal";            // normal | flat
     public boolean structures = true;
+    public int groundY = Integer.MIN_VALUE;      // v1.1 (preset flat): chão de grama com o topo nesta altura em TODO o mundo (Shorts: 64)
     public String copyFrom = null;               // absolute path of a save folder (mode=copy)
 
     // client settings
@@ -100,6 +101,7 @@ public final class Job {
             j.seed = (long) d(w, "seed", j.seed);
             j.preset = str(w, "preset", j.preset);
             j.structures = b(w, "structures", j.structures);
+            j.groundY = i(w, "groundY", j.groundY);
             j.copyFrom = str(w, "copyFrom", null);
         }
         JsonObject s = obj(o, "settings");

@@ -379,13 +379,16 @@ public final class Controller {
             }
             case SETTLE -> {
                 if (tick == 1) {
+                    // v1.1: sem o recorte de oclusão (BFS de seções) — com a câmera acima do teto do mundo (vista de cima do Shorts) ele
+                    // descartava pedaços de morro e o céu aparecia pelo chão; filmando quadro a quadro, desenhar tudo no quadro é o certo
+                    mc.smartCull = false;
                     var rt0 = mc.getMainRenderTarget();
                     if (rt0.width != job.width || rt0.height != job.height) {
                         Reflect.resizeFramebuffer(mc, job.width, job.height);
                         CineCam.LOG.info("[cinecam] framebuffer forced to {}x{}", job.width, job.height);
                     }
                 }
-                boolean idle = mc.levelRenderer.hasRenderedAllChunks();
+                boolean idle = mc.levelRenderer.hasRenderedAllChunks() && chunksAround(mc, table.x[0], table.z[0]);
                 stableTicks = idle ? stableTicks + 1 : 0;
                 if (tick >= job.settleTicks && stableTicks >= 20) {
                     if (scoutOnly) go(Phase.FINISH); else beginFilm(mc);
@@ -432,8 +435,22 @@ public final class Controller {
         worldDir = FileUtil.findAvailableName(saves, "cinecam-" + job.name, "");
         LevelSettings s = new LevelSettings("CineCam " + job.name, GameType.CREATIVE, false, Difficulty.PEACEFUL, true, new GameRules(), WorldDataConfiguration.DEFAULT);
         var preset = "flat".equals(job.preset) ? WorldPresets.FLAT : WorldPresets.NORMAL;
-        mc.createWorldOpenFlows().createFreshLevel(worldDir, s, new WorldOptions(job.seed, job.structures, false),
-                r -> r.registryOrThrow(Registries.WORLD_PRESET).getHolderOrThrow(preset).value().createWorldDimensions());
+        mc.createWorldOpenFlows().createFreshLevel(worldDir, s, new WorldOptions(job.seed, job.structures, false), r -> {
+            var dims = r.registryOrThrow(Registries.WORLD_PRESET).getHolderOrThrow(preset).value().createWorldDimensions();
+            if (!"flat".equals(job.preset) || job.groundY == Integer.MIN_VALUE) return dims;
+            // v1.1: plano com grama na altura do chão da cena em todo lugar — câmera nenhuma enxerga vazio embaixo do mundo construído
+            var biomes = r.lookupOrThrow(Registries.BIOME);
+            var fs = net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorSettings.getDefault(biomes,
+                    r.lookupOrThrow(Registries.STRUCTURE_SET), r.lookupOrThrow(Registries.PLACED_FEATURE));
+            int total = job.groundY + 64;      // camadas do fundo (-64) até a grama (topo em groundY)
+            var L = java.util.List.of(
+                    new net.minecraft.world.level.levelgen.flat.FlatLayerInfo(1, net.minecraft.world.level.block.Blocks.BEDROCK),
+                    new net.minecraft.world.level.levelgen.flat.FlatLayerInfo(total - 5, net.minecraft.world.level.block.Blocks.STONE),
+                    new net.minecraft.world.level.levelgen.flat.FlatLayerInfo(3, net.minecraft.world.level.block.Blocks.DIRT),
+                    new net.minecraft.world.level.levelgen.flat.FlatLayerInfo(1, net.minecraft.world.level.block.Blocks.GRASS_BLOCK));
+            fs = fs.withBiomeAndLayers(L, java.util.Optional.empty(), biomes.getOrThrow(net.minecraft.world.level.biome.Biomes.PLAINS));
+            return dims.replaceOverworldGenerator(r, new net.minecraft.world.level.levelgen.FlatLevelSource(fs));
+        });
     }
 
     private static void checkReach(double[] a) {
@@ -511,7 +528,7 @@ public final class Controller {
             return;
         }
         int sub = idx % job.subframes;
-        boolean idle = mc.levelRenderer.hasRenderedAllChunks();
+        boolean idle = mc.levelRenderer.hasRenderedAllChunks() && chunksAround(mc, table.x[idx], table.z[idx]);
         readyStreak = idle ? readyStreak + 1 : 0;
         int need = sub == 0 ? 2 : 1;
         boolean timedOut = waitStartNs != 0 && (System.nanoTime() - waitStartNs) / 1e9 > 40.0;
@@ -727,6 +744,23 @@ public final class Controller {
                 f.complete(null);
             }
         });
+    }
+
+    /** v1.1: todo chunk ao alcance da câmera (distância de visão) que o servidor manda (em volta do jogador) já chegou ao cliente.
+     *  hasRenderedAllChunks só olha os que já chegaram — na vista de cima (18 chunks) os primeiros quadros saíam com buracos. */
+    private static boolean chunksAround(Minecraft mc, double x, double z) {
+        if (mc.level == null || mc.player == null) return true;
+        var cs = mc.level.getChunkSource();
+        int r = mc.options.getEffectiveRenderDistance() - 1;
+        int ccx = (int) Math.floor(x) >> 4, ccz = (int) Math.floor(z) >> 4;
+        int pcx = mc.player.chunkPosition().x, pcz = mc.player.chunkPosition().z;
+        for (int cx = ccx - r; cx <= ccx + r; cx++)
+            for (int cz = ccz - r; cz <= ccz + r; cz++) {
+                if ((cx - ccx) * (cx - ccx) + (cz - ccz) * (cz - ccz) > r * r) continue;
+                if (Math.abs(cx - pcx) > r || Math.abs(cz - pcz) > r) continue;
+                if (!cs.hasChunk(cx, cz)) return false;
+            }
+        return true;
     }
 
     private static boolean ready() {

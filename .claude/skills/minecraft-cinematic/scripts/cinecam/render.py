@@ -51,6 +51,7 @@ class World:
     preset: str = "normal"            # normal | flat
     structures: bool = True
     copyFrom: Optional[str] = None    # absolute path of a save folder to copy (never opens the original)
+    groundY: Optional[int] = None     # v1.1 (preset flat): grama com o topo nesta altura no mundo TODO (Shorts: 64 = chão do estúdio)
 
 
 @dataclass
@@ -117,7 +118,7 @@ def _write_job(rig: Rig, name: str, scene: Scene, world: World, settings: Settin
         sc.pop("anchor")
     job = {"name": name, "out": str(out_dir).replace("\\", "/"), "width": size[0], "height": size[1], "fps": rig.fps,
            "subframes": rig.subframes, "ffmpeg": shutil.which("ffmpeg") or "ffmpeg", "codec": codec, "depth": depth,
-           "world": asdict(world), "settings": asdict(settings), "scene": sc, "camera": "camera.csv"}
+           "world": {k: v for k, v in asdict(world).items() if v is not None}, "settings": asdict(settings), "scene": sc, "camera": "camera.csv"}
     if anim is not None:
         anim.write(str(job_dir / "anim.json"), _actors.row_times(rig), rig.subframes)
         job["anim"] = "anim.json"

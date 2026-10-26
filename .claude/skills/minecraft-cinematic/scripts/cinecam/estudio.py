@@ -60,6 +60,43 @@ def _catmull(t_src: np.ndarray, v: np.ndarray, t_dst: np.ndarray) -> np.ndarray:
     return 0.5 * ((2 * p1) + (-p0 + p2) * f + (2 * p0 - 5 * p1 + 4 * p2 - p3) * f ** 2 + (-p0 + 3 * p1 - 3 * p2 + p3) * f ** 3)
 
 
+def _pchip(t_src: np.ndarray, v: np.ndarray, t_dst: np.ndarray) -> np.ndarray:
+    """Cúbica monótona (Fritsch–Butland) entre os quadros do estúdio: passa por todos e NUNCA passa do ponto.  A Catmull-Rom
+    ultrapassava nos degraus de pose do estúdio (a pose troca num quadro) e o membro ia e voltava — o "rollback" do preview."""
+    n = len(t_src)
+    if n < 3:
+        return np.stack([np.interp(t_dst, t_src, v[:, c]) for c in range(v.shape[1])], 1)
+    h = (t_src[-1] - t_src[0]) / (n - 1)
+    d = np.diff(v, axis=0) / h
+    m = np.zeros_like(v)
+    a, b = d[:-1], d[1:]
+    same = a * b > 0
+    m[1:-1] = np.where(same, 2 * a * b / np.where(same, a + b, 1.0), 0.0)
+    m[0], m[-1] = d[0], d[-1]
+    m[0] = np.where(m[0] * d[0] > 0, m[0], 0.0)
+    m[-1] = np.where(m[-1] * d[-1] > 0, m[-1], 0.0)
+    u = np.clip((t_dst - t_src[0]) / h, 0, n - 1 - 1e-9)
+    i = np.floor(u).astype(int)
+    f = (u - i)[:, None]
+    y0, y1, m0, m1 = v[i], v[i + 1], m[i] * h, m[i + 1] * h
+    f2, f3 = f * f, f * f * f
+    return (2 * f3 - 3 * f2 + 1) * y0 + (f3 - 2 * f2 + f) * m0 + (-2 * f3 + 3 * f2) * y1 + (f3 - f2) * m1
+
+
+def _suaviza_degraus(rows: np.ndarray, cols: Sequence[int], sigma: float = 1.0):
+    """Gaussiana curta (σ = 1 quadro ≈ 33 ms) nos ângulos do corpo: o salto de pose que o estúdio faz num único quadro vira
+    uma transição de ~0,1 s; o peso da gaussiana é todo positivo, então nada passa do ponto.  Posição/altura não entram
+    (pé no chão e tempo dos contatos ficam exatos)."""
+    if len(rows) < 3:
+        return
+    r = int(np.ceil(3 * sigma))
+    k = np.exp(-0.5 * (np.arange(-r, r + 1) / sigma) ** 2)
+    k /= k.sum()
+    for c in cols:
+        x = np.pad(rows[:, c], r, mode="edge")
+        rows[:, c] = np.convolve(x, k, mode="valid")
+
+
 def _unwrap_cols(a: np.ndarray, cols: Sequence[int]):
     for c in cols:
         a[:, c] = np.degrees(np.unwrap(np.radians(a[:, c])))
@@ -181,8 +218,11 @@ def _atores(X: Dict, tq: np.ndarray, tg: np.ndarray, pasta_skins: str, falta: Op
         for c in ("belly", "belly_y", "head", "rarm_len", "larm_len", "rleg_len", "lleg_len"):
             rows[:, POSE[c]] = 1.0
         rows[:, POSE["vbelly_y"]], rows[:, POSE["vbelly_out"]], rows[:, POSE["vbelly_vox"]] = 7, 3, 1
-        _unwrap_cols(rows, [POSE[n] for n in POSE if n.endswith(("_x", "_y", "_z")) and n not in ("x", "y", "z")] + [POSE["yaw"]])
-        ch = _catmull(tq, rows, tg)
+        ang = [POSE[n] for n in POSE if n.endswith(("_x", "_y", "_z")) and n not in ("x", "y", "z")] + [POSE["yaw"]]
+        _unwrap_cols(rows, ang)
+        cru = rows.copy()
+        _suaviza_degraus(rows, ang + [POSE[n] for n in ("rarm_bend", "larm_bend", "rleg_bend", "lleg_bend", "lean", "roll")])
+        ch = _pchip(tq, rows, tg)
         # quem não está no quadro some (escala 0) — sem interpolar a entrada/saída
         v = np.interp(tg, tq, vis) > 0.5
         for c in ("sx", "sy", "sz"):
@@ -200,7 +240,24 @@ def _atores(X: Dict, tq: np.ndarray, tg: np.ndarray, pasta_skins: str, falta: Op
         _pe_no_chao(ch, tg, ground, bool(sk.get("slim")))
         a.set_grid(tg, ch)
         from .colisao import auto_fix_self
+        from .atua import snaps
         a.colisao_resto = auto_fix_self(a, float(tg[-1]))
+        # trava do "rollback" (26/10): nenhum membro pode ir-e-voltar; sobrou tranco → suaviza mais forte (σ 1,8 e 2,6 quadros)
+        a.trancos = snaps(a, float(X["dur"]))
+        for sg in (1.8, 2.6):
+            if not a.trancos:
+                break
+            r2 = cru.copy()
+            _suaviza_degraus(r2, ang + [POSE[n] for n in ("rarm_bend", "larm_bend", "rleg_bend", "lleg_bend", "lean", "roll")], sg)
+            ch2 = _pchip(tq, r2, tg)
+            for c in ("sx", "sy", "sz"):
+                ch2[:, POSE[c]] = ch[:, POSE[c]]
+            for c in ("item", "blink", "mouth", "shadow_y"):
+                ch2[:, POSE[c]] = ch[:, POSE[c]]
+            _pe_no_chao(ch2, tg, ground, bool(sk.get("slim")))
+            a.set_grid(tg, ch2)
+            a.colisao_resto = auto_fix_self(a, float(tg[-1]))
+            a.trancos = snaps(a, float(X["dur"]))
         out.append(a)
     return out
 
@@ -274,6 +331,93 @@ def _mobs(X: Dict, tq: np.ndarray, falta: List[str]) -> List[Mob]:
     return out
 
 
+def _base_mc(yaw, pitch, roll):
+    """Frente e "para cima" da câmera do CineCam para (yaw, pitch, roll) em graus (yaw 0 = +z, pitch + = para baixo)."""
+    y, p, r = np.radians(yaw), np.radians(pitch), np.radians(roll)
+    h = np.stack([-np.sin(y), np.zeros_like(y), np.cos(y)], -1)
+    f = h * np.cos(p)[..., None] + np.stack([0 * y, -np.sin(p), 0 * y], -1)
+    u0 = h * np.sin(p)[..., None] + np.stack([0 * y, np.cos(p), 0 * y], -1)
+    s0 = np.cross(f, u0)
+    u = u0 * np.cos(r)[..., None] - s0 * np.sin(r)[..., None]
+    return f, u
+
+
+def _orienta(d: np.ndarray, up: np.ndarray):
+    """(frente, para cima) do estúdio → (yaw, pitch, roll) do CineCam.  Perto da vertical o yaw sai do "para cima" (olhando reto
+    para baixo, o topo da tela aponta para onde a câmera "está virada"); longe dela, da frente.  Contínuo, sem o giro
+    de 90° em 90° que a conta antiga dava na vista de cima (cena "linha dos 300 blocos")."""
+    f = d / (np.linalg.norm(d, axis=1, keepdims=True) + 1e-12)
+    u = up - np.sum(up * f, 1, keepdims=True) * f
+    u /= np.linalg.norm(u, axis=1, keepdims=True) + 1e-12
+    sp = np.clip(-f[:, 1], -1, 1)
+    cp = np.sqrt(1 - sp ** 2)
+    pitch = np.degrees(np.arcsin(sp))
+    hf = f[:, [0, 2]] / (cp[:, None] + 1e-12)
+    hu = (f * cp[:, None] + u * sp[:, None])[:, [0, 2]]
+    hu /= np.linalg.norm(hu, axis=1, keepdims=True) + 1e-12
+    w = np.clip((cp - 0.02) / 0.06, 0, 1)[:, None]          # só nos últimos ~5° antes da vertical
+    w = w * w * (3 - 2 * w)
+    hv = hf * w + hu * (1 - w)
+    yaw = np.degrees(np.unwrap(np.arctan2(-hv[:, 0], hv[:, 1])))
+    f0, u0 = _base_mc(yaw, pitch, np.zeros_like(yaw))
+    roll = np.degrees(np.unwrap(np.arctan2(-np.sum(np.cross(u0, u) * f0, 1), np.sum(u0 * u, 1))))
+    return yaw, pitch, roll
+
+
+def confere_camera(X: Dict, sh) -> List[str]:
+    """Trava (26/10, "nunca sem chão"): a câmera que vai para o Minecraft aponta para o MESMO lugar que a do estúdio em todo
+    quadro (frente < 1,5°, topo da tela < 3°).  Erro aqui = a cena não é desenhada (fica no 3D), nunca sai torta."""
+    Q = X["quadros"]
+    if not Q or not all("u" in q["cam"] for q in Q):
+        return []
+    fps = int(X.get("fps", 30))
+    T = float(X["dur"])
+    mv = sh.rig_camera
+    rows = mv.eval(np.clip(np.arange(len(Q)) / fps / T, 0, 1))
+    out = []
+    for i, q in enumerate(Q):
+        k = i
+        f1, u1 = _base_mc(np.array([rows["yaw"][k]]), np.array([rows["pitch"][k]]), np.array([rows["roll"][k]]))
+        d = np.subtract(q["cam"]["l"], q["cam"]["p"])
+        f = d / (np.linalg.norm(d) + 1e-12)
+        u = np.asarray(q["cam"]["u"], float)
+        u = u - np.dot(u, f) * f
+        u /= np.linalg.norm(u) + 1e-12
+        ef = np.degrees(np.arccos(np.clip(np.dot(f, f1[0]), -1, 1)))
+        eu = np.degrees(np.arccos(np.clip(np.dot(u, u1[0]), -1, 1)))
+        if ef > 1.5 or eu > 3.0:
+            out.append(f"quadro {i}: frente {ef:.1f}°, topo {eu:.1f}°")
+    return out
+
+
+def distancia_visao(X: Dict) -> Tuple[int, float]:
+    """(chunks de distância, maior distância câmera→chão visível em blocos) para enxergar o chão que a câmera do estúdio
+    enxerga (a vista de cima a 300 blocos precisa de ~18 chunks e de névoa empurrada para longe)."""
+    far = 0.0
+    far3 = 0.0
+    for q in X["quadros"][::3]:
+        c = q["cam"]
+        p = np.asarray(c["p"], float)
+        d = np.subtract(c["l"], p)
+        f = d / (np.linalg.norm(d) + 1e-12)
+        u = np.asarray(c.get("u") or [0, 1, 0], float)
+        u = u - np.dot(u, f) * f
+        u /= np.linalg.norm(u) + 1e-12
+        rt = np.cross(f, u)
+        tv = np.tan(np.radians(float(c.get("fov", 70)) / 2))
+        for sx in (-1, 0, 1):
+            for sy in (-1, 0, 1):
+                r = f + u * sy * tv + rt * sx * tv * 9 / 16
+                if r[1] < -1e-3 and p[1] > 40:         # câmera alta, raio que desce: onde bate no chão (y = 0 do estúdio)
+                    hit = p + r * (-p[1] / r[1])
+                    if np.linalg.norm(hit - p) > 3 * p[1]:
+                        continue                          # quase no horizonte: o estúdio também some na névoa
+                    far = max(far, min(400.0, float(np.hypot(*(hit - p)[[0, 2]]))))
+                    far3 = max(far3, min(500.0, float(np.linalg.norm(hit - p))))
+    # o jogo corta pela distância EM LINHA RETA (não só na horizontal): a 300 blocos de altura o chão está a ~300–390 blocos
+    return int(np.clip(np.ceil(max(far, far3) / 16) + 2, 8, 32)), far3
+
+
 def _camera(X: Dict, tq: np.ndarray, atores: Sequence[_Baked], efeitos: Dict) -> Move:
     Q = X["quadros"]
     P = np.array([q["cam"]["p"] for q in Q], float)
@@ -282,15 +426,21 @@ def _camera(X: Dict, tq: np.ndarray, atores: Sequence[_Baked], efeitos: Dict) ->
     T = float(X["dur"])
     dof = bool(efeitos.get("dof")) or X.get("visual") == "bonito"
 
+    U = np.array([q["cam"]["u"] for q in Q], float) if all("u" in q["cam"] for q in Q) else None
+
     def fn(tau):
         t = np.asarray(tau, float) * T
-        p = _catmull(tq, P, t)
-        l = _catmull(tq, L, t)
+        p = _pchip(tq, P, t)
+        l = _pchip(tq, L, t)
         fr = np.stack([np.interp(t, tq, F[:, 0]), np.interp(t, tq, F[:, 1])], 1)
         d = l - p
-        yaw = np.degrees(np.unwrap(np.arctan2(-d[:, 0], d[:, 2])))
-        pitch = -np.degrees(np.arctan2(d[:, 1], np.hypot(d[:, 0], d[:, 2])))
-        o = {"x": p[:, 0], "y": p[:, 1] + Y_OFF, "z": p[:, 2], "yaw": yaw, "pitch": pitch, "roll": -fr[:, 1], "fov": fr[:, 0]}
+        if U is not None:
+            yaw, pitch, roll = _orienta(d, _pchip(tq, U, t))
+        else:                                       # exportação antiga (sem cam.u): só serve longe da vertical
+            yaw = np.degrees(np.unwrap(np.arctan2(-d[:, 0], d[:, 2])))
+            pitch = -np.degrees(np.arctan2(d[:, 1], np.hypot(d[:, 0], d[:, 2])))
+            roll = -fr[:, 1]
+        o = {"x": p[:, 0], "y": p[:, 1] + Y_OFF, "z": p[:, 2], "yaw": yaw, "pitch": pitch, "roll": roll, "fov": fr[:, 0]}
         if dof and atores:
             # foco no personagem mais perto do centro da tela (o estúdio não tem foco próprio; é o que o olho segue)
             fw = d / (np.linalg.norm(d, axis=1, keepdims=True) + 1e-9)
@@ -343,18 +493,40 @@ def shot_da_cena(X: Dict, M: Optional[Dict], efeitos: Optional[Dict] = None, pas
     mobs = _mobs(X, tq, falta)
     rascunho = qualidade != "final"
     rig = Rig(fps=fps, subframes=1 if rascunho else 6, shutter=0.5)
-    rig.add(_camera(X, tq, atores, {**ef, "dof": ef["dof"] and not rascunho}))
+    mv = _camera(X, tq, atores, {**ef, "dof": ef["dof"] and not rascunho})
+    rig.add(mv)
     q0 = X["quadros"][0]
     nev = next((q.get("nev") for q in X["quadros"] if q.get("nev")), None)      # névoa do estúdio (nevoa/paisagem/shot.fog)
     hora = q0.get("h")
     time_ = (int(hora) if hora is not None else 6000) + 24000 * int(q0.get("lua") or 0)
     cmds = comandos_do_mundo(M) if M else []
     c = np.mean([q0["cam"]["p"]] + [g["p"] for g in q0["g"].values()], axis=0)
+    # câmera alta (vista de cima): o chão fica a centenas de blocos — a névoa do jogo apagaria tudo e as nuvens (y 192) ficariam na
+    # frente; o estúdio mostra o mapa limpo.  Névoa vai para além do chão mais longe visto; nuvens só com a câmera abaixo delas.
+    rd, longe = distancia_visao(X)
+    alta = max(q["cam"]["p"][1] for q in X["quadros"]) + Y_OFF > 170
+    if not nev and longe > rd * 16 * 0.7:
+        nev = [round(longe * 1.15, 1), round(longe * 1.5, 1)]
+    if alta:                                   # vista de cima: o servidor manda os chunks em volta da câmera, não do elenco
+        cc = np.mean([q["cam"]["p"] for q in X["quadros"]], axis=0)
+        c = np.array([cc[0], 6.0, cc[2]])
     scene = Scene(time=time_, weather="clear", anchor=(float(c[0]), float(c[1]) + Y_OFF + 4, float(c[2])), commands=cmds, settleTicks=40,
                   fog=list(nev) if nev else None, blocks=_portas(X, tq))
     gama = X.get("gama", 1.0)                                                  # brilho do jogo escolhido no estúdio (-1 = luz total)
     sh = Shot(nome or f"est_{X.get('id', 'x')}_{int(X.get('n', 0)):02d}", rig=rig, scene=scene,
-              settings=Settings(renderDistance=8, simulationDistance=6, worldTicks=True, gamma=1.0 if gama is None or gama < 0 else float(gama)),
+              settings=Settings(renderDistance=rd, simulationDistance=6, clouds=not alta, worldTicks=True, gamma=1.0 if gama is None or gama < 0 else float(gama)),
               anim=Anim(atores, mobs=mobs), size=(540, 960) if rascunho else (1080, 1920), grade="clean",
               blur=bool(ef["blur"]) and not rascunho, dof=(ef["dof"] or X.get("visual") == "bonito") and not rascunho)
+    if falta:
+        return sh, falta
+    tr = [f"{a.name} {t:.2f}s {k}" for a in atores for (t, k, _) in getattr(a, "trancos", [])]
+    if tr:
+        raise ValueError("tranco (vai-e-volta) na animação: " + "; ".join(tr[:4]))
+    sh.rig_camera = mv
+    errc = confere_camera(X, sh)
+    if errc:
+        raise ValueError("câmera do Minecraft diferente da do estúdio: " + "; ".join(errc[:3]))
+    if not all("u" in q["cam"] for q in X["quadros"]) and any(
+            abs(np.subtract(q["cam"]["l"], q["cam"]["p"])[1]) > 0.97 * np.linalg.norm(np.subtract(q["cam"]["l"], q["cam"]["p"])) for q in X["quadros"]):
+        falta.append("câmera na vertical (exportação antiga, recarregue o estúdio)")
     return sh, falta
