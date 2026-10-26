@@ -57,8 +57,11 @@ class P:
 
 NV = 26
 # mola por componente do vetor: (f Hz, ζ, r).  r<0 = antecipa; ζ<1 = passa do ponto.
-_G = {"h": (3.2, 0.6, 0.25), "aR": (2.7, 0.5, -0.45), "aL": (2.6, 0.5, -0.45), "lR": (3.6, 0.8, 0.0), "lL": (3.6, 0.8, 0.0),
-      "sp": (2.3, 0.75, 0.0), "jbA": (2.1, 0.42, 0.0), "jbL": (3.6, 0.8, 0.0), "misc": (4.0, 0.9, 0.0)}
+# r = 0 em tudo (25/10, "rollback"): r != 0 soma a derivada da entrada e, numa troca de pose, dá um tranco de 1 quadro
+# (o braço "volta" e depois vai).  A antecipação agora é desenhada na curva de transição (_prof); a mola só dá o atraso
+# entre as partes e o passar do ponto (follow-through).
+_G = {"h": (4.0, 0.7, 0.0), "aR": (3.3, 0.55, 0.0), "aL": (3.2, 0.55, 0.0), "lR": (4.0, 0.85, 0.0), "lL": (4.0, 0.85, 0.0),
+      "sp": (3.0, 0.8, 0.0), "jbA": (2.6, 0.48, 0.0), "jbL": (4.0, 0.85, 0.0), "misc": (4.5, 0.9, 0.0)}
 SPRING = np.array([_G["h"]] * 3 + [_G["aR"]] * 3 + [_G["aL"]] * 3 + [_G["lR"]] * 3 + [_G["lL"]] * 3 + [_G["sp"]] * 3
                   + [_G["jbA"]] * 2 + [_G["jbL"]] * 2 + [_G["misc"]] * 4)
 
@@ -142,23 +145,23 @@ STATIC: Dict[str, Callable[[P], None]] = {
 # Oscilações (camada sem mola).  f(p, T, s) com s = semente do ator.
 OSC: Dict[str, Callable[[P, float, float], None]] = {
     "comemora": lambda p, T, s: (p.aR.__setitem__(0, 0.25 * math.sin(T * 10)), p.aL.__setitem__(0, -0.25 * math.sin(T * 10)),
-                                 p.jb.__setitem__(slice(0, 2), -0.35 * (abs(math.sin(T * 10)) - 0.5)),
-                                 setattr(p, "crouch", 0.3 * (1 - abs(math.sin(T * 10)))), setattr(p, "hop", 0.18 * abs(math.sin(T * 10)))),
-    "rindo": lambda p, T, s: (setattr(p, "sp", np.array([-0.1 * abs(math.sin(T * 14)), 0, 0])), p.h.__setitem__(0, -0.12 * abs(math.sin(T * 14)))),
-    "palmas": lambda p, T, s: (p.aR.__setitem__(1, 0.28 * abs(math.sin(T * 9)) - 0.14), p.aL.__setitem__(1, -0.28 * abs(math.sin(T * 9)) + 0.14)),
+                                 p.jb.__setitem__(slice(0, 2), -0.35 * (math.sin(T * 10) ** 2 - 0.5)),
+                                 setattr(p, "crouch", 0.3 * (1 - math.sin(T * 10) ** 2)), setattr(p, "hop", 0.18 * math.sin(T * 10) ** 2)),
+    "rindo": lambda p, T, s: (setattr(p, "sp", np.array([-0.1 * math.sin(T * 14) ** 2, 0, 0])), p.h.__setitem__(0, -0.12 * math.sin(T * 14) ** 2)),
+    "palmas": lambda p, T, s: (p.aR.__setitem__(1, 0.28 * math.sin(T * 9) ** 2 - 0.14), p.aL.__setitem__(1, -0.28 * math.sin(T * 9) ** 2 + 0.14)),
     "acena": lambda p, T, s: (p.aR.__setitem__(2, 0.35 * math.sin(T * 10)), p.jb.__setitem__(0, -0.22 * math.sin(T * 10))),
     "nervoso": lambda p, T, s: (p.h.__setitem__(1, 0.28 * math.sin(T * 9)), p.aR.__setitem__(0, 0.06 * math.sin(T * 21)),
                                 p.aL.__setitem__(0, -0.06 * math.sin(T * 21))),
     "medo": lambda p, T, s: p.h.__setitem__(1, 0.05 * math.sin(T * 30)),
     "grita": lambda p, T, s: p.h.__setitem__(0, 0.03 * math.sin(T * 28)),
     "susto": lambda p, T, s: (p.aR.__setitem__(2, 0.05 * math.sin(T * 26)), p.aL.__setitem__(2, -0.05 * math.sin(T * 26 + 1))),
-    "bravo": lambda p, T, s: p.lR.__setitem__(0, -0.45 * abs(math.sin(T * 11))),
+    "bravo": lambda p, T, s: p.lR.__setitem__(0, -0.45 * math.sin(T * 11) ** 2),
     "procura": lambda p, T, s: (p.h.__setitem__(1, 0.6 * math.sin(T * 1.6)), p.sp.__setitem__(1, 0.25 * math.sin(T * 1.6))),
     "sorrateiro": lambda p, T, s: p.h.__setitem__(1, 0.45 * math.sin(T * 2.2)),
     "apaixonado": lambda p, T, s: (p.h.__setitem__(2, 0.2 * math.sin(T * 3)), p.sp.__setitem__(2, 0.08 * math.sin(T * 3))),
     "shake": lambda p, T, s: p.h.__setitem__(1, 0.38 * math.sin(T * 10)),
-    "nod": lambda p, T, s: p.h.__setitem__(0, 0.28 * abs(math.sin(T * 6.5))),
-    "mine": lambda p, T, s: (p.aR.__setitem__(0, -0.9 * abs(math.sin(T * 12)) + 0.45), p.sp.__setitem__(1, 0.12 * math.sin(T * 12))),
+    "nod": lambda p, T, s: p.h.__setitem__(0, 0.28 * math.sin(T * 6.5) ** 2),
+    "mine": lambda p, T, s: (p.aR.__setitem__(0, -0.9 * math.sin(T * 12) ** 2 + 0.45), p.sp.__setitem__(1, 0.12 * math.sin(T * 12))),
 }
 # poses que não ganham a "viveza" (já se mexem) nem o gesto de fala por cima
 _MOVE = {"comemora", "rindo", "palmas", "acena", "nervoso", "medo", "procura", "shake", "nod", "mine", "sit"}
@@ -182,6 +185,26 @@ def springs(x: np.ndarray, dt: float, params: np.ndarray, boost: Optional[np.nda
         yd = yd + dt * (x[i] + k3 * xd - y - k1 * yd) / k2s
         out[i] = y
     return out
+
+
+def _pos(x: float, e: float = 0.12) -> float:
+    """max(0, x) sem quina (a quina dava tranco no joelho a cada passo)."""
+    return 0.5 * (x + math.sqrt(x * x + e * e)) - 0.5 * e
+
+
+def _abs(x: float, e: float = 0.12) -> float:
+    return math.sqrt(x * x + e * e) - e
+
+
+def _prof(u: float, antic: float) -> float:
+    """Transição 0→1 com antecipação: recua `antic` no começo (sin², velocidade zero nas pontas) e chega com smoothstep."""
+    if u <= 0:
+        return 0.0
+    if u >= 1:
+        return 1.0
+    a = -antic * math.sin(math.pi * min(u / 0.35, 1.0)) ** 2 if u < 0.35 else 0.0
+    v = min(max((u - 0.12) / 0.88, 0.0), 1.0)
+    return a + v * v * (3 - 2 * v)
 
 
 def _sm(x):
@@ -244,7 +267,7 @@ def voice_from_text(text: str, dur: float, t_offset: float = 0.0, fps: int = 50)
         while oi < len(on) and on[oi] <= i / fps:
             p = 1.0; oi += 1
         acc[i] = p
-    V["acc"] = acc
+    V["acc"] = _attack(acc, fps)
     V["on"] = np.array(on) + t_offset
     return V
 
@@ -263,7 +286,16 @@ def _voz_proc(raw: np.ndarray, ref: float, fps: int, t_offset: float) -> Dict[st
         if a - a0 > 0.6 / fps * 2.5 and a > 0.4 and i - last > fps * 0.2:
             p = max(p, min(1.0, a * 1.1)); last = i; on.append(i / fps)
         acc[i] = p
-    return {"t": np.arange(n) / fps + t_offset, "e": e, "es": es, "acc": acc, "on": np.array(on) + t_offset}
+    return {"t": np.arange(n) / fps + t_offset, "e": e, "es": es, "acc": _attack(acc, fps), "on": np.array(on) + t_offset}
+
+
+def _attack(x: np.ndarray, fps: float, tau: float = 0.04) -> np.ndarray:
+    """Sobe com constante tau (sem degrau: o acento da fala dava tranco de 1 quadro) e desce como veio."""
+    out = np.zeros_like(x); y = 0.0; k = 1 - math.exp(-1 / (fps * tau))
+    for i, v in enumerate(x):
+        y = y + (v - y) * k if v > y else v
+        out[i] = y
+    return out
 
 
 # ------------------------------------------------------------------------------------------------------------------------------- ator
@@ -391,13 +423,10 @@ class Ator:
         base = np.zeros((n, NV)); osc = np.zeros((n, NV)); boost = np.ones(n)
         s = self.seed
 
-        # 1) pose atual (base com mola) + oscilação da pose (crossfade 0,2 s)
+        # 1) pose atual: curva suave da pose velha para a nova (antecipação desenhada, sem degrau) → mola; oscilação em crossfade
         evs = self.poses
-        for i, t in enumerate(tg):
-            k = 0
-            while k + 1 < len(evs) and evs[k + 1].t <= t:
-                k += 1
-            ev = evs[k]
+        tgt = []
+        for ev in evs:
             p = P(); STATIC.get(ev.kind, STATIC["idle"])(p)
             if ev.data.get("left"):
                 p = mirror(p)
@@ -407,8 +436,19 @@ class Ator:
                     p.aL[:] = arm; p.jb[1] = ev.data["elbow"]
                 else:
                     p.aR[:] = arm; p.jb[0] = ev.data["elbow"]
-            base[i] = p.vec()
+            tgt.append(p.vec())
+        seg_k, A = 0, tgt[0].copy()
+        for i, t in enumerate(tg):
+            k = seg_k
+            while k + 1 < len(evs) and evs[k + 1].t <= t:
+                k += 1
+            if k != seg_k:
+                A = base[i - 1].copy() if i > 0 else tgt[k].copy()          # parte de onde a curva estava (troca no meio de outra)
+                seg_k = k
+            ev = evs[k]
             age = t - ev.t
+            fast = ev.kind in _GOLPE or ev.data.get("snap", 1) > 1
+            base[i] = A + (tgt[k] - A) * (_prof(age / (0.18 if fast else 0.38), 0.0 if fast else 0.12) if k > 0 else 1.0)
             if ev.kind in _GOLPE or ev.data.get("snap", 1) > 1:
                 boost[i] = 1.0 + (max(2.2, ev.data.get("snap", 1)) - 1.0) * float(np.exp(-age / 0.25))
             w_in = float(_sm(age / 0.2)) if k > 0 else 1.0
@@ -426,6 +466,8 @@ class Ator:
         # 2) olhar (base: cabeça relativa ao corpo, com mola)
         yaw = self._yaw_track(tg)
         pos = np.array([self.pos_at(t) for t in tg])
+        prev_rel = 0.0
+        look_add = np.zeros_like(base)
         for i, t in enumerate(tg):
             L = None
             for (lt, tgt, wgt) in self.looks:
@@ -436,10 +478,30 @@ class Ator:
                 d = L[0] - hp
                 tyaw = math.degrees(math.atan2(-d[0], d[2]))
                 rel = (tyaw - yaw[i] + 180) % 360 - 180
+                rel = prev_rel + ((rel - prev_rel + 180) % 360 - 180)        # contínuo: alvo atrás não vira de +180 para -180
+                prev_rel = rel
                 pit = -math.atan2(d[1], math.hypot(d[0], d[2]))
-                base[i, 1] += L[1] * np.clip(math.radians(rel), -1.25, 1.25) * -1.0
-                base[i, 0] += L[1] * np.clip(pit, -0.8, 0.8)
-                base[i, 16] += L[1] * np.clip(math.radians(rel), -1.25, 1.25) * -0.25      # o tronco acompanha um pouco
+                look_add[i, 1] += L[1] * np.clip(math.radians(rel), -1.25, 1.25) * -1.0
+                look_add[i, 0] += L[1] * np.clip(pit, -0.8, 0.8)
+                look_add[i, 16] += L[1] * np.clip(math.radians(rel), -1.25, 1.25) * -0.25      # o tronco acompanha um pouco
+        # troca de olhar vira rampa (~0,25 s) em vez de degrau
+        win = int(0.12 * HZ)
+        for _ in range(2):
+            pad = np.concatenate([np.repeat(look_add[:1], win, 0), look_add, np.repeat(look_add[-1:], win, 0)])
+            cs = np.cumsum(pad, 0)
+            look_add = (cs[2 * win:] - cs[:-2 * win])[:len(tg)] / (2 * win)
+        base += look_add
+
+        # 2b) pulo e gesto da fala também entram ANTES da mola (o acento da sílaba virava tranco de 1 quadro);
+        #     a fala é lida 50 ms adiantada para compensar o atraso da mola
+        for i, t in enumerate(tg):
+            q = P()
+            if self.jumps:
+                self._jump_layer(q, t, pose=True)
+            if self.talks:
+                ev = self._ev_at(t + 0.05)
+                self._talk_layer(q, t + 0.05, ev.kind if ev else "idle", bool(ev and ev.data.get("left")))
+            base[i] += q.vec()
 
         # 3) molas
         out = springs(base, dt, SPRING, boost) + osc
@@ -466,13 +528,11 @@ class Ator:
                 p.aR += still * np.array([bx, 0, bz]); p.aL += still * np.array([-bx, 0, -bz])
                 sd = s * 5.3
                 p.h += still * np.array([0.035 * math.sin(t * 2.1 + sd), 0.08 * math.sin(t * 1.5 + sd * 2) + 0.03 * math.sin(t * 3.1 + sd), 0])
-            # fala
-            self._talk_layer(p, t, ev.kind if ev else "idle", bool(ev and ev.data.get("left")))
             # andar/correr
             if moving > 0:
                 self._walk_layer(p, t, i, tg, pos, moving)
-            # pulo
-            self._jump_layer(p, t)
+            # pulo (só a altura: a pose já passou pela mola)
+            self._jump_layer(p, t, pose=False)
             out[i] = p.vec()
 
         # 5) agachar → perna/joelho/tronco; pé no chão; cabeça compensa o tronco
@@ -606,7 +666,7 @@ class Ator:
             if t0 - 0.2 <= t <= t1 + 0.3 and gg != "auto":
                 g = gg
         corre = g != "walk"
-        cyc = 2.36 if not corre else 2.65
+        cyc = 2.36 if not corre else 3.2          # corrida de desenho: passada mais longa, perna menos frenética
         ph = self._dist[i] / cyc * 2 * math.pi + self.seed
         s, sn = math.cos(ph), math.sin(ph)
         lim = min(1.0, v / (4.3 if not corre else 5.6)) * weight
@@ -615,39 +675,43 @@ class Ator:
             p.lR[0] += 0.5 * s * lim; p.lL[0] -= 0.5 * s * lim
             p.aR[0] += (-0.05 - 0.55 * s) * lim; p.aL[0] += (-0.05 + 0.55 * s) * lim
             p.aR[2] -= 0.06 * lim; p.aL[2] += 0.06 * lim                   # braços soltos um pouco para fora
-            p.jb[0] += (-0.32 - 0.2 * max(0, s)) * lim; p.jb[1] += (-0.32 - 0.2 * max(0, -s)) * lim
+            p.jb[0] += (-0.32 - 0.2 * _pos(s)) * lim; p.jb[1] += (-0.32 - 0.2 * _pos(-s)) * lim
         else:
             p.lR[0] += (-0.28 + 0.9 * s) * lim; p.lL[0] += (-0.28 - 0.9 * s) * lim
             k = 1.1 if g == "runFast" else 0.95
             p.aR += np.array([-0.15 - k * s, 0, 0.12]) * lim; p.aL += np.array([-0.15 + k * s, 0, -0.12]) * lim
             p.jb[0] += (-1.5 + 0.25 * s) * lim; p.jb[1] += (-1.5 - 0.25 * s) * lim
-            p.hop += 0.05 * abs(sn) * lim
-        p.jb[2] += ((1.35 if corre else 0.55) * max(0, sn) + 0.08) * lim
-        p.jb[3] += ((1.35 if corre else 0.55) * max(0, -sn) + 0.08) * lim
+            p.hop += 0.05 * sn * sn * lim
+        # joelho: curva lisa (sem quina) que dobra quando a perna passa por baixo vindo para a frente
+        p.jb[2] += ((1.35 if corre else 0.55) * ((1 + sn) / 2) ** 2 + 0.04) * lim
+        p.jb[3] += ((1.35 if corre else 0.55) * ((1 - sn) / 2) ** 2 + 0.04) * lim
         # quadril/ombro: torção contra a perna que avança, balanço de lado sobre a perna de apoio, quique na passada
         p.sp += np.array([inc, (0.16 if corre else 0.1) * s, (0.03 if corre else 0.05) * s]) * lim
         p.h[0] -= inc * 0.85 * lim
         p.h[2] -= (0.02 if corre else 0.035) * s * lim
-        p.dy += -(0.035 if corre else 0.025) * abs(sn) * lim
+        p.dy += -(0.035 if corre else 0.025) * sn * sn * lim
 
-    def _jump_layer(self, p: P, t: float):
+    def _jump_layer(self, p: P, t: float, pose: bool = True):
+        """pose=True: agachar/braços/pernas/estica (vai antes da mola); pose=False: só a altura (parábola real)."""
         for (tj, h, air) in self.jumps:
             u = t - tj
-            if -0.22 <= u < 0:                                              # antecipação: agacha
-                q = float(_sm((u + 0.22) / 0.22))
-                p.crouch += 0.75 * q; p.aR[0] += 0.5 * q; p.aL[0] += 0.5 * q; p.sp[0] += 0.15 * q; p.sq -= 0.06 * q
-            elif 0 <= u < air:                                              # no ar
-                x = u / air
-                p.hop += 4 * h * x * (1 - x)
-                up = float(np.exp(-u / 0.08))
-                p.sq += 0.08 * up - 0.03 * (1 - up)
-                p.aR[0] += -2.6 * (1 - x) * 0.6 - 0.4; p.aL[0] += -2.6 * (1 - x) * 0.6 - 0.4
-                p.aR[2] -= 0.25; p.aL[2] += 0.25
-                p.lR[0] -= 0.35 * (1 - up); p.lL[0] -= 0.15 * (1 - up); p.jb[2] += 0.75 * (1 - up); p.jb[3] += 0.45 * (1 - up)
-                p.h[0] -= 0.15
-            elif air <= u < air + 0.45:                                     # aterrissa: amortece e volta
-                q = float(np.exp(-(u - air) / 0.1)) * (1 - float(_sm((u - air) / 0.45)))
-                p.crouch += 0.65 * q; p.sq -= 0.08 * q; p.sp[0] += 0.18 * q
+            if not pose:
+                if 0 <= u < air:
+                    x = u / air
+                    p.hop += 4 * h * x * (1 - x)
+                continue
+            pre = float(_sm((u + 0.22) / 0.22)) * (1 - float(_sm(u / 0.06)))          # antecipação: agacha e recolhe os braços
+            fly = float(_sm(u / 0.06)) * (1 - float(_sm((u - air + 0.08) / 0.1)))     # no ar
+            x = min(max(u / air, 0.0), 1.0)
+            land = float(_sm((u - air + 0.02) / 0.06)) * math.exp(-max(0.0, u - air - 0.04) / 0.14)   # amortece na queda
+            p.crouch += 0.75 * pre + 0.65 * land
+            p.aR[0] += 0.5 * pre + fly * (-1.56 * (1 - x) - 0.4); p.aL[0] += 0.5 * pre + fly * (-1.56 * (1 - x) - 0.4)
+            p.aR[2] -= 0.25 * fly; p.aL[2] += 0.25 * fly
+            p.sp[0] += 0.15 * pre + 0.18 * land
+            p.sq += -0.06 * pre + fly * (0.08 * math.exp(-max(u, 0) / 0.1) - 0.03) - 0.08 * land
+            tuck = fly * (1 - math.exp(-max(u, 0) / 0.08))
+            p.lR[0] -= 0.35 * tuck; p.lL[0] -= 0.15 * tuck; p.jb[2] += 0.75 * tuck; p.jb[3] += 0.45 * tuck
+            p.h[0] -= 0.15 * fly
 
     def _to_channels(self, out: np.ndarray, tg, pos, yaw) -> np.ndarray:
         n = len(tg)
@@ -672,7 +736,8 @@ class Ator:
             p.aR[0] = min(max(p.aR[0], -3.1), 1.3); p.aL[0] = min(max(p.aL[0], -3.1), 1.3)   # camadas somadas não passam do limite do ombro
             # pé no chão: o corpo desce até o pé mais baixo encostar (perna 0,75 = coxa+canela em blocos)
             ext = lambda th, kn: 0.375 * (math.cos(th) + math.cos(th + kn))
-            ground = max(ext(p.lR[0], p.jb[2]), ext(p.lL[0], p.jb[3])) - 0.75
+            ea, eb = ext(p.lR[0], p.jb[2]), ext(p.lL[0], p.jb[3])
+            ground = 0.5 * (ea + eb + math.sqrt((ea - eb) ** 2 + 0.0004)) - 0.75     # max suave (troca de perna sem degrau)
             # cabeça compensa o tronco (continua olhando para quem está na frente)
             h = p.h - np.array([p.sp[0] * 0.55, p.sp[1] * 0.5, p.sp[2] * 0.6])
             r = ch[i]
@@ -691,6 +756,11 @@ class Ator:
             r[POSE["mouth"]] = mouth[i]; r[POSE["blink"]] = blink[i]
             r[POSE["shadow_y"]] = self.ground_y if self.ground_y is not None else self.p0[1]     # sombra de contato no chão
             r[POSE["item"]] = items[i]
+        # ângulos contínuos no tempo: a decomposição em Euler pode pular ±360 (braço passando de 180°) → girava o braço inteiro
+        for nm in ("head_x", "head_y", "head_z", "rarm_x", "rarm_y", "rarm_z", "larm_x", "larm_y", "larm_z",
+                   "rleg_x", "rleg_y", "rleg_z", "lleg_x", "lleg_y", "lleg_z", "yaw"):
+            c = POSE[nm]
+            ch[:, c] = np.degrees(np.unwrap(np.radians(ch[:, c])))
         return ch
 
 
@@ -742,3 +812,20 @@ class _Baked(Actor):
                 if self.keys[f]:
                     out[:, idx] = extra[:, idx]
         return out
+
+
+def snaps(actor: Actor, T: float, fps: int = 30, deg: float = 4.0, blocks: float = 0.03) -> List[Tuple[float, str, float]]:
+    """Trancos de 1 quadro (25/10, "rollback"): a aceleração troca de sinal em quadros seguidos (zigue-zague: vai, volta, vai)
+    com amplitude acima do limite (graus nos ângulos, blocos em x/y/z/hop).  Movimento rápido mas contínuo (corrida, aceno)
+    não conta.  Lista vazia = movimento limpo; rode antes de renderizar."""
+    t = np.arange(0, T, 1.0 / fps)
+    a = actor.at(t)
+    out = []
+    ang = [n for n in POSE if n.endswith(("_x", "_y", "_z", "_bend")) and n not in ("x", "y", "z")] + ["yaw"]
+    for n in ang + ["x", "y", "z", "hop"]:
+        j = np.diff(a[:, POSE[n]], 2)
+        lim = blocks if n in ("x", "y", "z", "hop") else deg
+        zz = (j[:-1] * j[1:] < 0) & (np.abs(j[:-1]) > lim) & (np.abs(j[1:]) > lim)
+        for i in np.nonzero(zz)[0]:
+            out.append((round(float(t[i + 1]), 3), n, round(float(min(abs(j[i]), abs(j[i + 1]))), 2)))
+    return sorted(out)

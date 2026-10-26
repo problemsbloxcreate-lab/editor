@@ -75,13 +75,13 @@ def clip_A():
     T = 8.6
     ka, sa = k.build(T), s.build(T)
     rig = Rig(fps=FPS, subframes=SUB, shutter=0.5)
-    two = lambda t: between(ka, sa, t, 1.15)
+    two = lambda t: between(ka, sa, t, 1.45)
     c = np.array(sb.feet(0, 0))
-    shot(rig, tuple(c + [0.25, 0.75, 4.6]), tuple(c + [0.2, 0.75, 4.2]), two, 0.0, 1.95, fov=58, cut=False)
-    shot(rig, front(S, 32, 2.5, 0.85, -0.35), front(S, 32, 2.2, 0.85, -0.3), lambda t: chest(sa, t, 1.35), 1.95, 1.5, fov=56)
-    shot(rig, tuple(c + [0.1, 0.45, 5.4]), tuple(c + [0.1, 0.45, 5.1]), lambda t: between(ka, sa, t, 1.5), 3.45, 1.7, fov=60, ap=0.2)
-    shot(rig, front(K, -32, 2.6, 0.85, 0.35), front(K, -32, 2.3, 0.85, 0.3), lambda t: chest(ka, t, 1.3), 5.15, 1.45, fov=56)
-    shot(rig, tuple(c + [0.2, 0.75, 4.4]), tuple(c + [0.15, 0.75, 3.9]), two, 6.6, T - 6.6, fov=58)
+    shot(rig, tuple(c + [0.25, 1.6, 4.6]), tuple(c + [0.2, 1.6, 4.2]), two, 0.0, 1.95, fov=58, cut=False)
+    shot(rig, front(S, 32, 2.5, 1.65, -0.35), front(S, 32, 2.2, 1.65, -0.3), lambda t: chest(sa, t, 1.55), 1.95, 1.5, fov=56)
+    shot(rig, tuple(c + [0.1, 1.25, 5.4]), tuple(c + [0.1, 1.25, 5.1]), lambda t: between(ka, sa, t, 1.5), 3.45, 1.7, fov=60, ap=0.2)
+    shot(rig, front(K, -32, 2.6, 1.65, 0.35), front(K, -32, 2.3, 1.65, 0.3), lambda t: chest(ka, t, 1.55), 5.15, 1.45, fov=56)
+    shot(rig, tuple(c + [0.2, 1.6, 4.4]), tuple(c + [0.15, 1.6, 3.9]), two, 6.6, T - 6.6, fov=58)
     return Shot("showcase_A" + ("_fast" if FAST else ""), rig=rig, scene=sb.scene(time=4000, anchor=tuple(c + [0, 4, 2])),
                 settings=Settings(renderDistance=10, simulationDistance=6, worldTicks=True), anim=Anim([ka, sa]), size=SIZE), (ka, sa)
 
@@ -97,7 +97,7 @@ def clip_B():
     end = np.array(sb.feet(0, 1.4))
     cre = sb.feet(1.6, -4.2)
     p.look(2.5, np.array(cre) + [0, 1.4, 0], 1.0)
-    p.pose(3.55, "susto", snap=3); p.jump(3.6, h=0.3, air=0.3); p.look(3.5, None)
+    p.pose(3.55, "susto", snap=3); p.look(3.45, None)
     p.walk(4.4, 5.4, to=(end[0] - 5.5, end[2] + 2.5), gait="run")
     T = 5.0
     pa = p.build(T)
@@ -112,22 +112,21 @@ def clip_B():
     rig = Rig(fps=FPS, subframes=SUB, shutter=0.5)
     # 1) foge para a câmera: travelling para trás na frente dele, baixo
     def lead(t):
-        q = chest(pa, t)
-        return q
+        return chest(pa, t, 1.4)
     z0, z1 = pa.at(np.array([0.0]))[0, POSE["z"]], pa.at(np.array([1.18]))[0, POSE["z"]]
-    shot(rig, (P0[0] + 0.5, P0[1] + 0.55, z0 + 3.4), (P0[0] + 0.4, P0[1] + 0.55, z1 + 3.0), lead, 0.0, 1.18, fov=60, cut=False)
+    shot(rig, (P0[0] + 0.5, P0[1] + 1.55, z0 + 3.4), (P0[0] + 0.4, P0[1] + 1.55, z1 + 3.0), lead, 0.0, 1.18, fov=60, cut=False)
     # 2) pulo do muro: aberto 3/4, baixo
     w = np.array(sb.feet(0, -2))
-    shot(rig, tuple(w + [4.2, 0.4, 4.2]), tuple(w + [3.9, 0.4, 4.4]), lambda t: chest(pa, t, 1.0), 1.18, 1.17, fov=62, ap=0.2)
+    shot(rig, tuple(w + [4.2, 1.3, 4.2]), tuple(w + [3.9, 1.3, 4.4]), lambda t: chest(pa, t, 1.2), 1.18, 1.17, fov=62, ap=0.2)
     # 3) para e procura (médio de frente)
-    shot(rig, tuple(end + [0.3, 0.8, 2.8]), tuple(end + [0.25, 0.8, 2.5]), lambda t: chest(pa, t, 1.3), 2.35, 0.95, fov=56)
+    shot(rig, tuple(end + [0.3, 1.65, 2.8]), tuple(end + [0.25, 1.65, 2.5]), lambda t: chest(pa, t, 1.5), 2.35, 0.95, fov=56)
     # 4) insert do creeper surgindo atrás do muro (contra-plongée)
-    shot(rig, tuple(np.array(cre) + [-1.2, 0.3, 3.4]), tuple(np.array(cre) + [-1.1, 0.3, 3.0]),
-         lambda t: np.stack([np.full(np.size(t), cre[0]), np.full(np.size(t), cre[1] + 1.25), mob.at(np.atleast_1d(t))[:, 2]], axis=1), 3.3, 0.6, fov=50, ap=0.35)
+    shot(rig, tuple(np.array(cre) + [-1.2, 1.35, 3.4]), tuple(np.array(cre) + [-1.1, 1.35, 3.0]),
+         lambda t: np.stack([np.full(np.size(t), cre[0]), np.full(np.size(t), cre[1] + 1.2), mob.at(np.atleast_1d(t))[:, 2]], axis=1), 3.3, 0.6, fov=50, ap=0.35)
     # 5) susto (médio, de frente)
-    shot(rig, tuple(end + [0.25, 0.8, 2.9]), tuple(end + [0.2, 0.8, 2.7]), lambda t: chest(pa, t, 1.3), 3.9, 0.55, fov=58, ap=0.2)
+    shot(rig, tuple(end + [0.25, 1.65, 2.9]), tuple(end + [0.2, 1.65, 2.7]), lambda t: chest(pa, t, 1.5), 3.9, 0.55, fov=58, ap=0.2)
     # 6) fuga: aberto com os dois
-    shot(rig, tuple(end + [1.8, 0.7, 4.8]), tuple(end + [1.2, 0.7, 5.0]), lambda t: (chest(pa, t, 1.1) * 0.6 + np.array([[cre[0], cre[1] + 1.1, cre[2]]]) * 0.4),
+    shot(rig, tuple(end + [1.8, 1.6, 4.8]), tuple(end + [1.2, 1.6, 5.0]), lambda t: (chest(pa, t, 1.1) * 0.6 + np.array([[cre[0], cre[1] + 1.1, cre[2]]]) * 0.4),
          4.45, T - 4.45, fov=62, ap=0.15)
     return Shot("showcase_B" + ("_fast" if FAST else ""), rig=rig, scene=sb.scene(time=4000, anchor=tuple(end + [0, 4, -2])),
                 settings=Settings(renderDistance=10, simulationDistance=6, worldTicks=True), anim=Anim([pa], mobs=[mob]), size=SIZE), (pa,)
@@ -149,11 +148,11 @@ def clip_C():
     ka = k.build(T)
     rig = Rig(fps=FPS, subframes=SUB, shutter=0.5)
     c = lambda up: (lambda t: chest(ka, t, up))
-    shot(rig, front(K, 0, 3.3, 0.75, 0.2), front(K, 0, 2.9, 0.75, 0.15), c(1.2), 0.0, 2.0, fov=58, cut=False)
-    shot(rig, front(K, 0, 2.3, 0.95, 0.12), front(K, 0, 2.15, 0.95, 0.1), c(1.4), 2.0, 1.65, fov=56)
-    shot(rig, front(K, 30, 2.6, 0.9), front(K, 26, 2.45, 0.9), c(1.35), 3.65, 1.0, fov=56)
-    shot(rig, front(K, 0, 1.75, 1.05), front(K, 0, 1.6, 1.05), c(1.5), 4.65, 1.0, fov=54, ap=0.18)
-    shot(rig, front(K, 0, 3.0, 0.65, 0.2), front(K, 0, 2.7, 0.65, 0.15), c(1.15), 5.65, T - 5.65, fov=58)
+    shot(rig, front(K, 0, 3.3, 1.65, 0.2), front(K, 0, 2.9, 1.65, 0.15), c(1.45), 0.0, 2.0, fov=58, cut=False)
+    shot(rig, front(K, 0, 2.3, 1.68, 0.12), front(K, 0, 2.15, 1.68, 0.1), c(1.58), 2.0, 1.65, fov=56)
+    shot(rig, front(K, 30, 2.6, 1.68), front(K, 26, 2.45, 1.68), c(1.55), 3.65, 1.0, fov=56)
+    shot(rig, front(K, 0, 1.75, 1.72), front(K, 0, 1.6, 1.72), c(1.65), 4.65, 1.0, fov=54, ap=0.18)
+    shot(rig, front(K, 0, 3.0, 1.6, 0.2), front(K, 0, 2.7, 1.6, 0.15), c(1.4), 5.65, T - 5.65, fov=58)
     return Shot("showcase_C" + ("_fast" if FAST else ""), rig=rig, scene=sb.scene(time=4000, anchor=tuple(np.array(K) + [0, 4, 2])),
                 settings=Settings(renderDistance=10, simulationDistance=6, worldTicks=True), anim=Anim([ka]), size=SIZE), (ka,)
 

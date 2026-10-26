@@ -27,9 +27,10 @@ import java.util.Map;
 public final class Body {
     private Body() {}
 
-    /** Arc length (model px) of the elbow/knee. 4 px keeps the inner side from pinching up to ~120 degrees on a 4 px limb. */
-    public static final float ARC = 4f;
-    private static final float[] RING_T = {0f, 1f / 6f, 2f / 6f, 3f / 6f, 4f / 6f, 5f / 6f, 1f};
+    /** Arc length (model px) of the elbow/knee.  25/10 (dono: "não deixe as articulações redondas demais, é um jogo de blocos"):
+     *  2 px in 2 segments = a short chamfered corner, not a rubber tube (was 4 px in 6 segments). */
+    public static final float ARC = 2f;
+    private static final float[] RING_T = {0f, 0.5f, 1f};
 
     /** One face of a part in model pixels: 4 corners (pos + uv) and the vanilla normal. */
     static final class Quad {
