@@ -182,8 +182,33 @@ def _gradle(args: List[str], logf, env) -> subprocess.Popen:
                             stdout=logf, stderr=subprocess.STDOUT)
 
 
+def _sincroniza_mod():
+    """PC da equipe: MOD_HOME é a cópia que o setup_cinecam fez na instalação; quando a skill atualiza (tag nova), o código do mod
+    em assets/cinecam-mod muda e a cópia ficava velha (Python novo + mod velho = canais desalinhados, sem chão em todo lugar).
+    Copia o que mudou — só arquivo da skill MAIS NOVO que o da cópia, então edição feita direto em MOD_HOME (PC do dono) fica."""
+    src = Path(__file__).resolve().parents[2] / "assets" / "cinecam-mod"
+    try:
+        if not src.is_dir() or not MOD_HOME.is_dir() or src.resolve() == MOD_HOME.resolve():
+            return
+    except OSError:
+        return
+    n = 0
+    for a in [*(src / "src").rglob("*"), *(src / f for f in ("build.gradle", "gradle.properties", "settings.gradle"))]:
+        if not a.is_file():
+            continue
+        b = MOD_HOME / a.relative_to(src)
+        if b.exists() and (b.stat().st_mtime >= a.stat().st_mtime or b.read_bytes() == a.read_bytes()):
+            continue
+        b.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(a, b)
+        n += 1
+    if n:
+        print(f"[cinecam] código do mod atualizado pela skill ({n} arquivos): recompila agora")
+
+
 def _launch(job_json: Path, mode: str, xmx: str, logf, env: Dict) -> Tuple[subprocess.Popen, bool]:
     """Start the dev client for job_json (direct java when launch.json is known; else gradle runClient).  Returns (process, direct)."""
+    _sincroniza_mod()
     jarg = str(job_json).replace(chr(92), '/')
     cmd = None
     if os.environ.get("CINECAM_GRADLE") != "1" and LAUNCH.exists():
