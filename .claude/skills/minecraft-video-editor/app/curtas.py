@@ -204,6 +204,7 @@ def sessao(vid, efeitos=None, qualidade="final"):
                         _marca(n, estado="3d", falta=falta[:6]); _log(f"cena {n} fica no 3D: {falta[:3]}")
                         with _LOCK: _PEND["feito"][str(n)] = h
                         continue
+                    sh.acelera = float(X.get("acelera") or 1)     # 29/10: timelapse — gravada em tempo real, acelerada no fim
                     _marca(n, estado="renderizando")
                     t0 = time.time()
                     try:
@@ -234,9 +235,24 @@ def sessao(vid, efeitos=None, qualidade="final"):
         _log("sessão encerrada")
 
 
+def _acelerar(src, k):
+    """Timelapse (29/10, dono: "gera ele construindo normal e só acelera o vídeo"): a cena foi gravada em tempo real; fica 1 quadro
+    a cada k (como um vídeo passado rápido), mantendo 30 fps."""
+    k = max(1, int(round(k)))
+    dst = src.replace(".mp4", f"_x{k}.mp4")
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", src, "-an", "-vf", f"select='not(mod(n\\,{k}))',setpts=N/30/TB",
+                    "-r", "30", "-c:v", "libx264", "-preset", "medium", "-crf", "16", "-pix_fmt", "yuv420p", dst], check=True)
+    return dst
+
+
 def _terminar(vid, n, sh, info, t0, h=None):
     from cinecam.render import Sessao
     info = Sessao.pos(sh, info)
+    if info.get("ok") and getattr(sh, "acelera", 1) > 1:
+        try:
+            info["final"] = _acelerar(info["final"], sh.acelera)
+        except Exception as e:
+            info = {"ok": False, "error": f"acelerar o timelapse: {e}"}
     if info.get("ok"):
         try:
             _enviar(vid, n, info["final"])
