@@ -147,15 +147,11 @@ public final class Actors {
             bs.endBatch();
         }
         double[][] mr = a.mobs[row];
+        for (int i = 0; i < mr.length && i < mobs.size(); i++) drawMob(mc, ps, bs, cam, mobs.get(i), mr[i]);
         double[][] poses = a.poses[row];
         for (int i = 0; i < poses.length && i < rts.size(); i++) drawShadow(ps, bs, cam, poses[i]);
         bs.endBatch();
         for (int i = 0; i < poses.length && i < rts.size(); i++) drawActor(mc, ps, bs, cam, rts.get(i), poses[i], filmT);
-        bs.endBatch();
-        // 29/10: mobs DEPOIS dos atores. O barco do jogo desenha a "máscara de água" (só profundidade) cobrindo o casco; desenhado
-        // antes, ela escondia as pernas de quem está sentado nele (o Problems ficava sem pernas em todas as cenas de barco).
-        for (int i = 0; i < mr.length && i < mobs.size(); i++) drawMob(mc, ps, bs, cam, mobs.get(i), mr[i]);
-        bs.endBatch();
         double[][] beams = a.beams[row];
         if (beams.length > 0) {
             for (double[] b : beams) drawBeam(ps, bs, cam, b, filmT);

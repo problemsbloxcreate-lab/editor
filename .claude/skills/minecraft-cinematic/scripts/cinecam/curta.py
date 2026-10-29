@@ -393,8 +393,10 @@ def shot_da_ficha(mapa: Dict, ficha: Dict, qualidade: str = "final", nome: Optio
         t = fim
     L = _lugar(mapa, ficha["lugar"])
     c = sb.feet(0, 0)
+    kw = dict(cena.scene_kw)
+    kw.setdefault("dimension", sb.dimension)   # lugar com "site": {..., "dimension": "minecraft:the_nether"} (29/10/2026)
     scene = sb.scene(time=int(ficha.get("hora", L.get("hora", 4000))), weather=L.get("clima", "clear"), anchor=tuple(c + [0, 4, 2]),
-                     **cena.scene_kw)
+                     **kw)
     nm = nome or f"curta_{ficha.get('video', 'x')}_{int(ficha.get('n', 0)):02d}"
     sh = Shot(nm, rig=rig, scene=scene, settings=Settings(renderDistance=int(L.get("visao", 10)), simulationDistance=6, worldTicks=True),
               anim=Anim(list(built.values()), mobs=mobs, props=cena.props), size=F["rascunho" if rascunho else "final"], grade="insert",

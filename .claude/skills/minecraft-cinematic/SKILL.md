@@ -124,6 +124,8 @@ Pós: `grade` = `insert` (inserção em gameplay; padrão do editor) `clean punc
 - Ajustes por plano: `dist`, `lado` (graus em volta do personagem, ≤ ~20), `altura` (câmera acima dos pés), `mira` (altura do ponto mirado), `push` (bool ou blocos); `aberto` aceita `centro`; `insert` aceita `sobe`. Lugar aceita `["lagoa", dx, dz, rx, rz, plantas]`, `"site"` próprio e `"visao"` (render distance); ficha aceita `"hora"`.
 - **Coreografia Python** para o que a ficha não descreve (efeitos, props, mobs voando, explosão, encolher, arremessado): `ficha["python"]` + `ficha["coreografia"]` → `def f(c)` recebe `curta.Cena` (`c.atores` = Ator antes de assar, `c.prop/c.mob/c.ponto/c.pt`, compatível com `choreo.explosion/pop_block/mob_walk`; dentro de `fn` de Prop, `c.mao(nome, t)`/`c.cabeca(nome, t)` usam o corpo assado). `Ator.key(t, x=…, roll=…, sx=…)` sobrescreve o canal (arremessado, tonto, encolher).
 - `stills_da_ficha(mapa, ficha)` = 3 quadros de rascunho para conferir o enquadramento antes do filme.
+- **29/10/2026**: lugar com `"site": {"x","y","z","biome","dimension": "minecraft:the_nether"}` agora vai para a Scene (antes o
+  `curta.py` ignorava a dimensão e o Nether saía com céu azul). Usado pela série de Shorts do Matteeoo (skill `shorts-matteeoo`).
 - Editor: `minecraft-video-editor/scripts/cinematicas.py check|render` usam este motor quando o JSON tem `"mapa"` (fichas antigas `acts.Stage` continuam pelo `auto.py`, legado). Referência completa: `D:\Pobrs\trolagem\cine3\` (make_fichas.py + coreo.py + run.py — 20 cenas do "humilhando amigo", incl. 3 no gancho).
 
 **Ainda NÃO existe** (não prometa; implementar sob demanda, nesta ordem de valor):

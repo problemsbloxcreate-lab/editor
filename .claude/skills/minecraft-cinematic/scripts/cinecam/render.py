@@ -177,100 +177,9 @@ def _clean_saves(since: float):
             pass
 
 
-# 29/10 (dono: "o cmd e o mine ficam abrindo na minha frente"): no Windows, gradle/java rodam SEM janela de console e a
-# janela do Minecraft vai para trás das outras assim que aparece, devolvendo o foco para o que a pessoa estava usando.
-# Ela não pode ser minimizada (o jogo para de desenhar), mas atrás das outras janelas ela desenha normalmente.
-_SEM_JANELA = 0x08000000 if os.name == "nt" else 0          # CREATE_NO_WINDOW
-
-
-def _mine_para_tras(proc: subprocess.Popen, segundos: float = 180.0):
-    if os.name != "nt":
-        return
-    import threading
-    from ctypes import wintypes
-
-    def vigia():
-        # 29/10 (dono: "não consigo jogar enquanto você faz as cenas, fica mudando o foco"): antes isto pegava QUALQUER janela
-        # "Minecraft" — inclusive o jogo da pessoa — e devolvia o foco para a janela que estava na frente no começo. Agora: só mexe
-        # na janela do CineCam (aberta DEPOIS deste render, por um processo criado depois dele), empurra para trás UMA vez quando
-        # ela aparece, e só devolve o foco nos primeiros segundos dela (quando o jogo abre e rouba a frente), para a última janela
-        # que a pessoa estava usando.  Depois disso nunca mais toca no foco.
-        try:
-            u = ctypes.windll.user32
-            k = ctypes.windll.kernel32
-            WNDENUM = ctypes.WINFUNCTYPE(wintypes.BOOL, wintypes.HWND, wintypes.LPARAM)
-            t_ini = time.time()
-
-            def janelas_mine():
-                jan = []
-
-                def cb(h, _):
-                    if u.IsWindowVisible(h):
-                        cls = ctypes.create_unicode_buffer(64)
-                        u.GetClassNameW(h, cls, 64)
-                        if cls.value.startswith("GLFW"):
-                            t = ctypes.create_unicode_buffer(128)
-                            u.GetWindowTextW(h, t, 128)
-                            if "Minecraft" in t.value:
-                                jan.append(h)
-                    return True
-                u.EnumWindows(WNDENUM(cb), 0)
-                return jan
-
-            def criado_em(h):                      # quando o processo dono da janela nasceu (epoch, s); None = não deu para ler
-                pid = wintypes.DWORD()
-                u.GetWindowThreadProcessId(h, ctypes.byref(pid))
-                hp = k.OpenProcess(0x1000, False, pid.value)          # PROCESS_QUERY_LIMITED_INFORMATION
-                if not hp:
-                    return None
-                try:
-                    c, e1, e2, e3 = wintypes.FILETIME(), wintypes.FILETIME(), wintypes.FILETIME(), wintypes.FILETIME()
-                    if not k.GetProcessTimes(hp, ctypes.byref(c), ctypes.byref(e1), ctypes.byref(e2), ctypes.byref(e3)):
-                        return None
-                    v = (c.dwHighDateTime << 32) | c.dwLowDateTime
-                    return v / 1e7 - 11644473600.0
-                finally:
-                    k.CloseHandle(hp)
-
-            velhas = set(janelas_mine())                 # o jogo da pessoa (já aberto antes): nunca mexe
-            nossas = {}                                  # janela do CineCam -> quando apareceu
-            ultima = u.GetForegroundWindow()
-            fim = time.time() + segundos
-            while time.time() < fim and proc.poll() is None:
-                fg = u.GetForegroundWindow()
-                if fg and fg not in nossas:
-                    ultima = fg                          # a última janela que a pessoa estava usando
-                for h in janelas_mine():
-                    if h in velhas or h in nossas:
-                        continue
-                    c = criado_em(h)
-                    if c is not None and c < t_ini - 5:
-                        velhas.add(h)                    # processo antigo = jogo da pessoa
-                        continue
-                    nossas[h] = time.time()
-                    u.SetWindowPos(h, 1, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0010)     # HWND_BOTTOM, sem mover/redimensionar/ativar
-                for h, t0 in list(nossas.items()):
-                    if not u.IsWindow(h):
-                        nossas.pop(h); continue
-                    if fg == h and time.time() - t0 < 25 and ultima and u.IsWindow(ultima) and ultima != h:
-                        u.SetWindowPos(h, 1, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0010)
-                        eu, ele = k.GetCurrentThreadId(), u.GetWindowThreadProcessId(h, None)
-                        u.AttachThreadInput(eu, ele, True)
-                        u.SetForegroundWindow(ultima)
-                        u.AttachThreadInput(eu, ele, False)
-                time.sleep(0.5)
-        except Exception:
-            pass
-    threading.Thread(target=vigia, daemon=True).start()
-
-
 def _gradle(args: List[str], logf, env) -> subprocess.Popen:
-    """--offline só depois do 1º runClient que deu certo (LAUNCH gravado). PC novo (28/10): o setup baixa build/prepareRunClient,
-    mas o runClient ainda precisa de dependências próprias (ex.: srgutils da configuração minecraftCopy) — offline, o jogo
-    nem abria ("o jogo fechou (código 1)"). O 1º runClient vai online e baixa o que falta; depois volta a ser offline."""
-    off = ["--offline"] if LAUNCH.exists() else []
-    return subprocess.Popen([str(MOD_HOME / "gradlew.bat")] + args + off + ["--console=plain"], cwd=str(MOD_HOME), env=env,
-                            stdout=logf, stderr=subprocess.STDOUT, creationflags=_SEM_JANELA)
+    return subprocess.Popen([str(MOD_HOME / "gradlew.bat")] + args + ["--offline", "--console=plain"], cwd=str(MOD_HOME), env=env,
+                            stdout=logf, stderr=subprocess.STDOUT)
 
 
 def _sincroniza_mod():
@@ -320,12 +229,8 @@ def _launch(job_json: Path, mode: str, xmx: str, logf, env: Dict) -> Tuple[subpr
                 cmd.append(t)
             env["MOD_CLASSES"] = ";".join("cinecam%%" + str(MOD_HOME / d) for d in ("build/resources/main", "build/classes/java/main"))
     if cmd:
-        p = subprocess.Popen(cmd, cwd=str(RUN_HOME), env=env, stdout=logf, stderr=subprocess.STDOUT, creationflags=_SEM_JANELA)
-        _mine_para_tras(p)
-        return p, True
-    p = _gradle(["runClient", "--info", f"-Pxmx={xmx}", f"-Pjob={jarg}", f"-Pmode={mode}"], logf, env)
-    _mine_para_tras(p, 420.0)
-    return p, False
+        return subprocess.Popen(cmd, cwd=str(RUN_HOME), env=env, stdout=logf, stderr=subprocess.STDOUT), True
+    return _gradle(["runClient", "--info", f"-Pxmx={xmx}", f"-Pjob={jarg}", f"-Pmode={mode}"], logf, env), False
 
 
 def _capture_launch(logname: str):

@@ -271,7 +271,7 @@ def _atores(X: Dict, tq: np.ndarray, tg: np.ndarray, pasta_skins: str, falta: Op
         ch[:, POSE["blink"]] = _blink(nome, tg)
         ch[:, POSE["mouth"]] = 0.0
         ground = float(np.min(rows[vis > 0, POSE["y"]])) if vis.any() else Y_OFF
-        ch[:, POSE["shadow_y"]] = np.where(v, ground, 0.0) if X.get("sombra", True) else 0.0   # chave "sombra dos personagens" do estúdio
+        ch[:, POSE["shadow_y"]] = np.where(v, ground, 0.0)
         sk = (X.get("skins") or {}).get(skin) if skin else None
         if not sk:
             continue
@@ -600,41 +600,6 @@ def _portas(X: Dict, tq: np.ndarray) -> List:
     return ev
 
 
-def _alcapao(X: Dict, tq: np.ndarray) -> List:
-    """Alçapão da passagem secreta (estúdio: q.alcapao = [x, y, z, abre 0..1]) → Scene.blocks: abre quando o do estúdio passa
-    da metade (alçapão do jogo não tem meio-termo); o poço e a escada de mão já vêm no mundo do vídeo."""
-    ev, ult = [], None
-    for i, q in enumerate(X["quadros"]):
-        a = q.get("alcapao")
-        if not a:
-            continue
-        x, y, z, f = a
-        aberto = f >= 0.5
-        if aberto != ult:
-            ev.append([float(tq[i]), int(x), int(y) + Y_OFF, int(z),
-                       f"minecraft:spruce_trapdoor[facing=east,half=top,open={str(aberto).lower()}]"])
-            ult = aberto
-    return ev
-
-
-def _piso(X: Dict, tq: np.ndarray) -> List:
-    """Estrada de gelo azul sendo construída (estúdio: X.pisoOrdem = blocos do piso na ordem em que são postos; q.piso = quantos
-    já estão no lugar): no começo da cena os que ainda não foram postos viram ar, e cada um aparece no quadro em que é posto."""
-    ordem = X.get("pisoOrdem") or []
-    ns = [(i, int(q["piso"])) for i, q in enumerate(X["quadros"]) if q.get("piso") is not None]
-    if not ordem or not ns:
-        return []
-    ev, ant = [], ns[0][1]
-    for x, y, z in ordem[ant:]:
-        ev.append([0.0, int(x), int(y) + Y_OFF, int(z), "minecraft:air"])
-    for i, n in ns:
-        n = max(0, min(len(ordem), n))
-        for x, y, z in ordem[ant:n]:
-            ev.append([float(tq[i]), int(x), int(y) + Y_OFF, int(z), "minecraft:blue_ice"])
-        ant = max(ant, n)
-    return ev
-
-
 def shot_da_cena(X: Dict, M: Optional[Dict], efeitos: Optional[Dict] = None, pasta_skins: str = ".", qualidade: str = "final",
                  nome: Optional[str] = None) -> Tuple[Shot, List[str]]:
     """Cena exportada → Shot (1080×1920, 30 fps, duração exata).  Devolve (shot, falta): `falta` não vazia = a cena tem algo que
@@ -652,16 +617,6 @@ def shot_da_cena(X: Dict, M: Optional[Dict], efeitos: Optional[Dict] = None, pas
     bt = _barco(X, tq)
     if bt is not None:
         mobs.append(bt)
-    if not X.get("sombra", True):                 # sem sombra (chave do estúdio): zera a sombra de contato dos mobs e do barco
-        for mb in mobs:
-            f0 = mb.fn
-            if f0 is not None:
-                def _sem(times, f0=f0):
-                    o = np.array(f0(times), float)
-                    if o.ndim == 2 and o.shape[1] > 9:
-                        o[:, 9] = 0.0
-                    return o
-                mb.fn = _sem
     rascunho = qualidade != "final"
     rig = Rig(fps=fps, subframes=1 if rascunho else 6, shutter=0.5)
     mv = _camera(X, tq, atores, {**ef, "dof": ef["dof"] and not rascunho})
@@ -682,7 +637,7 @@ def shot_da_cena(X: Dict, M: Optional[Dict], efeitos: Optional[Dict] = None, pas
         cc = np.mean([q["cam"]["p"] for q in X["quadros"]], axis=0)
         c = np.array([cc[0], 6.0, cc[2]])
     scene = Scene(time=time_, weather="clear", anchor=(float(c[0]), float(c[1]) + Y_OFF + 4, float(c[2])), commands=cmds, settleTicks=40,
-                  fog=list(nev) if nev else None, blocks=_portas(X, tq) + _alcapao(X, tq) + _piso(X, tq))
+                  fog=list(nev) if nev else None, blocks=_portas(X, tq))
     gama = X.get("gama", 1.0)                                                  # brilho do jogo escolhido no estúdio (-1 = luz total)
     sh = Shot(nome or f"est_{X.get('id', 'x')}_{int(X.get('n', 0)):02d}", rig=rig, scene=scene,
               settings=Settings(renderDistance=rd, simulationDistance=6, clouds=not alta, worldTicks=True, gamma=1.0 if gama is None or gama < 0 else float(gama)),
