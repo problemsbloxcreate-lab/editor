@@ -178,7 +178,11 @@ def _clean_saves(since: float):
 
 
 def _gradle(args: List[str], logf, env) -> subprocess.Popen:
-    return subprocess.Popen([str(MOD_HOME / "gradlew.bat")] + args + ["--offline", "--console=plain"], cwd=str(MOD_HOME), env=env,
+    """--offline só depois do 1º runClient que deu certo (LAUNCH gravado). PC novo (28/10): o setup baixa build/prepareRunClient,
+    mas o runClient ainda precisa de dependências próprias (ex.: srgutils da configuração minecraftCopy) — offline, o jogo
+    nem abria ("o jogo fechou (código 1)"). O 1º runClient vai online e baixa o que falta; depois volta a ser offline."""
+    off = ["--offline"] if LAUNCH.exists() else []
+    return subprocess.Popen([str(MOD_HOME / "gradlew.bat")] + args + off + ["--console=plain"], cwd=str(MOD_HOME), env=env,
                             stdout=logf, stderr=subprocess.STDOUT)
 
 
