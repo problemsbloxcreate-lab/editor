@@ -90,7 +90,7 @@ class NuvemNoLimite(RuntimeError):
     segurança e das imagens de revisão.  Bateu no limite: a sessão para na hora (não insiste) e só volta depois das 21h."""
 
 
-_PEND = {"mine": {}, "quando": 0.0}          # índice do vídeo esperando para subir (agrupado)
+_PEND = {"mine": {}, "feito": {}, "mundo": None, "quando": 0.0}          # índice do vídeo esperando para subir (agrupado)
 
 
 def _put(*a, **kw):
@@ -119,10 +119,17 @@ def _subir_indice(vid, ja=False):
         if not ja and time.time() - _PEND["quando"] < 45:
             return
         novos = dict(_PEND["mine"]); _PEND["mine"].clear(); _PEND["quando"] = time.time()
+        feito = dict(_PEND["feito"]); _PEND["feito"].clear(); mundo_h = _PEND["mundo"]
     if novos:
         ix = _json(vid + "-mine") or {}
         ix.update(novos)
         _put(vid + "-mine", None, ix)
+    if feito and mundo_h:                             # 29/10: o que já foi feito (assinatura de cada cena), para a próxima vez
+        fz = _json(vid + "-cinefeito") or {}
+        if fz.get("mundo") != mundo_h:
+            fz = {"mundo": mundo_h, "cenas": {}}
+        fz.setdefault("cenas", {}).update(feito)
+        _put(vid + "-cinefeito", None, fz)
     _publicar_estado(vid)
 
 
@@ -163,7 +170,11 @@ def sessao(vid, efeitos=None, qualidade="final"):
             if ix.get("mundo") and ix["mundo"] != mundo_h:
                 mundo = _json(vid + "-cinemundo")
                 mundo_h = ix["mundo"]
-                feitos = {}                                   # mundo novo: tudo de novo (o cenário mudou)
+                _PEND["mundo"] = mundo_h
+                # 29/10 (dono: "pra que regerar tudo se 35 das 39 estão certas?"): começa do que já foi feito numa vez anterior
+                # com o MESMO mundo — só entra na fila cena cuja assinatura mudou no estúdio (ou que deu erro / nunca foi feita)
+                fz = _json(vid + "-cinefeito") or {}
+                feitos = {int(k): v for k, v in (fz.get("cenas") or {}).items()} if fz.get("mundo") == mundo_h else {}
                 _log(f"mundo do vídeo: {(mundo or {}).get('fonte')} ({len((mundo or {}).get('blocos') or [])} blocos)")
             pend = sorted(int(n) for n, h in ix.items() if n.isdigit() and feitos.get(int(n)) != h)
             if not pend:
@@ -190,14 +201,16 @@ def sessao(vid, efeitos=None, qualidade="final"):
                     except Exception as e:
                         _marca(n, estado="erro", erro=f"conversão: {e}"[:500]); continue
                     if falta:                                 # o Minecraft ainda não desenha algo desta cena: fica no 3D do estúdio
-                        _marca(n, estado="3d", falta=falta[:6]); _log(f"cena {n} fica no 3D: {falta[:3]}"); continue
+                        _marca(n, estado="3d", falta=falta[:6]); _log(f"cena {n} fica no 3D: {falta[:3]}")
+                        with _LOCK: _PEND["feito"][str(n)] = h
+                        continue
                     _marca(n, estado="renderizando")
                     t0 = time.time()
                     try:
                         info = s.render(sh, post=False)
                     except Exception as e:
                         info = {"ok": False, "error": str(e)}
-                    futs.append(ex.submit(_terminar, vid, n, sh, info, t0))
+                    futs.append(ex.submit(_terminar, vid, n, sh, info, t0, h))
                 for f in futs:
                     f.result()
             _subir_indice(vid, ja=True)
@@ -215,13 +228,15 @@ def sessao(vid, efeitos=None, qualidade="final"):
         _log("sessão encerrada")
 
 
-def _terminar(vid, n, sh, info, t0):
+def _terminar(vid, n, sh, info, t0, h=None):
     from cinecam.render import Sessao
     info = Sessao.pos(sh, info)
     if info.get("ok"):
         try:
             _enviar(vid, n, info["final"])
             _marca(n, estado="pronto", s=round(time.time() - t0, 1))
+            if h:
+                with _LOCK: _PEND["feito"][str(n)] = h
             _log(f"cena {n} pronta em {time.time() - t0:.0f} s")
         except NuvemNoLimite:
             _PARAR.set()
@@ -231,6 +246,8 @@ def _terminar(vid, n, sh, info, t0):
     else:
         err = str(info.get("error"))
         _marca(n, estado="3d" if err.startswith("colisão") else "erro", erro=err[:500])
+        if h and err.startswith("colisão"):         # recusa de qualidade é sempre a mesma: não refaz à toa (erro de verdade refaz)
+            with _LOCK: _PEND["feito"][str(n)] = h
         _log(f"cena {n}: {err[:200]}")
     _subir_indice(vid)
 
