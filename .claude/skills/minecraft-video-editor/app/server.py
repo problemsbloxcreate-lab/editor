@@ -6,6 +6,17 @@ uso: python server.py [--porta 4790] [--sem-navegador]
 import json, os, re, shutil, subprocess, sys, threading, time, urllib.parse, webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
+if os.name == "nt":
+    # 29/10 (dono: "o cmd fica abrindo na minha frente"): o serviço roda sem console (pythonw), então todo programa de console
+    # que ele chama (ffmpeg, git, gradle, java…) abria uma janela preta própria. Aqui, por padrão, nenhum abre janela.
+    _popen_init = subprocess.Popen.__init__
+
+    def _popen_sem_janela(self, *a, **k):
+        if not k.get("creationflags"):
+            k["creationflags"] = 0x08000000          # CREATE_NO_WINDOW
+        _popen_init(self, *a, **k)
+    subprocess.Popen.__init__ = _popen_sem_janela
+
 APP = os.path.dirname(os.path.abspath(__file__))
 SK = os.path.dirname(APP)
 sys.path.insert(0, os.path.join(SK, "scripts"))

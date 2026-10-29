@@ -177,13 +177,63 @@ def _clean_saves(since: float):
             pass
 
 
+# 29/10 (dono: "o cmd e o mine ficam abrindo na minha frente"): no Windows, gradle/java rodam SEM janela de console e a
+# janela do Minecraft vai para trás das outras assim que aparece, devolvendo o foco para o que a pessoa estava usando.
+# Ela não pode ser minimizada (o jogo para de desenhar), mas atrás das outras janelas ela desenha normalmente.
+_SEM_JANELA = 0x08000000 if os.name == "nt" else 0          # CREATE_NO_WINDOW
+
+
+def _mine_para_tras(proc: subprocess.Popen, segundos: float = 180.0):
+    if os.name != "nt":
+        return
+    import threading
+    from ctypes import wintypes
+
+    def vigia():
+        try:
+            u = ctypes.windll.user32
+            k = ctypes.windll.kernel32
+            antes = u.GetForegroundWindow()
+            achadas = set()
+            fim = time.time() + segundos
+            WNDENUM = ctypes.WINFUNCTYPE(wintypes.BOOL, wintypes.HWND, wintypes.LPARAM)
+            while time.time() < fim and proc.poll() is None:
+                jan = []
+
+                def cb(h, _):
+                    if u.IsWindowVisible(h):
+                        cls = ctypes.create_unicode_buffer(64)
+                        u.GetClassNameW(h, cls, 64)
+                        if cls.value.startswith("GLFW"):
+                            t = ctypes.create_unicode_buffer(128)
+                            u.GetWindowTextW(h, t, 128)
+                            if "Minecraft" in t.value:
+                                jan.append(h)
+                    return True
+                u.EnumWindows(WNDENUM(cb), 0)
+                for h in jan:
+                    fg = u.GetForegroundWindow()
+                    if h not in achadas or fg == h:
+                        achadas.add(h)
+                        u.SetWindowPos(h, 1, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0010)     # HWND_BOTTOM, sem mover/redimensionar/ativar
+                        if fg == h and antes and u.IsWindow(antes) and antes != h:
+                            eu, ele = k.GetCurrentThreadId(), u.GetWindowThreadProcessId(h, None)
+                            u.AttachThreadInput(eu, ele, True)
+                            u.SetForegroundWindow(antes)
+                            u.AttachThreadInput(eu, ele, False)
+                time.sleep(0.5)
+        except Exception:
+            pass
+    threading.Thread(target=vigia, daemon=True).start()
+
+
 def _gradle(args: List[str], logf, env) -> subprocess.Popen:
     """--offline só depois do 1º runClient que deu certo (LAUNCH gravado). PC novo (28/10): o setup baixa build/prepareRunClient,
     mas o runClient ainda precisa de dependências próprias (ex.: srgutils da configuração minecraftCopy) — offline, o jogo
     nem abria ("o jogo fechou (código 1)"). O 1º runClient vai online e baixa o que falta; depois volta a ser offline."""
     off = ["--offline"] if LAUNCH.exists() else []
     return subprocess.Popen([str(MOD_HOME / "gradlew.bat")] + args + off + ["--console=plain"], cwd=str(MOD_HOME), env=env,
-                            stdout=logf, stderr=subprocess.STDOUT)
+                            stdout=logf, stderr=subprocess.STDOUT, creationflags=_SEM_JANELA)
 
 
 def _sincroniza_mod():
@@ -233,8 +283,12 @@ def _launch(job_json: Path, mode: str, xmx: str, logf, env: Dict) -> Tuple[subpr
                 cmd.append(t)
             env["MOD_CLASSES"] = ";".join("cinecam%%" + str(MOD_HOME / d) for d in ("build/resources/main", "build/classes/java/main"))
     if cmd:
-        return subprocess.Popen(cmd, cwd=str(RUN_HOME), env=env, stdout=logf, stderr=subprocess.STDOUT), True
-    return _gradle(["runClient", "--info", f"-Pxmx={xmx}", f"-Pjob={jarg}", f"-Pmode={mode}"], logf, env), False
+        p = subprocess.Popen(cmd, cwd=str(RUN_HOME), env=env, stdout=logf, stderr=subprocess.STDOUT, creationflags=_SEM_JANELA)
+        _mine_para_tras(p)
+        return p, True
+    p = _gradle(["runClient", "--info", f"-Pxmx={xmx}", f"-Pjob={jarg}", f"-Pmode={mode}"], logf, env)
+    _mine_para_tras(p, 420.0)
+    return p, False
 
 
 def _capture_launch(logname: str):
