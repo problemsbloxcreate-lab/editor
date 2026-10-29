@@ -190,14 +190,18 @@ def _mine_para_tras(proc: subprocess.Popen, segundos: float = 180.0):
     from ctypes import wintypes
 
     def vigia():
+        # 29/10 (dono: "não consigo jogar enquanto você faz as cenas, fica mudando o foco"): antes isto pegava QUALQUER janela
+        # "Minecraft" — inclusive o jogo da pessoa — e devolvia o foco para a janela que estava na frente no começo. Agora: só mexe
+        # na janela do CineCam (aberta DEPOIS deste render, por um processo criado depois dele), empurra para trás UMA vez quando
+        # ela aparece, e só devolve o foco nos primeiros segundos dela (quando o jogo abre e rouba a frente), para a última janela
+        # que a pessoa estava usando.  Depois disso nunca mais toca no foco.
         try:
             u = ctypes.windll.user32
             k = ctypes.windll.kernel32
-            antes = u.GetForegroundWindow()
-            achadas = set()
-            fim = time.time() + segundos
             WNDENUM = ctypes.WINFUNCTYPE(wintypes.BOOL, wintypes.HWND, wintypes.LPARAM)
-            while time.time() < fim and proc.poll() is None:
+            t_ini = time.time()
+
+            def janelas_mine():
                 jan = []
 
                 def cb(h, _):
@@ -211,16 +215,49 @@ def _mine_para_tras(proc: subprocess.Popen, segundos: float = 180.0):
                                 jan.append(h)
                     return True
                 u.EnumWindows(WNDENUM(cb), 0)
-                for h in jan:
-                    fg = u.GetForegroundWindow()
-                    if h not in achadas or fg == h:
-                        achadas.add(h)
-                        u.SetWindowPos(h, 1, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0010)     # HWND_BOTTOM, sem mover/redimensionar/ativar
-                        if fg == h and antes and u.IsWindow(antes) and antes != h:
-                            eu, ele = k.GetCurrentThreadId(), u.GetWindowThreadProcessId(h, None)
-                            u.AttachThreadInput(eu, ele, True)
-                            u.SetForegroundWindow(antes)
-                            u.AttachThreadInput(eu, ele, False)
+                return jan
+
+            def criado_em(h):                      # quando o processo dono da janela nasceu (epoch, s); None = não deu para ler
+                pid = wintypes.DWORD()
+                u.GetWindowThreadProcessId(h, ctypes.byref(pid))
+                hp = k.OpenProcess(0x1000, False, pid.value)          # PROCESS_QUERY_LIMITED_INFORMATION
+                if not hp:
+                    return None
+                try:
+                    c, e1, e2, e3 = wintypes.FILETIME(), wintypes.FILETIME(), wintypes.FILETIME(), wintypes.FILETIME()
+                    if not k.GetProcessTimes(hp, ctypes.byref(c), ctypes.byref(e1), ctypes.byref(e2), ctypes.byref(e3)):
+                        return None
+                    v = (c.dwHighDateTime << 32) | c.dwLowDateTime
+                    return v / 1e7 - 11644473600.0
+                finally:
+                    k.CloseHandle(hp)
+
+            velhas = set(janelas_mine())                 # o jogo da pessoa (já aberto antes): nunca mexe
+            nossas = {}                                  # janela do CineCam -> quando apareceu
+            ultima = u.GetForegroundWindow()
+            fim = time.time() + segundos
+            while time.time() < fim and proc.poll() is None:
+                fg = u.GetForegroundWindow()
+                if fg and fg not in nossas:
+                    ultima = fg                          # a última janela que a pessoa estava usando
+                for h in janelas_mine():
+                    if h in velhas or h in nossas:
+                        continue
+                    c = criado_em(h)
+                    if c is not None and c < t_ini - 5:
+                        velhas.add(h)                    # processo antigo = jogo da pessoa
+                        continue
+                    nossas[h] = time.time()
+                    u.SetWindowPos(h, 1, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0010)     # HWND_BOTTOM, sem mover/redimensionar/ativar
+                for h, t0 in list(nossas.items()):
+                    if not u.IsWindow(h):
+                        nossas.pop(h); continue
+                    if fg == h and time.time() - t0 < 25 and ultima and u.IsWindow(ultima) and ultima != h:
+                        u.SetWindowPos(h, 1, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0010)
+                        eu, ele = k.GetCurrentThreadId(), u.GetWindowThreadProcessId(h, None)
+                        u.AttachThreadInput(eu, ele, True)
+                        u.SetForegroundWindow(ultima)
+                        u.AttachThreadInput(eu, ele, False)
                 time.sleep(0.5)
         except Exception:
             pass
