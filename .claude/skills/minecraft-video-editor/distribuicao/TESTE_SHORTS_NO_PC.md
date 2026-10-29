@@ -88,7 +88,8 @@ Quando o andamento parar de mudar, aperte **Ctrl+F5** de novo e assista ao víde
 
 | O que aparece | O que fazer |
 |---|---|
-| 127.0.0.1 não abre | O serviço não está rodando. Reinicie o PC ou rode o comando de instalação de novo (ele só completa o que falta). |
+| 127.0.0.1 não abre | O serviço não está rodando. Rode o comando de instalação de novo: ele reabre o serviço sozinho. Não precisa reiniciar o PC nem mexer no Gerenciador de Tarefas. |
+| Alguém pediu para "atualizar" ou "reiniciar o serviço" | Rode o comando de instalação de novo. O serviço também se atualiza sozinho em até 15 minutos, e ao clicar em 🖥 No meu PC ele confere se há versão nova antes de começar. |
 | "Permita pop-ups" | Libere pop-ups para o site do estúdio e clique em 🖥 No meu PC outra vez. |
 | "pedido vencido" | O pedido vale 2 minutos. Volte ao Shorts e clique de novo. |
 | "entre pelo menu" | O login do estúdio expirou. Entre de novo pelo menu do Estúdio e repita. |

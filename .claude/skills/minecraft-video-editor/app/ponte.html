@@ -38,20 +38,39 @@ function tela() {
 <div id="esc"></div><button id="go">Começar a edição</button> <button class="sec" onclick="window.close()">Cancelar</button><p id="m"></p>`;
   $("#go").onclick = () => enviar();
 }
+/* pedido ao serviço; se ele responder "atualizando" (versão nova liberada), espera ele voltar com a versão nova e reenvia o
+   MESMO pedido (o passe ainda não foi usado e vale 2 min) — ninguém precisa reiniciar o PC nem o serviço */
+async function pedir(body, msg) {
+  let antes = null;
+  try { antes = (await (await fetch("/api/ping", { cache: "no-store" })).json()).versao; } catch (_) {}
+  for (let tent = 0; tent < 2; tent++) {
+    const r = await fetch("/api/ponte", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+    const j = await r.json().catch(() => ({}));
+    if (!(r.status === 503 && j.atualizando)) return { r, j };
+    msg("Atualizando o Estúdio Problems Local para a versão nova… (uns 20 segundos, não feche esta aba)");
+    let volta = false;
+    for (let i = 0; i < 90 && !volta; i++) {
+      await new Promise((res) => setTimeout(res, 2000));
+      try { const v = (await (await fetch("/api/ping", { cache: "no-store" })).json()).versao; volta = v && v !== antes; } catch (_) {}
+    }
+    if (!volta) throw new Error("A atualização está demorando. Espere um minuto, volte ao site e clique de novo em 🖥 No meu PC.");
+    msg("Atualizado. Mandando o pedido…");
+  }
+  throw new Error("Atualizado. Volte ao site e clique de novo em 🖥 No meu PC.");
+}
 async function enviarShort() {
   $("#go").disabled = true; $("#m").className = ""; $("#m").textContent = "Ligando o Minecraft deste PC…";
   try {
-    const r = await fetch("/api/ponte", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ passe: D.passe, pedido: Object.assign({}, D.pedido, { blur: $("#blur").checked, dof: $("#dof").checked }) }) });
-    const j = await r.json(); if (!r.ok) throw new Error(j.erro || "erro " + r.status);
+    const { r, j } = await pedir({ passe: D.passe, pedido: Object.assign({}, D.pedido, { blur: $("#blur").checked, dof: $("#dof").checked }) }, (t) => { $("#m").textContent = t; });
+    if (!r.ok) throw new Error(r.status === 401 ? "O pedido venceu enquanto o serviço atualizava. Volte ao site e clique de novo em 🖥 No meu PC." : (j.erro || "erro " + r.status));
     $("#m").className = "ok"; $("#m").textContent = "Pronto: as cenas vão aparecendo na linha do tempo do Shorts. Pode fechar esta aba.";
   } catch (e) { $("#m").className = "err"; $("#m").textContent = e.message; $("#go").disabled = false; }
 }
 async function enviar(video) {
   $("#go").disabled = true; $("#m").className = ""; $("#m").textContent = "Procurando o bruto neste PC…";
   try {
-    const r = await fetch("/api/ponte", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ passe: D.passe, pedido: Object.assign({}, D.pedido, video ? { video } : {}) }) });
-    const j = await r.json();
-    if (!r.ok) throw new Error(j.erro || "erro " + r.status);
+    const { r, j } = await pedir({ passe: D.passe, pedido: Object.assign({}, D.pedido, video ? { video } : {}) }, (t) => { $("#m").textContent = t; });
+    if (!r.ok) throw new Error(r.status === 401 ? "O pedido venceu enquanto o serviço atualizava. Volte ao site e clique de novo." : (j.erro || "erro " + r.status));
     if (j.escolher) {
       if (!j.escolher.length) throw new Error("não achei " + D.pedido.nome + " nas pastas de gravação deste PC (Vídeos, Área de Trabalho, Downloads e a pasta de trabalho). Copie o bruto para uma delas e clique de novo no site.");
       $("#esc").innerHTML = "<p>Achei mais de um arquivo igual. Qual uso?</p>" + j.escolher.map((a, i) => `<label class="f"><input type="radio" name="v" value="${i}" ${i ? "" : "checked"}> ${esc(a)}</label>`).join("");

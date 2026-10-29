@@ -189,6 +189,9 @@ class H(BaseHTTPRequestHandler):
                 if ps in PASSES_USADOS: return self.send(409, {"erro": "este pedido já foi usado; volte ao site e clique de novo"})
                 email = SEG.conferir_passe(ps, "127.0.0.1:%d" % PORTA)
                 if not email: return self.send(401, {"erro": "pedido vencido (vale 2 min) ou não veio do Estúdio; volte ao site e clique de novo"})
+                if _atualizar_ja():                  # versão liberada nova: instala antes do pedido; a página espera e reenvia
+                    threading.Timer(1.0, lambda: os._exit(3)).start()
+                    return self.send(503, {"atualizando": True, "erro": "atualizando o Estúdio Problems Local para a versão nova…"})
                 if ped.get("tipo") == "short":       # Shorts (v1.1): renderiza as cenas CineCam deste vídeo no Minecraft daqui
                     import midia_sync, curtas
                     PASSES_USADOS.add(ps)
@@ -270,6 +273,23 @@ def estado():
             "pareado": bool(midia_sync.token()), "midia": mid, "editando": atualizar.edicao_rodando()}
 
 
+_ULT_CHECK = [0.0]
+
+
+def _atualizar_ja():
+    """Antes de um pedido do site (🖥 No meu PC): se saiu versão liberada nova, instala AGORA e o serviço reabre com ela
+    (código 3 → o lançador .vbs reabre).  Antes ninguém via a versão nova até o serviço ser reiniciado à mão ou passar 2 h."""
+    import atualizar
+    if not atualizar.instalado_por_git() or atualizar.edicao_rodando() or time.time() - _ULT_CHECK[0] < 60:
+        return False
+    _ULT_CHECK[0] = time.time()
+    try:
+        return atualizar.verificar(log=lambda m: print(m, flush=True))
+    except Exception as e:
+        print("atualizar:", e, flush=True)
+        return False
+
+
 def vigiar_atualizacoes(srv):
     """instalação da equipe: segue a última versão liberada; ao mudar, encerra com código 3 e o lançador reabre com o código novo."""
     import atualizar
@@ -283,7 +303,7 @@ def vigiar_atualizacoes(srv):
                 midia_sync.sincronizar(log=lambda m: print(m, flush=True))
         except Exception as e:
             print("atualizar:", e, flush=True)
-        time.sleep(2 * 3600)
+        time.sleep(15 * 60)                      # git fetch é leve: versão liberada chega em até 15 min (antes 2 h)
 
 
 def main():

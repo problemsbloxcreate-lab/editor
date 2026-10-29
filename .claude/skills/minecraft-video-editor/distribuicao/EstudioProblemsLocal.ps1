@@ -103,7 +103,13 @@ Loop
 $Startup = [Environment]::GetFolderPath("Startup")
 $lnk = (New-Object -ComObject WScript.Shell).CreateShortcut((Join-Path $Startup "Estúdio Problems Local.lnk"))
 $lnk.TargetPath = "wscript.exe"; $lnk.Arguments = "`"$Vbs`""; $lnk.Save()
-$aberto = $false; try { $aberto = (Invoke-WebRequest -UseBasicParsing http://127.0.0.1:4790/api/ping -TimeoutSec 2).StatusCode -eq 200 } catch {}
-if (-not $aberto) { Start-Process wscript.exe "`"$Vbs`"" }
+# rodar o instalador de novo = serviço reaberto com o código novo (antes o antigo seguia rodando com o código velho na memória
+# e era preciso finalizar o pythonw no Gerenciador de Tarefas). Só o NOSSO serviço: o pythonw que roda este server.py.
+$velhos = Get-CimInstance Win32_Process -Filter "Name='pythonw.exe' OR Name='python.exe'" | Where-Object { $_.CommandLine -and $_.CommandLine -like "*$Srv*" }
+foreach ($v in $velhos) { try { Stop-Process -Id $v.ProcessId -Force -ErrorAction Stop; Write-Host "  serviço antigo encerrado (pid $($v.ProcessId))" } catch {} }
+if ($velhos) { Start-Sleep -Seconds 2 }
+Start-Process wscript.exe "`"$Vbs`""
+$ok = $false; foreach ($i in 1..20) { Start-Sleep -Seconds 1; try { if ((Invoke-WebRequest -UseBasicParsing http://127.0.0.1:4790/api/ping -TimeoutSec 2).StatusCode -eq 200) { $ok = $true; break } } catch {} }
+if ($ok) { Write-Host "  serviço rodando com a versão nova: http://127.0.0.1:4790" } else { Write-Host "  o serviço não respondeu ainda; se a página local não abrir em 1 minuto, reinicie o PC." -ForegroundColor Yellow }
 & $Py -X utf8 (Join-Path $Ed "scripts\doctor.py")
 Write-Host "`nPronto. Página local: http://127.0.0.1:4790  |  No site: Estúdio Problems > Editor > Automático > 'No meu PC'." -ForegroundColor Green
