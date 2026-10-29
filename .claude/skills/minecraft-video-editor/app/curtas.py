@@ -217,6 +217,12 @@ def sessao(vid, efeitos=None, qualidade="final"):
             ultimo = time.time()
     except NuvemNoLimite as e:
         _log(str(e))
+    except Exception as e:                            # 29/10: sem console (pythonw) o erro sumia — agora aparece no log e no site
+        import traceback
+        _log(f"erro: {type(e).__name__}: {e}"[:400])
+        _log(" | ".join(l.strip() for l in traceback.format_exc().splitlines()[-6:])[:600])
+        with _LOCK:
+            _EST["cenas"][0] = {"estado": "erro", "erro": f"{type(e).__name__}: {e}"[:300], "quando": int(time.time())}
     finally:
         s.close()
         with _LOCK:
