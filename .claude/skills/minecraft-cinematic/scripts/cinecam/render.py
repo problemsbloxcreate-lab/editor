@@ -314,7 +314,9 @@ def checar_colisao(anim, rig: Rig, scene: Optional[Scene]) -> List[str]:
     S = solids_from_commands(sc.commands, anchor) if sc.commands else None
     probs = verificar(anim, rig.duration, S, eventos=sc.blocks)
     for a in anim.actors:
-        probs += [f"{t:.2f}s: {a.name}.{p1} atravessa o próprio {p2}" for (t, p1, p2) in getattr(a, "colisao_resto", [])][:3]
+        # (a animação é assada até dur + 0,5 s: o que passa do último quadro não aparece no filme — 30/10/2026)
+        probs += [f"{t:.2f}s: {a.name}.{p1} atravessa o próprio {p2}" for (t, p1, p2) in getattr(a, "colisao_resto", [])
+                  if t <= rig.duration + 0.02][:3]
     return probs
 
 

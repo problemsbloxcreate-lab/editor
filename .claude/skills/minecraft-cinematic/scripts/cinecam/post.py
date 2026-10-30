@@ -12,6 +12,10 @@ PRESETS: Dict[str, dict] = {
     # insert (v0.8): cutaway INSIDE a gameplay video — keeps the vanilla colours the gameplay has, adds the film touch:
     # highlight roll-off (sky/sand/water never clip hard), a hair of toe, soft bloom, light lens vignette; no grain/sharpen/CA
     "insert": dict(curves="0/0 0.05/0.04 0.5/0.5 0.9/0.875 1/0.965", sat=1.04, contrast=1.02, bloom=0.07, bloom_radius=22, vignette=0.12),
+    # shorts (30/10/2026): vertical curiosity Shorts — bright and colourful even in caves/Nether (pair with game gamma 1.0):
+    # lifted toe, gentle highlight roll-off, +saturation, no vignette (it darkens the corners where the graphics sit)
+    "shorts": dict(curves="0/0.02 0.12/0.15 0.5/0.55 0.85/0.87 1/0.97", sat=1.2, contrast=0.98, bloom=0.05, bloom_radius=20,
+                   auto_exp=0.21),
     # clean: only proper encode.  Use for gameplay-style shots / when shaders already provide the look.
     "clean": dict(),
     # punchy YouTube Minecraft look (like the Bionic / Problems refs): saturated, contrasty, slight bloom
@@ -28,6 +32,9 @@ PRESETS: Dict[str, dict] = {
 
 def build_filter(p: dict, width: int, height: int, letterbox: Optional[float] = None, fps: Optional[float] = None) -> str:
     chain = []
+    if p.get("ganho", 1.0) > 1.001:   # exposição (ganho linear: escurece nada e não lava a cor como o gamma)
+        k = 1.0 / p["ganho"]
+        chain.append(f"colorlevels=rimax={k:.4f}:gimax={k:.4f}:bimax={k:.4f}")
     if p.get("curves"):
         chain.append(f"curves=all='{p['curves']}'")
     if p.get("denoise"):
@@ -71,13 +78,32 @@ def build_filter(p: dict, width: int, height: int, letterbox: Optional[float] = 
     return g + f";{tail}" + ",".join(post) + "[out]"
 
 
+def mediana_luma(video: str, ffmpeg: str = "ffmpeg", n: int = 6) -> Optional[float]:
+    """Median luma (0..1) over n frames spread along the clip (small gray frames; no numpy needed)."""
+    import statistics
+    r = subprocess.run([ffmpeg, "-v", "error", "-i", video, "-vf", f"thumbnail={max(2, n)},scale=96:-2,format=gray",
+                        "-frames:v", str(n), "-f", "rawvideo", "-"], capture_output=True)
+    if r.returncode != 0 or not r.stdout:
+        r = subprocess.run([ffmpeg, "-v", "error", "-i", video, "-vf", "scale=96:-2,format=gray", "-frames:v", "1",
+                            "-f", "rawvideo", "-"], capture_output=True)
+    return statistics.median(r.stdout) / 255.0 if r.stdout else None
+
+
 def finish(master: str, out_mp4: str, preset: str = "cinematic", letterbox: Optional[float] = None, crf: int = 14,
            width: int = 1920, height: int = 1080, ffmpeg: str = "ffmpeg", scale: Optional[str] = None,
            audio: Optional[str] = None, fps: Optional[float] = None, extra: Optional[dict] = None) -> str:
-    """Master (lossless) -> final mp4.  scale='1920:1080' downsamples a supersampled master with lanczos (free anti-aliasing)."""
+    """Master (lossless) -> final mp4.  scale='1920:1080' downsamples a supersampled master with lanczos (free anti-aliasing).
+    auto_exp=<median target 0..1> in the preset: a dark master (cave, Nether, night) gets a linear exposure gain (max 2.2x)
+    up to that median (gain keeps the colour; a gamma lift washed the Nether into grey-pink, 30/10/2026)."""
+    import math
     p = dict(PRESETS[preset]) if preset in PRESETS else {}
     if extra:
         p.update(extra)
+    alvo = p.pop("auto_exp", None)
+    if alvo:
+        m = mediana_luma(master, ffmpeg)
+        if m and 0.01 < m < alvo:
+            p["ganho"] = round(min(2.2, alvo / m), 3)
     fg = build_filter(p, width, height, letterbox)
     if scale:
         fg = fg.replace("[0:v]", f"[0:v]scale={scale}:flags=lanczos,", 1)

@@ -12,6 +12,7 @@ nada (recusa), boca parada, piscar, sombra; motion blur e desfoque de lente opci
 from __future__ import annotations
 
 import math
+import re
 from typing import Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
@@ -398,8 +399,12 @@ def shot_da_ficha(mapa: Dict, ficha: Dict, qualidade: str = "final", nome: Optio
     scene = sb.scene(time=int(ficha.get("hora", L.get("hora", 4000))), weather=L.get("clima", "clear"), anchor=tuple(c + [0, 4, 2]),
                      **kw)
     nm = nome or f"curta_{ficha.get('video', 'x')}_{int(ficha.get('n', 0)):02d}"
-    sh = Shot(nm, rig=rig, scene=scene, settings=Settings(renderDistance=int(L.get("visao", 10)), simulationDistance=6, worldTicks=True),
-              anim=Anim(list(built.values()), mobs=mobs, props=cena.props), size=F["rascunho" if rascunho else "final"], grade="insert",
+    # brilho do jogo (gamma 0..1; 1 = "Brilhante") e grade do pós: efeitos > lugar > padrão (30/10/2026: Shorts pedem 1.0 + "shorts")
+    brilho = float(ef.get("brilho", L.get("brilho", 0.5)))
+    grade = str(ef.get("grade", L.get("grade", "insert")))
+    sh = Shot(nm, rig=rig, scene=scene, settings=Settings(renderDistance=int(L.get("visao", 10)), simulationDistance=6, worldTicks=True,
+                                                          gamma=max(0.0, min(1.0, brilho))),
+              anim=Anim(list(built.values()), mobs=mobs, props=cena.props), size=F["rascunho" if rascunho else "final"], grade=grade,
               blur=bool(ef["blur"]) and not rascunho, dof=(bool(ef["dof"]) and not rascunho))
     return sh, built
 
@@ -424,6 +429,9 @@ def checar_ficha(mapa: Dict, ficha: Dict) -> List[str]:
     except Exception as e:
         return [f"ficha inválida: {e}"]
     out = list(checar_colisao(sh.anim, sh.rig, sh.scene))
+    # a animação é assada até dur + 0,5 s: colisão depois do último quadro não aparece no filme (30/10/2026)
+    T = float(ficha["dur"])
+    out = [x for x in out if not (re.match(r"^(\d+(?:\.\d+)?)s:", x) and float(re.match(r"^(\d+(?:\.\d+)?)s:", x).group(1)) > T + 0.02)]
     # câmera nunca dentro/colada em personagem ou mob (a lente atravessando o corpo aparece como uma faixa escura na borda)
     fr = sh.rig.sample_frames()
     for k in range(0, len(fr["t"]), 3):
