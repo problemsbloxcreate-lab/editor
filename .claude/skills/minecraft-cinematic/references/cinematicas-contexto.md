@@ -10,6 +10,8 @@
 5. **Ninguém parado**: quem fala tem `talk(energy≥1.3)` cobrindo o take INTEIRO (emphatic nas reclamações/sustos); quem ouve reage (`look` → `nod`/`laugh`/`shrug`); gestos extras (`point`, `present`, `present_to`) sobrepostos à fala. Nenhum trecho > ~0,5 s sem algo se mexendo no personagem principal.
 6. **Varie o lugar/luz pela cena**: noite da gameplay = `time 13000` (crepúsculo arroxeado — 14300+ fica escuro demais e nada aparece); paredão de terracota, floresta, cratera, queda no vazio etc. conforme o ctx.
 
+7. **Nada que não existe na gameplay (30/10/2026, "humilhando amigo" c02)**: objeto, móvel ou bloco só entra na cinemática se aparece na cena real. O c02 v3 tinha o Matheus tirando a vara de um BAÚ, mas na gameplay ele só abriu o inventário e saiu andando → reprovado ("no vídeo normal não tinha baú nenhum, lembra da importância das continuidades"). Item que vem do inventário = **tirar do bolso** (`point_at` no bolso do lado da mão, `hold_item` quando a mão volta, vara erguida AO LADO do corpo para não tapar o rosto) e a ação que ele estava fazendo continua (andando continua andando). Exemplo: `D:\Pobrs	rolagem\cine4\coreo4.py` `c02`.
+
 ## Gotchas pagos nesta rodada
 - **Lote com o MESMO lugar**: blocos de uma ficha ficam no mundo para a próxima (render_batch numa sessão só). Toda ficha que reaproveita coordenadas começa limpando o volume (`["box", [-20,-40,-24,22,24,20,"air"]]`) e reconstrói o cenário.
 - **NBT 1.20.1**: TNT usa `Fuse` (maiúsculo); `fuse` é ignorado → explode em 4 s durante o assentamento e esburaca o cenário.
