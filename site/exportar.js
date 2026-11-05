@@ -194,16 +194,14 @@
 	   Leva o vídeo (do arquivo gravado no PC ou da memória) para o programa Publicações (/publicacoes/) pelo /estudio-youtube.js do site. */
 	function ytBotao(pegaVideo, nome, titulo) {
 		const pode = (k) => { try { return window.EstudioPerm?.pode?.(k) ?? true; } catch (_) { return true; } };
-		if (!pode("editor.exportar") || !pode("publicacoes.publicar")) return;
-		const b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.style.marginLeft = "8px"; b.textContent = "Publicar no YouTube"; $("#status").appendChild(b);
-		b.onclick = async () => {
-			b.disabled = true;
-			try {
-				if (!window.EstudioYouTube) await new Promise((ok, ruim) => { const s = document.createElement("script"); s.src = "/estudio-youtube.js"; s.onload = ok; s.onerror = () => ruim(new Error("não consegui carregar o /estudio-youtube.js")); document.head.appendChild(s); });
-				await EstudioYouTube.levar({ blob: await pegaVideo(), nome, titulo: titulo || nome.replace(/\.mp4$/i, ""), programa: "editor" });
-			} catch (e) { ED.aviso("Não deu para levar ao Publicações", String(e && e.message || e)); }
-			b.disabled = false;
+		const carrega = () => window.EstudioYouTube ? Promise.resolve() : new Promise((ok, ruim) => { const s = document.createElement("script"); s.src = "/estudio-youtube.js"; s.onload = ok; s.onerror = () => ruim(new Error("não consegui carregar o /estudio-youtube.js")); document.head.appendChild(s); });
+		const bt = (txt, extra) => {
+			const b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.style.marginLeft = "8px"; b.textContent = txt; $("#status").appendChild(b);
+			b.onclick = async () => { b.disabled = true; try { await carrega(); await EstudioYouTube.levar({ blob: await pegaVideo(), nome, titulo: titulo || nome.replace(/\.mp4$/i, ""), programa: "editor", ...extra }); } catch (e) { ED.aviso("Não deu para levar ao Publicações", String(e && e.message || e)); } b.disabled = false; };
 		};
+		if (pode("editor.exportar") && pode("publicacoes.publicar")) bt("Publicar no YouTube", {});
+		// CONCLUÍDO: vai para "Não publicados" do Publicações (a equipe vê; publica agora ou depois)
+		if (pode("editor.exportar") && pode("publicacoes.ver")) bt("Marcar como concluído", { concluir: true, abrir: "/editor/" });
 	}
 	$("#bExportar").onclick = () => exportar();
 	window.ED_EXPORTAR = exportar;
