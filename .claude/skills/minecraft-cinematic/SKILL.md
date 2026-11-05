@@ -128,6 +128,14 @@ Pós: `grade` = `insert` (inserção em gameplay; padrão do editor) `clean punc
   `curta.py` ignorava a dimensão e o Nether saía com céu azul). Usado pela série de Shorts do Matteeoo (skill `shorts-matteeoo`).
 - Editor: `minecraft-video-editor/scripts/cinematicas.py check|render` usam este motor quando o JSON tem `"mapa"` (fichas antigas `acts.Stage` continuam pelo `auto.py`, legado). Referência completa: `D:\Pobrs\trolagem\cine3\` (make_fichas.py + coreo.py + run.py — 20 cenas do "humilhando amigo", incl. 3 no gancho).
 
+**v1.3 (04/11/2026) — RENDER DENTRO DE UMA INSTÂNCIA DO MODRINTH (os mods do vídeo: monstros de mods de terror, mod próprio, BBS):**
+- O mod lê o job da propriedade `cinecam.job` OU da 1ª linha de `cinecam-job.txt` na pasta do jogo (`Controller.jobPath`). Sem nenhum dos dois fica inerte.
+- Receita (`references/example_instancia_portal.py`): `R = importlib.import_module("cinecam.render")` (o pacote exporta uma FUNÇÃO `render` com o mesmo nome do módulo — `from cinecam import render as R` pega a função e o render cai no cliente dev, sem os mods) e `R.run_game = run_game_instancia`, que copia o jar para `mods/`, escreve o txt, abre `modrinth://launch/instance/<id>` pelo `Modrinth App.exe`, espera o javaw da instância sair e devolve tudo (jar, txt, `saves/cinecam-*`, config alterada). Recusa se a instância estiver aberta.
+- `stills()` nesse caminho sai como filme de N quadros (o modo não vai pelo txt): ler o `*_master.mkv` (`tile`).
+- Mod próprio com regra "um monstro por fase" (Portal Macabro): monstro sem tag `ent<N>` some (Pacman descarregado, 67/Muffin somem); mesma tag duas vezes = o mais velho sai. Monstro que se apaga sozinho mesmo assim (Obsessed, Idol) → `Mob(nome, "mod:entidade", (x, pés + altura/2, z), auto_walk=False)` em `Anim(mobs=[...])`: entidade criada SÓ no cliente com o modelo/animação do mod, sem a lógica do servidor. Altura = a do `sized(w, h)` do registro (`javap -c` na classe `*ModEntities`); `yaw` do Mob = yaw do Minecraft.
+- Grade próprio: `post.PRESETS["nome"] = dict(...)` e `grade="nome"`. Re-grade sem reabrir o jogo: `post.finish(<nome>_dof.mkv, saida.mp4, preset=...)`.
+- Foco por pontos com salto entre camadas (follow-focus em dioptrias): `com_foco()` no exemplo.
+
 **Ainda NÃO existe** (não prometa; implementar sob demanda, nesta ordem de valor):
 1. ~~Atores articulados~~ → feito (v0.3); faltam cotovelos/joelhos, itens animados além do item na mão direita, mobs não-player.
 2. **Shader pack** (Complementary/Oculus) integrado ao render — hoje vanilla + pós.

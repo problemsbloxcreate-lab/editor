@@ -66,7 +66,27 @@ import java.util.stream.Stream;
  */
 @Mod.EventBusSubscriber(modid = CineCam.MOD_ID, value = Dist.CLIENT)
 public final class Controller {
-    private static final String JOB_PROP = System.getProperty("cinecam.job");
+    private static final String JOB_PROP = jobPath();
+
+    /**
+     * The job: the {@code cinecam.job} JVM property, or (04/11/2026) the first line of {@code cinecam-job.txt} in the game
+     * folder - so the jar also renders inside a launcher instance (Modrinth) with its own mods, without touching the
+     * launcher's JVM arguments. No property and no file = the mod stays inert.
+     */
+    private static String jobPath() {
+        String p = System.getProperty("cinecam.job");
+        if (p != null && !p.isBlank()) return p;
+        try {
+            java.nio.file.Path f = java.nio.file.Path.of(System.getProperty("user.dir", ".")).resolve("cinecam-job.txt");
+            if (java.nio.file.Files.exists(f)) {
+                String s = java.nio.file.Files.readString(f).trim();
+                if (!s.isEmpty()) return s.lines().findFirst().orElse("").trim();
+            }
+        } catch (Exception ignored) {
+            // no file: inert
+        }
+        return null;
+    }
     private static final boolean ON = JOB_PROP != null && !JOB_PROP.isBlank();
 
     private enum Phase { TITLE, WORLD, SETUP, PRELOAD, COMMANDS, SETTLE, FILM, FINISH, IDLE, DONE }
