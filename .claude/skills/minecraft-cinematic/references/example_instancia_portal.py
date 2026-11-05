@@ -5,8 +5,10 @@
 3,0 s      CORTE seco com tranco de impacto.
 3,0–7,0 s  a câmera sai baixa do pé dele, recua por entre o Verity Demon e o Muffin (passam rente à lente), sobe e abre na
            roda inteira; no meio o foco salta para o Obsessed atrás dele e volta para o Problems.
-Clima: preset "fim" do mod (céu e névoa cor de sangue, cinzas e esporos no ar, fumaça rasteira), 9 colunas de fumaça no
-horizonte (uma atrás de cada monstro), fogueiras de alma com fumaça alta, brasas de magma no chão.
+Cenário (05/11): arena da batalha do End - chão inteiro de end stone (sem grama nem vazio à vista), anel de 10 pilares de
+obsidiana com cristal do End no topo (2 com gaiola), postes com lanterna de alma em volta do Problems. Clima: preset
+"circulo" (céu e névoa cor de sangue mesmo no End, cinzas e esporos no ar, fumaça rasteira) e 9 colunas de fumaça pretas
+no horizonte (uma atrás de cada monstro).
 
 Renderiza DENTRO da instância "Portal Macabro" (os mods de terror, os modelos BBS e o nosso mod): o jar do CineCam entra
 na instância só durante o render (lê o job de cinecam-job.txt) e sai depois, junto com o mundo temporário.
@@ -38,7 +40,7 @@ SUB = 1 if RASCUNHO else 6
 SIZE = (960, 540) if RASCUNHO else (1920, 1080)
 NOME = "portal_circulo" + ("_rasc" if RASCUNHO else "")
 T1, T2 = 3.0, 4.0
-C = np.array([0.5, 64.0, 0.5])          # pés do Problems (mundo plano, grama com o topo em 64)
+C = np.array([0.5, 64.0, 0.5])          # pés do Problems (mundo plano; o chão de end stone fica em y 63)
 RAIO = 7.0
 
 # bearing (0 = norte, 90 = leste), monstro: atrás do Problems no close (norte) ficam os mais icônicos.
@@ -67,6 +69,20 @@ def ponto(bearing, r, dy=0.0):
     return C + np.array([r * math.sin(a), dy, -r * math.cos(a)])
 
 
+def _pilares():
+    """10 pilares (x, z, raio, altura, gaiola) num anel de ~28 blocos: fora da roda e do caminho da câmera (r <= 15,5)."""
+    out = []
+    alturas = [30, 22, 34, 18, 27, 32, 20, 25, 36, 16]
+    for k in range(10):
+        b = 18 + 36 * k
+        p = ponto(b, 27 + 3 * ((k * 7) % 3))
+        out.append((math.floor(p[0]), math.floor(p[2]), 2 + (k % 2), alturas[k], alturas[k] <= 18))
+    return out
+
+
+PILARES = _pilares()
+
+
 def yaw_para_centro(p):
     d = C - p
     return math.degrees(math.atan2(-d[0], d[2]))
@@ -75,21 +91,15 @@ def yaw_para_centro(p):
 def comandos():
     cx, cz = int(C[0] - 0.5), int(C[2] - 0.5)
     cmds = ["gamerule doMobSpawning false", "gamerule doDaylightCycle false", "gamerule doWeatherCycle false",
-            "time set 18000", "weather clear", "ent scare all off", "ent world @a circulo", "ent fog set 2",
+            "time set 12500", "weather clear", "ent scare all off", "ent world @a circulo", "ent fog set 2",
             "kill @e[type=!player]"]
-    # chão escuro (podzol + terra grossa + alma) num disco de raio 16
-    cmds.append(f"fill {cx-17} 63 {cz-17} {cx+17} 63 {cz+17} minecraft:coarse_dirt")
+    # arena da batalha do End (05/11, Matheus): chão INTEIRO de end stone até além da névoa (225x225, em 4 fills de
+    # < 32768 blocos) - nenhum pedaço de grama/vazio aparece, nem do alto
+    E = 112
+    for x0, x1 in ((cx - E, cx - 1), (cx, cx + E)):
+        for z0, z1 in ((cz - E, cz - 1), (cz, cz + E)):
+            cmds.append(f"fill {x0} 63 {z0} {x1} 63 {z1} minecraft:end_stone")
     cmds.append(f"fill {cx-17} 64 {cz-17} {cx+17} 72 {cz+17} minecraft:air")
-    rng = np.random.default_rng(4)
-    for _ in range(70):
-        x, z = rng.integers(-16, 17, 2)
-        b = rng.choice(["podzol", "soul_soil", "mud", "rooted_dirt"])
-        cmds.append(f"fill {cx+x} 63 {cz+z} {cx+x+rng.integers(0,3)} 63 {cz+z+rng.integers(0,3)} minecraft:{b}")
-    # brasas: magma rachando o chão fora da roda
-    for _ in range(18):
-        r, b = rng.uniform(8.5, 16), rng.uniform(0, 360)
-        p = ponto(b, r)
-        cmds.append(f"setblock {math.floor(p[0])} 63 {math.floor(p[2])} minecraft:magma_block")
     # 9 colunas de fumaça do mod no horizonte, uma atrás de cada monstro (o placar do vídeo)
     for k, (b, _n, _c) in enumerate(MONSTROS):
         p = ponto(b, 70 + 9 * (k % 3))
@@ -100,23 +110,24 @@ def comandos():
     for i in range(8):
         p = ponto(i * 45 + 22.5, 4.3)
         x, z = math.floor(p[0]), math.floor(p[2])
-        cmds += [f"setblock {x} 63 {z} minecraft:soul_soil", f"setblock {x} 64 {z} minecraft:polished_blackstone_wall",
-                 f"setblock {x} 65 {z} minecraft:soul_lantern"]
+        cmds += [f"setblock {x} 64 {z} minecraft:polished_blackstone_wall", f"setblock {x} 65 {z} minecraft:soul_lantern"]
     # luz invisível: rosto do Problems; cada monstro com luz de frente (baixa e alta, lado do centro) + contorno atrás
     cmds.append(f"setblock {cx} 66 {cz+2} minecraft:light[level=11]")
     for b, _n, _c in MONSTROS:
         for r, dy, lv in ((RAIO - 1.3, 1.0, 15), (RAIO - 1.3, 3.0, 15), (RAIO + 1.2, 2.0, 12)):
             p = ponto(b, r, dy)
             cmds.append(f"setblock {math.floor(p[0])} {math.floor(p[1])} {math.floor(p[2])} minecraft:light[level={lv}]")
-    # árvores secas (só tronco e galho) no fundo
-    for k, b in enumerate(range(10, 360, 33)):
-        p = ponto(b, 15 + (k % 3) * 2.2)
-        x, z = math.floor(p[0]), math.floor(p[2])
-        h = 6 + k % 4
-        cmds.append(f"fill {x} 64 {z} {x} {63+h} {z} minecraft:dark_oak_log")
-        dx, dz = (1, 0) if k % 2 else (0, 1)
-        cmds.append(f"fill {x+dx} {62+h} {z+dz} {x+2*dx} {63+h} {z+2*dz} minecraft:dark_oak_log[axis={'x' if dx else 'z'}]")
-        cmds.append(f"setblock {x-dx} {61+h} {z-dz} minecraft:dark_oak_log[axis={'x' if dx else 'z'}]")
+    # pilares de obsidiana do End (no lugar das árvores secas): anel de 10 em volta da arena, como na luta do dragão,
+    # cada um com cristal do End no topo; os 2 mais baixos com gaiola de barras de ferro
+    for x, z, r, h, gaiola in PILARES:
+        for dx in range(-r, r + 1):
+            for dz in range(-r, r + 1):
+                if dx * dx + dz * dz <= r * r + r:
+                    cmds.append(f"fill {x+dx} 64 {z+dz} {x+dx} {63+h} {z+dz} minecraft:obsidian")
+        topo = 64 + h
+        if gaiola:
+            cmds.append(f"fill {x-2} {topo} {z-2} {x+2} {topo+3} {z+2} minecraft:iron_bars hollow")
+        cmds.append(f'summon end_crystal {x+0.5} {topo} {z+0.5} {{ShowBottom:1b,Invulnerable:1b,Tags:["pm_cine"]}}')
     # os nove, virados pro centro
     for b, n, c in MONSTROS:
         if c is None:
@@ -204,11 +215,13 @@ def camera():
     return rig
 
 
+# Hora 12500 (05/11): luz do céu 7 - o end stone aparece claro até a névoa (a 18000 o chão longe das luzes ficava preto e
+# parecia vazio); o preset pinta o céu de vermelho por cima.
 # Clima só deste take: céu e névoa cor de sangue CLAROS o bastante para as colunas de fumaça (quase pretas) virarem
 # silhueta contra o céu; cinzas claras e esporos no ar. Entra no world.json da instância durante o render e sai depois.
 PRESET = {"_desc": "take do circulo (cinecam): ceu de sangue, fumaca preta em silhueta, cinzas claras e esporos",
           "fogColor": "#5a0d12", "fog": [80, 34], "fogStart": 0.1, "sky": "#3a0609", "skyAlpha": 0.97,
-          "grass": "#5c5c57", "foliage": "#3b3b38", "tint": 0.0, "time": 18000, "thunder": 0, "fade": False,
+          "grass": "#5c5c57", "foliage": "#3b3b38", "tint": 0.0, "time": 12500, "thunder": 0, "fade": False,
           "smokeColor": "#0a0203",
           "particles": [{"type": "minecraft:white_ash", "rate": 10, "radius": 14, "y": [0, 10]},
                         {"type": "minecraft:ash", "rate": 5, "radius": 14, "y": [0, 10]},
@@ -269,7 +282,7 @@ post.PRESETS["portal"] = dict(curves="0/0.01 0.1/0.13 0.5/0.56 0.85/0.88 1/0.97"
 if __name__ == "__main__":
     R.run_game = run_game_instancia
     rig = camera()
-    scene = Scene(time=18000, weather="clear", anchor=tuple(C + [0, 4, 4]), commands=comandos(), settleTicks=80)
+    scene = Scene(time=12500, weather="clear", anchor=tuple(C + [0, 4, 4]), commands=comandos(), settleTicks=80)
     world = World(mode="fresh", preset="flat", groundY=64, structures=False)
     settings = Settings(renderDistance=8, simulationDistance=6, worldTicks=True, gamma=1.0, clouds=False)
     info = render(rig, NOME, scene=scene, world=world, settings=settings, size=SIZE, grade="portal",
