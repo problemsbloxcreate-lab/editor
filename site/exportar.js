@@ -199,9 +199,9 @@
 			const b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.style.marginLeft = "8px"; b.textContent = txt; $("#status").appendChild(b);
 			b.onclick = async () => { b.disabled = true; try { await carrega(); await EstudioYouTube.levar({ blob: await pegaVideo(), nome, titulo: titulo || nome.replace(/\.mp4$/i, ""), programa: "editor", ...extra }); } catch (e) { ED.aviso("Não deu para levar ao Publicações", String(e && e.message || e)); } b.disabled = false; };
 		};
-		if (pode("editor.exportar") && pode("publicacoes.publicar")) bt("Publicar no YouTube", {});
+		if (pode("editor.exportar") && pode("editor.youtube") && pode("publicacoes.publicar")) bt("Publicar no YouTube", {});
 		// CONCLUÍDO: vai para "Não publicados" do Publicações (a equipe vê; publica agora ou depois)
-		if (pode("editor.exportar") && pode("publicacoes.ver")) bt("Marcar como concluído", { concluir: true, abrir: "/editor/" });
+		if (pode("editor.exportar") && pode("publicacoes")) bt("Marcar como concluído", { concluir: true, abrir: "/editor/" });
 	}
 	$("#bExportar").onclick = () => exportar();
 	window.ED_EXPORTAR = exportar;
