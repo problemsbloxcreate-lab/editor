@@ -127,12 +127,12 @@
 		const cod = await escolherCodecs(W, H, fps);
 		if (!cod.v) { ED.aviso("Não deu para exportar", "O navegador não tem codificador de vídeo para " + W + "×" + H + "."); return; }
 		// destino: arquivo no PC (sem limite de tamanho) ou memória
-		let alvo, gravador = null, nome = (P.nome || "edicao").replace(/[^\w\- ]+/g, "") + ".mp4";
+		let alvo, gravador = null, alca = null, nome = (P.nome || "edicao").replace(/[^\w\- ]+/g, "") + ".mp4";
 		const semAlca = (() => { try { return /\bClaude\//.test(navigator.userAgent) || localStorage.getItem("ep:semFSA") === "1"; } catch (_) { return false; } })(); // navegador que não deixa gravar pelo seletor novo: baixa pelo jeito clássico
 		if (opc.memoria || !window.showSaveFilePicker || semAlca) alvo = new Mp4Muxer.ArrayBufferTarget();
 		else {
 			let h; try { h = await showSaveFilePicker({ suggestedName: nome, types: [{ description: "Vídeo MP4", accept: { "video/mp4": [".mp4"] } }] }); } catch (e) { return; }
-			gravador = await h.createWritable(); alvo = new Mp4Muxer.FileSystemWritableFileStreamTarget(gravador);
+			alca = h; gravador = await h.createWritable(); alvo = new Mp4Muxer.FileSystemWritableFileStreamTarget(gravador);
 		}
 		const mux = new Mp4Muxer.Muxer({ target: alvo, video: { codec: cod.v.m, width: W, height: H, frameRate: fps }, audio: cod.a ? { codec: cod.a.m, numberOfChannels: 2, sampleRate: SR } : undefined, fastStart: alvo instanceof Mp4Muxer.ArrayBufferTarget ? "in-memory" : false, firstTimestampBehavior: "offset" });
 		let erro = null;
@@ -178,6 +178,7 @@
 			else if (!opc.memoria) { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([alvo.buffer], { type: "video/mp4" })); a.download = nome; a.click(); }
 			const seg = (performance.now() - t0) / 1000;
 			ED.status(`Exportado: ${nome} (${cod.v.cfg.codec}${cod.a ? " + " + cod.a.cfg.codec : ""}) em ${Math.round(seg)} s`, "ok");
+			if (!opc.memoria) ytBotao(gravador ? () => alca.getFile() : () => new Blob([alvo.buffer], { type: "video/mp4" }), nome, P.nome);
 			return opc.memoria ? { buffer: alvo.buffer, codec: cod } : true;
 		} catch (e) {
 			console.error(e); ED.aviso("A exportação parou", String(e && e.message || e)); ED.status("Exportação parou", "err");
@@ -188,6 +189,21 @@
 			for (const k in fontes) fontes[k].fechar();
 			try { venc.close(); } catch (_) {} try { aenc && aenc.close(); } catch (_) {}
 		}
+	}
+	/* PUBLICAR NO YOUTUBE (05/11/2026): botão ao lado do "Exportado" para quem pode exportar no Editor e publicar no Publicações.
+	   Leva o vídeo (do arquivo gravado no PC ou da memória) para o programa Publicações (/publicacoes/) pelo /estudio-youtube.js do site. */
+	function ytBotao(pegaVideo, nome, titulo) {
+		const pode = (k) => { try { return window.EstudioPerm?.pode?.(k) ?? true; } catch (_) { return true; } };
+		if (!pode("editor.exportar") || !pode("publicacoes.publicar")) return;
+		const b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.style.marginLeft = "8px"; b.textContent = "Publicar no YouTube"; $("#status").appendChild(b);
+		b.onclick = async () => {
+			b.disabled = true;
+			try {
+				if (!window.EstudioYouTube) await new Promise((ok, ruim) => { const s = document.createElement("script"); s.src = "/estudio-youtube.js"; s.onload = ok; s.onerror = () => ruim(new Error("não consegui carregar o /estudio-youtube.js")); document.head.appendChild(s); });
+				await EstudioYouTube.levar({ blob: await pegaVideo(), nome, titulo: titulo || nome.replace(/\.mp4$/i, ""), programa: "editor" });
+			} catch (e) { ED.aviso("Não deu para levar ao Publicações", String(e && e.message || e)); }
+			b.disabled = false;
+		};
 	}
 	$("#bExportar").onclick = () => exportar();
 	window.ED_EXPORTAR = exportar;
