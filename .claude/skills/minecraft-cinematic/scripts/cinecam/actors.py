@@ -154,8 +154,9 @@ class Prop(_Keyed):
 
 
 MOB = dict(x=0, y=1, z=2, yaw=3, pitch=4, roll=5, sx=6, sy=7, sz=8, shadow_y=9, walk=10, age=11, walk_amt=12, head_yaw=13, head_pitch=14,
-           rema=15)                       # v1.1: barco — ângulo do remo (rad, 0 = parado)
-MBN = 16
+           rema=15,                       # v1.1: barco — ângulo do remo (rad, 0 = parado)
+           morte=16, asa=17)              # v1.3: ender dragon — ticks da morte vanilla (0-200: raios + corpo se desfazendo) e flapTime das asas
+MBN = 18
 # altura (blocos) da caixa de cada mob vanilla: o centro fica em pés + altura/2 (antes tudo ia a +0,5 e o creeper afundava 0,35)
 MOB_H = {"boat": 0.5625, "creeper": 1.7, "zombie": 1.95, "husk": 1.95, "drowned": 1.95, "skeleton": 1.99, "stray": 1.99, "wither_skeleton": 2.4,
          "pig": 0.9, "cow": 1.4, "mooshroom": 1.4, "sheep": 1.3, "chicken": 0.7, "spider": 0.9, "cave_spider": 0.5,

@@ -438,6 +438,16 @@ public final class Actors {
             setWalk(le, (float) q[10], q.length > 12 ? (float) q[12] : 0f, part);
         }
         if (e instanceof net.minecraft.world.entity.vehicle.Boat b) setPaddles(b, q.length > 15 ? q[15] : 0.0, part);
+        if (e instanceof net.minecraft.world.entity.boss.enderdragon.EnderDragon dr) {
+            // v1.3 (05/11): the vanilla death, driven by the rig - light rays + dissolving body from dragonDeathTime (0-200
+            // ticks; the fraction goes in as partialTick, so the rays turn smoothly) and the wing pose from flapTime
+            double death = q.length > 16 ? Math.max(0.0, q[16]) : 0.0;
+            dr.dragonDeathTime = (int) Math.floor(death);
+            if (death > 0) part = (float) (death - Math.floor(death));
+            float flap = q.length > 17 ? (float) q[17] : 0f;
+            dr.flapTime = flap;
+            dr.oFlapTime = flap;
+        }
         if (q[9] != 0) {
             double h = q[1] - mr.pivot - q[9];
             double alpha = Math.max(0, Math.min(0.5, 0.5 * (1 - h / 6.0)));

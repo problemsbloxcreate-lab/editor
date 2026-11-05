@@ -80,6 +80,7 @@ class Scene:
     preloadTimeoutSec: int = 300
     fog: Optional[Sequence[float]] = None           # v1.1: [perto, longe, r, g, b] em blocos/0..1 (névoa fixa da cena)
     blocks: List = field(default_factory=list)       # v1.1: [t, x, y, z, "minecraft:oak_door[...,open=true]"] = blocos que mudam no plano
+    events: List = field(default_factory=list)       # v1.3: [t, "comando"] = comando do SERVIDOR naquele instante do filme (o filme segura ~0,35 s reais até chegar)
 
 
 def available_ram_gb() -> float:

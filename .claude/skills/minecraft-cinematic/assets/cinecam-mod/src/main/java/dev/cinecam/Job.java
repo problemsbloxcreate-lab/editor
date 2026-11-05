@@ -59,6 +59,8 @@ public final class Job {
     public double[] fog = null;                  // v1.1: [perto, longe, r, g, b] (névoa do estúdio do Shorts); null = a do jogo
     public List<double[]> blockAt = new ArrayList<>();   // v1.1: scene.blocks [t, x, y, z, state] = blocos que mudam no meio do plano
     public List<String> blockState = new ArrayList<>();
+    public List<Double> evAt = new ArrayList<>();      // v1.3: scene.events [t, "command"] = comandos do servidor num instante do filme
+    public List<String> evCmd = new ArrayList<>();
     public double[] sunTint = {1.0, 0.86, 0.52};  // big-sun colour (vanilla texture path)
     public String sunTexture = null;             // optional RGBA PNG drawn with straight alpha (exact colours)                // >1 draws the vanilla sun texture bigger at the exact vanilla sun position
     public int preloadTimeoutSec = 300;
@@ -130,6 +132,12 @@ public final class Job {
                 JsonArray a = e.getAsJsonArray();
                 j.blockAt.add(new double[]{a.get(0).getAsDouble(), a.get(1).getAsDouble(), a.get(2).getAsDouble(), a.get(3).getAsDouble()});
                 j.blockState.add(a.get(4).getAsString());
+            }
+            JsonArray ev = arr(sc, "events");
+            if (ev != null) for (JsonElement e : ev) {
+                JsonArray a = e.getAsJsonArray();
+                j.evAt.add(a.get(0).getAsDouble());
+                j.evCmd.add(a.get(1).getAsString());
             }
             j.sunTexture = str(sc, "sunTexture", j.sunTexture);
             JsonArray st = arr(sc, "sunTint");

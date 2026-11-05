@@ -177,6 +177,7 @@ public final class Controller {
                     posing = true;
                     if (anim != null && idx < anim.water.length) WaterDrain.apply(Minecraft.getInstance(), anim.water[idx], anim.funnel[idx]);
                     BlockEvents.apply(Minecraft.getInstance(), table.t[idx]);
+                    Events.fire(Minecraft.getInstance(), table.t[idx]);
                 }
             } else {
                 posing = false;
@@ -522,6 +523,7 @@ public final class Controller {
             }
         }
         BlockEvents.init(mc, job.blockAt, job.blockState);
+        Events.init(job.evAt, job.evCmd);
         fixed = new FixedTimer();
         if (vanillaTimer == null) vanillaTimer = Reflect.getTimer(mc);
         Reflect.setTimer(mc, fixed);
@@ -545,6 +547,12 @@ public final class Controller {
             CineCam.LOG.warn("[cinecam] framebuffer snapped to {}x{} at row {}; re-forced to {}x{}", rt.width, rt.height, idx, capW, capH);
             readyStreak = 0;
             fixed.schedule(0);
+            return;
+        }
+        if (Events.holding()) {            // v1.3: timed server commands still on their way: same pass again, world frozen
+            readyStreak = 0;
+            fixed.schedule(0);
+            try { Thread.sleep(4); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
             return;
         }
         int sub = idx % job.subframes;
@@ -674,6 +682,7 @@ public final class Controller {
             if (vanillaTimer != null) Reflect.setTimer(mc, vanillaTimer);
             WaterDrain.reset(mc);
             BlockEvents.reset(mc);
+            Events.reset();
             idleSinceNs = System.nanoTime();
             idleInbox = job.inbox; idleLimit = job.idleSec;
             phase = Phase.IDLE;
@@ -721,6 +730,7 @@ public final class Controller {
         if (vanillaTimer != null) Reflect.setTimer(mc, vanillaTimer);
         WaterDrain.reset(mc);
         BlockEvents.reset(mc);
+            Events.reset();
         sink = null; depthSink = null; depthBuf = null; depthOut = null; anim = null; fixed = null;
         buf = null; scratch = null; out = null; acc = null;
         idx = 0; readyStreak = 0; waitPasses = 0; totalPasses = 0; totalRetries = 0; maxWait = 0;
@@ -808,7 +818,7 @@ public final class Controller {
         CineCam.LOG.info("[cinecam] world commands: {} chunks loaded in {} ms", seen.size(), (System.nanoTime() - t0) / 1_000_000);
     }
 
-    private static void run(ServerPlayer p, String command) {
+    static void run(ServerPlayer p, String command) {
         String c = command.startsWith("/") ? command.substring(1) : command;
         try {
             int r = p.server.getCommands().performPrefixedCommand(p.createCommandSourceStack().withPermission(4), c);
