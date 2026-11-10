@@ -1233,6 +1233,8 @@
 		aplicarProjeto(); requestAnimationFrame(laco); BIB.restaurar();
 		const pedido = new URLSearchParams(location.search).get("p"); // ?p=<id> abre direto um projeto
 		if (pedido) await abrirProjeto(pedido); else abreInicio();
+		// aberto pelo PUBLICAÇÕES num quadro para gerar o vídeo ali (?p=<id>&exportar=publicacoes&item=<id do não publicado>, 10/11/2026)
+		{ const qx = new URLSearchParams(location.search), it = qx.get("item"); if (pedido && qx.get("exportar") === "publicacoes" && /^[A-Za-z0-9_-]{6,20}$/.test(it || "")) window.ED_PARA_PUBLICACOES?.(it); }
 		if (typeof VideoDecoder === "undefined" || typeof AudioDecoder === "undefined") aviso("Use o Chrome ou o Edge", "Este navegador não tem as ferramentas de vídeo (WebCodecs) que o editor usa.");
 	})();
 })();

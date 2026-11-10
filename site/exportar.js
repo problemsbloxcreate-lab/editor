@@ -170,7 +170,7 @@
 					const ad = new AudioData({ format: "f32-planar", sampleRate: SR, numberOfFrames: nAm, numberOfChannels: 2, timestamp: Math.round((aud - T0) * 1e6), data });
 					aenc.encode(ad); ad.close(); aud += nAm / SR;
 				}
-				if (n % 15 === 0) { const f = (n + 1) / N, dt = (performance.now() - t0) / 1000, falta = f > 0.01 ? dt / f - dt : 0; barra.style.width = (f * 100).toFixed(1) + "%"; ED.status(`Exportando ${Math.round(f * 100)}% · faltam ~${Math.ceil(falta / 60)} min`); await new Promise((r) => setTimeout(r, 0)); }
+				if (n % 15 === 0) { const f = (n + 1) / N, dt = (performance.now() - t0) / 1000, falta = f > 0.01 ? dt / f - dt : 0; barra.style.width = (f * 100).toFixed(1) + "%"; ED.status(`Exportando ${Math.round(f * 100)}% · faltam ~${Math.ceil(falta / 60)} min`); if (opc.pr) opc.pr(f, `quadro ${n + 1} de ${N}`); await new Promise((r) => setTimeout(r, 0)); }
 			}
 			await venc.flush(); if (aenc) await aenc.flush();
 			mux.finalize();
@@ -192,17 +192,41 @@
 	}
 	/* PUBLICAR NO YOUTUBE (05/11/2026): botão ao lado do "Exportado" para quem pode exportar no Editor e publicar no Publicações.
 	   Leva o vídeo (do arquivo gravado no PC ou da memória) para o programa Publicações (/publicacoes/) pelo /estudio-youtube.js do site. */
+	const carrega = () => window.EstudioYouTube ? Promise.resolve() : new Promise((ok, ruim) => { const s = document.createElement("script"); s.src = "/estudio-youtube.js"; s.onload = ok; s.onerror = () => ruim(new Error("não consegui carregar o /estudio-youtube.js")); document.head.appendChild(s); });
 	function ytBotao(pegaVideo, nome, titulo) {
 		const pode = (k) => { try { return window.EstudioPerm?.pode?.(k) ?? true; } catch (_) { return true; } };
-		const carrega = () => window.EstudioYouTube ? Promise.resolve() : new Promise((ok, ruim) => { const s = document.createElement("script"); s.src = "/estudio-youtube.js"; s.onload = ok; s.onerror = () => ruim(new Error("não consegui carregar o /estudio-youtube.js")); document.head.appendChild(s); });
 		const bt = (txt, extra) => {
 			const b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.style.marginLeft = "8px"; b.textContent = txt; $("#status").appendChild(b);
 			b.onclick = async () => { b.disabled = true; try { await carrega(); await EstudioYouTube.levar({ blob: await pegaVideo(), nome, titulo: titulo || nome.replace(/\.mp4$/i, ""), programa: "editor", ...extra }); } catch (e) { ED.aviso("Não deu para levar ao Publicações", String(e && e.message || e)); } b.disabled = false; };
 		};
 		if (pode("editor.exportar") && pode("editor.youtube") && pode("publicacoes.publicar")) bt("Publicar no YouTube", {});
 		// CONCLUÍDO: vai para "Não publicados" do Publicações (a equipe vê; publica agora ou depois)
-		if (pode("editor.exportar") && pode("publicacoes")) bt("Marcar como concluído", { concluir: true, abrir: "/editor/" });
+		if (pode("editor.exportar") && pode("publicacoes")) bt("Marcar como concluído", { concluir: true, abrir: ED.P && /^[A-Za-z0-9_-]{2,60}$/.test(ED.P.id || "") ? "/editor/?p=" + ED.P.id : "/editor/" });
 	}
+	/* GERAR O VÍDEO PELO PUBLICAÇÕES (pedido da dona, 10/11/2026): o Publicações abre /editor/?p=<id>&exportar=publicacoes&item=<id> num
+	   quadro dentro dele (só funciona no computador onde o projeto foi feito: os brutos são lidos do disco). Se o navegador pedir licença
+	   para ler os arquivos, a pessoa clica em "Reabrir os arquivos" ali dentro. Exporta na memória, guarda no IndexedDB 'ep-publicacoes'
+	   ligado ao não publicado (concluido: item) e avisa a página de cima por postMessage: ep-exp-prog { f, txt } · ep-exp-pronto { id } · ep-exp-erro { msg }. */
+	async function paraPublicacoes(item) {
+		const pai = window.parent !== window ? window.parent : null; if (!pai) return;
+		const diz = (m) => { try { pai.postMessage(Object.assign({}, m, { item }), location.origin); } catch (_) {} };
+		try {
+			if (!ED.P || !ED.total()) throw new Error("Não achei este projeto neste computador. O Editor guarda os projetos só no computador onde foram feitos.");
+			const falta = () => Object.keys(ED.P.midias || {}).filter((m) => !ED.RT[m]).length;
+			if (falta()) {
+				diz({ tipo: "ep-exp-prog", f: 0, txt: "Clique em “Reabrir os arquivos” aqui embaixo: o navegador pede licença para ler os vídeos do computador." });
+				const t0 = Date.now(); while (falta()) { if (Date.now() - t0 > 10 * 60e3) throw new Error("Os arquivos do projeto não foram liberados."); await new Promise((r) => setTimeout(r, 800)); }
+			}
+			diz({ tipo: "ep-exp-prog", f: 0, txt: "Exportando…" });
+			const r = await exportar({ memoria: true, pr: (f, txt) => diz({ tipo: "ep-exp-prog", f, txt }) });
+			if (!r || !r.buffer) throw new Error("A exportação parou (veja a mensagem aqui embaixo).");
+			await carrega();
+			const id = "v" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+			await EstudioYouTube.fila.poe({ id, blob: new Blob([r.buffer], { type: "video/mp4" }), nome: (ED.P.nome || "edicao").replace(/[^\w\- ]+/g, "") + ".mp4", titulo: String(ED.P.nome || "").slice(0, 100), descricao: "", programa: "editor", em: Date.now(), concluido: item });
+			diz({ tipo: "ep-exp-pronto", id });
+		} catch (e) { diz({ tipo: "ep-exp-erro", msg: String((e && e.message) || e) }); }
+	}
+	window.ED_PARA_PUBLICACOES = paraPublicacoes;
 	$("#bExportar").onclick = () => exportar();
 	window.ED_EXPORTAR = exportar;
 })();
