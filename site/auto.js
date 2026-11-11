@@ -242,7 +242,7 @@
 
 	/* ---------- legendas automáticas: até 4 palavras por vez, na cor do personagem ---------- */
 	function legendas() {
-		const T = ED.P.transcricao; if (!T || !T.palavras || !T.palavras.length) { ED.aviso("Transcreva primeiro (📝 Transcrever)", ""); return 0; }
+		const T = ED.P.transcricao; if (!T || !T.palavras || !T.palavras.length) { ED.aviso("Transcreva primeiro (Transcrever)", ""); return 0; }
 		const ws = []; for (const w of T.palavras) { if (/^\s*[\[(♪].*[\])♪]?\s*$/.test(w.t)) continue; const p = paraTL(w); if (p) ws.push({ t: w.t, a: p.a, b: p.b, faixa: p.faixa }); }
 		ws.sort((x, y) => x.a - y.a);
 		const grupos = []; let g = null;

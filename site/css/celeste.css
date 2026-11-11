@@ -1,0 +1,76 @@
+/* ===================== EDITOR no CELESTE (2.0, 11/11/2026) =====================
+   Camada do Editor: a grade da tela, a linha do tempo, a lista de mídia, o inspetor e as abas do painel da esquerda.
+   Tokens, Inter e cabeçalho: /estudio-visual.css. Peças comuns (botão, painel, campo, janela): comum/estilo.css.
+   Sistema: skill design-problems > references/sistema-celeste.md. Tema: html[data-tema="escuro"|"claro"]. */
+html.cel body{overflow:hidden}
+html.cel .ed{flex:1;min-height:0;display:grid;grid-template-columns:minmax(250px,300px) minmax(0,1fr) minmax(240px,300px);grid-template-rows:minmax(0,1fr) var(--tl-h,38vh);gap:var(--e2);padding:var(--e2) var(--e3) var(--e3)}
+html.cel .ed>.pane{min-height:0}
+html.cel #tlPane{grid-column:1/-1;position:relative}
+
+/* abas do painel da esquerda = controle segmentado */
+html.cel .abas{display:flex;gap:2px;background:var(--fundo-3);border-radius:var(--raio-controle);padding:2px;width:100%}
+html.cel .aba{flex:1;height:var(--alt-controle-p);border:0;border-radius:var(--raio-p);background:transparent;color:var(--texto-2);font:500 var(--t-legenda) var(--fonte);padding:0 var(--e2);cursor:pointer;transition:background var(--rapido),color var(--rapido)}
+html.cel .aba:hover{color:var(--texto)}
+html.cel .aba[aria-selected="true"]{background:var(--fundo-4);color:var(--texto);box-shadow:var(--sombra-1)}
+html.cel[data-tema="claro"] .aba[aria-selected="true"]{background:#fff}
+
+/* lista de mídia e biblioteca */
+html.cel .lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+html.cel .lista li{display:flex;align-items:center;gap:var(--e2);background:var(--fundo-3);border:1px solid transparent;border-radius:var(--raio-controle);padding:5px var(--e2);cursor:grab;font-size:var(--t-pequeno);user-select:none}
+html.cel .lista li:hover{border-color:var(--linha-forte)}
+html.cel .lista li .ic{width:22px;display:grid;place-items:center;flex:none;color:var(--texto-2)}
+html.cel .lista li .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html.cel .lista li small{color:var(--texto-3);font:500 var(--t-legenda) var(--fonte);font-variant-numeric:tabular-nums;flex:none}
+html.cel .lista li.carregando{opacity:.6}
+html.cel .grade{display:grid;grid-template-columns:1fr 1fr;gap:var(--e1)}
+html.cel .grade .btn{justify-content:flex-start;min-width:0;padding:0 var(--e2);gap:6px;overflow:hidden;text-overflow:ellipsis}
+html.cel .grade .btn svg.i{width:14px;height:14px}
+
+/* prévia e transporte */
+html.cel .prev{flex:1;min-height:0;display:grid;place-items:center;background:#000;position:relative;overflow:hidden}
+html.cel #tela{max-width:100%;max-height:100%;aspect-ratio:16/9;background:#000;display:block}
+html.cel .prev.alvo #tela{cursor:crosshair}
+html.cel .transporte{display:flex;align-items:center;gap:var(--e2);padding:var(--e2) var(--e3);border-top:1px solid var(--linha);flex:none}
+html.cel .tc{font:600 var(--t-corpo) var(--fonte);font-variant-numeric:tabular-nums;min-width:150px}
+html.cel .tc small{color:var(--texto-3);font-weight:500}
+html.cel .campo{display:flex;flex-direction:column;gap:3px}
+html.cel .campo>span{font-size:var(--t-legenda);color:var(--texto-2)}
+html.cel .linha{display:flex;gap:var(--e2);align-items:center}
+html.cel .linha>*{flex:1;min-width:0}
+html.cel .linha>.btn{flex:1}
+
+/* linha do tempo */
+html.cel .tl-bar{display:flex;align-items:center;gap:var(--e2);padding:var(--e2) var(--e3);border-bottom:1px solid var(--linha);flex:none;flex-wrap:wrap}
+html.cel .tl-bar .sep{width:1px;height:20px;background:var(--linha-forte)}
+html.cel .tl{flex:1;min-height:0;display:grid;grid-template-columns:118px minmax(0,1fr);overflow:hidden}
+html.cel .tl-heads{display:flex;flex-direction:column;border-right:1px solid var(--linha);background:var(--fundo-2);overflow:hidden}
+html.cel .tl-heads .rg{height:24px;flex:none;border-bottom:1px solid var(--linha)}
+html.cel .tl-heads .trava{background:none;border:0;padding:0 2px;cursor:pointer;color:var(--texto-2);opacity:.3;display:inline-grid;place-items:center}
+html.cel .tl-heads .trava[aria-pressed=true]{opacity:1;color:var(--aviso)}
+html.cel .tl-heads>div:hover .trava{opacity:.8}
+html.cel .tl-heads .th{display:flex;align-items:center;gap:var(--e1);padding:0 6px;border-bottom:1px solid var(--linha);font:500 var(--t-legenda) var(--fonte);flex:none}
+html.cel .tl-heads .th span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html.cel .tl-heads .th .tnome svg.i{width:12px;height:12px;vertical-align:-2px;margin-right:3px}
+html.cel .tl-heads .th button{border:0;background:none;cursor:pointer;color:var(--texto-2);font:600 var(--t-legenda) var(--fonte);padding:2px 4px;border-radius:var(--raio-p);line-height:1}
+html.cel .tl-heads .th button:hover{background:var(--fundo-3);color:var(--texto)}
+html.cel .tl-heads .th button[aria-pressed="true"]{color:var(--aviso)}
+html.cel .tl-area{position:relative;overflow:hidden}
+html.cel #tlCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+html.cel .redim{position:absolute;left:0;right:0;top:-6px;height:8px;cursor:ns-resize;z-index:2}
+
+/* progresso, vazio, atalhos */
+html.cel .progresso{height:4px;background:var(--fundo-3);border-radius:2px;overflow:hidden}
+html.cel .progresso i{display:block;height:100%;width:0;background:var(--acento);transition:width .2s}
+html.cel .vazio{display:grid;place-items:center;text-align:center;gap:var(--e2);color:var(--texto-2);font-size:var(--t-pequeno);padding:var(--e5)}
+html.cel .vazio .sub-h{color:#f5f5f7}
+html.cel .vazio p:not(.sub-h){color:rgba(235,235,245,.64)}
+html.cel .solta{outline:2px dashed var(--acento);outline-offset:-6px}
+html.cel .marca{display:flex;align-items:center;gap:6px;font-size:var(--t-legenda)}
+html.cel .marca button{margin-left:auto}
+html.cel .kbd{font:600 var(--t-legenda) var(--fonte);background:var(--fundo-3);border-radius:var(--raio-p);padding:1px 6px;color:var(--texto-2)}
+html.cel .det{font-size:var(--t-legenda)}
+html.cel .det summary{cursor:pointer;color:var(--texto-2);font-weight:600;border-radius:var(--raio-p)}
+html.cel .det summary:hover{color:var(--texto)}
+
+/* menu da faixa de voz (aparece junto da faixa) */
+html.cel #menuVoz{background:var(--elevado);border:1px solid var(--linha);border-radius:var(--raio-cartao);box-shadow:var(--sombra-2)!important}

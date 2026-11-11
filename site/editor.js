@@ -5,6 +5,7 @@
 (function () {
 	"use strict";
 	const $ = (s, r) => (r || document).querySelector(s), $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+	const ic = (n) => `<svg class="i" aria-hidden="true"><use href="#i-${n}"/></svg>`; // ícones de linha (sprite do index.html)
 	const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 	const rid = () => Math.random().toString(36).slice(2, 10);
 	const dbLin = (db) => Math.pow(10, db / 20);
@@ -43,7 +44,7 @@
 	const ED = { t: 0, tocando: false, sel: new Set(), pps: 60, scroll: 0, ima: true, desfazer: [], refazer: [], copia: null, alvoFoco: null };
 	window.ED_ESTADO = { get P() { return P; }, RT, ED };
 
-	function status(txt, tipo) { const el = $("#status"); el.textContent = txt || ""; el.style.color = tipo === "err" ? "var(--warn)" : tipo === "ok" ? "var(--ok)" : ""; }
+	function status(txt, tipo) { const el = $("#status"); el.textContent = txt || ""; el.style.color = tipo === "err" ? "var(--aviso)" : tipo === "ok" ? "var(--sucesso)" : ""; }
 	/* pergunta com botões próprios; devolve a chave escolhida (ou null se fechar) */
 	function perguntar(t, p, botoes) {
 		return new Promise((ok) => {
@@ -185,9 +186,9 @@
 		ED.tocando = true; t0 = ED.t; a0 = AC.currentTime + 0.08; jaTocou = new Set();
 		programarAte(ED.t + 12);
 		clearInterval(agenda); agenda = setInterval(() => { if (ED.tocando) programarAte(tempoAgora() + 12); }, 500);
-		$("#bPlay").textContent = "❚❚"; prepararVideos(true);
+		$("#bPlay").innerHTML = ic("pausa"); $("#bPlay").setAttribute("aria-label", "Pausar"); prepararVideos(true);
 	}
-	function pausar() { if (!ED.tocando) return; ED.t = tempoAgora(); ED.tocando = false; pararAudio(); clearInterval(agenda); $("#bPlay").textContent = "▶"; for (const id in RT) (RT[id].vids || []).forEach((v) => v.pause()); }
+	function pausar() { if (!ED.tocando) return; ED.t = tempoAgora(); ED.tocando = false; pararAudio(); clearInterval(agenda); $("#bPlay").innerHTML = ic("toca"); $("#bPlay").setAttribute("aria-label", "Tocar"); for (const id in RT) (RT[id].vids || []).forEach((v) => v.pause()); }
 	function irPara(t) { const tocava = ED.tocando; if (tocava) pausar(); ED.t = clamp(t, 0, Math.max(0, total())); if (tocava) tocar(); else { prepararVideos(false); } }
 
 	/* ---------- vídeo (prévia): 2 elementos <video> por mídia, um tocando e o outro já buscando o próximo clipe ---------- */
@@ -396,9 +397,9 @@
 		for (const [i, f] of FAIXAS.entries()) {
 			const d = document.createElement("div"); d.className = "th"; d.style.height = alt[i] + "px"; d.style.borderLeft = "3px solid " + COR[f.id];
 			const st = fstate(f.id), ehAudio = f.tipo === "audio";
-			const trv = `<button type="button" class="trava" aria-pressed="${!!st.trava}" title="${st.trava ? "Destrancar a faixa" : "Trancar a faixa (não mexe sem querer)"}">${st.trava ? "🔒" : "🔓"}</button>`;
-			d.innerHTML = trv + `<span class="tnome" title="${f.voz ? "Clique para escolher o personagem, o volume ou tirar a faixa" : f.nome}" style="${f.voz ? "cursor:pointer" : ""}"></span>` + (ehAudio ? `<button type="button" class="solo" aria-pressed="${!!st.solo}" title="Ouvir só esta faixa">S</button>` : "") + `<button type="button" class="vis" aria-pressed="${ehAudio ? st.mudo : st.oculto}" title="${ehAudio ? "Silenciar a faixa" : "Esconder a faixa"}">${ehAudio ? (st.mudo ? "🔇" : "🔊") : (st.oculto ? "🙈" : "👁")}</button>`;
-			d.querySelector(".tnome").textContent = (f.voz ? (f.papel === "jogo" ? "🎮 " : "🎙 ") : "") + f.nome + (st.vol ? " " + (st.vol > 0 ? "+" : "") + st.vol + "dB" : "");
+			const trv = `<button type="button" class="trava" aria-pressed="${!!st.trava}" title="${st.trava ? "Destrancar a faixa" : "Trancar a faixa (não mexe sem querer)"}">${ic(st.trava ? "cadeado" : "abrir-cadeado")}</button>`;
+			d.innerHTML = trv + `<span class="tnome" title="${f.voz ? "Clique para escolher o personagem, o volume ou tirar a faixa" : f.nome}" style="${f.voz ? "cursor:pointer" : ""}"></span>` + (ehAudio ? `<button type="button" class="solo" aria-pressed="${!!st.solo}" title="Ouvir só esta faixa">S</button>` : "") + `<button type="button" class="vis" aria-pressed="${ehAudio ? st.mudo : st.oculto}" title="${ehAudio ? "Silenciar a faixa" : "Esconder a faixa"}">${ic(ehAudio ? (st.mudo ? "mudo" : "som") : (st.oculto ? "olho-off" : "olho"))}</button>`;
+			{ const tn = d.querySelector(".tnome"); tn.textContent = f.nome + (st.vol ? " " + (st.vol > 0 ? "+" : "") + st.vol + "dB" : ""); if (f.voz) tn.insertAdjacentHTML("afterbegin", ic(f.papel === "jogo" ? "jogo" : "mic")); }
 			d.querySelector(".trava").onclick = () => { st.trava = !st.trava; if (st.trava) P.clipes.forEach((c) => { if (c.faixa === f.id) ED.sel.delete(c.id); }); cabecalhos(); salvarLogo(); ED.sujo = true; };
 			d.querySelector(".vis").onclick = () => { if (ehAudio) st.mudo = !st.mudo; else st.oculto = !st.oculto; cabecalhos(); ED.sujo = true; salvarLogo(); reprogramarAudio(); };
 			if (ehAudio) d.querySelector(".solo").onclick = () => { st.solo = !st.solo; cabecalhos(); salvarLogo(); reprogramarAudio(); };
@@ -406,14 +407,14 @@
 			else if (ehAudio) d.querySelector(".tnome").onclick = (e) => menuVoz(f.id, e.currentTarget);
 			hs.appendChild(d);
 		}
-		const add = document.createElement("button"); add.type = "button"; add.className = "btn small"; add.style.margin = "4px 6px"; add.textContent = "＋ Voz"; add.title = "Adicionar a voz de um personagem (arquivo separado)";
+		const add = document.createElement("button"); add.type = "button"; add.className = "btn small"; add.style.margin = "4px 6px"; add.innerHTML = ic("mais") + " Voz"; add.title = "Adicionar a voz de um personagem (arquivo separado)";
 		add.onclick = () => $("#addVoz").click(); hs.appendChild(add);
 	}
 	/* menu da faixa: personagem, voz/jogo, volume da faixa, tirar a faixa */
 	function menuVoz(id, alvo) {
 		const v = P.vozes.find((q) => q.id === id), st = fstate(id);
 		let m = $("#menuVoz"); if (m) m.remove();
-		m = document.createElement("div"); m.id = "menuVoz"; m.className = "card"; m.style.cssText = "position:fixed;z-index:20;width:230px;box-shadow:0 10px 30px rgba(0,0,0,.45)";
+		m = document.createElement("div"); m.id = "menuVoz"; m.className = "card"; m.style.cssText = "position:fixed;z-index:20;width:230px";
 		const R = alvo.getBoundingClientRect(); m.style.left = R.left + "px"; m.style.top = Math.max(8, R.top - 10) + "px";
 		if (v) {
 			m.innerHTML = `<p class="lbl">Personagem</p><div class="chips">${PERSONAGENS.concat(["Call", "Jogo"]).map((n) => `<button type="button" class="chip" aria-pressed="${n === v.nome}">${n}</button>`).join("")}</div>
@@ -424,7 +425,7 @@
 		}
 		if (v && v.papel !== "jogo" && P.clipes.some((c) => c.faixa === id)) {
 			const sep = document.createElement("div"); sep.className = "campo";
-			sep.innerHTML = '<span>Todos numa faixa só? Separe por personagem</span><div class="linha"><select style="flex:none;width:118px" title="Quantas pessoas falam nesta faixa"><option value="2">2 pessoas</option><option value="3" selected>3 pessoas</option><option value="4">4 pessoas</option><option value="5">5 pessoas</option><option value="6">6 pessoas</option><option value="0">Não sei</option></select><button type="button" class="btn small primary">🧩 Separar</button></div><p class="status"></p>';
+			sep.innerHTML = '<span>Todos numa faixa só? Separe por personagem</span><div class="linha"><select style="flex:none;width:118px" title="Quantas pessoas falam nesta faixa"><option value="2">2 pessoas</option><option value="3" selected>3 pessoas</option><option value="4">4 pessoas</option><option value="5">5 pessoas</option><option value="6">6 pessoas</option><option value="0">Não sei</option></select><button type="button" class="btn small primary">'+ic("puzzle")+' Separar</button></div><p class="status"></p>';
 			const [se, bt, msg] = [sep.querySelector("select"), sep.querySelector("button"), sep.querySelector(".status")];
 			bt.onclick = async () => { bt.disabled = true; msg.textContent = "Ouvindo as vozes…"; try { const r = await window.ED_SEPARAR(id, +se.value, (f) => { msg.textContent = "Ouvindo as vozes… " + Math.round(f * 100) + "%"; }); status(`Separei em ${r.vozes} vozes (${r.segundos.join(" s, ")} s de fala). Clique no nome de cada faixa para dar o personagem; o S toca só ela.`, "ok"); m.remove(); salvarLogo(); } catch (e) { msg.textContent = "Não deu: " + (e.message || e); bt.disabled = false; } };
 			m.appendChild(sep);
@@ -456,14 +457,14 @@
 		const W = area.clientWidth, H = area.clientHeight, dpr = window.devicePixelRatio || 1;
 		if (tl.width !== Math.round(W * dpr) || tl.height !== Math.round(H * dpr)) { tl.width = Math.round(W * dpr); tl.height = Math.round(H * dpr); }
 		const c2 = tg; c2.setTransform(dpr, 0, 0, dpr, 0, 0);
-		const css = getComputedStyle(document.documentElement), bg = css.getPropertyValue("--bg"), line = css.getPropertyValue("--line"), muted = css.getPropertyValue("--muted"), fg = css.getPropertyValue("--fg");
+		const css = getComputedStyle(document.documentElement), bg = css.getPropertyValue("--fundo"), line = css.getPropertyValue("--linha-forte"), muted = css.getPropertyValue("--texto-2"), fg = css.getPropertyValue("--texto");
 		c2.fillStyle = bg; c2.fillRect(0, 0, W, H);
 		const L = layout();
 		for (const r of L) { c2.fillStyle = r.f.id === "V1" || r.f.id === (P.vozes[0] || {}).id ? "rgba(255,255,255,.025)" : "transparent"; c2.fillRect(0, r.y, W, r.h); c2.fillStyle = line; c2.fillRect(0, r.y + r.h - 1, W, 1); }
 		// régua
-		c2.fillStyle = css.getPropertyValue("--panel-2"); c2.fillRect(0, 0, W, RUL); c2.fillStyle = line; c2.fillRect(0, RUL - 1, W, 1);
+		c2.fillStyle = css.getPropertyValue("--fundo-3"); c2.fillRect(0, 0, W, RUL); c2.fillStyle = line; c2.fillRect(0, RUL - 1, W, 1);
 		const passos = [0.1, 0.25, 0.5, 1, 2, 5, 10, 15, 30, 60, 120, 300, 600], passo = passos.find((p) => p * ED.pps >= 70) || 600;
-		c2.fillStyle = muted; c2.font = "10px JetBrains Mono, monospace"; c2.textBaseline = "top";
+		c2.fillStyle = muted; c2.font = "500 10px Inter, system-ui, sans-serif"; c2.textBaseline = "top";
 		for (let t = Math.floor(ED.scroll / passo) * passo; t < tDe(W); t += passo) { const x = Math.round(xDe(t)) + 0.5; c2.fillRect(x, RUL - 8, 1, 8); c2.fillText(curto(t), x + 3, 4); }
 		// trecho de exportação (I/O)
 		if (P.entrada != null || P.saida != null) { const a = xDe(P.entrada || 0), b = xDe(P.saida != null ? P.saida : total()); c2.fillStyle = "rgba(61,155,255,.35)"; c2.fillRect(a, RUL - 6, b - a, 6); }
@@ -484,8 +485,8 @@
 			}
 			if (w > 30) {
 				c2.save(); c2.beginPath(); c2.rect(x, y, w, h); c2.clip();
-				c2.fillStyle = "#06121f"; c2.font = "600 10.5px Rubik, sans-serif"; c2.textBaseline = "top";
-				let nome = c.faixa === "T" ? "🅣 " + ((c.txt && c.txt.texto) || "") : c.faixa === "FX" ? (FX_NOMES[c.tipo] || c.tipo) : c.faixa === "Z" ? "🔍 " + Math.round(((c.p && c.p.para) || 1) * 100) + "%" + (c.p && c.p.anim > 0 ? " ↗" : "") : (P.midias[c.midia] || {}).nome || "";
+				c2.fillStyle = "#06121f"; c2.font = "600 10.5px Inter, system-ui, sans-serif"; c2.textBaseline = "top";
+				let nome = c.faixa === "T" ? ((c.txt && c.txt.texto) || "") : c.faixa === "FX" ? (FX_NOMES[c.tipo] || c.tipo) : c.faixa === "Z" ? "Zoom " + Math.round(((c.p && c.p.para) || 1) * 100) + "%" + (c.p && c.p.anim > 0 ? " ↗" : "") : (P.midias[c.midia] || {}).nome || "";
 				if (faixa(c.faixa).tipo === "audio" && c.vol) nome += "  " + (c.vol > 0 ? "+" : "") + c.vol.toFixed(1) + " dB";
 				c2.fillText((c.off ? "⦸ " : "") + nome, x + 4, y + 3); c2.restore();
 			}
@@ -687,7 +688,7 @@
 	function itemMidia(mid) {
 		const m = P.midias[mid], li = document.createElement("li");
 		li.draggable = true; li.dataset.mid = mid;
-		li.innerHTML = `<span class="ic">${m.tipo === "video" ? (m.bruto ? "🎬" : "🎞") : m.tipo === "audio" ? (m.papel === "MUS" ? "🎵" : "🔊") : "🖼"}</span><span class="nm"></span><small>${m.dur && isFinite(m.dur) ? curto(m.dur) : ""}</small>`;
+		li.innerHTML = `<span class="ic">${ic(m.tipo === "video" ? (m.bruto ? "video" : "filme") : m.tipo === "audio" ? (m.papel === "MUS" ? "musica" : "som") : "imagem")}</span><span class="nm"></span><small>${m.dur && isFinite(m.dur) ? curto(m.dur) : ""}</small>`;
 		li.querySelector(".nm").textContent = m.nome; li.title = "Arraste para a linha do tempo, ou clique duas vezes para pôr no cursor";
 		if (!RT[mid]) li.classList.add("carregando");
 		li.addEventListener("dragstart", (e) => { e.dataTransfer.setData("text/ep-midia", mid); e.dataTransfer.effectAllowed = "copy"; });
@@ -878,7 +879,7 @@
 		mostrar() {
 			const q = ($("#bibBusca").value || "").toLowerCase(), ul = $("#bib");
 			const l = this.itens.filter((x) => !q || (x.pasta + x.nome).toLowerCase().includes(q)).slice(0, 200);
-			ul.replaceChildren(...l.map((x) => { const li = document.createElement("li"); li.draggable = true; li.innerHTML = `<span class="ic">${x.papel === "MUS" ? "🎵" : "🔊"}</span><span class="nm"></span><small></small>`; li.querySelector(".nm").textContent = x.nome; li.querySelector("small").textContent = x.pasta.replace(/\/$/, "").split("/").pop() || ""; li.title = x.pasta + x.nome + "\nClique para ouvir · arraste para a linha do tempo"; const key = x.papel + "|" + x.pasta + x.nome; li.addEventListener("dragstart", (e) => e.dataTransfer.setData("text/ep-bib", key)); li.addEventListener("click", () => this.ouvir(x)); li.addEventListener("dblclick", async () => { const mid = await this.importar(key); if (mid) inserir(mid, null, ED.t); }); return li; }));
+			ul.replaceChildren(...l.map((x) => { const li = document.createElement("li"); li.draggable = true; li.innerHTML = `<span class="ic">${ic(x.papel === "MUS" ? "musica" : "som")}</span><span class="nm"></span><small></small>`; li.querySelector(".nm").textContent = x.nome; li.querySelector("small").textContent = x.pasta.replace(/\/$/, "").split("/").pop() || ""; li.title = x.pasta + x.nome + "\nClique para ouvir · arraste para a linha do tempo"; const key = x.papel + "|" + x.pasta + x.nome; li.addEventListener("dragstart", (e) => e.dataTransfer.setData("text/ep-bib", key)); li.addEventListener("click", () => this.ouvir(x)); li.addEventListener("dblclick", async () => { const mid = await this.importar(key); if (mid) inserir(mid, null, ED.t); }); return li; }));
 		},
 		async ouvir(x) { try { if (this.aud) this.aud.pause(); const f = await x.h.getFile(); this.aud = new Audio(URL.createObjectURL(f)); this.aud.volume = 0.6; this.aud.play(); } catch (_) {} },
 		achar(key) { return this.itens.find((x) => x.papel + "|" + x.pasta + x.nome === key); },
@@ -958,7 +959,7 @@
 		d.querySelector(".linha").appendChild(b);
 		return d;
 	}
-	function botao(txt, fn, cls) { const b = document.createElement("button"); b.type = "button"; b.className = "btn small " + (cls || ""); b.textContent = txt; b.onclick = fn; return b; }
+	function botao(txt, fn, cls) { const b = document.createElement("button"); b.type = "button"; b.className = "btn small " + (cls || ""); const mi = /^@([\w-]+) /.exec(txt); if (mi) { b.innerHTML = ic(mi[1]); b.append(txt.slice(mi[0].length)); } else b.textContent = txt; b.onclick = fn; return b; }
 	function mostrarInspetor() {
 		const ins = $("#ins"), s = sels(); ins.innerHTML = ""; ED.alvoFoco = null; $("#prev").classList.remove("alvo");
 		const idSel = s.map((q) => q.id).join(","); if (idSel !== ED._insId) { ED.alvoPan = false; ED._insId = idSel; }
@@ -990,11 +991,11 @@
 			const ch = document.createElement("div"); ch.className = "chips";
 			for (const v of [0.5, 1, 1.5, 2, 4, 8]) { const b = document.createElement("button"); b.type = "button"; b.className = "chip"; b.setAttribute("aria-pressed", v === vel); b.textContent = v + "×"; b.onclick = () => { mudarVel(v); mostrarInspetor(); }; ch.appendChild(b); }
 			d.appendChild(ch); ins.appendChild(d);
-			if (comMidia.some((q) => q.faixa === "V1")) ins.appendChild(botao("⏩ Time lapse (4×, sem voz)", () => { comVel(4, (q) => { if (faixa(q.faixa).tipo === "audio") q.off = true; }); mostrarInspetor(); }));
+			if (comMidia.some((q) => q.faixa === "V1")) ins.appendChild(botao("@rapido Time lapse (4×, sem voz)", () => { comVel(4, (q) => { if (faixa(q.faixa).tipo === "audio") q.off = true; }); mostrarInspetor(); }));
 		}
 		const ligaveis = s.filter((q) => q.midia);
-		if (ligaveis.some((q) => q.link)) ins.appendChild(botao("⛓ Separar áudio do vídeo", () => { mexer(() => ligaveis.forEach((q) => { delete q.link; })); mostrarInspetor(); }));
-		else if (ligaveis.length > 1 && ligaveis.every((q) => Math.abs(q.ini - ligaveis[0].ini) < 1e-3 && Math.abs(q.dur - ligaveis[0].dur) < 1e-3)) ins.appendChild(botao("🔗 Ligar (andam juntos)", () => { const l = rid(); mexer(() => ligaveis.forEach((q) => { q.link = l; })); mostrarInspetor(); }));
+		if (ligaveis.some((q) => q.link)) ins.appendChild(botao("@elo Separar áudio do vídeo", () => { mexer(() => ligaveis.forEach((q) => { delete q.link; })); mostrarInspetor(); }));
+		else if (ligaveis.length > 1 && ligaveis.every((q) => Math.abs(q.ini - ligaveis[0].ini) < 1e-3 && Math.abs(q.dur - ligaveis[0].dur) < 1e-3)) ins.appendChild(botao("@elo Ligar (andam juntos)", () => { const l = rid(); mexer(() => ligaveis.forEach((q) => { q.link = l; })); mostrarInspetor(); }));
 		const vids = s.filter((q) => q.faixa === "V1" || q.faixa === "V2");
 		if (vids.length) {
 			const m = P.midias[vids[0].midia] || {};
@@ -1041,7 +1042,7 @@
 			ins.appendChild(campoNum("Tempo da animação (0 = seco)", p.anim || 0, 0, 6, 0.05, (v) => { p.anim = v; }, "s"));
 			const h = document.createElement("p"); h.className = "hint"; h.textContent = "Clique na prévia para escolher o ponto do zoom. O zoom fica até o fim do clipe (sem voltar) e desacelera no fim."; ins.appendChild(h);
 			const pan = document.createElement("div"); pan.className = "linha";
-			const bPan = botao(ED.alvoPan ? "🎯 Clique no ponto final…" : p.fx2 != null ? "🎯 Mudar o ponto final do pan" : "🎯 Pan: escolher ponto final", () => { ED.alvoPan = !ED.alvoPan; mostrarInspetor(); });
+			const bPan = botao(ED.alvoPan ? "@alvo Clique no ponto final…" : p.fx2 != null ? "@alvo Mudar o ponto final do pan" : "@alvo Pan: escolher ponto final", () => { ED.alvoPan = !ED.alvoPan; mostrarInspetor(); });
 			pan.appendChild(bPan); if (p.fx2 != null) pan.appendChild(botao("Sem pan", () => { mexer(() => { delete p.fx2; delete p.fy2; }); mostrarInspetor(); }));
 			ins.appendChild(pan);
 			ED.alvoFoco = ED.alvoPan ? { p: { get fx() { return p.fx2 == null ? p.fx : p.fx2; }, set fx(v) { p.fx2 = v; }, get fy() { return p.fy2 == null ? p.fy : p.fy2; }, set fy(v) { p.fy2 = v; ED.alvoPan = false; setTimeout(mostrarInspetor, 0); } } } : c; $("#prev").classList.add("alvo");
@@ -1074,7 +1075,7 @@
 			ins.appendChild(pos);
 			const h = document.createElement("p"); h.className = "hint"; h.textContent = "Clique na prévia para posicionar o texto."; ins.appendChild(h); ED.alvoFoco = { p: { get fx() { return x.x; }, set fx(v) { x.x = v; }, get fy() { return x.y; }, set fy(v) { x.y = v; } } }; $("#prev").classList.add("alvo");
 		}
-		const acoes = document.createElement("div"); acoes.className = "linha"; acoes.append(botao("✂ Dividir", dividir), botao("🗑 Apagar", () => apagar(false))); ins.appendChild(acoes);
+		const acoes = document.createElement("div"); acoes.className = "linha"; acoes.append(botao("@tesoura Dividir", dividir), botao("@lixo Apagar", () => apagar(false))); ins.appendChild(acoes);
 	}
 	// clicar na prévia escolhe o ponto do zoom / brilho / texto
 	tela.addEventListener("click", (e) => {
@@ -1091,10 +1092,10 @@
 	/* ---------- projeto ---------- */
 	function aplicarProjeto() {
 		montarFaixas();
-		$("#pNome").value = P.nome; $("#pFps").value = P.fps; $("#pRes").value = P.w + "x" + P.h; $("#pQual").value = String(P.qualidade || 1); $("#nomeProj").textContent = "Estúdio Problems · " + P.nome;
+		$("#pNome").value = P.nome; $("#pFps").value = P.fps; $("#pRes").value = P.w + "x" + P.h; $("#pQual").value = String(P.qualidade || 1); $("#nomeProj").textContent = P.nome;
 		listaMidias(); listaMarcas(); cabecalhos(); mostrarInspetor(); $("#vazio").hidden = P.clipes.length > 0; ED.sujo = true;
 	}
-	$("#pNome").oninput = (e) => { P.nome = e.target.value || "Sem nome"; $("#nomeProj").textContent = "Estúdio Problems · " + P.nome; salvarLogo(); };
+	$("#pNome").oninput = (e) => { P.nome = e.target.value || "Sem nome"; $("#nomeProj").textContent = P.nome; salvarLogo(); };
 	$("#pFps").onchange = (e) => { P.fps = +e.target.value; salvarLogo(); };
 	$("#pQual").onchange = (e) => { P.qualidade = +e.target.value; ED.sujo = true; salvarLogo(); };
 	function telaCheia() { const el = $("#tela").parentElement; if (document.fullscreenElement) document.exitFullscreen(); else if (el.requestFullscreen) el.requestFullscreen().catch(() => {}); }
@@ -1115,7 +1116,7 @@
 			try { status("Reabrindo " + m.nome + "…"); await carregarMidia(mid, f, (s) => status(s)); } catch (e) { falta++; }
 		}
 		$("#pReabrir").hidden = !falta; listaMidias(); ED.sujo = true;
-		status(falta ? "Clique em Projeto › 🔓 Reabrir os arquivos (o navegador pede permissão uma vez)" : P.clipes.length ? "Projeto aberto" : "", falta ? "err" : "ok");
+		status(falta ? "Clique em Projeto › Reabrir os arquivos (o navegador pede permissão uma vez)" : P.clipes.length ? "Projeto aberto" : "", falta ? "err" : "ok");
 		if (falta) $$('[data-aba="proj"]')[0].click();
 	}
 	$("#pReabrir").onclick = () => reabrir(true);
@@ -1135,28 +1136,32 @@
 	const durTxt = (s) => { s = Math.round(s || 0); const m = Math.floor(s / 60); return m >= 60 ? Math.floor(m / 60) + "h" + String(m % 60).padStart(2, "0") : m + ":" + String(s % 60).padStart(2, "0"); };
 	const escH = (t) => String(t == null ? "" : t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 	(() => { const st = document.createElement("style"); st.textContent = `
-#inicio{flex:1;overflow:auto;padding:18px 16px 60px}
+#inicio{flex:1;overflow:auto;padding:var(--e5) var(--e5) 60px}
 .ini{max-width:1180px;margin:0 auto}
-.ini-novo{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-bottom:26px}
-.ini-novo button{display:flex;align-items:center;gap:14px;text-align:left;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:var(--panel);cursor:pointer;color:var(--fg)}
-.ini-novo button:hover{border-color:var(--accent);background:var(--panel-2)}
-.ini-novo button.pri{background:linear-gradient(140deg,color-mix(in srgb,var(--accent) 26%,var(--panel)),var(--panel) 70%);border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}
-.ini-novo .ic{width:46px;height:46px;flex:none;border-radius:13px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 28%,transparent),rgba(25,211,240,.14));border:1px solid color-mix(in srgb,var(--accent) 45%,transparent)}.ini-novo .ic svg{width:24px;height:24px}.ini-novo button:hover .ic{background:linear-gradient(135deg,var(--accent),#19d3f0);border-color:transparent}.ini-novo b{display:block;font-size:15px}.ini-novo small{color:var(--muted);font-size:12px}
-.ini-sec{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:12.5px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600}
-.ini-sec .grow{flex:1}.ini-sec input{text-transform:none;letter-spacing:0;height:32px;width:240px;max-width:50vw;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:0 10px;outline:none}
-.ini-sec input:focus{border-color:var(--accent)}
-.ini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.ini-card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .15s,border-color .15s;text-align:left;padding:0;color:var(--fg)}
-.ini-card:hover,.ini-card:focus-visible{border-color:var(--accent);transform:translateY(-2px);outline:none}
-.ini-card .th{aspect-ratio:16/9;background:#000 center/cover no-repeat;display:grid;place-items:center;color:var(--muted);border-bottom:1px solid var(--line)}
-.ini-card .in{padding:10px 12px}.ini-card b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13.5px}.ini-card small{color:var(--muted);font-size:11.5px}
-.ini-card .mn{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:7px;border:0;background:rgba(0,0,0,.55);color:#fff;cursor:pointer;opacity:0;font-size:16px;line-height:1}
+.ini-novo{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:var(--e3);margin-bottom:var(--e6)}
+.ini-novo button{display:flex;align-items:center;gap:var(--e4);text-align:left;padding:var(--e4);border-radius:var(--raio-cartao);border:1px solid var(--linha);background:var(--fundo-2);cursor:pointer;color:var(--texto);font-family:var(--fonte);transition:border-color var(--rapido),box-shadow var(--rapido),transform var(--rapido)}
+.ini-novo button:hover{border-color:var(--linha-forte);box-shadow:var(--sombra-2);transform:translateY(-1px)}
+.ini-novo button.pri{border-color:var(--acento)}
+.ini-novo .ic{width:44px;height:44px;flex:none;border-radius:var(--raio-cartao);display:grid;place-items:center;color:var(--acento-link);background:var(--acento-suave)}
+.ini-novo button.pri .ic{background:var(--acento);color:var(--acento-texto)}
+.ini-novo .ic svg{width:22px;height:22px}.ini-novo b{display:block;font-size:var(--t-destaque);font-weight:600}.ini-novo small{color:var(--texto-2);font-size:var(--t-legenda)}
+.ini-sec{display:flex;align-items:center;gap:var(--e3);margin:0 0 var(--e3);font:600 var(--t-destaque) var(--fonte);color:var(--texto)}
+.ini-sec small{color:var(--texto-3);font-weight:500;font-size:var(--t-pequeno)}
+.ini-sec .grow{flex:1}.ini-sec input{height:var(--alt-controle);width:240px;max-width:50vw;background:var(--fundo-3);border:1px solid transparent;border-radius:var(--raio-controle);padding:0 var(--e3);font:400 var(--t-corpo) var(--fonte);color:var(--texto)}
+.ini-sec input:focus{outline:none;border-color:var(--acento);box-shadow:0 0 0 3px var(--acento-suave)}
+.ini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:var(--e4)}
+.ini-card{position:relative;background:var(--fundo-2);border:1px solid var(--linha);border-radius:var(--raio-cartao);overflow:hidden;cursor:pointer;transition:transform var(--rapido),border-color var(--rapido),box-shadow var(--rapido);text-align:left;padding:0;color:var(--texto)}
+.ini-card:hover,.ini-card:focus-visible{border-color:var(--linha-forte);box-shadow:var(--sombra-2);transform:translateY(-1px)}
+.ini-card:focus-visible{outline:2px solid var(--acento);outline-offset:2px}
+.ini-card .th{aspect-ratio:16/9;background:var(--fundo-3) center/cover no-repeat;display:grid;place-items:center;color:var(--texto-3);border-bottom:1px solid var(--linha)}
+.ini-card .in{padding:var(--e3) var(--e4)}.ini-card b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:var(--t-corpo);font-weight:600}.ini-card small{color:var(--texto-3);font-size:var(--t-legenda)}
+.ini-card .mn{position:absolute;top:var(--e2);right:var(--e2);width:var(--alt-controle-p);height:var(--alt-controle-p);border-radius:var(--raio-p);border:0;background:var(--vidro);backdrop-filter:blur(12px);color:var(--texto);cursor:pointer;opacity:0;display:grid;place-items:center;padding:0}
 .ini-card:hover .mn,.ini-card:focus-within .mn{opacity:1}
-.ini-pop{position:absolute;top:38px;right:6px;z-index:5;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px;box-shadow:0 12px 30px rgba(0,0,0,.4);min-width:150px}
-.ini-card .th svg{width:34px;height:34px;opacity:.6}.ini-pop button svg{width:15px;height:15px;flex:none}
-.ini-pop button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:none;border:0;padding:7px 10px;border-radius:7px;cursor:pointer;color:var(--fg)}.ini-pop button:hover{background:var(--panel-2)}
-.ini-vazio{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
-.brand{cursor:pointer}`; document.head.appendChild(st); })();
+.ini-pop{position:absolute;top:38px;right:6px;z-index:5;background:var(--elevado);border:1px solid var(--linha);border-radius:10px;padding:5px;box-shadow:var(--sombra-2);min-width:200px}
+.ini-card .th svg{width:34px;height:34px;opacity:.6}.ini-pop button svg{width:16px;height:16px;flex:none}
+.ini-pop button{display:flex;align-items:center;gap:var(--e2);width:100%;text-align:left;background:none;border:0;height:28px;padding:0 var(--e2);border-radius:var(--raio-p);cursor:pointer;color:var(--texto);font:400 var(--t-pequeno) var(--fonte)}.ini-pop button:hover{background:var(--acento);color:var(--acento-texto)}
+.ini-pop button[data-o=del]{color:var(--perigo)}.ini-pop button[data-o=del]:hover{background:var(--perigo);color:#fff}
+.ini-vazio{padding:var(--e6);text-align:center;color:var(--texto-2);border:1px dashed var(--linha-forte);border-radius:var(--raio-cartao)}`; document.head.appendChild(st); })();
 	// ícones iguais aos do menu do Estúdio Problems (linha, sem emoji)
 	const ICO = {"editar": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2.5\" y=\"4.5\" width=\"19\" height=\"13\" rx=\"2\"/><path d=\"M2.5 8.5h19M7 4.5v4M12 4.5v4M17 4.5v4\"/><path d=\"M5 21h4M11 21h8M9 19.5v3\"/></svg>", "pasta": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/></svg>", "copiar": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"8.5\" y=\"8.5\" width=\"12\" height=\"12\" rx=\"2\"/><path d=\"M15.5 8.5V5.5a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3\"/></svg>", "lixo": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 6.5h16M9.5 6.5V4.5h5v2M6.5 6.5l1 13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5l1-13.5M10 11v6M14 11v6\"/></svg>", "lapis": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 20h4L19.5 8.5a2.1 2.1 0 0 0-4-4L4 16z\"/><path d=\"m13.5 6.5 4 4\"/></svg>"};
 	const INI = { q: "" };
@@ -1170,7 +1175,7 @@
 			</div>
 			<div class="ini-sec">Projetos <small>${l.length || ""}</small><span class="grow"></span>${l.length ? `<input type="search" placeholder="Buscar projeto" value="${escH(INI.q)}" aria-label="Buscar projeto">` : ""}</div>
 			<div class="ini-grid">${L.map((x) => `<div class="ini-card" role="button" tabindex="0" data-id="${escH(x.id)}"><div class="th" style="${x.thumb ? `background-image:url('${x.thumb}')` : ""}">${x.thumb ? "" : ICO.editar}</div>
-				<div class="in"><b>${escH(x.nome)}</b><small>${dataTxt(x.mod)}${x.dur ? " · " + durTxt(x.dur) : ""}</small></div><button class="mn" data-m="${escH(x.id)}" title="Opções" aria-label="Opções">⋯</button></div>`).join("")
+				<div class="in"><b>${escH(x.nome)}</b><small>${dataTxt(x.mod)}${x.dur ? " · " + durTxt(x.dur) : ""}</small></div><button class="mn" data-m="${escH(x.id)}" title="Opções" aria-label="Opções">${ic("mais-opcoes")}</button></div>`).join("")
 				|| `<div class="ini-vazio" style="grid-column:1/-1">${l.length ? "Nenhum projeto com esse nome." : "Nenhum projeto ainda. Comece um vídeo longo novo aqui em cima."}</div>`}</div></div>`;
 		$("[data-a=novo]", ini).onclick = () => { projetoNovo(); fechaInicio(); };
 		$("[data-a=arquivo]", ini).onclick = () => { $("#pAbrir").click(); };
@@ -1200,11 +1205,13 @@
 		pausar(); for (const k in RT) delete RT[k]; P = Object.assign(novoProjeto(), JSON.parse(s)); P.id = id; ED.desfazer = []; ED.refazer = []; ED.sel.clear();
 		aplicarProjeto(); await DB.set("atual", id); fechaInicio(); await reabrir(false);
 	}
-	async function abreInicio() { pausar(); await salvarJa(); status(""); $("#ed").hidden = true; ini.hidden = false; $("#nomeProj").textContent = "Estúdio Problems · seus projetos"; await desenhaInicio(); }
-	function fechaInicio() { ini.hidden = true; $("#ed").hidden = false; $("#nomeProj").textContent = "Estúdio Problems · " + P.nome; ED.sujo = true; }
-	document.querySelector(".bar .brand").title = "Voltar à tela inicial (seus projetos)";
-	document.querySelector(".bar .brand").onclick = abreInicio;
+	async function abreInicio() { pausar(); await salvarJa(); status(""); $("#ed").hidden = true; ini.hidden = false; $("#nomeProj").textContent = ""; await desenhaInicio(); }
+	function fechaInicio() { ini.hidden = true; $("#ed").hidden = false; $("#nomeProj").textContent = P.nome; ED.sujo = true; }
+		$("#logoIni").onclick = abreInicio;
 	document.addEventListener("click", (e) => { if (!e.target.closest(".ini-pop,.mn")) $$(".ini-pop", ini).forEach((x) => x.remove()); });
+
+	// o sol/lua do cabeçalho (e outra aba) troca data-tema no <html>: a linha do tempo é canvas, então pede novo desenho
+	new MutationObserver(() => { ED.sujo = true; }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-tema"] });
 
 	/* círculo de espaço (padrão de todos os projetos): os projetos do Editor guardados neste navegador, com "Baixar .editor" */
 	addEventListener("DOMContentLoaded", () => window.EstudioConta?.espaco.registrar({
