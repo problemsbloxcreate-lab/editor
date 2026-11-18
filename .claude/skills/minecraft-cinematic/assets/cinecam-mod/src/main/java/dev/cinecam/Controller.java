@@ -178,6 +178,7 @@ public final class Controller {
                     if (anim != null && idx < anim.water.length) WaterDrain.apply(Minecraft.getInstance(), anim.water[idx], anim.funnel[idx]);
                     BlockEvents.apply(Minecraft.getInstance(), table.t[idx]);
                     Events.fire(Minecraft.getInstance(), table.t[idx]);
+                    ServerSync.need(table.t[idx]);
                 }
             } else {
                 posing = false;
@@ -524,6 +525,7 @@ public final class Controller {
         }
         BlockEvents.init(mc, job.blockAt, job.blockState);
         Events.init(job.evAt, job.evCmd);
+        if (job.serverSync) ServerSync.start(); else ServerSync.stop();
         fixed = new FixedTimer();
         if (vanillaTimer == null) vanillaTimer = Reflect.getTimer(mc);
         Reflect.setTimer(mc, fixed);
@@ -555,8 +557,15 @@ public final class Controller {
             try { Thread.sleep(4); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
             return;
         }
+        if (ServerSync.holding()) {        // v1.4: the server still owes ticks up to this film time (or their packets are landing)
+            readyStreak = 0;
+            fixed.schedule(0);
+            try { Thread.sleep(1); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
+            return;
+        }
         int sub = idx % job.subframes;
-        boolean idle = mc.levelRenderer.hasRenderedAllChunks() && chunksAround(mc, table.x[idx], table.z[idx]);
+        boolean haveChunks = chunksAround(mc, table.x[idx], table.z[idx]);
+        boolean idle = mc.levelRenderer.hasRenderedAllChunks() && haveChunks;
         readyStreak = idle ? readyStreak + 1 : 0;
         int need = sub == 0 ? 2 : 1;
         boolean timedOut = waitStartNs != 0 && (System.nanoTime() - waitStartNs) / 1e9 > 40.0;
@@ -585,6 +594,7 @@ public final class Controller {
             waitPasses++;
             totalRetries++;
             fixed.schedule(0);
+            if (!haveChunks && waitPasses % 25 == 24) ServerSync.extra();      // v1.4: chunk novo na borda só chega se o servidor andar (só quando FALTA chunk: esperar remontagem não dá tick)
             if (waitPasses > 3) {
                 try { Thread.sleep(2); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
             }
@@ -642,6 +652,7 @@ public final class Controller {
     }
 
     private static void finish(Minecraft mc) {
+        ServerSync.stop();
         if (phase == Phase.DONE) return;
         try {
             if (sink != null) sink.close();
@@ -682,7 +693,7 @@ public final class Controller {
             if (vanillaTimer != null) Reflect.setTimer(mc, vanillaTimer);
             WaterDrain.reset(mc);
             BlockEvents.reset(mc);
-            Events.reset();
+            Events.reset(); ServerSync.stop();
             idleSinceNs = System.nanoTime();
             idleInbox = job.inbox; idleLimit = job.idleSec;
             phase = Phase.IDLE;
@@ -730,7 +741,7 @@ public final class Controller {
         if (vanillaTimer != null) Reflect.setTimer(mc, vanillaTimer);
         WaterDrain.reset(mc);
         BlockEvents.reset(mc);
-            Events.reset();
+            Events.reset(); ServerSync.stop();
         sink = null; depthSink = null; depthBuf = null; depthOut = null; anim = null; fixed = null;
         buf = null; scratch = null; out = null; acc = null;
         idx = 0; readyStreak = 0; waitPasses = 0; totalPasses = 0; totalRetries = 0; maxWait = 0;
@@ -787,7 +798,11 @@ public final class Controller {
         for (int cx = ccx - r; cx <= ccx + r; cx++)
             for (int cz = ccz - r; cz <= ccz + r; cz++) {
                 if ((cx - ccx) * (cx - ccx) + (cz - ccz) * (cz - ccz) > r * r) continue;
-                if (Math.abs(cx - pcx) > r || Math.abs(cz - pcz) > r) continue;
+                // v1.4: só espera chunk que o servidor MANDA (mesma conta do ChunkMap.isChunkInRange em volta do jogador). O teste antigo era um
+                // quadrado: com a câmera a 2+ chunks do anchor, os cantos nunca chegavam e cada quadro esperava os 40 s do timeout.
+                int di = Math.max(0, Math.abs(cx - pcx) - 1), dj = Math.max(0, Math.abs(cz - pcz) - 1);
+                long dk = Math.max(0, Math.max(di, dj) - 1), dl = Math.min(di, dj);
+                if (dl * dl + dk * dk >= (long) r * r) continue;
                 if (!cs.hasChunk(cx, cz)) return false;
             }
         return true;

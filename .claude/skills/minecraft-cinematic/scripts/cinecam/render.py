@@ -81,6 +81,7 @@ class Scene:
     fog: Optional[Sequence[float]] = None           # v1.1: [perto, longe, r, g, b] em blocos/0..1 (névoa fixa da cena)
     blocks: List = field(default_factory=list)       # v1.1: [t, x, y, z, "minecraft:oak_door[...,open=true]"] = blocos que mudam no plano
     events: List = field(default_factory=list)       # v1.3: [t, "comando"] = comando do SERVIDOR naquele instante do filme (o filme segura ~0,35 s reais até chegar)
+    serverSync: bool = False                         # v1.4: servidor no relógio do FILME (1 tick do servidor = 0,05 s de filme): onda/derretimento/explosão/IA de mob de mods saem na velocidade certa
 
 
 def available_ram_gb() -> float:
@@ -129,6 +130,10 @@ def _write_job(rig: Rig, name: str, scene: Scene, world: World, settings: Settin
 
 
 LAUNCH = RUN_HOME / "launch.json"
+# v1.4 (18/11/2026): mods de vídeo carregados junto do CineCam no cliente dev (leve, ~3 GB), sem abrir a instância do Modrinth.
+# Cada item: {"id": "tudoagua", "root": r"C:\...\projeto-forge", "mixin": "tudoagua.mixins.json" (opcional), "args": [...] (opcional)}.
+# O projeto precisa estar compilado (build/classes/java/main + build/resources/main), mesma versão do Forge e mapeamento official.
+EXTRA_MODS: List[Dict] = []
 
 
 def _src_stamp() -> str:
@@ -229,6 +234,12 @@ def _launch(job_json: Path, mode: str, xmx: str, logf, env: Dict) -> Tuple[subpr
                 elif t.startswith("-Xmx"): t = "-Xmx" + xmx
                 cmd.append(t)
             env["MOD_CLASSES"] = ";".join("cinecam%%" + str(MOD_HOME / d) for d in ("build/resources/main", "build/classes/java/main"))
+            for m in EXTRA_MODS:                        # v1.4: mod do vídeo (projeto ForgeGradle compilado) no mesmo cliente dev
+                root = Path(m["root"])
+                env["MOD_CLASSES"] += "".join(";%s%%%%%s" % (m["id"], root / d) for d in ("build/resources/main", "build/classes/java/main"))
+                if m.get("mixin"):
+                    cmd += ["--mixin.config", m["mixin"]]
+                cmd += list(m.get("args", []))
     if cmd:
         return subprocess.Popen(cmd, cwd=str(RUN_HOME), env=env, stdout=logf, stderr=subprocess.STDOUT), True
     return _gradle(["runClient", "--info", f"-Pxmx={xmx}", f"-Pjob={jarg}", f"-Pmode={mode}"], logf, env), False

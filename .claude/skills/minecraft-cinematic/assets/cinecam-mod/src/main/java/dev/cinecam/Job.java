@@ -55,6 +55,7 @@ public final class Job {
     public double[] anchor = null;               // x,y,z of the (invisible) player; default = first camera sample
     public List<String> commands = new ArrayList<>();
     public int settleTicks = 100;
+    public boolean serverSync = false;           // v1.4: servidor integrado no relógio do FILME (mods com animação no servidor)
     public double sunScale = 1.0;
     public double[] fog = null;                  // v1.1: [perto, longe, r, g, b] (névoa do estúdio do Shorts); null = a do jogo
     public List<double[]> blockAt = new ArrayList<>();   // v1.1: scene.blocks [t, x, y, z, state] = blocos que mudam no meio do plano
@@ -125,6 +126,7 @@ public final class Job {
             j.weather = str(sc, "weather", j.weather);
             j.dimension = str(sc, "dimension", j.dimension);
             j.settleTicks = i(sc, "settleTicks", j.settleTicks);
+            j.serverSync = b(sc, "serverSync", j.serverSync);
             j.sunScale = d(sc, "sunScale", j.sunScale);
             if (sc.has("fog") && sc.get("fog").isJsonArray()) { var fa = sc.getAsJsonArray("fog"); j.fog = new double[fa.size()]; for (int i = 0; i < fa.size(); i++) j.fog[i] = fa.get(i).getAsDouble(); }
             JsonArray be = arr(sc, "blocks");

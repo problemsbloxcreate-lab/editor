@@ -50,3 +50,9 @@ FILM: cada iteração do loop do jogo = 1 pass: pose da linha *i* aplicada via `
 - `"next": ["D:/cinecam-run/jobs/b/job.json", ...]` no job.json da 1ª cena: depois do FINISH o mod devolve o relógio vanilla, restaura a água drenada, carrega a próxima e volta à fase SETUP (teleporta ao anchor, hora/tempo, PRELOAD, COMMANDS, SETTLE, FILM). O mundo (seed/copy) é o da 1ª cena; cada cena tem seu relatório. Cena que falha não para as outras. Python: `render_batch([...])`.
 - `"mode": "film"|"stills"|"scout"` por cena (sobrepõe o `-Pmode`).
 - Lançamento: `D:/cinecam-run/launch.json` guarda o comando java do runClient (capturado do `gradle --info`); `run_game` troca `-Dcinecam.job/-Dcinecam.mode/-Xmx` e lança direto. Fonte do mod mudou → `gradlew classes` antes (carimbo em `stamp`).
+
+## v1.4 (18/11/2026)
+- `scene.serverSync` (bool, padrão false): o servidor integrado anda no relógio do filme (1 tick a cada 1/20 s de filme; `ServerSync.java`). Usar sempre que um mod anima coisas por tick de servidor. O log fecha com `serverSync OFF (N server ticks in the film, M stalls)`.
+- `scene.commands` e `scene.events` rodam com a fonte = JOGADOR (no `anchor`, permissão 4): comandos que usam o olhar ou a posição da fonte precisam de `execute as/positioned/rotated`.
+- No lote, o `game.log` de todas as cenas fica na pasta do PRIMEIRO job (`<run>/jobs/<1º nome>/game.log`).
+- `EXTRA_MODS` (lado Python, `cinecam.render`): lista de `{id, root, mixin?}` de projetos Forge carregados junto no cliente dev.
